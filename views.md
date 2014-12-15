@@ -124,7 +124,7 @@ Hello, world!
 
 ##### Child
 ```
-{% extend("Master.html") %}
+{% extends("Master.html") %}
 Hello, Dave!
 ```
 
@@ -149,7 +149,7 @@ Another common case is a master template that is leaving a child template to fil
 
 ##### Child
 ```
-{% extend("Master.html") %}
+{% extends("Master.html") %}
 {% part("sidebar") %}
 <ul>
     <li><a href="/">Home</a></li>
