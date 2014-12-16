@@ -18,7 +18,7 @@ RDev uses a single point of entry for all pages.  In other words, all HTTP reque
 
 1. User requests http://www.example.com/users/23/profile
 2. `.htaccess` file redirects the request through http://www.example.com/index.php
-3. `bootstrap/start.php` is loaded, which instantiates an `Application` object
+3. `bootstrap/http/start.php` is loaded, which instantiates an `Application` object
 4. An HTTP `Kernel` is instantiated, which converts the HTTP request into a response
   * The path "/users/23/profile" is detected by the request
 5. The `Router` finds a route that matches the request
