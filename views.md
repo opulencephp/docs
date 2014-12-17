@@ -10,16 +10,17 @@
   1. [Example](#example)
   2. [Parts](#parts)
   3. [Difference Between Tags and Statements](#difference-between-tags-and-statements)
-6. [Using PHP in Your Template](#using-php-in-your-template)
-7. [Built-In Functions](#built-in-functions)
+6. [Including Templates](#including-templates)
+7. [Using PHP in Your Template](#using-php-in-your-template)
+8. [Built-In Functions](#built-in-functions)
   1. [PHP Functions](#php-functions)
   2. [RDev Functions](#rdev-functions)
   3. [Using Template Functions in PHP Code](#using-template-functions-in-php-code)
-8. [Custom Template Functions](#custom-template-functions)
-9. [Extending the Compiler](#extending-the-compiler)
-10. [Escaping Tags](#escaping-tags)
-11. [Custom Tags](#custom-tags)
-12. [Template Factory](#template-factory)
+9. [Custom Template Functions](#custom-template-functions)
+10. [Extending the Compiler](#extending-the-compiler)
+11. [Escaping Tags](#escaping-tags)
+12. [Custom Tags](#custom-tags)
+13. [Template Factory](#template-factory)
   1. [Builders](#builders)
   2. [Aliasing](#aliasing)
 
@@ -171,6 +172,29 @@ We created a *part* named "sidebar".  When the child gets compiled, the contents
 
 #### Difference Between Tags and Statements
 You might be asking what the difference between tags and statements is.  Tags are temporary placeholders for data that is inserted through a controller.  Statements, on the other hand, provide a shorthand for executing logic entirely within a template.
+
+## Including Templates
+Including another template (in much the same way PHP's `include` works) is an easy way to not repeat yourself.  Here's an example of how to include a template:
+
+##### IncludedTemplate.html
+```
+Hello, world!
+```
+
+##### Master Template
+```
+<div id="important-message">
+    {% include("IncludedTemplate.html") %}
+</div>
+```
+
+This will compile to:
+
+```
+<div id="important-message">
+    Hello, world!
+</div>
+```
 
 ## Using PHP in Your Template
 Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  There is no need to memorize library-specific constructs here.  With RDev's template system, you can do this:
