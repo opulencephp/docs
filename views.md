@@ -527,7 +527,7 @@ $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setDelimiters($template::DELIMITER_TYPE_ESCAPED_TAG, ["^^", "$$"]);
 // You can also override the unescaped tag delimiters
 $template->setDelimiters($template::DELIMITER_TYPE_UNESCAPED_TAG, ["++", "--"]);
-// You can even override statement tags
+// You can even override statement delimiters
 $template->setDelimiters($template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
 // Try setting some tags
 $template->setTag("name", "A&W");
