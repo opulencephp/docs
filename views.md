@@ -18,8 +18,8 @@
   3. [Using Template Functions in PHP Code](#using-template-functions-in-php-code)
 9. [Custom Template Functions](#custom-template-functions)
 10. [Extending the Compiler](#extending-the-compiler)
-11. [Escaping Tags](#escaping-tags)
-12. [Custom Tags](#custom-tags)
+11. [Escaping Tag Delimiters](#escaping-tag-delimiters)
+12. [Custom Tag Delimiters](#custom-tag-delimiters)
 13. [Template Factory](#template-factory)
   1. [Builders](#builders)
   2. [Aliasing](#aliasing)
@@ -474,7 +474,7 @@ echo $compiler->compile($template); // "Hello, Mrs. Young"
 > **Note:**  As with built-in functions, nested function calls are currently not supported.
 
 ## Extending the Compiler
-Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with RDev's `Compiler`.  Using `Compiler::registerSubCompiler()`, you can compile the syntax in your template to the desired output.  RDev itself uses `registerSubCompiler()` to compile PHP and tags in templates.
+Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with RDev's `Compiler`.  Using `Compiler::registerSubCompiler()`, you can compile the syntax in your template to the desired output.  RDev itself uses `registerSubCompiler()` to compile statements, PHP, and tags in templates.
 
 Let's take a look at what should be passed into `registerSubCompiler()`:
 
@@ -502,8 +502,8 @@ $template->setContents("<!--Comment 1--><!--Comment 2-->");
 echo $compiler->compile($template); // "<ul><li>Comment 1</li><li>Comment 2</li></ul>"
 ```
 
-## Escaping Tags
-Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
+## Escaping Tag Delimiters
+Want to escape a tag delimiter?  Easy!  Just add a backslash before the opening tag like so:
 ##### Template
 ```
 Hello, {{username}}.  \{{I am escaped}}! \{{!Me too!}}. \{%So am I%}.
@@ -515,8 +515,8 @@ $template->setTag("username", "Mr Schwarzenegger");
 echo $compiler->compile($template); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}. {%So am I%}."
 ```
 
-## Custom Tags
-Want to use a custom character/string for the tags?  Easy!  Just specify it in the `Template` object like so:
+## Custom Tag Delimiters
+Want to use a custom character/string for the tag delimiters?  Easy!  Just specify it in the `Template` object like so:
 ##### Template
 ```
 ^^name$$ ++food--
@@ -524,14 +524,11 @@ Want to use a custom character/string for the tags?  Easy!  Just specify it in t
 ##### Application Code
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-$template->setEscapedOpenTag("^^");
-$template->setEscapedCloseTag("$$");
-// You can also override the unescaped tags
-$template->setUnescapedOpenTag("++");
-$template->setUnescapedCloseTag("--");
+$template->setDelimiters($template::DELIMITER_TYPE_ESCAPED_TAG, ["^^", "$$"]);
+// You can also override the unescaped tag delimiters
+$template->setDelimiters($template::DELIMITER_TYPE_UNESCAPED_TAG, ["++", "--"]);
 // You can even override statement tags
-$template->setStatementOpenTag("(*");
-$template->setStatementCloseTag("*)");
+$template->setDelimiters($template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
 // Try setting some tags
 $template->setTag("name", "A&W");
 $template->setTag("food", "Root Beer");
