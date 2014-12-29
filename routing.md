@@ -36,9 +36,13 @@ Let's take a look at a simple route that maps a GET request to the path "/users"
 use RDev\IoC;
 use RDev\Routing;
 use RDev\Routing\Compilers;
+use RDev\Routing\Compilers\Parsers;
+use RDev\Routing\Dispatchers;
 
 $container = new IoC\Container();
-$router = new Routing\Router($container, new Routing\Dispatcher($container), new Compilers\Compiler());
+$dispatcher = new Dispatchers\Dispatcher($container);
+$compiler = new Compilers\Compiler(new Parsers\Parser());
+$router = new Routing\Router($container, $dispatcher, $compiler);
 // This will route a GET request to "/users" to MyController->getAllUsers()
 $router->get("/users", ["controller" => "MyApp\\MyController@getAllUsers"]);
 // This will route a POST request to "/login" to MyController->login()
@@ -150,12 +154,12 @@ Filters are specified in the route options.  They must contain the fully-qualifi
 ```php
 namespace MyApp;
 use RDev\HTTP;
-use RDev\Routing;
 use RDev\Routing\Filters;
+use RDev\Routing\Routes;
 
 class Authenticate implements Filters\IFilter
 {
-    public function run(Routing\Route $route, HTTP\Request $request, HTTP\Response $response = null)
+    public function run(Routes\CompiledRoute $route, HTTP\Request $request, HTTP\Response $response = null)
     {
         if(!MyApp::isUserLoggedIn())
         {
@@ -297,10 +301,11 @@ A cool feature is the ability to generate URLs from named routes using `RDev\Rou
 ```php
 use RDev\Routing;
 use RDev\Routing\Compilers;
+use RDev\Routing\Compilers\Parsers;
 use RDev\Routing\URL;
 
 // Let's assume the router is already instantiated
-$compiler = new Compilers\Compiler();
+$compiler = new Compilers\Compiler(new Parsers\Parser());
 $urlGenerator = new URL\URLGenerator($router->getRoutes(), $compiler);
 // Let's add a route named "profile"
 $router->get("/users/{userId}", ["controller" => "MyApp\\ProfileController@showProfile", "name" => "profile"]);
