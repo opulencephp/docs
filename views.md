@@ -297,15 +297,15 @@ RDev also supplies some other built-in functions:
   * Returns HTML used to display meta keywords
   * Accepts the following arguments:
     1. `array $metaKeywords` - The list of meta keywords to use
-* `namedRouteURL()`
-  * Returns a URL that is created using the rules of the input route name
-  * Accepts the following arguments:
-    1. `string $routeName` - The name of the route whose URL we're creating
-    2. `array|mixed $args` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/routing.md#url-generators))
 * `pageTitle()`
   * Returns HTML used to display a title
   * Accepts the following arguments:
     1. `string $title` - The title to use
+* `route()`
+  * Returns a URL that is created using the rules of the input route name
+  * Accepts the following arguments:
+    1. `string $routeName` - The name of the route whose URL we're creating
+    2. `array|mixed $args` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/routing.md#url-generators))
 * `script()`
   * Returns HTML used to link to a script file
   * Accepts the following arguments:
