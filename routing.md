@@ -34,10 +34,10 @@ Routes require a few pieces of information:
 Let's take a look at a simple route that maps a GET request to the path "/users":
 ```php
 use RDev\IoC;
-use RDev\Routing;
-use RDev\Routing\Compilers;
-use RDev\Routing\Compilers\Parsers;
-use RDev\Routing\Dispatchers;
+use RDev\HTTP\Routing;
+use RDev\HTTP\Routing\Compilers;
+use RDev\HTTP\Routing\Compilers\Parsers;
+use RDev\HTTP\Routing\Dispatchers;
 
 $container = new IoC\Container();
 $dispatcher = new Dispatchers\Dispatcher($container);
@@ -75,7 +75,7 @@ Let's say you want to grab a specific user's profile page.  You'll probably want
 
 Let's take a look at a full example:
 ```php
-use RDev\Routing;
+use RDev\HTTP\Routing;
 
 class UserController extends Routing\Controller
 {
@@ -150,12 +150,12 @@ Some routes might require actions to occur before and after the controller is ca
 3. If the pre- and post-filters do not return anything, then the controller's output is returned
 4. If the controller does not return anything, then an empty response is returned
 
-Filters are specified in the route options.  They must contain the fully-qualified name of the filter class.  The class itself must implement `RDev\Routing\Filters\IFilter`, which has a `run()` method where the filtering is performed.
+Filters are specified in the route options.  They must contain the fully-qualified name of the filter class.  The class itself must implement `RDev\HTTP\Routing\Filters\IFilter`, which has a `run()` method where the filtering is performed.
 ```php
 namespace MyApp;
 use RDev\HTTP;
-use RDev\Routing\Filters;
-use RDev\Routing\Routes;
+use RDev\HTTP\Routing\Filters;
+use RDev\HTTP\Routing\Routes;
 
 class Authenticate implements Filters\IFilter
 {
@@ -274,7 +274,7 @@ Then, just add a route to handle this:
 ```php
 namespace MyApp;
 use RDev\HTTP;
-use RDev\Routing;
+use RDev\HTTP\Routing;
 
 class MyController extends Routing\Controller
 {
@@ -296,13 +296,13 @@ $router->route($request); // Returns a 404 response with "My custom 404 page"
 ```
 
 ## URL Generators
-A cool feature is the ability to generate URLs from named routes using `RDev\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated:
+A cool feature is the ability to generate URLs from named routes using `RDev\HTTP\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated:
 
 ```php
-use RDev\Routing;
-use RDev\Routing\Compilers;
-use RDev\Routing\Compilers\Parsers;
-use RDev\Routing\URL;
+use RDev\HTTP\Routing;
+use RDev\HTTP\Routing\Compilers;
+use RDev\HTTP\Routing\Compilers\Parsers;
+use RDev\HTTP\Routing\URL;
 
 // Let's assume the router is already instantiated
 $compiler = new Compilers\Compiler(new Parsers\Parser());
