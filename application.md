@@ -30,8 +30,8 @@ RDev uses a single point of entry for all pages.  In other words, all HTTP reque
 ## Kernels
 A kernel is something that takes input, performs processing on it, and returns output.  In RDev, there are 2 kernels:
 
-1. `RDev\Applications\Kernels\HTTP\Kernel`
-2. `RDev\Applications\Kernels\Console\Kernel`
+1. `RDev\Console\Kernels\Kernel`
+2. `RDev\HTTP\Kernels\Kernel`
 
 Having these two kernels allows RDev to function as both a console application and a traditional HTTP web application.
 
