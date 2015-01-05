@@ -153,17 +153,18 @@ Some routes might require actions to occur before and after the controller is ca
 Filters are specified in the route options.  They must contain the fully-qualified name of the filter class.  The class itself must implement `RDev\HTTP\Routing\Filters\IFilter`, which has a `run()` method where the filtering is performed.
 ```php
 namespace MyApp;
-use RDev\HTTP;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
 use RDev\HTTP\Routing\Filters;
 use RDev\HTTP\Routing\Routes;
 
 class Authenticate implements Filters\IFilter
 {
-    public function run(Routes\CompiledRoute $route, HTTP\Request $request, HTTP\Response $response = null)
+    public function run(Routes\CompiledRoute $route, Requests\Request $request, Responses\Response $response = null)
     {
         if(!MyApp::isUserLoggedIn())
         {
-            return new HTTP\RedirectResponse("/login");
+            return new Responses\RedirectResponse("/login");
         }
     }
 }
@@ -273,7 +274,8 @@ In the case that the router cannot find a route that matches the request, a 404 
 Then, just add a route to handle this:
 ```php
 namespace MyApp;
-use RDev\HTTP;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
 use RDev\HTTP\Routing;
 
 class MyController extends Routing\Controller
@@ -282,10 +284,10 @@ class MyController extends Routing\Controller
     {
         switch($statusCode)
         {
-            case HTTP\ResponseHeaders::HTTP_NOT_FOUND:
-                return new HTTP\Response("My custom 404 page", $statusCode);
+            case Responses\ResponseHeaders::HTTP_NOT_FOUND:
+                return new Responses\Response("My custom 404 page", $statusCode);
             default:
-                return new HTTP\Response("Something went wrong", $statusCode);
+                return new Responses\Response("Something went wrong", $statusCode);
         }
     }
 }
