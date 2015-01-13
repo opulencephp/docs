@@ -20,7 +20,7 @@
 Unlike other popular PHP frameworks, RDev does not force you to extend ORM classes in order to make them storable.  The only interface they must implement is `RDev\ORM\IEntity`, which simply requires `getId()` and `setId()`.
 
 ## Repositories
-*Repositories* act as collections of entities.  They include methods for adding, deleting, and retrieving entities.  The actual retrieval from storage is done through *data mappers* contained in the repository.  Note that there are no methods like `update()` or `save()`.  These actions take place in the *data mapper* and are scheduled by the *unit of work* contained by the repository.  [Read here](#datamappers) for more information on DataMappers or [here](#unit-of-work) for more information on units of work.
+*Repositories* act as collections of entities.  They include methods for adding, deleting, and retrieving entities.  The actual retrieval from storage is done through *data mappers* contained in the repository.  Note that there are no methods like `update()` or `save()`.  These actions take place in the *data mapper* and are scheduled by the *unit of work* contained by the repository.  [Read here](#data-mappers) for more information on DataMappers or [here](#unit-of-work) for more information on units of work.
 
 > **Note:** In `get*()` repository methods, do not call the data mapper directly.  Instead, call `getFromDataMapper()`, which will handle managing entities in the unit of work.
 
