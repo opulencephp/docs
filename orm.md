@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Repositories](#repositories)
-3. [DataMappers](#datamappers)
+3. [Data Mappers](#data-mappers)
 4. [Unit of Work](#unit-of-work)
   1. [Entity Registry](#entity-registry)
 5. [Aggregate Roots](#aggregate-roots)
@@ -24,7 +24,7 @@ Unlike other popular PHP frameworks, RDev does not force you to extend ORM class
 
 > **Note:** In `get*()` repository methods, do not call the data mapper directly.  Instead, call `getFromDataMapper()`, which will handle managing entities in the unit of work.
 
-## DataMappers
+## Data Mappers
 *Data mappers* act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.  There are currently 3 types of DataMappers, but you can certainly add your own by implementing `RDev\ORM\DataMappers\IDataMapper`:
 
 1. `SQLDataMapper`
@@ -38,6 +38,13 @@ Unlike other popular PHP frameworks, RDev does not force you to extend ORM class
   * Uses an *SQLDataMapper* as its primary storage and an `ICacheDataMapper` to read and write from cache
   * Drastically reduces the number of SQL queries and improves performance through heavy caching
   * `RedisCachedSQLDataMapper` and `MemcachedCachedSQLDataMapper` extend `CachedSQLDataMapper` to give you Redis- and Memcached-backed data mappers, respectively
+  * Can get a list of entities that are not in sync between cache and the SQL database using `getUnsyncedEntities()`
+    * Returns an array with the following keys:
+      * "missing" => The list of entities that were not in cache
+      * "differing" => The list of entities in cache that were not the same as in the SQL database
+      * "additional" => The list of entities that appeared in cache, but not the SQL database
+  * Can synchronize entities in cache with those in the SQL database using `refreshEntities()`
+    * Returns an array with the same format as `getUnsyncedEntities()`
 
 ## Unit of Work
 *Units of work* act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the DataMappers. Let's take a look at how units of work can manage entities retrieved through repositories:
