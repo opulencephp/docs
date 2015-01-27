@@ -8,6 +8,9 @@
   1. [Config Structure](#config-structure)
   2. [Environment Variables](#environment-variables)
 5. [Bootstrappers](#bootstrappers)
+  1. [Registering Bindings](#registering-bindings)
+  2. [Running Bootstrappers](#running-bootstrappers)
+  3. [Bootstrapper Example](#bootstrapper-example)
 6. [Starting and Shutting Down An Application](#starting-and-shutting-down-an-application)
 
 ## Introduction
@@ -102,40 +105,43 @@ $server = new SQL\Server("localhost", "dbuser", $environment->getVariable("DB_PA
 ```
 
 ## Bootstrappers
-Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by implementing `RDev\Applications\Bootstrappers\IBootstrapper`.  If your bootstrapper has any dependencies such as an IoC `Container`, inject it through the constructor:
+Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by extending `RDev\Applications\Bootstrappers\Bootstrapper`.
+
+#### Registering Bindings
+Before you can start using your application, your IoC container needs some bindings to be registered.  This is where `Bootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the IoC container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
+
+#### Running Bootstrappers
+Bootstrappers also support a `run()` command, which is run AFTER all bindings have been registered.  This is useful for any last configuration that needs to be performed before the application is run.  Use type-hinted parameters in `run()` for any dependencies your bootstrapper depends on to run successfully.
+
+#### Bootstrapper Example
+Let's pretend you're developing an application grabs WordPress posts from a database and displays them in a nice view.  You might have a `Posts` class, which needs a database connection to read the posts.  Let's take a look at a simple bootstrapper:
 
 ```php
-namespace MyApp\Bootstrappers;
+namespace MyApp\WordPress\Bootstrappers;
+use MyApp\WordPress;
 use RDev\Applications\Bootstrappers;
-use RDev\IoC;
 use RDev\Databases\SQL;
-use RDev\Databases\SQL\PDO\PostgreSQL;
+use RDev\IoC;
 
-class MyBootstrapper implements Bootstrappers\IBootstrapper
+class MyBootstrapper extends Bootstrappers\Bootstrapper
 {
-    private $container = null;
-    
-    public function __construct(IoC\IContainer $container)
+    // This will be run before any bootstrappers` run() methods have been called
+    public function registerBindings(IoC\IContainer $container)
     {
-        $this->container = $container;
+        // Create our Posts object
+        $container->bind("MyApp\\WordPress\\Posts", new WordPress\Posts());
     }
 
-    public function run()
+    // The IoC container will automatically resolve these dependencies
+    public function run(WordPress\Posts $posts, SQL\ConnectionPool $connectionPool)
     {
-        $driver = new PostgreSQL\Driver();
-        $server = new SQL\Server("127.0.0.1", "dbuser", "password", "mydb");
-        $connectionPool = new SQL\SingleServerConnectionPool($driver, $server);
-        $this->container->bind("RDev\\Databases\\SQL\\ConnectionPool", $connectionPool);
+        // Bind the connection pool to our posts object
+        $posts->setDatabaseConnection($connectionPool->getReadConnection());
     }
 }
 ```
-Then, in your start file, register the bootstrapper:
 
-```php
-$application->registerBootstrappers(["MyApp\\Bootstrappers\\MyBootstrapper"]);
-```
-
-When the application boots, `MyBootstrapper` will be `run()`.
+You can now inject `WordPress\Posts` into any service or controller that needs to query WordPress posts.
 
 ## Starting And Shutting Down An Application
 To start and shutdown an application, simply call the `start()` and `shutdown()` methods, respectively, on the application object.  If you'd like to do some tasks before or after startup, you may do them using `registerPreStartTask()` and `registerPostStartTask()`, respectively.  Similarly, you can add tasks before and after shutdown using `registerPreShutdownTask()` and `registerPostShutdownTask()`, respectively.  These tasks are handy places to do any setting up that your application requires or any housekeeping after start/shutdown.
