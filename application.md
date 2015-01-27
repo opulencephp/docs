@@ -125,7 +125,7 @@ use RDev\IoC;
 
 class MyBootstrapper extends Bootstrappers\Bootstrapper
 {
-    // This will be run before any bootstrappers` run() methods have been called
+    // This will be run before any bootstrappers' run() methods have been called
     public function registerBindings(IoC\IContainer $container)
     {
         // Create our Posts object
