@@ -56,7 +56,7 @@ use RDev\ORM\Repositories;
 use RDev\Users;
 
 // Assume $connection was set previously
-$unitOfWork = new ORM\UnitOfWork($connection, new ORM\EntityRegistry());
+$unitOfWork = new ORM\UnitOfWork(new ORM\EntityRegistry(), $connection);
 $dataMapper = new DataMappers\MyDataMapper();
 $users = new Repositories\Repo("RDev\\Users\\User", $dataMapper, $unitOfWork);
 
@@ -82,7 +82,7 @@ use RDev\ORM;
 // Assume $connection was set previously
 // Also assume the user object was already instantiated
 $entityRegistry = new ORM\EntityRegistry();
-$unitOfWork = new ORM\UnitOfWork($connection, $entityRegistry); 
+$unitOfWork = new ORM\UnitOfWork($entityRegistry, $connection); 
 $className = $entityRegistry->getClassName($user);
 $entityRegistry->manageEntity($user);
 $user->setUsername("newUsername");
