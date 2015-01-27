@@ -11,8 +11,9 @@
 6. [Creating Shared Instances](#creating-shared-instances)
 7. [Passing Constructor Primitives](#passing-constructor-primitives)
 8. [Using Setters](#using-setters)
-9. [Getting a Binding](#getting-a-binding)
-10. [Removing a Binding](#removing-a-binding)
+9. [Calling Methods](#calling-methods)
+10. [Getting a Binding](#getting-a-binding)
+11. [Removing a Binding](#removing-a-binding)
 
 ## Introduction
 #### Explanation of Dependency Injection
@@ -241,6 +242,38 @@ $container->bind("IFoo", "ConcreteFoo");
 $c = $container->makeNew("C", [], ["setFooAndAdditionalMessage" => ["I love setters!"]]);
 echo get_class($c->getFoo()); // "ConcreteFoo"
 $c->sayAdditionalMessage(); // "I love setters!"
+```
+
+## Calling Methods
+It's possible to call methods on a class using the container to resolve dependencies using `call()`:
+
+```php
+class D
+{
+    private $bar;
+    private $foo;
+
+    public function getBar()
+    {
+        return $this->bar;
+    }
+
+    public function getFoo()
+    {
+        return $this->foo;
+    }
+
+    public function setFoo(IFoo $foo, $bar)
+    {
+        $this->foo = $foo;
+    }
+}
+
+$container->bind("IFoo", "ConcreteFoo");
+$instance = new D();
+$container->call($instance, "setFoo", ["Primitive was set"]);
+echo get_class($c->getFoo()); // "ConcreteFoo"
+echo $instance->getBar(); // "Primitive was set"
 ```
 
 ## Getting a Binding
