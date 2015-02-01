@@ -27,7 +27,7 @@ RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` cl
   * Available through `$request->getServer()`
 * HTTP headers
   * Available through `$request->getHeaders()`
-  * These are the $_SERVER values whose names began with "HTTP_"
+  * These are the $\_SERVER values whose names began with "HTTP\_"
 * $_FILES
   * Available through `$request->getFiles()`
 * $_ENV
