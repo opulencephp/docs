@@ -194,7 +194,7 @@ RDev supports HTML-like style elements to perform basic output formatting like b
 <u>Hello, <b>Dave</b></u>
 ```
 
-..., which will output "<u>Hello, <b>Dave</b></u>".
+..., which will output an underlined string where "Dave" is both bold AND underlined.
 
 #### Built-In Elements
 The following elements come built-into RDev:
