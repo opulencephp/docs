@@ -92,17 +92,18 @@ $environment = new Environments\Environment($environmentName);
 ```
 
 #### Environment Variables
-Variables that are specifically tied to the environment the application is running on are called *environment variables*.  Let's say the password for your database connection is different on your development server vs your production server.  Set an environment variable to hold this data:
-
+Variables that are specifically tied to the environment the application is running on are called *environment variables*.  Setting an environment variable using RDev is as easy as `$environment->setVariable("foo", "bar")`.  To make configuring your environment variables as easy as possible, RDev supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "configs/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
+ 
+##### .env.example.php
 ```php
-use RDev\Applications\Environments;
-use RDev\Databases\SQL;
-
-$environment = new Environments\Environment("production");
-$environment->setVariable("DB_PASSWORD", "Pr0ducti0nP4$$w0rD");
-// Do some stuff...
-$server = new SQL\Server("localhost", "dbuser", $environment->getVariable("DB_PASSWORD"), "dbname");
+$environment->setVariable("DB_HOST", "localhost");
+$environment->setVariable("DB_USER", "myuser");
+$environment->setVariable("DB_PASSWORD", "mypassword");
+$environment->setVariable("DB_NAME", "public");
+$environment->setVariable("DB_PORT", 5432);
 ```
+
+> **Note:** For performance reasons, .env.*.php files are only loaded on non-production servers.  It is strongly recommended that production servers are setup with hard-coded environment variables in their configs.  For security, it's strongly recommended that you do not version-control your environment variable configs.  Instead, each developer should be given a template of the environment config, and should fill out the config with the appropriate values for their environment.
 
 ## Bootstrappers
 Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by extending `RDev\Applications\Bootstrappers\Bootstrapper`.  It accepts `Paths`, `Environment`, and `ISession` objects in its constructor, which can be useful for something like binding a particular database instance based on the current environment.

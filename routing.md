@@ -17,6 +17,7 @@
   2. [Group Filters](#group-filters)
   3. [Group Hosts](#group-hosts)
   4. [Group HTTPS](#group-https)
+  5. [Group Variable Regular Expressions](#group-variable-regular-expressions)
 9. [URL Generators](#url-generators)
 10. [Missing Routes](#missing-routes)
 11. [Notes](#notes)
@@ -267,6 +268,21 @@ $router->group(["https" => true], function() use ($router)
 ```
 
 > **Note:** If the an outer group marks the routes HTTPS but an inner one doesn't, the inner group gets ignored.  The outer-most group with an HTTPS definition is the only one that counts.
+
+#### Group Variable Regular Expressions
+Groups support regular expressions for path variables:
+
+```php
+$router->group(["path" => "/users/{userId}", "variables" => ["userId" => ["\d+"]], function() use ($router)
+{
+    $router->get("/profile", ["controller" => "MyApp\\ProfileController@showProfilePage"]);
+    $router->get("/posts", ["controller" => "MyApp\\PostController@showPostsPage"]);
+});
+```
+
+Going to "/users/foo/profile" or "users/foo/posts" will not match because the Id was not numeric.
+
+> **Note:** If a route has a variable regular expression specified, it takes precedence over group regular expressions.
 
 ## Missing Routes
 In the case that the router cannot find a route that matches the request, a 404 response will be returned.  If you'd like to customize your 404 page or any other HTTP error status page, override `showHTTPError()` in your controller and display the appropriate response.  Register your controller in the case of a missing route using `Router::setMissedRouteControllerName()`:
