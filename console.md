@@ -25,8 +25,6 @@
   2. [Multiple Choice](#multiple-choice)
 12. [Creating Commands](#creating-commands)
 13. [Calling From Code](#calling-from-code)
-  1. [String Parser](#string-parser)
-  2. [ArrayList Parser](#arraylist-parser)
   
 
 ## Introduction
@@ -290,43 +288,28 @@ class Greeting extends Commands\Command
 To register this command with our application, simply add its fully-qualified name to the array in "app/configs/console/commands.php".
 
 ## Calling From Code
-It's possible to call a command from PHP code.  This is done by specifying the desired request parser.
-
-#### String Parser
-A string parser allows you to run a command just like you would type it into a console:
+It's possible to call a command from another command.  Just use the command's `call()` method:
 
 ```php
-use MyApp\Console\Commands;
-use RDev\Console\Commands\Compilers;
-use RDev\Console\Kernels;
-use RDev\Console\Requests\Parsers;
+namespace MyApp\Console\Commands;
+use RDev\Console\Commands;
 use RDev\Console\Responses;
 
-$requestParser = new Parsers\String();
-$request = $requestParser->parse("php rdev mycommand foo --bar");
-$commandCompiler = new Compilers\Compiler();
-$compiledCommand = $commandCompiler(new Commands\MyCommand(), $request);
-
-if($compiledCommand->execute(new Responses\Silent()) != Kernels\StatusCodes::OK)
+class MyCommand extends Commands\Command
 {
-    throw new \RuntimeException("Unable to run command manually");
+    protected function define()
+    {
+        // Define the command...
+    }
+    
+    protected function doExecute(Responses\IResponse $response)
+    {
+        // Call another command
+        $this->call("foo", ["argument1"], ["--option1"], $response);
+    }
 }
 ```
 
-#### ArrayList Parser
-The `ArrayList` parser allows a different syntax:
-
-```php
-use RDev\Console\Requests\Parsers;
-
-$requestParser = new Parsers\ArrayList();
-$request = $requestParser->parse([
-    "name" => "mycommand",
-    "arguments" => ["foo"],
-    "options" => ["--bar"]
-]);
-```
-
-You must list the arguments in the same order they were defined in the command.
+You must list the arguments in the same order they were defined in the command.  If you want to call the other command but not write its output, use the `RDev\Console\Responses\Silent` response.
 
 > **Note:** If a command is being called by a lot of other commands, it might be best to refactor its actions into a separate class.  This way, it can be used by multiple commands without the extra overhead of calling console commands through PHP code.
