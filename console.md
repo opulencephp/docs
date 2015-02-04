@@ -194,19 +194,19 @@ RDev supports HTML-like style elements to perform basic output formatting like b
 <u>Hello, <b>Dave</b></u>
 ```
 
-..., which will output "<u>Hello, <b>Dave</b></u>.
+..., which will output "<u>Hello, <b>Dave</b></u>".
 
 #### Built-In Elements
 The following elements come built-into RDev:
 * &lt;success&gt;&lt;/success&gt;
-* <info></info>
-* <question></question>
-* <comment></comment>
-* <error></error>
-* <fatal></fatal>
-* <success></success>
-* <b></b>
-* <u></u>
+* &lt;info&gt;&lt;/info&gt;
+* &lt;question&gt;&lt;/question&gt;
+* &lt;comment&gt;&lt;/comment&gt;
+* &lt;error&gt;&lt;/error&gt;
+* &lt;fatal&gt;&lt;/fatal&gt;
+* &lt;success&gt;&lt;/success&gt;
+* &lt;b&gt;&lt;/b&gt;
+* &lt;u&gt;&lt;/u&gt;
 
 #### Custom Elements
 You can create your own style elements.  Elements are registered to `RDev\Console\Responses\Compilers\Compiler`.  To register a custom element, use a bootstrapper:
