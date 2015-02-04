@@ -188,21 +188,17 @@ RDev supports HTML-like style elements to perform basic output formatting like b
 <b>Hello!</b>
 ```
 
-...will output:
-
-**Hello!**
-
-You can even nest elements:
+...will output "<b>Hello!</b>".  You can even nest elements:
 
 ```
 <u>Hello, <b>Dave</b></u>
 ```
 
-...will output an underlined string where "Dave" is bold and underlined.
+..., which will output "<u>Hello, <b>Dave</b></u>.
 
 #### Built-In Elements
 The following elements come built-into RDev:
-* <success></success>
+* &lt;success&gt;&lt;/success&gt;
 * <info></info>
 * <question></question>
 * <comment></comment>
