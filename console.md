@@ -191,7 +191,7 @@ $question->setAllowMultipleChoices(true);
 This allows a user to separate multiple choices with a comma, eg "1,3".
 
 ## Style Elements
-RDev supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  IT does this by parsing the string into an *Abstract Syntax Tree*, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
+RDev supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an *Abstract Syntax Tree*, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
 
 ```
 <b>Hello!</b>
@@ -325,4 +325,4 @@ $request = $requestParser->parse([
 
 You must list the arguments in the same order they were defined in the command.
 
-> **Note:** If a command is being called by a lot of other commands, it might be best to refactor the popular command's actions into a separate class.  This way, it can be used by multiple commands without the extra overhead of calling console commands through PHP code.
+> **Note:** If a command is being called by a lot of other commands, it might be best to refactor its actions into a separate class.  This way, it can be used by multiple commands without the extra overhead of calling console commands through PHP code.
