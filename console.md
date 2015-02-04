@@ -3,27 +3,28 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Installation](#installation)
-3. [Getting Help](#getting-help)
-4. [Built-In Commands](#built-in-commands)
+3. [Running Commands](#running-commands)
+4. [Getting Help](#getting-help)
+5. [Built-In Commands](#built-in-commands)
   1. [app:env](#appenv)
   2. [app:rename](#apprename)
   3. [views:flush](#viewsflush)
-5. [Arguments](#arguments)
-6. [Options](#options)
+6. [Arguments](#arguments)
+7. [Options](#options)
   1. [Short Names](#short-names)
   2. [Long Names](#long-names)
   2. [Array Options](#array-options)
-7. [Responses](#responses)
-8. [Formatters](#formatters)
+8. [Responses](#responses)
+9. [Formatters](#formatters)
   1. [Padding](#padding)
-9. [Style Elements](#style-elements)
+10. [Style Elements](#style-elements)
   1. [Built-In Elements](#built-in-elements)
   2. [Custom Elements](#custom-elements)
-10. [Prompts](#prompts)
+11. [Prompts](#prompts)
   1. [Confirmation](#confirmation)
   2. [Multiple Choice](#multiple-choice)
-11. [Creating Commands](#creating-commands)
-12. [Calling From Code](#calling-from-code)
+12. [Creating Commands](#creating-commands)
+13. [Calling From Code](#calling-from-code)
   1. [String Parser](#string-parser)
   2. [ArrayList Parser](#arraylist-parser)
   
@@ -33,6 +34,9 @@ Console applications are great for administrative tasks and code generation.  RD
 
 ## Installation
 The easiest way to setup a console application is to clone the [empty Project](https://github.com/ramblingsofadev/Project) repository or use Composer's `composer create-project rdev/Project MY_DIRECTORY`.
+
+## Running Commands
+To run commands, type `php rdev COMMAND_NAME` from the directory that RDev is installed in.
 
 ## Getting Help
 To get help with any command, use the help command.  There are a few different ways to call it:
