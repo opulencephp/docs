@@ -47,7 +47,7 @@ php rdev COMMAND_NAME --help
 A good place to start is to run `php rdev` in the directory you installed RDev.  This will list the commands registered to the console.  Out of the box, a few commands come bundled with RDev:
 
 #### app:env
-Displays the current application environment name, eg "Production" or "Development"
+Displays the current application environment name, eg "Production" or "Development".
 
 #### app:rename
 When you install RDev, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under "app", and the composer.json PSR-4 settings.
@@ -56,7 +56,9 @@ When you install RDev, the default namespace is "Project".  Use this command to 
 If you also use RDev's HTTP kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.
   
 ## Arguments
-Console commands can accept arguments from the user.  Arguments can be required, optional, and/or arrays.  You specify the type by bitwise OR-ing the different arguments types.  Array arguments allow a variable number of arguments to be passed in like "php rdev foo arg1 arg2 arg3 ...".  The only catch is that array arguments must be the last argument defined for the command.  Let's take a look at an example argument:
+Console commands can accept arguments from the user.  Arguments can be required, optional, and/or arrays.  You specify the type by bitwise OR-ing the different arguments types.  Array arguments allow a variable number of arguments to be passed in, like "php rdev foo arg1 arg2 arg3 ...".  The only catch is that array arguments must be the last argument defined for the command.
+
+Let's take a look at an example argument:
 
 ```php
 use RDev\Console\Requests;
@@ -76,13 +78,13 @@ You might want different behavior in your command depending on whether or not an
 2. Long, eg "--help"
 
 #### Short Names
-Short option names are always a single letter.  Multiple short options can be grouped together.  For example, "-rf" means that options with short codes "r" and "f" have been specified.  The default value will be used for short options.
+Short option names are always a single letter.  Multiple short options can be grouped together.  For example, `-rf` means that options with short codes "r" and "f" have been specified.  The default value will be used for short options.
 
 #### Long Names
-Long option names can specify values in two ways:  "--foo=bar" or "--foo bar".  If you only specify "--foo" for an optional-value option, then the default value will be used.
+Long option names can specify values in two ways:  `--foo=bar` or `--foo bar`.  If you only specify `--foo` for an optional-value option, then the default value will be used.
 
 #### Array Options
-Options can be arrays, eg "--foo=bar --foo=baz" will set the "foo" option to `["bar", "baz"]`.
+Options can be arrays, eg `--foo=bar --foo=baz` will set the "foo" option to `["bar", "baz"]`.
 
 Like arguments, option types can be specified by bitwise OR-ing types together.  Let's look at an example:
 
@@ -117,7 +119,7 @@ Each response offers three methods:
 Formatters are great for nicely-formatting output to the console.
 
 #### Padding
-The `RDev\Console\Responses\Formatters\Padding` formatter allows you to create column-like output.  It accepts an array of arrays, where each item in each subarray represents a column.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
+The `RDev\Console\Responses\Formatters\Padding` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
  
 ```php
 use RDev\Console\Responses\Formatters;
@@ -141,7 +143,7 @@ Chris  - Rock
 Jim    - Gaffigan
 ```
 
-The format method accepts options to add the padding before each string, change the padding character, or change the end-of-line character.
+The `format()` method accepts options to add the padding before each string, change the padding character, and change the end-of-line character.
 
 ## Prompts
 Prompts are great for asking users for input beyond what is accepted by arguments.  For example, you might want to confirm with a user before doing an administrative task, or you might ask her to select from a list of possible choices.  Prompts accept `RDev\Console\Prompts\Question\IQuestion` objects.
@@ -166,7 +168,8 @@ Multiple choice questions are great for listing choices that might otherwise be 
 use RDev\Console\Prompts\Questions;
 
 $choices = ["Boeing 747", "Boeing 757", "Boeing 787"];
-$prompt->ask(new Questions\MultipleChoice("Select your favorite airplane", $choices));
+$question = new Questions\MultipleChoice("Select your favorite airplane", $choices);
+$prompt->ask($question);
 ```
 
 This will display:
@@ -179,7 +182,13 @@ Select your favorite airplane
   > 
 ```
 
-If the `$choices` array is associative, then the keys will map to values rather than 1)...N).
+If the `$choices` array is associative, then the keys will map to values rather than 1)...N).  You can enable multiple answers, too:
+
+```php
+$question->setAllowMultipleChoices(true);
+```
+
+This allows a user to separate multiple choices with a comma, eg "1,3".
 
 ## Style Elements
 RDev supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  IT does this by parsing the string into an *Abstract Syntax Tree*, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
