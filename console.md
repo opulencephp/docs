@@ -288,7 +288,7 @@ class Greeting extends Commands\Command
 To register this command with our application, simply add its fully-qualified name to the array in "app/configs/console/commands.php".
 
 ## Calling From Code
-It's possible to call a command from another command.  Just use the command's `call()` method:
+It's possible to call a command from another command:
 
 ```php
 namespace MyApp\Console\Commands;
@@ -305,7 +305,7 @@ class MyCommand extends Commands\Command
     protected function doExecute(Responses\IResponse $response)
     {
         // Call another command
-        $this->call("foo", ["argument1"], ["--option1"], $response);
+        $this->commands->call("foo", ["argument1"], ["--option1"], $response);
     }
 }
 ```
