@@ -285,7 +285,7 @@ class Greeting extends Commands\Command
 }
 ```
 
-To register this command with our application, simply add its fully-qualified name to the array in "app/configs/console/commands.php".
+To register this command with our application, simply add its fully-qualified name to the array in "configs/console/commands.php".
 
 ## Calling From Code
 It's possible to call a command from another command:
