@@ -285,6 +285,20 @@ class Greeting extends Commands\Command
 }
 ```
 
+To call this command, run:
+
+```
+php rdev greet Dave -y
+```
+
+This will output:
+
+```
+HELLO, DAVE
+```
+
+> **Note:** You MUST at least define a name for each command.
+
 To register this command with our application, simply add its fully-qualified name to the array in "configs/console/commands.php".
 
 ## Calling From Code
@@ -305,7 +319,7 @@ class MyCommand extends Commands\Command
     protected function doExecute(Responses\IResponse $response)
     {
         // Call another command
-        $this->commands->call("foo", ["argument1"], ["--option1"], $response);
+        $this->commands->call("foo", $response, ["argument1Value"], ["--option1Value"]);
     }
 }
 ```
