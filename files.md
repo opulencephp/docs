@@ -19,11 +19,12 @@
   14. [Getting a File's Size](#getting-a-files-size)
   15. [Getting a File's Last Modified Time](#getting-a-files-last-modified-time)
   16. [Getting Files in a Directory](#getting-files-in-a-directory)
-  17. [Checking if a File or Directory Exists](#checking-if-a-file-or-directory-exists)
-  18. [Creating a Directory](#creating-a-directory)
-  19. [Deleting a Directory](#deleting-a-directory)
-  20. [Getting the List of Directories](#getting-the-list-of-directories)
-  21. [Copying a Directory](#copying-a-directory)
+  17. [Getting Files with Glob](#getting-files-with-glob)
+  18. [Checking if a File or Directory Exists](#checking-if-a-file-or-directory-exists)
+  19. [Creating a Directory](#creating-a-directory)
+  20. [Deleting a Directory](#deleting-a-directory)
+  21. [Getting the List of Directories](#getting-the-list-of-directories)
+  22. [Copying a Directory](#copying-a-directory)
 
 ## Introduction
 Most programs interact with a computer's file system in some way.  RDev comes with the `FileSystem` class to facilitate these interactions.  With it, you can easily read and write files, get attributes of files, copy files and folders, and recursively delete directories, and do other common tasks.
@@ -116,6 +117,12 @@ $fileSystem->getLastModified(FILE_PATH);
 // The second parameter determines whether or not we recurse into subdirectories
 // This returns the full path of all the files found
 $fileSystem->getFiles(DIRECTORY_PATH, true);
+```
+
+#### Getting Files with Glob
+```php
+// See documentation for PHP's glob() function
+$filesSystem->glob($pattern, $flags);
 ```
 
 #### Checking if a File or Directory Exists
