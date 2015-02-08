@@ -305,7 +305,7 @@ RDev also supplies some other built-in functions:
   * Returns a URL that is created using the rules of the input route name
   * Accepts the following arguments:
     1. `string $routeName` - The name of the route whose URL we're creating
-    2. `array|mixed $args` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/routing.md#url-generators))
+    2. `array|mixed $args` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/docs/master/routing#url-generators))
 * `script()`
   * Returns HTML used to link to a script file
   * Accepts the following arguments:
@@ -556,7 +556,7 @@ $bookListTemplate = $factory->create("books/list.html");
  
 #### Builders
  
-Repetitive tasks such as setting up templates should not be done in controllers.  That should be left to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `ITemplateFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  Builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/application.md#bootstrappers).
+Repetitive tasks such as setting up templates should not be done in controllers.  That should be left to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `ITemplateFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  Builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/docs/master/application#bootstrappers).
 
 Let's take a look at an example:
 
