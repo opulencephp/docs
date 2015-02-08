@@ -3,7 +3,8 @@
 ## Table of Contents
 1. [Requirements](#requirements)
 2. [Installing](#installing)
-  1. [After Installing](#after-installing)
+  1. [Libraries](#libraries)
+  2. [Apache Config](#apache-config)
 
 <a id="requirements"></a>
 ## Requirements
@@ -22,8 +23,12 @@ RDev can be easily installed using Composer:
 composer create-project rdev/project --prefer-dist
 ```
 
+Run `composer dump-autoload -o`, and then [configure Apache](#apache-config) to finish the installation.  Load up your website in a browser, and you should see a basic website explaining on how to start customizing it.  That's it!
+
 > **Note:** You can [download Composer from here](https://getcomposer.org/download/).
 
+<a id="libraries"></a>
+#### Libraries
 RDev is broken into various libraries, each of which can be installed individually:
 
 ```
@@ -41,10 +46,11 @@ rdev/users
 rdev/views
 ```
 
-<a id="after-installing"></a>
-#### After Installing
-After you've finished installing RDev, run `composer dump-autoload -o`.  You need to make RDev's "tmp" directory writable from PHP.  For example, run `chmod -R 777 tmp`.
+<a id="apache-config"></a>
+#### Apache Config
+RDev needs a few things to be setup in Apache:
 
-If using Apache, change your Document Root to RDev's "public" directory (usually "/var/www/html/public").  Finally, enable .htaccess files in your Apache config by setting `AllowOverride` to "All" for the "public" directory.
-
-That should be it.  Load up your website in a browser, and you should see a basic website explaining on how to start customizing it.
+* RDev's "tmp" directory needs to be writable from PHP
+  * `chmod -R 777 {PATH_TO_RDEV}/tmp` can accomplish this
+* Apache's `DocumentRoot` needs to be set to RDev's "public" directory (usually "/var/www/html/public")
+* .htaccess needs to be enabled by setting the Apache config's `AllowOverride` to "All" for the "public" directory
