@@ -56,7 +56,7 @@ A good place to start is to run `php rdev` in the directory you installed RDev. 
 #### app:env
 Displays the current application environment name, eg "Production" or "Development".
 
-<a id="rename"></a>
+<a id="apprename"></a>
 #### app:rename
 When you install RDev, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under "app", and the composer.json PSR-4 settings.
 
@@ -109,7 +109,7 @@ $type = Requests\OptionTypes::REQUIRED_VALUE;
 $option = new Requests\Option("foo", "f", Requests\OptionTypes::REQUIRED_VALUE, "The foo option");
 ```
 
-<a id="response"></a>
+<a id="responses"></a>
 ## Responses
 Responses are classes that allow you to write output to an end user.  The different responses classes include:
 
@@ -210,7 +210,7 @@ $question->setAllowMultipleChoices(true);
 
 This allows a user to separate multiple choices with a comma, eg "1,3".
 
-<a id="elements"></a>
+<a id="style-elements"></a>
 ## Style Elements
 RDev supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an *Abstract Syntax Tree*, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
 

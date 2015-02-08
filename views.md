@@ -122,6 +122,7 @@ This will output "A&amp;amp;W vs A&amp;W".
 ## Extending Templates
 Most templates extend some sort of master template.  To make your life easy, RDev builds support for this functionality into its templates.  RDev uses a *statement tag* `{% %}` for RDev-specific logic statements.  They provide the ability do such things as extend templates.
 
+<a id="example"></a>
 #### Example
 
 ##### Master.html
@@ -241,6 +242,7 @@ echo $compiler->compile($template); // "Hello, Administrator"
 
 <a id="built-in-functions"></a>
 ## Built-In Functions
+<a id="php-functions"></a>
 #### PHP Functions
 `RDev\Views\Compilers\Compiler` comes with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
 * `abs()`

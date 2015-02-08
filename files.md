@@ -13,7 +13,7 @@
   8. [Copying a File](#copying-a-file)
   9. [Moving a File](#moving-a-file)
   10. [Getting a File's Directory Name](#getting-a-files-directory-name)
-  11. [Getting a File's Basename](#getting-a-file-sbasename)
+  11. [Getting a File's Basename](#getting-a-files-basename)
   12. [Getting a File's Name](#getting-a-files-name)
   13. [Getting a File's Extension](#getting-a-files-extension)
   14. [Getting a File's Size](#getting-a-files-size)

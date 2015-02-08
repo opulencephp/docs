@@ -72,6 +72,6 @@ $connectionPool = new SQL\SingleServerConnectionPool(
 );
 ```
 
-<a id="readwrite-connection"></a>
+<a id="readwrite-connections"></a>
 ## Read/Write Connections
 To read from the database, simply use the connection returned by `$connectionPool->getReadConnection()`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.
