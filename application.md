@@ -17,6 +17,7 @@
 ## Introduction
 An **RDev** application is started up through the `Application` class.  In it, you can configure things like the environment you're on (eg "development" or "production") as well as pre-/post-start and -shutdown tasks to run.
 
+<a id="workflow"></a>
 ## Workflow
 RDev uses a single point of entry for all pages.  In other words, all HTTP requests get redirected through `index.php`, which instantiates the application and handles the request.  Here's a breakdown of the workflow of a typical RDev application:
 
@@ -31,6 +32,7 @@ RDev uses a single point of entry for all pages.  In other words, all HTTP reque
 7. The `Controller` processes data from the request, updates/retrieves any appropriate models, and creates a `Response`
 8. The `Response` is sent back to the user and the application is shut down
 
+<a id="kernels"></a>
 ## Kernels
 A kernel is something that takes input, performs processing on it, and returns output.  In RDev, there are 2 kernels:
 
@@ -39,9 +41,11 @@ A kernel is something that takes input, performs processing on it, and returns o
 
 Having these two kernels allows RDev to function as both a console application and a traditional HTTP web application.
 
+<a id="environment"></a>
 ## Environment
 Sometimes, you might want to change the way your application behaves depending on whether or not it's running on a production, staging, testing, or development machine.  A common example is a database connection - each environment might have different server credentials.  By detecting the environment, you can load the appropriate credentials.  To actually detect the environment, use an `EnvironmentDetector`.  In it, you can specify rules for various environment names.  You can also detect if you're running in a console vs an HTTP connection.
 
+<a id="config-structure"></a>
 #### Config Structure
 The configuration that's passed into `EnvironmentDetector::detect()` should be either:
 
@@ -92,6 +96,7 @@ $environmentName = $detector->getName();
 $environment = new Environments\Environment($environmentName);
 ```
 
+<a id="environment-variables"></a>
 #### Environment Variables
 Variables that are specifically tied to the environment the application is running on are called *environment variables*.  Setting an environment variable using RDev is as easy as `$environment->setVariable("foo", "bar")`.  To make configuring your environment variables as easy as possible, RDev supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "configs/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
  
@@ -106,15 +111,19 @@ $environment->setVariable("DB_PORT", 5432);
 
 > **Note:** For performance reasons, .env.*.php files are only loaded on non-production servers.  It is strongly recommended that production servers are setup with hard-coded environment variables in their configs.  For security, it's strongly recommended that you do not version-control your environment variable configs.  Instead, each developer should be given a template of the environment config, and should fill out the config with the appropriate values for their environment.
 
+<a id="bootstrappers"></a>
 ## Bootstrappers
 Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by extending `RDev\Applications\Bootstrappers\Bootstrapper`.  It accepts `Paths`, `Environment`, and `ISession` objects in its constructor, which can be useful for something like binding a particular database instance based on the current environment.
 
+<a id="registering-bindings"></a>
 #### Registering Bindings
 Before you can start using your application, your IoC container needs some bindings to be registered.  This is where `Bootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the IoC container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
 
+<a id="running-bootstrappers"></a>
 #### Running Bootstrappers
 Bootstrappers also support a `run()` command, which is run AFTER all bindings have been registered.  This is useful for any last configuration that needs to be performed before the application is run.  Use type-hinted parameters in `run()` for any dependencies your bootstrapper depends on to run successfully.
 
+<a id="bootstrapper-example"></a>
 #### Bootstrapper Example
 Let's pretend you're developing an application grabs WordPress posts from a database and displays them in a nice view.  You might have a `Posts` class, which needs a database connection to read the posts.  Let's take a look at a simple bootstrapper:
 
@@ -145,6 +154,7 @@ class MyBootstrapper extends Bootstrappers\Bootstrapper
 
 You can now inject `WordPress\Posts` into any service or controller that needs to query WordPress posts.
 
+<a id="starting-and-shutting-down-an-application"></a>
 ## Starting And Shutting Down An Application
 To start and shutdown an application, simply call the `start()` and `shutdown()` methods, respectively, on the application object.  If you'd like to do some tasks before or after startup, you may do them using `registerPreStartTask()` and `registerPostStartTask()`, respectively.  Similarly, you can add tasks before and after shutdown using `registerPreShutdownTask()` and `registerPostShutdownTask()`, respectively.  These tasks are handy places to do any setting up that your application requires or any housekeeping after start/shutdown.
 
