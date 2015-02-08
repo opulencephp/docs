@@ -1,4 +1,4 @@
-# HTTP
+# HTTP Requests/Responses
 
 ## Table of Contents
 1. [Introduction](#introduction)
