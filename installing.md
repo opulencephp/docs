@@ -5,6 +5,7 @@
 2. [Installing](#installing)
   1. [Libraries](#libraries)
   2. [Apache Config](#apache-config)
+3. [Renaming Project](#renaming-project)
 
 <a id="requirements"></a>
 ## Requirements
@@ -54,3 +55,13 @@ RDev needs a few things to be setup in Apache:
   * `chmod -R 777 {PATH_TO_RDEV}/tmp` can accomplish this
 * Apache's `DocumentRoot` needs to be set to RDev's "public" directory (usually "/var/www/html/public")
 * .htaccess needs to be enabled by setting the Apache config's `AllowOverride` to "All" for the "public" directory
+
+<a id="renaming-project"></a>
+## Renaming Project
+By default, an RDev project is named "Project".  To change it to something more fitting for your application, open up a console on your server and run:
+
+```
+php rdev app:rename Project NEW_NAME
+```
+
+This will automatically update all the folders, namespaces, and Composer config to use the new name.
