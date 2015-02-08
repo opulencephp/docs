@@ -26,7 +26,7 @@ composer create-project rdev/project --prefer-dist
 
 Run `composer dump-autoload -o`, and then [configure Apache](#apache-config) to finish the installation.  Load up your website in a browser, and you should see a basic website explaining on how to start customizing it.  That's it!
 
-> **Note:** You can [download Composer from here](https://getcomposer.org/download/).
+> **Note:** You can <a href="https://getcomposer.org/download/" target="_blank">download Composer from here</a>.
 
 <a id="libraries"></a>
 #### Libraries
