@@ -14,7 +14,7 @@
 
 <a id="redis"></a>
 ## Redis
-Redis is an extremely popular, in-memory key-value cache with pub/sub capabilities.  Unlike Memcached, Redis can store more complex structures such as sets, sorted lists, and hashes.  For more information, [please visit its homepage](http://redis.io/).
+Redis is an extremely popular, in-memory key-value cache with pub/sub capabilities.  Unlike Memcached, Redis can store more complex structures such as sets, sorted lists, and hashes.  For more information, <a href="http://redis.io/" target="_blank">please visit its homepage</a>.
 
 <a id="phpredis"></a>
 #### PHPRedis
@@ -54,7 +54,7 @@ echo $predis->get("foo"); // "bar"
 
 <a id="memcached"></a>
 ## Memcached
-Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic key-value store functionality.  Although it doesn't come with all the bells and whistles of Redis, it does offer faster speed, which is suitable for simple key-value data.  For more information, [please visit its homepage](http://www.memcached.org/).
+Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic key-value store functionality.  Although it doesn't come with all the bells and whistles of Redis, it does offer faster speed, which is suitable for simple key-value data.  For more information, <a href="http://www.memcached.org/" target="_blank">please visit its homepage</a>.
 
 <a id="basic-memcached-usage"></a>
 #### Basic Memcached Usage
