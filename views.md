@@ -34,7 +34,7 @@ Templates hold raw content for pages and page parts.  In order to compile this r
 
 ##### Template
 ```
-Hello, {{username}}
+Hello, \{{username}}
 ```
 ##### Application Code
 ```php
@@ -69,7 +69,7 @@ $cache = new Cache\Cache(new Files\FileSystem(), "/tmp");
 $templateFactory = new Factories\TemplateFactory($fileSystem, PATH_TO_TEMPLATES);
 $xssFilter = new Filters\XSS();
 $compiler = new Compilers\Compiler($cache, $templateFactory, $xssFilter);
-$template = new Views\Template("Hello, {{username}}");
+$template = new Views\Template("Hello, \{{username}}");
 $template->setTag("username", "Dave");
 echo $compiler->compile($template); // "Hello, Dave"
 ```
@@ -98,10 +98,10 @@ $cache->setGCChance(1, 500);
 
 <a id="cross-site-scripting"></a>
 ## Cross-Site Scripting
-Tags are automatically sanitized to prevent cross-site scripting (XSS) when using the "{{" and "}}" tags.  To display unescaped data, simply use "{{!MY_UNESCAPED_TAG_NAME_HERE!}}".
+Tags are automatically sanitized to prevent cross-site scripting (XSS) when using the "\{{" and "}}" tags.  To display unescaped data, simply use "\{{!MY_UNESCAPED_TAG_NAME_HERE!}}".
 ##### Template
 ```
-{{name}} vs {{!name!}}
+\{{name}} vs \{{!name!}}
 ```
 ##### Application Code
 ```php
@@ -113,7 +113,7 @@ echo $compiler->compile($template); // "A&amp;W vs A&W"
 Alternatively, you can output a string literal inside tags:
 ##### Template
 ```
-{{"A&W"}} vs {{!"A&W"!}}
+\{{"A&W"}} vs \{{!"A&W"!}}
 ```
 
 This will output "A&amp;amp;W vs A&amp;W".
@@ -266,7 +266,7 @@ echo $compiler->compile($template); // "Hello, Administrator"
 Here's an example of how to use a built-in function:
 ##### Template
 ```
-4.35 rounded down to the nearest tenth is {{round(4.35, 1, PHP_ROUND_HALF_DOWN)}}
+4.35 rounded down to the nearest tenth is \{{round(4.35, 1, PHP_ROUND_HALF_DOWN)}}
 ```
 ##### Application Code
 ```php
@@ -333,17 +333,17 @@ Since these functions output HTML, use them inside unescaped tags.  Here's an ex
 <!DOCTYPE html>
 <html>
     <head>
-        {{!charset("utf-8")!}}
-        {{!httpEquiv("content-type", "text/html")!}}
-        {{!pageTitle("My Website")!}}
-        {{!metaDescription("An example website")!}}
-        {{!metaKeywords(["RDev", "sample"])!}}
-        {{!favicon("favicon.ico")!}}
-        {{!css("stylesheet.css")!}}
+        \{{!charset("utf-8")!}}
+        \{{!httpEquiv("content-type", "text/html")!}}
+        \{{!pageTitle("My Website")!}}
+        \{{!metaDescription("An example website")!}}
+        \{{!metaKeywords(["RDev", "sample"])!}}
+        \{{!favicon("favicon.ico")!}}
+        \{{!css("stylesheet.css")!}}
     </head>
     <body>
         Hello, World!
-        {{!script(["jquery.js", "angular.js"])!}}
+        \{{!script(["jquery.js", "angular.js"])!}}
     </body>
 </html>
 ```
@@ -383,11 +383,11 @@ It's recommended to inject the CSS and scripts into a template rather than decla
 <!DOCTYPE html>
 <html>
     <head>
-        {{!css($headCSS)!}}
+        \{{!css($headCSS)!}}
     </head>
     <body>
         Hello, World!
-        {{!script($footerJS)!}}
+        \{{!script($footerJS)!}}
     </body>
 </html>
 ```
@@ -423,7 +423,7 @@ You may execute template functions in your PHP code by calling `RDev\Views\Compi
 <!DOCTYPE html>
 <html>
     <head>
-        {{!myPageTitle("About")!}}
+        \{{!myPageTitle("About")!}}
     </head>
     <body>
         My About Page
@@ -461,7 +461,7 @@ This will output:
 It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:
 ##### Template
 ```
-Hello, {{salutation("Young", false, true)}}
+Hello, \{{salutation("Young", false, true)}}
 ```
 
 ##### Application Code
@@ -524,13 +524,13 @@ echo $compiler->compile($template); // "<ul><li>Comment 1</li><li>Comment 2</li>
 Want to escape a tag delimiter?  Easy!  Just add a backslash before the opening tag like so:
 ##### Template
 ```
-Hello, {{username}}.  \{{I am escaped}}! \{{!Me too!}}. \{%So am I%}.
+Hello, \{{username}}.  \\{{I am escaped}}! \\{{!Me too!}}. \{%So am I%}.
 ```
 ##### Application Code
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("username", "Mr Schwarzenegger");
-echo $compiler->compile($template); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}. {%So am I%}."
+echo $compiler->compile($template); // "Hello, Mr Schwarzenegger.  \{{I am escaped}}! \{{!Me too!}}. {%So am I%}."
 ```
 
 <a id="custom-tag-delimiters"></a>
@@ -583,8 +583,8 @@ Let's take a look at an example:
 
 ```
 <!-- Let's say this markup is in "Index.html" -->
-<h1>{{siteName}}</h1>
-{{content}}
+<h1>\{{siteName}}</h1>
+\{{content}}
 ```
 
 ```php
