@@ -524,7 +524,7 @@ echo $compiler->compile($template); // "<ul><li>Comment 1</li><li>Comment 2</li>
 Want to escape a tag delimiter?  Easy!  Just add a backslash before the opening tag like so:
 ##### Template
 ```
-Hello, \{{username}}.  \\{{I am escaped}}! \\{{!Me too!}}. \{%So am I%}.
+Hello, \{{username}}.  \\{{I am escaped}}! \\\{{!Me too!}}. \{%So am I%}.
 ```
 ##### Application Code
 ```php
