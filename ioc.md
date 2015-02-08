@@ -15,7 +15,9 @@
 10. [Getting a Binding](#getting-a-binding)
 11. [Removing a Binding](#removing-a-binding)
 
+<a id="introduction"></a>
 ## Introduction
+<a id="explanation-of-dependency-injection"></a>
 #### Explanation of Dependency Injection
 *Dependency Injection* refers to the practice of passing a class its dependencies instead of the class creating them on its own.  This is very useful for creating loosely-coupled, testable code.  Let's take a look at an example that doesn't use dependency injection:
 
@@ -74,9 +76,11 @@ echo $foo->insertIntoDatabase("bar"); // "1"
 
 By inverting the control of dependencies (meaning classes no longer maintain their own dependencies), we've made our code easier to test.
 
+<a id="dependency-injection-container"></a>
 #### Dependency Injection Container
 Hopefully, you can see that injecting dependencies is a simple, yet powerful feature.  Now the question is "Where should I inject the dependencies from?"  The answer is a **dependency injection container** (we'll call it a **container** from here on out).  A container can take a look at a constructor/setter methods and determine what dependencies a class relies on.  It creates a collection of various dependencies and automatically injects them into classes.  One of the coolest features of containers is the ability to bind a concrete class to an interface or abstract class.  In other words, it'll inject the concrete class implementation whenever there's a dependency on its interface or base class.  This frees you to "code to an interface, not an implementation".  At runtime, you can bind classes to interfaces, and execute your code.
 
+<a id="basic-usage"></a>
 ## Basic Usage
 The **container** looks at type hints in methods to determine the type of dependency a class relies on.  The container even lets you specify values for primitive types, eg strings and numbers.
 
@@ -127,6 +131,7 @@ $a->getFoo()->sayHi(); // "Hi"
 
 As you can see, the container automatically injected an instance of `ConcreteFoo`.
 
+<a id="binding-a-specific-instance"></a>
 ## Binding a Specific Instance
 Binding a specific instance to an interface is also possible through the `bind()` method:
 ```php
@@ -135,6 +140,7 @@ $container->bind("IFoo", $concreteInstance);
 echo $concreteInstance === $container->makeShared("IFoo"); // "1"
 ```
 
+<a id="targeted-bindings"></a>
 ## Targeted Bindings
 By default, bindings are registered so that they can be used by all classes.  If you'd like to bind a concrete class to an interface or abstract class for only a specific class, you can create a targeted binding:
 ```php
@@ -145,6 +151,7 @@ Now, `ConcreteFoo` is only bound to `IFoo` for the target class `A`.
 
 > **Note:** Targeted bindings take precedence over universal bindings.
 
+<a id="creating-new-instances"></a>
 ## Creating New Instances
 To create a brand new instance of a class with all of its dependencies injected, you can call `makeNew()`:
 ```php
@@ -154,6 +161,7 @@ $a2 = $container->makeNew("A");
 echo $a1 === $a2; // "0"
 ```
 
+<a id="creating-shared-instances"></a>
 ## Creating Shared Instances
 Shared instances are just that - shared.  No matter how many times you make a shared instance, you'll always get the same instance.  This concept is similar to the **Singleton** design pattern, but with the added benefit of being able to bind different concrete implementations at runtime.  To create a shared instance of a class with all of its dependencies injected, you can call `makeShared()`:
 ```php
@@ -163,6 +171,7 @@ $a2 = $container->makeShared("A");
 echo $a1 === $a2; // "1"
 ```
 
+<a id="passing-constructor-primitives"></a>
 ## Passing Constructor Primitives
 If your constructor depends on some primitive values, you can set them in both the `makeNew()` and `makeShared()` methods:
 ```php
@@ -196,6 +205,7 @@ $b->sayAdditionalMessage(); // "I love containers!"
 
 Only the primitive values should be passed in the array.  They must appear in the same order as the constructor.
 
+<a id="using-setters"></a>
 ## Using Setters
 Sometimes a class needs setter methods to pass in dependencies.  This is possible using both the `makeNew()` and `makeShared()` methods:
 ```php
@@ -244,6 +254,7 @@ echo get_class($c->getFoo()); // "ConcreteFoo"
 $c->sayAdditionalMessage(); // "I love setters!"
 ```
 
+<a id="calling-methods"></a>
 ## Calling Methods
 It's possible to call methods on a class using the container to resolve dependencies using `call()`:
 
@@ -276,6 +287,7 @@ echo get_class($c->getFoo()); // "ConcreteFoo"
 echo $instance->getBar(); // "Primitive was set"
 ```
 
+<a id="getting-a-binding"></a>
 ## Getting a Binding
 To get the current binding for an interface, call `getBinding()`.  To check whether or not a binding exists, call `isBound()`.
 ```php
@@ -299,6 +311,7 @@ echo $container->isBound("NonExistentInterface", "A"); // "0"
 
 > **Note:** If a target is specified, but nothing has been explicitly bound to it, then `getBinding()` returns any universal bindings, and `isBound()` returns false.  Therefore, checking if something is bound to a target using the result from `getBinding()` could be misleading.
 
+<a id="removing-a-bindings"></a>
 ## Removing a Binding
 To remove a binding, call `unbind()`:
 ```php

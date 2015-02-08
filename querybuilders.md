@@ -5,9 +5,11 @@
 2. [Basic Usage](#basic-usage)
 3. [Database-Specific Query Builders](#database-specific-query-builders)
 
+<a id="introduction"></a>
 ## Introduction
 Sometimes you need to programmatically generate/piece together SQL queries.  Rather than concatenating strings together, you can use **Query Builders** to do the heavy lifting.  
 
+<a id="basic-usage"></a>
 ##Basic Usage
 The following is an example of a simple PostgreSQL query using a query builder:
 
@@ -24,6 +26,7 @@ echo $selectLongTimeUsersQuery->getSQL(); // "SELECT id, name, email FROM users 
 echo var_dump($selectLongTimeUsersQuery->getParameters()); // array("dateJoined" => "2010-01-01")
 ```
 
+<a id="database-specific-query-builders"></a>
 ## Database-Specific Query Builders
 MySQL and PostgreSQL have their own query builders, which implement features that are unique to each database.  For example, the MySQL query builder supports a *LIMIT* clause:
 ```php

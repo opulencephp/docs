@@ -24,9 +24,11 @@
   1. [Builders](#builders)
   2. [Aliasing](#aliasing)
 
+<a id="introduction"></a>
 ## Introduction
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
 
+<a id="basic-usage"></a>
 ## Basic Usage
 Templates hold raw content for pages and page parts.  In order to compile this raw content into finished templates, we `compile()` them using a compiler that implements `RDev\Views\Compilers\ICompiler` (`RDev\Views\Compilers\Compiler` come built-in to RDev).  By separating compiling into a separate class, we separate the concerns of templates and compiling templates, thus satisfying the *Single Responsibility Principle* (*SRP*).  Let's take a look at a basic example:
 
@@ -72,9 +74,11 @@ $template->setTag("username", "Dave");
 echo $compiler->compile($template); // "Hello, Dave"
 ```
 
+<a id="caching"></a>
 ## Caching
 To improve the speed of template compiling, templates are cached using a class that implements `RDev\Views\Cache\ICache` (`RDev\Views\Cache\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
 
+<a id="garbage-collection"></a>
 #### Garbage Collection
 Occasionally, you should clear out old cached template files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
  
@@ -92,6 +96,7 @@ Or use `setGCChance()`:
 $cache->setGCChance(1, 500);
 ```
 
+<a id="cross-site-scripting"></a>
 ## Cross-Site Scripting
 Tags are automatically sanitized to prevent cross-site scripting (XSS) when using the "{{" and "}}" tags.  To display unescaped data, simply use "{{!MY_UNESCAPED_TAG_NAME_HERE!}}".
 ##### Template
@@ -113,6 +118,7 @@ Alternatively, you can output a string literal inside tags:
 
 This will output "A&amp;amp;W vs A&amp;W".
 
+<a id="extending-templates"></a>
 ## Extending Templates
 Most templates extend some sort of master template.  To make your life easy, RDev builds support for this functionality into its templates.  RDev uses a *statement tag* `{% %}` for RDev-specific logic statements.  They provide the ability do such things as extend templates.
 
@@ -138,6 +144,7 @@ Hello, Dave!
 
 > **Note:** When extending a template, the child template inherits all of the parent's parts, tags, and variable values.  If A extends B, which extends C, tags/parts/variables from part B will overwrite any identically-named tags/parts/variables from part C.
 
+<a id="parts"></a>
 #### Parts
 Another common case is a master template that is leaving a child template to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child template.  Use the `{% show(NAME_OF_PART) %}` statement:
 
@@ -170,9 +177,11 @@ We created a *part* named "sidebar".  When the child gets compiled, the contents
 </div>
 ```
 
+<a id="difference-between-tags-and-statements"></a>
 #### Difference Between Tags and Statements
 You might be asking what the difference between tags and statements is.  Tags are temporary placeholders for data that is inserted through a controller.  Statements, on the other hand, provide a shorthand for executing logic entirely within a template.
 
+<a id="including-templates"></a>
 ## Including Templates
 Including another template (in much the same way PHP's `include` works) is an easy way to not repeat yourself.  Here's an example of how to include a template:
 
@@ -196,6 +205,7 @@ This will compile to:
 </div>
 ```
 
+<a id="using-php-in-your-template"></a>
 ## Using PHP in Your Template
 Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  There is no need to memorize library-specific constructs here.  With RDev's template system, you can do this:
 ##### Template
@@ -229,6 +239,7 @@ echo $compiler->compile($template); // "Hello, Administrator"
 
 > **Note:** PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
+<a id="built-in-functions"></a>
 ## Built-In Functions
 #### PHP Functions
 `RDev\Views\Compilers\Compiler` comes with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
@@ -264,6 +275,7 @@ You can also pass variables into your functions in the template and set them usi
 
 > **Note:**  Nested function calls (eg `trim(strtoupper(" foo "))`) are currently not supported.
 
+<a id="rdev-functions"></a>
 #### RDev Functions
 RDev also supplies some other built-in functions:
 * `charset()`
@@ -400,6 +412,7 @@ This will output:
 </html>
 ```
 
+<a id="using-template-functions-in-php-code"></a>
 #### Using Template Functions in PHP Code
 You may execute template functions in your PHP code by calling `RDev\Views\Compilers\ICompiler::executeTemplateFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | NAME_OF_PAGE`:
 
@@ -441,6 +454,7 @@ This will output:
 </html>
 ```
 
+<a id="custom-template-functions"></a>
 ## Custom Template Functions
 It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:
 ##### Template
@@ -473,6 +487,7 @@ echo $compiler->compile($template); // "Hello, Mrs. Young"
 ```
 > **Note:**  As with built-in functions, nested function calls are currently not supported.
 
+<a id="extending-the-compiler"></a>
 ## Extending the Compiler
 Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with RDev's `Compiler`.  Using `Compiler::registerSubCompiler()`, you can compile the syntax in your template to the desired output.  RDev itself uses `registerSubCompiler()` to compile statements, PHP, and tags in templates.
 
@@ -502,6 +517,7 @@ $template->setContents("<!--Comment 1--><!--Comment 2-->");
 echo $compiler->compile($template); // "<ul><li>Comment 1</li><li>Comment 2</li></ul>"
 ```
 
+<a id="escaping-tag-delimiters"></a>
 ## Escaping Tag Delimiters
 Want to escape a tag delimiter?  Easy!  Just add a backslash before the opening tag like so:
 ##### Template
@@ -515,6 +531,7 @@ $template->setTag("username", "Mr Schwarzenegger");
 echo $compiler->compile($template); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}. {%So am I%}."
 ```
 
+<a id="custom-tag-delimiters"></a>
 ## Custom Tag Delimiters
 Want to use a custom character/string for the tag delimiters?  Easy!  Just specify it in the `Template` object like so:
 ##### Template
@@ -535,6 +552,7 @@ $template->setTag("food", "Root Beer");
 echo $compiler->compile($template); // "A&amp;W Root Beer"
 ```
 
+<a id="template-factory"></a>
 ## Template Factory
 Having to always pass in the full path to load a template from a file can get annoying.  It can also make it more difficult to switch your template directory should you ever decide to do so.  This is where a `Factory` comes in handy.  Simply pass in a `FileSystem` and the directory that your templates are stored in, and you'll never have to repeat yourself:
  
@@ -554,6 +572,7 @@ $bookListTemplate = $factory->create("books/list.html");
  
 > **Note:** Preceding slashes in `create()` are not necessary.
  
+<a id="builders"></a>
 #### Builders
  
 Repetitive tasks such as setting up templates should not be done in controllers.  That should be left to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `ITemplateFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  Builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/docs/master/application#bootstrappers).
@@ -595,6 +614,7 @@ $template = $factory->create("Index.html");
 echo $template->getTag("siteName"); // "My Website"
 ```
 
+<a id="aliasing"></a>
 #### Aliasing
 Multiple pages might use the same template, but with different tag and variable values.  This creates a problem if we want to register a builder for one page that shares a template with others.  We don't want to register that builder for all the other pages that share the template.  This is where `ITemplateFactory::alias()` comes in handy.  You can create an alias, and then register builders to that alias.  `ITemplateFactory::create()` accepts either a template path or an alias.
 
