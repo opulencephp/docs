@@ -12,12 +12,10 @@
   4. [JSON Responses](#json-responses)
   5. [Redirect Responses](#redirect-responses)
 
-<a id="introduction"></a>
-## Introduction
+<h2 id="introduction">Introduction</h2>
 RDev makes interacting with HTTP requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the HTTP tools PHP gives you by default.  Use RDev's tools, and stop worry about stuff like this.
   
-<a id="requests"></a>
-## Requests
+<h2 id="requests">Requests</h2>
 RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` class.  This includes storing the following pieces of data:
 * $_GET
   * Available through `$request->getQuery()`
@@ -42,12 +40,10 @@ RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` cl
 * Path
   * Available through `$request->getPath()`
 
-<a id="responses"></a>
-## Responses
+<h2 id="responses">Responses</h2>
 RDev also wraps an HTTP response into the `RDev\HTTP\Responses\Response` class.  You can set the content, HTTP status code, headers, and cookies in a response.  RDev also supports JSON responses and redirects.
 
-<a id="status-codes"></a>
-#### Status Codes
+<h4 id="status-codes">Status Codes</h4>
 By default, a status code of 200 (HTTP OK) is returned.  A full list of codes is available in `RDev\HTTP\Responses\ResponseHeaders`.  For example, here's how to set an "Unauthorized" status code:
 
 ```php
@@ -57,8 +53,7 @@ $response = new Responses\Response("Permission denied", Responses\ResponseHeader
 $response->send();
 ```
 
-<a id="headers"></a>
-#### Headers
+<h4 id="headers">Headers</h4>
 You can specify any headers you'd like in your response.  To do something like set a "Content-Type" header to an octet stream, do the following:
 
 ```php
@@ -68,8 +63,7 @@ $response = new Responses\Response("Foo");
 $response->getHeaders()->set("Content-Type", Responses\ResponseHeaders::CONTENT_TYPE_OCTET_STREAM);
 ```
 
-<a id="cookies"></a>
-#### Cookies
+<h4 id="cookies">Cookies</h4>
 <a id="setting-cookies"></a>
 ##### Setting Cookies
 Cookies are meant to help you remember information about a user, such as authentication credentials or site preferences.  RDev wraps a cookie into the `RDev\HTTP\Responses\Cookie` class.  To create a cookie, first create a `Cookie` object.  Then, add it to the `Response` object's headers so that it will be sent to the user.
@@ -97,8 +91,7 @@ $response->getHeaders()->deleteCookie("userId", "/", ".example.com", true, true)
 $response->send();
 ```
 
-<a id="json-responses"></a>
-#### JSON Responses
+<h4 id="json-responses">JSON Responses</h4>
 JSON responses are great for API calls.  RDev supports JSON responses in the `RDev\HTTP\Responses\JSONResponse` class.  It accepts either an `array` or `ArrayObject` as its content.
 
 ```php
@@ -114,8 +107,7 @@ This will yield the following JSON:
 {"message": "Hello, world!"}
 ```
 
-<a id="redirect-responses"></a>
-#### Redirect Responses
+<h4 id="redirect-responses">Redirect Responses</h4>
 You'll often finding yourself wanting to redirect a user after things like logging in or out or after filling out a form.  Use an `RDev\HTTP\Responses\RedirectResponse`:
 
 ```php

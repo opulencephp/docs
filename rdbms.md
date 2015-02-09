@@ -6,12 +6,10 @@
 4. [Master-Slave Connection Pool](#master-slave-connection-pool)
 5. [Read/Write Connections](#readwrite-connections)
 
-<a id="introduction"></a>
-## Introduction
+<h2 id="introduction">Introduction</h2>
 Relational databases store information about data and how it's related to other data.  **RDev** provides classes and methods for connecting to relational databases and querying them for data.  Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a `SingleServerConnectionPool`.  If you have a master/slave(s) setup, you can use a `MasterSlaveConnectionPool`.
   
-<a id="single-server-connection-pool"></a>
-## Single-Server Connection Pool
+<h2 id="single-server-connection-pool">Single-Server Connection Pool</h2>
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
 ```php
@@ -40,8 +38,7 @@ $row = $statement->fetch(\PDO::FETCH_ASSOC);
 $name = $row["name"];
 ```
 
-<a id="master-slave-connection-pool"></a>
-## Master-Slave Connection Pool
+<h2 id="master-slave-connection-pool">Master-Slave Connection Pool</h2>
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  Instead of taking a single server in their constructors, they take a master server and an array of slave servers.
 
 ```php
@@ -72,6 +69,5 @@ $connectionPool = new SQL\SingleServerConnectionPool(
 );
 ```
 
-<a id="readwrite-connections"></a>
-## Read/Write Connections
+<h2 id="readwrite-connections">Read/Write Connections</h2>
 To read from the database, simply use the connection returned by `$connectionPool->getReadConnection()`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.

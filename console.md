@@ -26,20 +26,16 @@
 12. [Creating Commands](#creating-commands)
 13. [Calling From Code](#calling-from-code)
   
-<a id="introduction"></a>
-## Introduction
+<h2 id="introduction">Introduction</h2>
 Console applications are great for administrative tasks and code generation.  RDev supports a robust console kernel with features like easy-to-create commands, question prompts, and HTML-like syntax for output styling.
 
-<a id="installation"></a>
-## Installation
+<h2 id="installation">Installation</h2>
 The easiest way to setup a console application is to clone the [empty Project](https://github.com/ramblingsofadev/Project) repository or use Composer's `composer create-project rdev/Project MY_DIRECTORY`.
 
-<a id="running-commands"></a>
-## Running Commands
+<h2 id="running-commands">Running Commands</h2>
 To run commands, type `php rdev COMMAND_NAME` from the directory that RDev is installed in.
 
-<a id="getting-help"></a>
-## Getting Help
+<h2 id="getting-help">Getting Help</h2>
 To get help with any command, use the help command.  There are a few different ways to call it:
 
 ```
@@ -48,24 +44,19 @@ php rdev COMMAND_NAME -h
 php rdev COMMAND_NAME --help
 ```
 
-<a id="built-in-commands"></a>
-## Built-In Commands
+<h2 id="built-in-commands">Built-In Commands</h2>
 A good place to start is to run `php rdev` in the directory you installed RDev.  This will list the commands registered to the console.  Out of the box, a few commands come bundled with RDev:
 
-<a id="appenv"></a>
-#### app:env
+<h4 id="multiple-choice">Multiple Choice</h4>
 Displays the current application environment name, eg "Production" or "Development".
 
-<a id="apprename"></a>
-#### app:rename
+<h4 id="multiple-choice">Multiple Choice</h4>
 When you install RDev, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under "app", and the composer.json PSR-4 settings.
 
-<a id="viewsflush"></a>
-#### views:flush
+<h4 id="multiple-choice">Multiple Choice</h4>
 If you also use RDev's HTTP kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.
   
-<a id="arguments"></a>
-## Arguments
+<h2 id="arguments">Arguments</h2>
 Console commands can accept arguments from the user.  Arguments can be required, optional, and/or arrays.  You specify the type by bitwise OR-ing the different arguments types.  Array arguments allow a variable number of arguments to be passed in, like "php rdev foo arg1 arg2 arg3 ...".  The only catch is that array arguments must be the last argument defined for the command.
 
 Let's take a look at an example argument:
@@ -81,23 +72,19 @@ $argument = new Argument("foo", $type, "The foo argument");
 
 >**Note:** Like array arguments, optional arguments must appear after any required arguments. 
 
-<a id="options"></a>
-## Options
+<h2 id="options">Options</h2>
 You might want different behavior in your command depending on whether or not an option is set.  This is possible using `RDev\Console\Requests\Option`.  Options have two formats:
 
 1. Short, eg "-h"
 2. Long, eg "--help"
 
-<a id="short-names"></a>
-#### Short Names
+<h4 id="multiple-choice">Multiple Choice</h4>
 Short option names are always a single letter.  Multiple short options can be grouped together.  For example, `-rf` means that options with short codes "r" and "f" have been specified.  The default value will be used for short options.
 
-<a id="long-names"></a>
-#### Long Names
+<h4 id="multiple-choice">Multiple Choice</h4>
 Long option names can specify values in two ways:  `--foo=bar` or `--foo bar`.  If you only specify `--foo` for an optional-value option, then the default value will be used.
 
-<a id="array-options"></a>
-#### Array Options
+<h4 id="multiple-choice">Multiple Choice</h4>
 Options can be arrays, eg `--foo=bar --foo=baz` will set the "foo" option to `["bar", "baz"]`.
 
 Like arguments, option types can be specified by bitwise OR-ing types together.  Let's look at an example:
@@ -109,8 +96,7 @@ $type = Requests\OptionTypes::REQUIRED_VALUE;
 $option = new Requests\Option("foo", "f", Requests\OptionTypes::REQUIRED_VALUE, "The foo option");
 ```
 
-<a id="responses"></a>
-## Responses
+<h2 id="responses">Responses</h2>
 Responses are classes that allow you to write output to an end user.  The different responses classes include:
 
 1. `RDev\Console\Responses\Console`
@@ -130,12 +116,10 @@ Each response offers three methods:
   * Clears the current screen
   * Only works in `Console` response
 
-<a id="formatters"></a>
-## Formatters
+<h2 id="formatters">Formatters</h2>
 Formatters are great for nicely-formatting output to the console.
 
-<a id="padding"></a>
-#### Padding
+<h4 id="multiple-choice">Multiple Choice</h4>
 The `RDev\Console\Responses\Formatters\Padding` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
  
 ```php
@@ -162,12 +146,10 @@ Jim    - Gaffigan
 
 The `format()` method accepts options to add the padding before each string, change the padding character, and change the end-of-line character.
 
-<a id="prompts"></a>
-## Prompts
+<h2 id="prompts">Prompts</h2>
 Prompts are great for asking users for input beyond what is accepted by arguments.  For example, you might want to confirm with a user before doing an administrative task, or you might ask her to select from a list of possible choices.  Prompts accept `RDev\Console\Prompts\Question\IQuestion` objects.
 
-<a id="confirmation"></a>
-#### Confirmation
+<h4 id="multiple-choice">Multiple Choice</h4>
 To ask a user to confirm an action with a simple "y" or "yes", use an `RDev\Console\Prompts\Questions\Confirmation`:
 
 ```php
@@ -180,8 +162,7 @@ $prompt = new Prompts\Prompt(new Formatters\Padding());
 $prompt->ask(new Questions\Confirmation("Are you sure you want to continue?"));
 ```
 
-<a id="multiple-choice"></a>
-#### Multiple Choice
+<h4 id="multiple-choice">Multiple Choice</h4>
 Multiple choice questions are great for listing choices that might otherwise be difficult for a user to remember.  An `RDev\Console\Prompts\Questions\MultipleChoice` accepts question text and a list of choices:
 
 ```php
@@ -210,8 +191,7 @@ $question->setAllowMultipleChoices(true);
 
 This allows a user to separate multiple choices with a comma, eg "1,3".
 
-<a id="style-elements"></a>
-## Style Elements
+<h2 id="style-elements">Style Elements</h2>
 RDev supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an *Abstract Syntax Tree*, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
 
 ```
@@ -226,8 +206,7 @@ RDev supports HTML-like style elements to perform basic output formatting like b
 
 ..., which will output an underlined string where "Dave" is both bold AND underlined.
 
-<a id="built-in-elements"></a>
-#### Built-In Elements
+<h4 id="built-in-elements">Built-In Elements</h4>
 The following elements come built-into RDev:
 * &lt;success&gt;&lt;/success&gt;
 * &lt;info&gt;&lt;/info&gt;
@@ -239,8 +218,7 @@ The following elements come built-into RDev:
 * &lt;b&gt;&lt;/b&gt;
 * &lt;u&gt;&lt;/u&gt;
 
-<a id="custom-elements"></a>
-#### Custom Elements
+<h4 id="custom-elements">Custom Elements</h4>
 You can create your own style elements.  Elements are registered to `RDev\Console\Responses\Compilers\Compiler`.  To register a custom element, use a bootstrapper:
 
 ```php
@@ -262,8 +240,7 @@ class CustomElements extends Bootstrappers\Bootstrappers
 }
 ```
 
-<a id="creating-commands"></a>
-## Creating Commands
+<h2 id="creating-commands">Creating Commands</h2>
 You can create your own commands and register them to the application.  You do this by extending `RDev\Console\Commands\Command`.  To get going, you only need to define two methods:
 
 1. `define()`
@@ -323,8 +300,7 @@ HELLO, DAVE
 
 To register this command with our application, simply add its fully-qualified name to the array in "configs/console/commands.php".
 
-<a id="calling-from-code"></a>
-## Calling From Code
+<h2 id="calling-from-code">Calling From Code</h2>
 It's possible to call a command from another command:
 
 ```php

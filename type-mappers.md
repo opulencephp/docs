@@ -4,12 +4,10 @@
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
 
-<a id="introduction"></a>
-## Introduction
+<h2 id="introduction">Introduction</h2>
 A common task when reading and writing to a database is translating PHP values into database values and vice versa.  For example, you might store a date as a `DateTime` in PHP, but you need to translate this into a string with a `Y-m-d H:i:s` format before storing it in the database.  *Providers* contain the rules for each database provider (eg MySQL, PostgreSQL, etc) on how to translate PHP and database values.  Using a combination of *type mappers* and *providers*, you can translate PHP-to-database and database-to-PHP values.
 
-<a id="basic-usage"></a>
-## Basic Usage
+<h2 id="basic-usage">Basic Usage</h2>
 For example, let's convert a `DateTime` to a SQL-ready value:
 
 ```php

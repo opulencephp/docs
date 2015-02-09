@@ -9,8 +9,7 @@
 5. [Aggregate Roots](#aggregate-roots)
 6. [Automatic Caching](#automatic-caching)
 
-<a id="introduction"></a>
-## Introduction
+<h2 id="introduction">Introduction</h2>
 **RDev** utilizes the *repository pattern* to encapsulate data retrieval from storage.  *Repositories* have *data mappers* which actually interact directly with storage, eg cache and/or a relational database.  Repositories use *units of work*, which act as transactions across multiple repositories.  The benefits of using units of work include:
 
 1. Transactions across multiple repositories can be rolled back, giving you "all or nothing" functionality
@@ -20,14 +19,12 @@
 
 Unlike other popular PHP frameworks, RDev does not force you to extend ORM classes in order to make them storable.  The only interface they must implement is `RDev\ORM\IEntity`, which simply requires `getId()` and `setId()`.
 
-<a id="repositories"></a>
-## Repositories
+<h2 id="repositories">Repositories</h2>
 *Repositories* act as collections of entities.  They include methods for adding, deleting, and retrieving entities.  The actual retrieval from storage is done through *data mappers* contained in the repository.  Note that there are no methods like `update()` or `save()`.  These actions take place in the *data mapper* and are scheduled by the *unit of work* contained by the repository.  [Read here](#data-mappers) for more information on DataMappers or [here](#unit-of-work) for more information on units of work.
 
 > **Note:** In `get*()` repository methods, do not call the data mapper directly.  Instead, call `getFromDataMapper()`, which will handle managing entities in the unit of work.
 
-<a id="data-mappers"></a>
-## Data Mappers
+<h2 id="data-mappers">Data Mappers</h2>
 *Data mappers* act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.  There are currently 3 types of DataMappers, but you can certainly add your own by implementing `RDev\ORM\DataMappers\IDataMapper`:
 
 1. `SQLDataMapper`
@@ -49,8 +46,7 @@ Unlike other popular PHP frameworks, RDev does not force you to extend ORM class
   * Can synchronize entities in cache with those in the SQL database using `refreshEntities()`
     * Returns an array with the same format as `getUnsyncedEntities()`
 
-<a id="unit-of-work"></a>
-## Unit of Work
+<h2 id="unit-of-work">Unit of Work</h2>
 *Units of work* act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the DataMappers. Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
 use RDev\Databases\SQL;
@@ -78,8 +74,7 @@ $unitOfWork->commit();
 echo $users->getById(123)->getUsername(); // "bar"
 ```
 
-<a id="entity-registry"></a>
-#### Entity Registry
+<h4 id="entity-registry">Entity Registry</h4>
 Entities that are scheduled for insertion/deletion/update are managed by an `EntityRegistry`.  The `EntityRegistry` is also responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`:
 ```php
 use RDev\ORM;
@@ -103,8 +98,7 @@ $unitOfWork->commit();
 ```
 > **Note:** PHP's `clone` feature performs a shallow clone.  In other words, it only clones the object, but not any objects contained in that object.  If your object contains another object and you'd like to take advantage of automatic change tracking, you must write a `__clone()` method for that class to clone any objects it contains.  Otherwise, the automatic change tracking will not pick up on changes made to the objects contained in other objects.
 
-<a id="aggregate-roots"></a>
-## Aggregate Roots
+<h2 id="aggregate-roots">Aggregate Roots</h2>
 Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an *aggregate root* because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:
 ```php
 // Let's assume the unit of work has already been setup and that the user and password objects are created
@@ -124,6 +118,5 @@ echo $password->getUserId() == $user->getId(); // "1"
 
 > **Note:** Aggregate root functions are executed for entities scheduled for insertion and update.
 
-<a id="automatic-caching"></a>
-## Automatic Caching
+<h2 id="automatic-caching">Automatic Caching</h2>
 By extending the `CachedSQLDataMapper`, you can take advantage of automatic caching of entities for faster performance.  Entities are searched in cache before defaulting to an SQL database, and they are added to cache on misses.  Writes to cache are automatically queued whenever writing to a `CachedSQLDataMapper`.  To keep cache in sync with SQL, the writes are only performed once a unit of work commits successfully.
