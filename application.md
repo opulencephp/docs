@@ -125,7 +125,7 @@ Bootstrappers also support a `run()` command, which is run AFTER all bindings ha
 
 <a id="bootstrapper-example"></a>
 #### Bootstrapper Example
-Let's pretend you're developing an application grabs WordPress posts from a database and displays them in a nice view.  You might have a `Posts` class, which needs a database connection to read the posts.  Let's take a look at a simple bootstrapper:
+Let's pretend you're developing an application that grabs WordPress posts from a database and displays them in a nice view.  You might have a `Posts` class, which needs a database connection to read the posts.  Let's take a look at a simple bootstrapper:
 
 ```php
 namespace MyApp\WordPress\Bootstrappers;

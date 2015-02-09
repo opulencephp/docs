@@ -19,6 +19,8 @@
   4. [Group HTTPS](#group-https)
   5. [Group Variable Regular Expressions](#group-variable-regular-expressions)
 9. [URL Generators](#url-generators)
+  1. [Generating URLs from Code](#generating-urls-from-code)
+  2. [Generating URLs from Views](#generating-urls-from-views)
 10. [Missing Routes](#missing-routes)
 11. [Notes](#notes)
 
@@ -333,8 +335,12 @@ $router->route($request); // Returns a 404 response with "My custom 404 page"
 
 <a id="url-generators"></a>
 ## URL Generators
-A cool feature is the ability to generate URLs from named routes using `RDev\HTTP\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated:
+A cool feature is the ability to generate URLs from named routes using `RDev\HTTP\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
 
+> **Note:** If you do not define all the non-optional variables in the host or domain, a `URLException` will be thrown.
+
+<a id="generating-urls-from-code"></a>
+#### Generating URLs from Code
 ```php
 use RDev\HTTP\Routing;
 use RDev\HTTP\Routing\Compilers;
@@ -366,9 +372,28 @@ $router->get("/users/{userId}", $routeOptions);
 echo $urlGenerator->createFromName("inbox", ["us", 724]); // "http://us.mail.example.com/users/724"
 ```
 
-Secure routes with hosts specified will generate `https://` absolute URLs.
+<a id="generating-urls-from-views"></a>
+#### Generating URLs from Views
+URLs can also be generated from views using the `route()` template function.  Here's an example router config:
 
-> **Note:** If you do not define all the non-optional variables in the host or domain, a `URLException` will be thrown.
+```php
+$router->get("/users/{userId}/profile", [
+    "controller" => "UserController@showProfile", 
+    "name" => "profile"
+]);
+```
+
+Here's how to generate a URL to the "profile" route:
+
+```php
+<a href="{{route('profile', [123])}}">View Profile</a>
+```
+
+This will compile to:
+
+```
+<a href="/users/123/profile">View Profile</a>
+```
 
 <a id="notes"></a>
 ## Notes
