@@ -2,35 +2,31 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Installation](#installation)
-3. [Running Commands](#running-commands)
-4. [Getting Help](#getting-help)
-5. [Built-In Commands](#built-in-commands)
+2. [Running Commands](#running-commands)
+3. [Getting Help](#getting-help)
+4. [Built-In Commands](#built-in-commands)
   1. [app:env](#appenv)
   2. [app:rename](#apprename)
   3. [views:flush](#viewsflush)
-6. [Arguments](#arguments)
-7. [Options](#options)
+5. [Arguments](#arguments)
+6. [Options](#options)
   1. [Short Names](#short-names)
   2. [Long Names](#long-names)
   2. [Array Options](#array-options)
-8. [Responses](#responses)
-9. [Formatters](#formatters)
+7. [Responses](#responses)
+8. [Formatters](#formatters)
   1. [Padding](#padding)
-10. [Style Elements](#style-elements)
+9. [Style Elements](#style-elements)
   1. [Built-In Elements](#built-in-elements)
   2. [Custom Elements](#custom-elements)
-11. [Prompts](#prompts)
+10. [Prompts](#prompts)
   1. [Confirmation](#confirmation)
   2. [Multiple Choice](#multiple-choice)
-12. [Creating Commands](#creating-commands)
-13. [Calling From Code](#calling-from-code)
+11. [Creating Commands](#creating-commands)
+12. [Calling From Code](#calling-from-code)
   
 <h2 id="introduction">Introduction</h2>
 Console applications are great for administrative tasks and code generation.  RDev supports a robust console kernel with features like easy-to-create commands, question prompts, and HTML-like syntax for output styling.
-
-<h2 id="installation">Installation</h2>
-The easiest way to setup a console application is to clone the [empty Project](https://github.com/ramblingsofadev/Project) repository or use Composer's `composer create-project rdev/Project MY_DIRECTORY`.
 
 <h2 id="running-commands">Running Commands</h2>
 To run commands, type `php rdev COMMAND_NAME` from the directory that RDev is installed in.
