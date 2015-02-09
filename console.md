@@ -47,13 +47,13 @@ php rdev COMMAND_NAME --help
 <h2 id="built-in-commands">Built-In Commands</h2>
 A good place to start is to run `php rdev` in the directory you installed RDev.  This will list the commands registered to the console.  Out of the box, a few commands come bundled with RDev:
 
-<h4 id="multiple-choice">Multiple Choice</h4>
+<h4 id="appenv">app:env</h4>
 Displays the current application environment name, eg "Production" or "Development".
 
-<h4 id="multiple-choice">Multiple Choice</h4>
+<h4 id="apprename">app:rename</h4>
 When you install RDev, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under "app", and the composer.json PSR-4 settings.
 
-<h4 id="multiple-choice">Multiple Choice</h4>
+<h4 id="viewsflush">views:flush</h4>
 If you also use RDev's HTTP kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.
   
 <h2 id="arguments">Arguments</h2>
