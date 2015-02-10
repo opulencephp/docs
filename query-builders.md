@@ -8,8 +8,7 @@
 <h2 id="introduction">Introduction</h2>
 Sometimes you need to programmatically generate/piece together SQL queries.  Rather than concatenating strings together, you can use **Query Builders** to do the heavy lifting.  
 
-<a id="basic-usage"></a>
-##Basic Usage
+<h2 id="basic-usage">Basic Usage</h2>
 The following is an example of a simple PostgreSQL query using a query builder:
 
 ```php

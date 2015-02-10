@@ -64,8 +64,7 @@ $response->getHeaders()->set("Content-Type", Responses\ResponseHeaders::CONTENT_
 ```
 
 <h4 id="cookies">Cookies</h4>
-<a id="setting-cookies"></a>
-##### Setting Cookies
+<h5 id="setting-cookies">Setting Cookies</h5>
 Cookies are meant to help you remember information about a user, such as authentication credentials or site preferences.  RDev wraps a cookie into the `RDev\HTTP\Responses\Cookie` class.  To create a cookie, first create a `Cookie` object.  Then, add it to the `Response` object's headers so that it will be sent to the user.
 
 ```php
@@ -79,8 +78,7 @@ $response->send();
 
 > **Note:** Unlike PHP's `setcookie()`, RDev defaults to setting the `httpOnly` flag to true.  This makes sites less prone to cross-site request forgeries. 
 
-<a id="deleting-cookies"></a>
-##### Deleting Cookies
+<h5 id="deleting-cookies">Deleting Cookies</h5>
 Deleting a cookie is easy:
 
 ```php

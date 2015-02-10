@@ -19,8 +19,7 @@ This is where your project's core code goes.  If it's a PHP class, it belongs in
 <h2 id="bootstrap">bootstrap</h2>
 This contains the code that actually boots up your application.  It's probably best not to touch the contents unless you are sure you know what you are doing.
 
-<a href="config"></a>
-## configs
+<h2 id="configs">configs</h2>
 All configuration files for your application should go here.  Console-specific configs are in the "console" subdirectory, and web-specific configs are in the "http" subdirectory.  The "environment" subdirectory holds .env.*.php files to setup your server with environment variables.
 
 <h2 id="public">public</h2>
