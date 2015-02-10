@@ -3,6 +3,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Requests](#requests)
+  1. [Checking Path](#checking-path)
 3. [Responses](#responses)
   1. [Status Codes](#status-codes)
   2. [Headers](#headers)
@@ -39,6 +40,16 @@ RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` cl
   * Available through `$request->isSecure()`
 * Path
   * Available through `$request->getPath()`
+  
+<h4 id="checking-path">Checking Path</h4>
+RDev allows you to check if a certain path is the current path using `$request->isPath(PATH_TO_MATCH)`.  It also allows you to use a regular expression for more complex matching:
+
+```php
+// The second parameter lets the request know that we're using a regular expression
+$request->isPath("/docs/.*", true);
+```
+
+> **Note:** Do not include regular expression delimiters in your regular expression.
 
 <h2 id="responses">Responses</h2>
 RDev also wraps an HTTP response into the `RDev\HTTP\Responses\Response` class.  You can set the content, HTTP status code, headers, and cookies in a response.  RDev also supports JSON responses and redirects.
