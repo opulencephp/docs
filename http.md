@@ -57,14 +57,14 @@ RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` cl
 <h4 id="body">Body</h4>
 The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
 
-<h5 id="json">JSON Body</h5>
+<h5 id="json">JSON</h5>
 RDev can accept JSON as input, which makes it easy to start developing REST applications:
 
 ```php
 $request->getJSONBody();
 ```
 
-<h5 id="raw-input">Raw Body</h5>
+<h5 id="raw-body">Raw Body</h5>
 If you want access to the raw request body, run:
 
 ```php

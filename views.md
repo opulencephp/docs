@@ -267,12 +267,6 @@ RDev supplies some built-in functions:
   * Returns HTML used to display a favicon
   * Accepts the following arguments:
     1. `string $path` - The path to the favicon image
-* `formatDateTime()`
-  * Returns a formatted DateTime
-  * Accepts the following arguments:
-    1. `DateTime $dateTime` - The DateTime to format
-    2. `string $format` - The optional format (defaults to "m/d/Y")
-    3. `DateTimeZone|string $timeZone` - The optional DateTimeZone object or timezone identifier to use
 * `httpEquiv()`
   * Returns HTML used to create an http-equiv attribute
   * Accepts the following arguments:
