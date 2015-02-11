@@ -469,7 +469,6 @@ $compiler->registerTemplateFunction("salutation", function($lastName, $isMale, $
 });
 echo $compiler->compile($template); // "Hello, Mrs. Young"
 ```
-> **Note:**  As with built-in functions, nested function calls are currently not supported.
 
 <h2 id="extending-the-compiler">Extending the Compiler</h2>
 Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with RDev's `Compiler`.  Using `Compiler::registerSubCompiler()`, you can compile the syntax in your template to the desired output.  RDev itself uses `registerSubCompiler()` to compile statements, PHP, and tags in templates.
