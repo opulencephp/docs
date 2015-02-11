@@ -12,15 +12,14 @@
   3. [Difference Between Tags and Statements](#difference-between-tags-and-statements)
 6. [Including Templates](#including-templates)
 7. [Using PHP in Your Template](#using-php-in-your-template)
-8. [Built-In Functions](#built-in-functions)
-  1. [PHP Functions](#php-functions)
-  2. [RDev Functions](#rdev-functions)
+8. [Functions](#functions)
+  1. [RDev Functions](#rdev-functions)
+  2. [Custom Template Functions](#custom-template-functions)
   3. [Using Template Functions in PHP Code](#using-template-functions-in-php-code)
-9. [Custom Template Functions](#custom-template-functions)
-10. [Extending the Compiler](#extending-the-compiler)
-11. [Escaping Tag Delimiters](#escaping-tag-delimiters)
-12. [Custom Tag Delimiters](#custom-tag-delimiters)
-13. [Template Factory](#template-factory)
+9. [Extending the Compiler](#extending-the-compiler)
+10. [Escaping Tag Delimiters](#escaping-tag-delimiters)
+11. [Custom Tag Delimiters](#custom-tag-delimiters)
+12. [Template Factory](#template-factory)
   1. [Builders](#builders)
   2. [Aliasing](#aliasing)
 
@@ -229,41 +228,33 @@ echo $compiler->compile($template); // "Hello, Administrator"
 
 > **Note:** PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
-<h2 id="built-in-functions">Built-In Functions</h2>
-<h4 id="php-functions">PHP Functions</h4>
-`RDev\Views\Compilers\Compiler` comes with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
-* `abs()`
-* `ceil()`
-* `count()`
-* `date()`
-* `floor()`
-* `implode()`
-* `json_encode()`
-* `lcfirst()`
-* `round()`
-* `strtolower()`
-* `strtoupper()`
-* `substr()`
-* `trim()`
-* `ucfirst()`
-* `ucwords()`
-* `urldecode()`
-* `urlencode()`
+<h2 id="functions">Functions</h2>
+RDev supports using PHP functions in tags:
 
-Here's an example of how to use a built-in function:
 ##### Template
 ```
-4.35 rounded down to the nearest tenth is {{round(4.35, 1, PHP_ROUND_HALF_DOWN)}}
+Hello, {{strtoupper("Dave")}}
 ```
-##### Application Code
-```php
-$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-echo $compiler->compile($template); // "4.35 rounded down to the nearest tenth is 4.3"
+
+##### Output
 ```
-You can also pass variables into your functions in the template and set them using `setVar()`.
+Hello, DAVE
+```
+
+You can also pass variables into your functions in the template and set them using `setVar()`.  RDev even supports nested functions:
+
+##### Template
+```
+{{trim(ucwords(" dave young "))}}
+```
+
+##### Output
+```
+Dave Young
+```
 
 <h4 id="rdev-functions">RDev Functions</h4>
-RDev also supplies some other built-in functions:
+RDev supplies some built-in functions:
 * `charset()`
   * Returns HTML used to select a character set
   * Accepts the following arguments:
@@ -360,86 +351,7 @@ This will output:
 </html>
 ```
 
-It's recommended to inject the CSS and scripts into a template rather than declaring them in the template itself.  An easy way to do this to inject the list of CSS stylesheets and scripts into template variables:
-
-##### Template
-```
-<!DOCTYPE html>
-<html>
-    <head>
-        {{!css($headCSS)!}}
-    </head>
-    <body>
-        Hello, World!
-        {{!script($footerJS)!}}
-    </body>
-</html>
-```
-
-##### Application Code
-```php
-$template->setVar("headCSS", "stylesheet.css");
-$template->setVar("footerJS", ["jquery.js", "angular.js"]);
-```
-
-This will output:
-
-```
-<!DOCTYPE html>
-<html>
-    <head>
-        <link href="stylesheet.css" rel="stylesheet">
-    </head>
-    <body>
-        Hello, World!
-        <script type="text/javascript" src="jquery.js"></script>
-        <script type="text/javascript" src="angular.js"></script>
-    </body>
-</html>
-```
-
-<h4 id="using-template-functions-in-php-code">Using Template Functions in PHP Code</h4>
-You may execute template functions in your PHP code by calling `RDev\Views\Compilers\ICompiler::executeTemplateFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | NAME_OF_PAGE`:
-
-##### Template
-```
-<!DOCTYPE html>
-<html>
-    <head>
-        {{!myPageTitle("About")!}}
-    </head>
-    <body>
-        My About Page
-    </body>
-</html>
-```
-
-##### Application Code
-```php
-$compiler->registerTemplateFunction("myPageTitle", function($title) use ($compiler, $template)
-{
-    // Take advantage of the built-in template function
-    return $compiler->executeTemplateFunction("pageTitle", [$template, "My Site | " . $title]);
-});
-$template->setContents(TEMPLATE);
-echo $compiler->compile($template);
-```
-
-This will output:
-
-```
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>My Site | About</title>
-    </head>
-    <body>
-        My About Page
-    </body>
-</html>
-```
-
-<h2 id="custom-template-functions">Custom Template Functions</h2>
+<h4 id="custom-template-functions">Custom Template Functions</h4>
 It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:
 ##### Template
 ```
@@ -468,6 +380,47 @@ $compiler->registerTemplateFunction("salutation", function($lastName, $isMale, $
     return $salutation . " " . $lastName;
 });
 echo $compiler->compile($template); // "Hello, Mrs. Young"
+```
+
+<h4 id="using-template-functions-in-php-code">Using Template Functions in PHP Code</h4>
+You may execute template functions in your PHP code by calling `RDev\Views\Compilers\ICompiler::executeTemplateFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | NAME_OF_PAGE`:
+
+##### Template
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        {{!myPageTitle("About")!}}
+    </head>
+    <body>
+        My About Page
+    </body>
+</html>
+```
+
+##### Application Code
+```php
+$compiler->registerTemplateFunction("myPageTitle", function($title) use ($compiler, $template)
+{
+    // Take advantage of the built-in template function
+    return $compiler->executeTemplateFunction("pageTitle", [$template, $title . " | My Site"]);
+});
+$template->setContents(TEMPLATE);
+echo $compiler->compile($template);
+```
+
+This will output:
+
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Site | About</title>
+    </head>
+    <body>
+        My About Page
+    </body>
+</html>
 ```
 
 <h2 id="extending-the-compiler">Extending the Compiler</h2>

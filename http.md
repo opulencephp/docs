@@ -3,7 +3,11 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Requests](#requests)
-  1. [Checking Path](#checking-path)
+  1. [Body](#body)
+    1. [JSON](#json)
+    2. [Raw Body](#raw-body)
+  2. [AJAX](#ajax)
+  3. [Checking Path](#checking-path)
 3. [Responses](#responses)
   1. [Status Codes](#status-codes)
   2. [Headers](#headers)
@@ -22,6 +26,15 @@ RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` cl
   * Available through `$request->getQuery()`
 * $_POST
   * Available through `$request->getPost()`
+* PUT data
+  * Available through `request->getPut()`
+  * Only populated with `x-www-form-urlencoded` content type
+* PATCH data
+  * Available through `request->getPatch()`
+  * Only populated with `x-www-form-urlencoded` content type
+* DELETE data
+  * Available through `request->getDelete()`
+  * Only populated with `x-www-form-urlencoded` content type
 * $_COOKIE
   * Available through `$request->getCookies()`
 * $_SERVER
@@ -40,6 +53,30 @@ RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` cl
   * Available through `$request->isSecure()`
 * Path
   * Available through `$request->getPath()`
+  
+<h4 id="body">Body</h4>
+The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
+
+<h5 id="json">JSON Body</h5>
+RDev can accept JSON as input, which makes it easy to start developing REST applications:
+
+```php
+$request->getJSONBody();
+```
+
+<h5 id="raw-input">Raw Body</h5>
+If you want access to the raw request body, run:
+
+```php
+$request->getRawBody();
+```
+
+<h4 id="ajax">AJAX</h4>
+To determine if a request was made by AJAX, call:
+
+```php
+$request->isAJAX();
+```
   
 <h4 id="checking-path">Checking Path</h4>
 RDev allows you to check if a certain path is the current path using `$request->isPath(PATH_TO_MATCH)`.  It also allows you to use a regular expression for more complex matching:
