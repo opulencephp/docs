@@ -26,6 +26,7 @@ RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` cl
   * Available through `$request->getQuery()`
 * $_POST
   * Available through `$request->getPost()`
+  * Only populated with `x-www-form-urlencoded` content type
 * PUT data
   * Available through `request->getPut()`
   * Only populated with `x-www-form-urlencoded` content type
@@ -53,6 +54,8 @@ RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` cl
   * Available through `$request->isSecure()`
 * Path
   * Available through `$request->getPath()`
+  
+> **Note:** Non `x-www-form-urlencoded` requests are stored in a request's raw body.
   
 <h4 id="body">Body</h4>
 The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
