@@ -14,17 +14,17 @@ In computer science, a pipeline refers to a series of stages where each stage's 
 * Objects and a method to run on them
 * Class names to instantiate and methods to run on them
 
-... to act as pipeline stages.  You can even mix and match various types of pipes pipes.
+... to act as pipeline stages.  You can even mix and match various types of stages.
   
 <h2 id="using-closures">Using Closures</h2>
-`Closure` pipes must accept the input as their first parameter and the next pipe in the pipeline as the second parameter.  Let's take a look at a simple example:
+`Closure` stages must accept the input as their first parameter and the next pipe in the pipeline as the second parameter.  Let's take a look at a simple example:
 
 ```php
 use RDev\IoC;
 use RDev\Pipelines;
 
 $container = new IoC\Container();
-$pipes = [
+$stages = [
     function($input, $next)
     {
         $input .= "-pipe1";
@@ -38,7 +38,7 @@ $pipes = [
         return $next($input);
     }
 ];
-$pipeline = new Pipelines\Pipeline($container, $pipes);
+$pipeline = new Pipelines\Pipeline($container, $stages);
 echo $pipeline->send("foo");
 ```
 
@@ -83,9 +83,9 @@ class PipeB implements IMyPipe
 }
 
 $container = new IoC\Container();
-$pipes = [new PipeA(), new PipeB()];
+$stages = [new PipeA(), new PipeB()];
 // We must pass in the name of the method to call ("filter")
-$pipeline = new Pipelines\Pipeline($container, $pipes, "filter");
+$pipeline = new Pipelines\Pipeline($container, $stages, "filter");
 echo $pipeline->send("foo");
 ```
 
@@ -99,8 +99,8 @@ foo-pipeA-pipeB
 Pipe class names are also supported.  They will automatically be resolved using the IoC container:
  
 ```php
-$pipes = ["PipeA", "PipeB"];
-$pipeline = new Pipelines\Pipeline($container, $pipes, "filter");
+$stages = ["PipeA", "PipeB"];
+$pipeline = new Pipelines\Pipeline($container, $stages, "filter");
 ```
 
 This will output:
@@ -117,7 +117,7 @@ use RDev\IoC;
 use RDev\Pipelines;
 
 $container = new IoC\Container();
-$pipes = [
+$stages = [
     function($input, $next)
     {
         $input .= "-pipe1";
@@ -131,7 +131,7 @@ $pipes = [
         return $next($input);
     }
 ];
-$pipeline = new Pipelines\Pipeline($container, $pipes);
+$pipeline = new Pipelines\Pipeline($container, $stages);
 $callback = function($pipelineOutput)
 {
     return strtoupper($pipelineOutput);
