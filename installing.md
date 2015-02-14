@@ -39,6 +39,7 @@ rdev/files
 rdev/http
 rdev/ioc
 rdev/orm
+rdev/pipelines
 rdev/sessions
 rdev/users
 rdev/views
