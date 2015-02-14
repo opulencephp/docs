@@ -74,13 +74,13 @@ You might want different behavior in your command depending on whether or not an
 1. Short, eg "-h"
 2. Long, eg "--help"
 
-<h4 id="multiple-choice">Multiple Choice</h4>
+<h4 id="short-options">Short Options</h4>
 Short option names are always a single letter.  Multiple short options can be grouped together.  For example, `-rf` means that options with short codes "r" and "f" have been specified.  The default value will be used for short options.
 
-<h4 id="multiple-choice">Multiple Choice</h4>
+<h4 id="long-options">Long Options</h4>
 Long option names can specify values in two ways:  `--foo=bar` or `--foo bar`.  If you only specify `--foo` for an optional-value option, then the default value will be used.
 
-<h4 id="multiple-choice">Multiple Choice</h4>
+<h4 id="array-options">Array Options</h4>
 Options can be arrays, eg `--foo=bar --foo=baz` will set the "foo" option to `["bar", "baz"]`.
 
 Like arguments, option types can be specified by bitwise OR-ing types together.  Let's look at an example:
@@ -115,7 +115,7 @@ Each response offers three methods:
 <h2 id="formatters">Formatters</h2>
 Formatters are great for nicely-formatting output to the console.
 
-<h4 id="multiple-choice">Multiple Choice</h4>
+<h4 id="padding">Padding</h4>
 The `RDev\Console\Responses\Formatters\Padding` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
  
 ```php
@@ -145,7 +145,7 @@ The `format()` method accepts options to add the padding before each string, cha
 <h2 id="prompts">Prompts</h2>
 Prompts are great for asking users for input beyond what is accepted by arguments.  For example, you might want to confirm with a user before doing an administrative task, or you might ask her to select from a list of possible choices.  Prompts accept `RDev\Console\Prompts\Question\IQuestion` objects.
 
-<h4 id="multiple-choice">Multiple Choice</h4>
+<h4 id="confirmation">Confirmation</h4>
 To ask a user to confirm an action with a simple "y" or "yes", use an `RDev\Console\Prompts\Questions\Confirmation`:
 
 ```php
