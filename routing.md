@@ -58,7 +58,7 @@ $router->delete("/users/me", ["controller" => "MyApp\\MyController@deleteUser"])
 $router->put("/users/profile/image", ["controller" => "MyApp\\MyController@uploadProfileImage"]);
 ```
 
-The router takes advantage of the [Dependency Injection Container](/docs/master/ioc) to instantiate your controller.
+The router takes advantage of the [Dependency Injection Container](ioc) to instantiate your controller.
 
 > **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
 
@@ -148,7 +148,7 @@ $router->get("/foo", $routeOptions);
 Host variables can also have regular expression constraints, similar to path variables.
 
 <h2 id="middleware">Middleware</h2>
-Some routes might require actions to occur before and after the controller is called.  For example, you might want to check if a user is authenticated before allowing him or her access to a certain page.  This is where `Middleware` comes in handy.  `Middleware` are a series of functions that manipulate the `Request` and `Response`.  They are executed in series in a [Pipeline](/docs/master/pipelines).  Let's take a look at an example:
+Some routes might require actions to occur before and after the controller is called.  For example, you might want to check if a user is authenticated before allowing him or her access to a certain page.  This is where `Middleware` comes in handy.  `Middleware` are a series of functions that manipulate the `Request` and `Response`.  They are executed in series in a [Pipeline](pipelines).  Let's take a look at an example:
 
 ```php
 use MyApp\Authentication;
