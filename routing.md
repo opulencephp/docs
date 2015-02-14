@@ -187,6 +187,8 @@ $router->post("/users/posts", [
 
 Now, the `Authenticate` middleware will be run before the `createPost()` method is called.  If the user is not logged in, he'll be redirected to the login page.
 
+> **Note:** If middleware does not specifically call the `$next` closure, none of the middleware after it in the pipeline will be run.
+
 <h4 id="changing-the-request">Changing the Request</h4>
 To manipulate the request before it gets to the controller, make changes to it before calling `$next($request)`:
 

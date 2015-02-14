@@ -48,6 +48,8 @@ This will output:
 foo-pipe1-pipe2
 ```
 
+> **Note:** If a stage does not specifically call the `$next` closure, no stages after it in the pipeline will run run.
+
 <h2 id="using-objects">Using Objects</h2>
 `Pipeline` can also accept an array of objects and a method to call on those classes.
 
