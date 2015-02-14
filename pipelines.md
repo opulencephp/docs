@@ -10,7 +10,7 @@
 <h2 id="introduction">Introduction</h2>
 In computer science, a pipeline refers to a series of stages where each stage's input is the previous one's output.  It can be used to implement a decorator, which adds functionality to an object from an outside object.  In RDev, this is especially useful for route middleware.  Pipelines can accept a list of `Closure` pipes or class names and methods to run as pipes.  You can even mix and match `Closure` and class/method pipes.
   
-<h2 id="using-callbacks">Using Callbacks</h2>
+<h2 id="using-closures">Using Closures</h2>
 `Closure` pipes must accept the input as their first parameter and the next pipe in the pipeline as the second parameter.  Let's take a look at a simple example:
 
 ```php
