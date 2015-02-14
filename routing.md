@@ -9,12 +9,14 @@
   2. [Optional Variables](#optional-variables)
   3. [Default Values](#default-values)
 4. [Host Matching](#host-matching)
-5. [Filters](#filters)
+5. [Middleware](#middleware)
+  1. [Changing the Request](#changing-the-request)
+  2. [Changing the Response](#changing-the-response)
 6. [HTTPS](#https)
 7. [Named Routes](#named-routes)
 8. [Route Grouping](#route-grouping)
   1. [Controller Namespaces](#controller-namespaces)
-  2. [Group Filters](#group-filters)
+  2. [Group Middleware](#group-middleware)
   3. [Group Hosts](#group-hosts)
   4. [Group HTTPS](#group-https)
   5. [Group Variable Regular Expressions](#group-variable-regular-expressions)
@@ -145,40 +147,85 @@ $router->get("/foo", $routeOptions);
 
 Host variables can also have regular expression constraints, similar to path variables.
 
-<h2 id="filters">Filters</h2>
-Some routes might require actions to occur before and after the controller is called.  For example, you might want to check if a user is authenticated before allowing him or her access to a certain page.  This is when filters come in handy.  "Pre" filters are executed before the controller is called, and "post" filters are called after the controller.  Here is the order of precedence of return values of filters and controllers:
+<h2 id="middleware">Middleware</h2>
+Some routes might require actions to occur before and after the controller is called.  For example, you might want to check if a user is authenticated before allowing him or her access to a certain page.  This is where `Middleware` comes in handy.  `Middleware` are a series of functions that manipulate the `Request` and `Response`.  They are executed in series in a [Pipeline](/docs/master/pipeline).  Let's take a look at an example:
 
-1. If a pre-filter returns something other than null, it is returned by the router, and the controller is never called
-2. If a post-filter returns something other than null, it is returned by the router
-3. If the pre- and post-filters do not return anything, then the controller's output is returned
-4. If the controller does not return anything, then an empty response is returned
-
-Filters are specified in the route options.  They must contain the fully-qualified name of the filter class.  The class itself must implement `RDev\HTTP\Routing\Filters\IFilter`, which has a `run()` method where the filtering is performed.
 ```php
-namespace MyApp;
+use MyApp\Authentication;
+use RDev\HTTP\Middleware;
 use RDev\HTTP\Requests;
 use RDev\HTTP\Responses;
-use RDev\HTTP\Routing\Filters;
-use RDev\HTTP\Routing\Routes;
 
-class Authenticate implements Filters\IFilter
+class Authentication implements Middleware\IMiddleware
 {
-    public function run(Routes\CompiledRoute $route, Requests\Request $request, Responses\Response $response = null)
+    private $authenticator = null;
+    
+    // Inject any dependencies your middleware needs
+    public function __construct(Authentication\Authenticator $authenticator)
     {
-        if(!MyApp::isUserLoggedIn())
+        $this->authenticator = $authenticator;
+    }
+
+    // $next consists of the next middleware in the pipeline
+    public function handle(Requests\Request $request, \Closure $next)
+    {
+        if(!$this->authenticator->isLoggedIn())
         {
             return new Responses\RedirectResponse("/login");
         }
+        
+        return $next($request);
     }
 }
 
+// Add this middleware to a route
 $router->post("/users/posts", [
     "controller" => "MyApp\\UserController@createPost",
-    "pre" => "MyApp\\Authenticate" // Could also be an array of pre-filters
-]);
+    "middleware" => "MyApp\\Authenticate" // Could also be an array of middleware
+])
 ```
 
-Now, the `Authenticate` filter will be run before the `createPost()` method is called.  If the user is not logged in, he'll be redirected to the login page.  To apply "post" filters to a route, just add a "post" entry in the route options.  In post-filters, the response of the previous filters is passed into the next filters, allowing you to chain together actions on the response.
+Now, the `Authenticate` middleware will be run before the `createPost()` method is called.  If the user is not logged in, he'll be redirected to the login page.
+
+<h4 id="changing-the-request">Changing the Request</h4>
+To manipulate the request before it gets to the controller, make changes to it before calling `$next($request)`:
+
+```php
+use RDev\HTTP\Middleware;
+
+class RequestManipulator implements Middleware\IMiddleware
+{
+    public function handle(Requests\Request $request, \Closure $next)
+    {
+        // Do our work before returning $next($request)
+        $request->getHeaders()->add("SOME_HEADER", "foo");
+        
+        return $next($request);
+    }
+}
+```
+
+<h4 id="changing-the-response">Changing the Response</h4>
+To manipulate the response after the controller has done its work, do the following:
+
+```php
+use RDev\HTTP\Middleware;
+use RDev\HTTP\Responses;
+
+class ResponseManipulator implements Middleware\IMiddleware
+{
+    public function handle(Requests\Request $request, \Closure $next)
+    {
+        $response = $next($request);
+        
+        // Make our changes
+        $cookie = new Responses\Cookie("my_cookie", "foo", \DateTime::createFromFormat("+1 week"));
+        $response->getHeaders()->setCookie($cookie);
+        
+        return $response;
+    }
+}
+```
 
 <h2 id="https">HTTPS</h2>
 Some routes should only match on an HTTPS connection.  To do this, set the `https` flag to true in the options:
@@ -230,17 +277,17 @@ $router->group(["controllerNamespace" => "MyApp\\Controllers"], function() use (
 
 Now, a GET request to "/users" will route to `MyApp\Controllers\UserController::showAllUsers()`, and a GET request to "/posts" will route to `MyApp\Controllers\PostController::showAllPosts()`.
 
-<h4 id="group-filters">Group Filters</h4>
-Route groups allow you to apply "pre" and "post" filters to multiple routes:
+<h4 id="group-middleware">Group Middleware</h4>
+Route groups allow you to apply middleware to multiple routes:
 ```php
-$router->group(["pre" => "MyApp\\Authenticate"], function() use ($router)
+$router->group(["middleware" => "MyApp\\Authenticate"], function() use ($router)
 {
     $router->get("/users/{userId}/profile", ["controller" => "MyApp\\UserController@showProfile"]);
     $router->get("/posts", ["controller" => "MyApp\\PostController@showPosts"]);
 });
 ```
 
-The `Authenticate` filter will be executed on any matched routes inside the closure.
+The `Authenticate` middleware will be executed on any matched routes inside the closure.
 
 <h4 id="group-hosts">Group Hosts</h4>
 You can filter by host in router groups:
