@@ -74,10 +74,10 @@ You might want different behavior in your command depending on whether or not an
 1. Short, eg "-h"
 2. Long, eg "--help"
 
-<h4 id="short-options">Short Options</h4>
+<h4 id="short-names">Short Names</h4>
 Short option names are always a single letter.  Multiple short options can be grouped together.  For example, `-rf` means that options with short codes "r" and "f" have been specified.  The default value will be used for short options.
 
-<h4 id="long-options">Long Options</h4>
+<h4 id="long-names">Long Names</h4>
 Long option names can specify values in two ways:  `--foo=bar` or `--foo bar`.  If you only specify `--foo` for an optional-value option, then the default value will be used.
 
 <h4 id="array-options">Array Options</h4>
