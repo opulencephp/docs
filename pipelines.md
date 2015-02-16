@@ -16,7 +16,7 @@ In computer science, a pipeline refers to a series of stages where each stage's 
 
 ... to act as pipeline stages.  You can even mix and match various types of stages.
 
-> **Note:** If a stage does not specifically call the `$next` closure, no stages after it in the pipeline will run run.
+> **Note:** If a stage does not specifically call the `$next` closure, no stages after it in the pipeline will be run.
   
 <h2 id="using-closures">Using Closures</h2>
 `Closure` stages must accept the input as their first parameter and the next pipe in the pipeline as the second parameter.  Let's take a look at a simple example:
