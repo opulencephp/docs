@@ -60,7 +60,7 @@ Let's take a look at an example argument:
 ```php
 use RDev\Console\Requests;
 
-// The argument will by required and an array
+// The argument will be required and an array
 $type = Requests\ArgumentTypes::REQUIRED | Requests\ArgumentTypes::IS_ARRAY;
 // The description argument is used by the help command
 $argument = new Argument("foo", $type, "The foo argument");
