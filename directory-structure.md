@@ -11,7 +11,7 @@
 8. [tmp](#tmp)
 
 <h2 id="introduction">Introduction</h2>
-RDev's directory structure was inspired by the best of ideas from frameworks like Laravel and Aura.  The directories logically separate files based on their purpose.  However, you are not chained to this structure.  If you do decide to customize it, make sure you update the PSR-4 settings "composer.json" as well as the relevant paths in "configs/paths.php".  
+RDev's directory structure was inspired by the best of ideas from frameworks like Laravel and Aura.  The directories logically separate files based on their purpose.  However, you are not chained to this structure.  If you do decide to customize it, make sure you update the PSR-4 settings in "composer.json" as well as the relevant paths in "configs/paths.php".  
 
 <h2 id="app">app</h2>
 This is where your project's core code goes.  If it's a PHP class, it belongs in here.  Bootstrappers are under the "bootstrappers" subdirectory, console commands under "console/commands", and HTTP controllers under "http/controllers".
