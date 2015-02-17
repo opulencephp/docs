@@ -58,7 +58,7 @@ $router->delete("/users/me", ["controller" => "MyApp\\MyController@deleteUser"])
 $router->put("/users/profile/image", ["controller" => "MyApp\\MyController@uploadProfileImage"]);
 ```
 
-The router takes advantage of the [Dependency Injection Container](ioc) to instantiate your controller.
+The router takes advantage of the [Dependency Injection Container](dependency-injection) to instantiate your controller.
 
 > **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
 
