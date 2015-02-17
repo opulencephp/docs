@@ -243,7 +243,7 @@ $router->get("/users", $options);
 HTTPS requests to "/users" will match, but non SSL connections will return a 404 response.
 
 <h2 id="named-routes">Named Routes</h2>
-Routes can be given a name, which makes them identifiable.  This is especially useful for things like [generating URLs for a route](#genearting-urls-from-code).  To name a route, pass a `"name" => "THE_NAME"` into the route options:
+Routes can be given a name, which makes them identifiable.  This is especially useful for things like [generating URLs for a route](#generating-urls-from-code).  To name a route, pass a `"name" => "THE_NAME"` into the route options:
 
 ```php
 $options = [
