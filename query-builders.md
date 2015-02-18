@@ -223,7 +223,9 @@ Similarly, PostgreSQL's `UPDATE` and `INSERT` query builders support a *RETURNIN
 ```php
 use RDev\Databases\SQL\QueryBuilders\PostgreSQL;
 
-$query = (new PostgreSQL\QueryBuilder)->update("users", "", ["status" => 0])
+$query = (new PostgreSQL\QueryBuilder)->update("users", "", [
+        "status" => [0, \PDO::PARAM_INT]
+    ])
     ->returning("id")
     ->addReturning("name");
 echo $query->getSQL();
