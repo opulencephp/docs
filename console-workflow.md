@@ -4,7 +4,7 @@ RDev uses a single point of entry for console applications.  When typing `php rd
 
 1. User types `php rdev foo bar --baz=blah`
 2. `rdev` bash script loads `bootstrap/console/start.php`, which instantiates an `Application` object
-3. Various configs are read, and [bootstrappers](application#bootstrappers) are registered to the `Application`
+3. Various configs are read, and [bootstrappers](bootstrappers) are registered to the `Application`
 4. [Pre-start tasks](application#starting-and-shutting-down-an-application) are run
   1. Bootstrappers' bindings are registered
   2. Bootstrappers are run

@@ -5,7 +5,7 @@ RDev uses a single point of entry for all pages.  In other words, all HTTP reque
 1. User requests http://www.example.com/users/23/profile
 2. `.htaccess` redirects the request through http://www.example.com/index.php
 3. `bootstrap/http/start.php` is loaded, which instantiates an `Application` object
-4. Various configs are read, and [bootstrappers](application#bootstrappers) are registered to the `Application`
+4. Various configs are read, and [bootstrappers](bootstrappers) are registered to the `Application`
 5. [Pre-start tasks](application#starting-and-shutting-down-an-application) are run
   1. Bootstrappers' bindings are registered
   2. Bootstrappers are run

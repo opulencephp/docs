@@ -3,133 +3,24 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Kernels](#kernels)
-3. [Environment](#environment)
-  1. [Config Structure](#config-structure)
-  2. [Environment Variables](#environment-variables)
-4. [Bootstrappers](#bootstrappers)
-  1. [Registering Bindings](#registering-bindings)
-  2. [Running Bootstrappers](#running-bootstrappers)
-  3. [Bootstrapper Example](#bootstrapper-example)
-5. [Starting and Shutting Down An Application](#starting-and-shutting-down-an-application)
+3. [Logging](#logging)
+4. [Starting and Shutting Down An Application](#starting-and-shutting-down-an-application)
 
 <h2 id="introduction">Introduction</h2>
 An **RDev** application is started up through the `Application` class.  In it, you can configure things like the environment you're on (eg "development" or "production") as well as pre-/post-start and -shutdown tasks to run.
 
 <h2 id="kernels">Kernels</h2>
-A kernel is something that takes input, performs processing on it, and returns output.  In RDev, there are 2 kernels:
+A kernel is something that takes input, performs processing on it, and returns output.  In RDev, there are two kernels:
 
-1. `RDev\Console\Kernels\Kernel`
-  * [Read about console applications' workflows](console-workflow)
-2. `RDev\HTTP\Kernels\Kernel`
+1. `RDev\HTTP\Kernels\Kernel`
   * [Read about HTTP applications' workflows](http-workflow)
+2. `RDev\Console\Kernels\Kernel`
+  * [Read about console applications' workflows](console-workflow)
 
-Having these two kernels allows RDev to function as both a console application and a traditional HTTP web application.
+Having these two kernels allows RDev to function as both a traditional HTTP web application and a console application.
 
-<h2 id="environment">Environment</h2>
-Sometimes, you might want to change the way your application behaves depending on whether or not it's running on a production, staging, testing, or development machine.  A common example is a database connection - each environment might have different server credentials.  By detecting the environment, you can load the appropriate credentials.  To actually detect the environment, use an `EnvironmentDetector`.  In it, you can specify rules for various environment names.  You can also detect if you're running in a console vs an HTTP connection.
-
-<h4 id="config-structure">Config Structure</h4>
-The configuration that's passed into `EnvironmentDetector::detect()` should be either:
-
-* A callback function that returns the name of the environment the current server resides in OR
-* An array that maps environment names to rules
-  * Each rule must be one of the following:
-    1. A server host IP or array of host IPs that belong to that environment
-    2. An array containing the following keys:
-      * "type" => One of the following values:
-        * "regex" => Denotes that the rule uses a regular expression
-      * "value" => The value of the rule, eg the regular expression to use
-
-Let's take a look at an example:
-```php
-use RDev\Applications\Environments;
-
-$configArray = [
-   // Let's say that there's only one production server
-   "production" => "123.456.7.8",
-   // Let's say there's a list of staging servers
-   "staging" => ["123.456.7.9", "123.456.7.10"],
-   // Let's use a regular expression to detect a development environment
-   "development" => [
-       ["type" => "regex", "value" => "/^192\.168\..*$/"]
-   ]
-];
-$detector = new Environments\EnvironmentDetector($configArray);
-$environmentName = $detector->getName();
-$environment = new Environments\Environment($environmentName);
-```
-The following is an example with a custom callback:
-```php
-use RDev\Applications\Environments;
-
-$callback = function()
-{
-    // Look to see if a PHP environment variable was set
-    if(isset($_ENV["environment"]))
-    {
-        return $_ENV["environment"];
-    }
-
-    // By default, return production
-    return "production";
-};
-$detector = new Environments\EnvironmentDetector($callback);
-$environmentName = $detector->getName();
-$environment = new Environments\Environment($environmentName);
-```
-
-<h4 id="environment-variables">Environment Variables</h4>
-Variables that are specifically tied to the environment the application is running on are called *environment variables*.  Setting an environment variable using RDev is as easy as `$environment->setVariable("foo", "bar")`.  To make configuring your environment variables as easy as possible, RDev supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "configs/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
- 
-##### .env.example.php
-```php
-$environment->setVariable("DB_HOST", "localhost");
-$environment->setVariable("DB_USER", "myuser");
-$environment->setVariable("DB_PASSWORD", "mypassword");
-$environment->setVariable("DB_NAME", "public");
-$environment->setVariable("DB_PORT", 5432);
-```
-
-> **Note:** For performance reasons, .env.*.php files are only loaded on non-production servers.  It is strongly recommended that production servers are setup with hard-coded environment variables in their configs.  For security, it's strongly recommended that you do not version-control your environment variable configs.  Instead, each developer should be given a template of the environment config, and should fill out the config with the appropriate values for their environment.
-
-<h2 id="bootstrappers">Bootstrappers</h2>
-Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by extending `RDev\Applications\Bootstrappers\Bootstrapper`.  It accepts `Paths`, `Environment`, and `ISession` objects in its constructor, which can be useful for something like binding a particular database instance based on the current environment.
-
-<h4 id="registering-bindings">Registering Bindings</h4>
-Before you can start using your application, your IoC container needs some bindings to be registered.  This is where `Bootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the IoC container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
-
-<h4 id="running-bootstrappers">Running Bootstrappers</h4>
-Bootstrappers also support a `run()` command, which is run AFTER all bindings have been registered.  This is useful for any last configuration that needs to be performed before the application is run.  Use type-hinted parameters in `run()` for any dependencies your bootstrapper depends on to run successfully.
-
-<h4 id="bootstrapper-example">Bootstrapper Example</h4>
-Let's pretend you're developing an application that grabs WordPress posts from a database and displays them in a nice view.  You might have a `Posts` class, which needs a database connection to read the posts.  Let's take a look at a simple bootstrapper:
-
-```php
-namespace MyApp\WordPress\Bootstrappers;
-use MyApp\WordPress;
-use RDev\Applications\Bootstrappers;
-use RDev\Databases\SQL;
-use RDev\IoC;
-
-class MyBootstrapper extends Bootstrappers\Bootstrapper
-{
-    // This will be run before any bootstrappers' run() methods have been called
-    public function registerBindings(IoC\IContainer $container)
-    {
-        // Create our Posts object
-        $container->bind("MyApp\\WordPress\\Posts", new WordPress\Posts());
-    }
-
-    // The IoC container will automatically resolve these dependencies
-    public function run(WordPress\Posts $posts, SQL\ConnectionPool $connectionPool)
-    {
-        // Bind the connection pool to our posts object
-        $posts->setDatabaseConnection($connectionPool->getReadConnection());
-    }
-}
-```
-
-You can now inject `WordPress\Posts` into any service or controller that needs to query WordPress posts.
+<h2 id="logging">Logging</h2>
+RDev takes advantage of the wonderful `Monolog` library.  To learn more about it, <a href="https://github.com/Seldaek/monolog" target="_blank">read its official documentation</a>.
 
 <h2 id="starting-and-shutting-down-an-application">Starting And Shutting Down An Application</h2>
 To start and shutdown an application, simply call the `start()` and `shutdown()` methods, respectively, on the application object.  If you'd like to do some tasks before or after startup, you may do them using `registerPreStartTask()` and `registerPostStartTask()`, respectively.  Similarly, you can add tasks before and after shutdown using `registerPreShutdownTask()` and `registerPostShutdownTask()`, respectively.  These tasks are handy places to do any setting up that your application requires or any housekeeping after start/shutdown.
