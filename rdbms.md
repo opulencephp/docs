@@ -82,7 +82,7 @@ $connectionPool = new SQL\SingleServerConnectionPool(
 To read from the database, simply use the connection returned by `$connectionPool->getReadConnection()`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.
 
 <h2 id="how-to-query-and-fetch-results">How to Query and Fetch Results</h2>
-If you're familiar with `PDO`, you're ready to use RDev's extension of `PDO`.  To learn how to query using `PDO`, try the <a href="http://php.net/manual/en/book.pdo.php" target="_blank">official PHP documentation</a>.
+RDev uses the exact same methods as `PDO` to query and fetch results.  To learn how to query using `PDO`, try the <a href="http://php.net/manual/en/book.pdo.php" target="_blank">official PHP documentation</a>.
 
 RDev's `PDO` wrappers make it easy to connect to the database without having to remember things like how to format the DSN.  RDev's wrappers also support [type mappers](type-mappers) for easy conversion between a database vendor's data types and PHP data types.  They even provide support for nested database transactions.
 

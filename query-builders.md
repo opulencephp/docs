@@ -3,13 +3,13 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
-  1. [Clauses](#clauses)
-  2. [Binding Values](#binding-values)
-3. [Select Queries](#select-queries)
-4. [Insert Queries](#insert-queries)
-5. [Update Queries](#update-queries)
-6. [Using Query Builders with PDO](#using-query-builders-with-pdo)
-7. [Database-Specific Query Builders](#database-specific-query-builders)
+3. [Clauses](#clauses)
+4. [Binding Values](#binding-values)
+5. [Select Queries](#select-queries)
+6. [Insert Queries](#insert-queries)
+7. [Update Queries](#update-queries)
+8. [Using Query Builders with PDO](#using-query-builders-with-pdo)
+9. [Database-Specific Query Builders](#database-specific-query-builders)
 
 <h2 id="introduction">Introduction</h2>
 Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `Query Builders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [RDev's PDO wrapper](rdbms).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
@@ -20,10 +20,10 @@ Let's look at a simple `SELECT` query:
 ```php
 use RDev\Databases\SQL\QueryBuilders\PostgreSQL;
 
-$selectLongTimeUsersQuery = (new PostgreSQL\QueryBuilder)->select("id", "name", "email")
+$query = (new PostgreSQL\QueryBuilder)->select("id", "name", "email")
     ->from("users")
     ->where("datejoined < NOW()");
-echo $selectLongTimeUsersQuery->getSQL();
+echo $query->getSQL();
 ```
 
 This will output:
@@ -31,8 +31,8 @@ This will output:
 SELECT id, name, email FROM users WHERE datejoined < NOW()
 ```
 
-<h4 id="Clauses">Clauses</h4>
-`QueryBuilders` support a variety of clauses:
+<h2 id="Clauses">Clauses</h2>
+`QueryBuilders` support a variety of clauses.  You may use the following clauses to build complex, but easy-to-read-and-maintain queries:
 
 * FROM
   * `from($tableName, $tableAlias)`
@@ -62,7 +62,7 @@ SELECT id, name, email FROM users WHERE datejoined < NOW()
   * `returning($expression)`
   * `addReturning($expression)`
 
-<h4 id="binding-values">Binding Values</h4>
+<h2 id="binding-values">Binding Values</h2>
 `QueryBuilders` provide an intuitive syntax for binding values to queries ([learn more about statement bindings](rdbms)).  To add a named placeholder, use `addNamedPlaceholderValue()`:
 
 ```php
@@ -89,7 +89,7 @@ $query = (new PostgreSQL\QueryBuilder)->select("count(*)")
 
 Similarly, `addUnnamedPlaceholderValue()` and `addUnnamedPlaceholderValues()` can be used to add unnamed placeholder values.
 
-> **Note:** You cannot mix named with unnamed placeholders.
+> **Note:** You cannot mix named with unnamed placeholders.  Also, if no type is specified for a bound value, it's assumed to be PDO::PARAM_STR.
 
 <h2 id="select-queries">Select Queries</h2>
 Select queries use a variable argument list to specify the columns to select:
