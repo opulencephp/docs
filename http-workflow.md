@@ -10,15 +10,17 @@ RDev uses a single point of entry for all pages.  In other words, all HTTP reque
   1. Bootstrappers' bindings are registered
   2. Bootstrappers are run
 6. The application is [started](application#start-task)
-7. [Post-start tasks](application#post-start-tasks) are run
-8. An HTTP `Kernel` is instantiated, which converts the [HTTP request](http#requests) into a [response](http#responses)
+7. An HTTP `Kernel` is instantiated, which converts the [HTTP request](http#requests) into a [response](http#responses)
   * The path "/users/23/profile" is detected by the request
+8. All global [middleware](routing#middleware) are run
 9. The [`Router`](routing) finds a route that matches the request
   * The user Id 23 is extracted from the URL here
-10. The `Dispatcher` dispatches the request to the `Controller`
+10. The `Dispatcher` runs any [middleware](routing#middleware) registered specifically to this route
+11. The `Dispatcher` dispatches the request to the `Controller`
   * The user Id is injected into the controller method
-11. The `Controller` processes data from the request, updates/retrieves any appropriate models, and creates a `Response`
-12. The `Response` is sent back to the user
-13. [Pre-shutdown tasks](application#pre-shutdown-tasks) are run
-14. The application is [shut down](application#shutdown-task)
-15. [Post-shutdown tasks](application#post-shutdown-tasks) are run
+12. The `Controller` processes data from the request, updates/retrieves any appropriate models, and creates a `Response`
+13. The `Response` is sent back to the user
+14. [Post-start tasks](application#post-start-tasks) are run
+15. [Pre-shutdown tasks](application#pre-shutdown-tasks) are run
+16. The application is [shut down](application#shutdown-task)
+17. [Post-shutdown tasks](application#post-shutdown-tasks) are run

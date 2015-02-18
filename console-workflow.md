@@ -9,18 +9,18 @@ RDev uses a single point of entry for console applications.  When typing `php rd
   1. Bootstrappers' bindings are registered
   2. Bootstrappers are run
 5. The application is [started](application#start-task)
-6. [Post-start tasks](application#post-start-tasks) are run
-7. A console `Kernel` is instantiated with a request parser, the raw string input, and the [response](console#responses) to write output to
-8. The `Kernel` uses the request parser to parse the input into a `Request` object
+6. A console `Kernel` is instantiated with a request parser, the raw string input, and the [response](console#responses) to write output to
+7. The `Kernel` uses the request parser to parse the input into a `Request` object
   * This contains the command name ("foo") and any arguments ("bar") and options ("--baz=blah")
-9. The command class whose `name` property matches the input command name is instantiated
-10. A command compiler compiles the command with the `Request`
-11. The command is executed
-12. A response compiler compiles any output produced by the command
+8. The command class whose `name` property matches the input command name is instantiated
+9. A command compiler compiles the command with the `Request`
+10. The command is executed
+11. A response compiler compiles any output produced by the command
   * A lexer lexes the raw response into a stream of tokens
   * A parser converts the tokens into an abstract syntax tree
   * The compiler compiles the abstract syntax tree into ANSI codes used to style the output
-13. Output is written to the kernel's `Response`, and the command's status code is returned
+12. Output is written to the kernel's `Response`, and the command's status code is returned
+13. [Post-start tasks](application#post-start-tasks) are run
 14. [Pre-shutdown tasks](application#pre-shutdown-tasks) are run
 15. The application is [shut down](application#shutdown-task)
 16. [Post-shutdown tasks](application#post-shutdown-tasks) are run
