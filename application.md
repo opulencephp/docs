@@ -2,39 +2,26 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Workflow](#workflow)
-3. [Kernels](#kernels)
-4. [Environment](#environment)
+2. [Kernels](#kernels)
+3. [Environment](#environment)
   1. [Config Structure](#config-structure)
   2. [Environment Variables](#environment-variables)
-5. [Bootstrappers](#bootstrappers)
+4. [Bootstrappers](#bootstrappers)
   1. [Registering Bindings](#registering-bindings)
   2. [Running Bootstrappers](#running-bootstrappers)
   3. [Bootstrapper Example](#bootstrapper-example)
-6. [Starting and Shutting Down An Application](#starting-and-shutting-down-an-application)
+5. [Starting and Shutting Down An Application](#starting-and-shutting-down-an-application)
 
 <h2 id="introduction">Introduction</h2>
 An **RDev** application is started up through the `Application` class.  In it, you can configure things like the environment you're on (eg "development" or "production") as well as pre-/post-start and -shutdown tasks to run.
-
-<h2 id="workflow">Workflow</h2>
-RDev uses a single point of entry for all pages.  In other words, all HTTP requests get redirected through `index.php`, which instantiates the application and handles the request.  Here's a breakdown of the workflow of a typical RDev application:
-
-1. User requests http://www.example.com/users/23/profile
-2. `.htaccess` file redirects the request through http://www.example.com/index.php
-3. `bootstrap/http/start.php` is loaded, which instantiates an `Application` object
-4. An HTTP `Kernel` is instantiated, which converts the HTTP request into a response
-  * The path "/users/23/profile" is detected by the request
-5. The `Router` finds a route that matches the request
-  * The user Id 23 is extracted from the URL here
-6. The `Dispatcher` dispatches the request to the `Controller`
-7. The `Controller` processes data from the request, updates/retrieves any appropriate models, and creates a `Response`
-8. The `Response` is sent back to the user and the application is shut down
 
 <h2 id="kernels">Kernels</h2>
 A kernel is something that takes input, performs processing on it, and returns output.  In RDev, there are 2 kernels:
 
 1. `RDev\Console\Kernels\Kernel`
+  * [Read about console applications' workflows](console-workflow)
 2. `RDev\HTTP\Kernels\Kernel`
+  * [Read about HTTP applications' workflows](http-workflow)
 
 Having these two kernels allows RDev to function as both a console application and a traditional HTTP web application.
 
