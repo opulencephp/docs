@@ -7,7 +7,10 @@
 3. [Master-Slave Connection Pool](#master-slave-connection-pool)
 4. [Read/Write Connections](#readwrite-connections)
 5. [How to Query and Fetch Results](#how-to-query-and-fetch-results)
-  1. [Bind Values](#bind-values)
+6. [Binding Values](#binding-values)
+  1. [Binding Named Placeholders](#binding-named-placeholders)
+  2. [Binding Unnamed Placeholders](#binding-unnamed-placeholders)
+  3. [Binding Multiple Values](#binding-multiple-values)
 
 <h2 id="introduction">Introduction</h2>
 Relational databases store information about data and how it's related to other data.  **RDev** provides classes and methods for connecting to relational databases and querying them for data.  It does this by extending `PDO` and `PDOStatement` to give users a familiar interface to work with.  <a href="http://php.net/manual/en/book.pdo.php" target="_blank">PDO</a> is a powerful wrapper for database interactions, and comes with built-in tools to prevent SQL injection. 
@@ -83,7 +86,45 @@ If you're familiar with `PDO`, you're ready to use RDev's extension of `PDO`.  T
 
 RDev's `PDO` wrappers make it easy to connect to the database without having to remember things like how to format the DSN.  RDev's wrappers also support [type mappers](type-mappers) for easy conversion between a database vendor's data types and PHP data types.  They even provide support for nested database transactions.
 
-<h4 id="bind-values">Bind Values</h4>
+<h2 id="binding-values">Binding Values</h2>
+Most database queries use a dynamic variable to filter results.  The unsafe method would be to put it directly in the string:
+
+```php
+$id = 24;
+$query = "SELECT email FROM users WHERE id = $id";
+```
+
+The issue here is what's called *SQL injection*.  What would happen if a malicious user input "1 OR 1=1" into the query above?  We'd get:
+
+```php
+"SELECT email FROM users WHERE id = 1 OR 1=1"
+```
+
+See the issue there?  The malicious user just tricked your application into returning the email address for every user.  This is where *prepared statements* and binding comes in handy.  Instead of just concatenating your value into the query, `PDO` will automatically escape the data before using it in the query.
+
+> **Note:** For data binding to work properly, it is imperative that you include the type of the parameter being bound, eg `PDO::PARAM_INT` or `PDO::PARAM_BOOL`.
+
+<h4 id="binding-named-placeholders">Binding Named Placeholders</h4>
+It's convenient to name placeholders that you'll bind to in a query so that you can reference them by name:
+
+```php
+$id = 24;
+$statement = $connection->prepare("SELECT title FROM posts WHERE id = :id");
+$statement->bindValue("id", $id, \PDO::PARAM_INT);
+$statement->execute();
+```
+
+<h4 id="binding-unnamed-placeholders">Binding Unnamed Placeholders</h4>
+It's also possible to bind to unnamed placeholders in the case that the number of parameters you're binding is dynamic:
+
+```php
+$statement = $connection->prepare("SELECT title FROM posts WHERE id = ?");
+// Unnamed placeholders are 1-indexed
+$statement->bindValue(1, $id, \PDO::PARAM_INT);
+$statement->execute();
+```
+
+<h4 id="binding-multiple-values">Binding Multiple Values</h4>
 `PDOStatement` has a `bindValue()` method, but it does not natively support binding multiple values at once.  RDev's extension of `PDOStatement` does:
 
 ```php
