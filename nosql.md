@@ -15,7 +15,7 @@
 Redis is an extremely popular, in-memory key-value cache with pub/sub capabilities.  Unlike Memcached, Redis can store more complex structures such as sets, sorted lists, and hashes.  For more information, <a href="http://redis.io/" target="_blank">please visit its homepage</a>.
 
 <h4 id="phpredis">PHPRedis</h4>
-**PHPRedis** is a Redis client extension to PHP written in C, giving you raw performance without the overhead of PHP scripts.  `RDevPHPRedis` extends PHPRedis and gives you the added feature of *type mappers* (provides methods for casting to and from Redis data types) and compatibility with `Server` objects.  To use one, simply:
+<a href="https://github.com/phpredis/phpredis" target="_blank">PHPRedis</a> is a Redis client extension to PHP written in C, giving you raw performance without the overhead of PHP scripts.  `RDevPHPRedis` extends PHPRedis and gives you the added feature of *type mappers* (provides methods for casting to and from Redis data types) and compatibility with `Server` objects.  To use one, simply:
 ```php
 use RDev\Databases\NoSQL\Redis;
 
@@ -32,7 +32,7 @@ echo $phpRedis->get("foo"); // "bar"
 ```
 
 <h4 id="predis">Predis</h4>
-**Predis** is a popular Redis client PHP library with the ability to create customized Redis commands.  `RDevPredis` extends Predis and gives you the added feature of *type mappers* and compatibility with `Server` objects.  To use one, simply:
+<a href="https://github.com/nrk/predis" target="_blank">Predis</a> is a popular Redis client PHP library with the ability to create customized Redis commands.  `RDevPredis` extends Predis and gives you the added feature of *type mappers* and compatibility with `Server` objects.  To use one, simply:
 ```php
 use RDev\Databases\NoSQL\Redis;
 
@@ -49,7 +49,7 @@ echo $predis->get("foo"); // "bar"
 ```
 
 <h2 id="memcached">Memcached</h2>
-Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic key-value store functionality.  Although it doesn't come with all the bells and whistles of Redis, it does offer faster speed, which is suitable for simple key-value data.  For more information, <a href="http://www.memcached.org/" target="_blank">please visit its homepage</a>.
+Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic key-value store functionality.  Although it doesn't come with all the bells and whistles of Redis, it does offer faster speed, which is suitable for simple key-value data.  For more information, <a href="http://php.net/manual/en/book.memcached.php" target="_blank">read the official PHP documentation</a>.
 
 <h4 id="basic-memcached-usage">Basic Memcached Usage</h4>
 ```php
