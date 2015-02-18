@@ -63,7 +63,7 @@ SELECT id, name, email FROM users WHERE datejoined < NOW()
   * `addReturning($expression)`
 
 <h2 id="binding-values">Binding Values</h2>
-`QueryBuilders` provide an intuitive syntax for binding values to queries ([learn more about statement bindings](rdbms)).  To add a named placeholder, use `addNamedPlaceholderValue()`:
+`QueryBuilders` provide an intuitive syntax for binding values to queries ([learn more about statement bindings](rdbms#binding-values)).  To add a named placeholder, use `addNamedPlaceholderValue()`:
 
 ```php
 $query = (new PostgreSQL\QueryBuilder)->select("content")
