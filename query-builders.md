@@ -9,7 +9,7 @@
 6. [Insert Queries](#insert-queries)
 7. [Update Queries](#update-queries)
 8. [Using Query Builders with PDO](#using-query-builders-with-pdo)
-9. [Database-Specific Query Builders](#database-specific-query-builders)
+9. [Vendor-Specific Query Builders](#vendor-specific-query-builders)
 
 <h2 id="introduction">Introduction</h2>
 Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `Query Builders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [RDev's PDO wrapper](rdbms).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
@@ -172,7 +172,7 @@ $statement->bindValues($query->getParameters());
 $statement->execute();
 ```
 
-<h2 id="database-specific-query-builders">Database-Specific Query Builders</h2>
+<h2 id="vendor-specific-query-builders">Vendor-Specific Query Builders</h2>
 MySQL and PostgreSQL have their own query builders, which implement features that are unique to each database.  For example, the MySQL query builder supports a *LIMIT* clause:
 
 ```php
