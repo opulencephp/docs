@@ -7,7 +7,7 @@
 4. [Starting and Shutting Down An Application](#starting-and-shutting-down-an-application)
 
 <h2 id="introduction">Introduction</h2>
-An **RDev** application is started up through the `Application` class.  In it, you can configure things like the environment you're on (eg "development" or "production") as well as pre-/post-start and -shutdown tasks to run.
+An **RDev** application is started up through the `Application` class.  You can register pre-start, post-start, pre-shutdown, and post-shutdown tasks to be run on every request.  You can also register [bootstrappers](bootstrappers) to bind objects to your [dependency injection container](dependency-injection).  This allows you to program to an interface and resolve dependencies at runtime.  Once the application is started, a `Kernel` is instantiated and actually handles the request.
 
 <h2 id="kernels">Kernels</h2>
 A kernel is something that takes input, performs processing on it, and returns output.  In RDev, there are two kernels:

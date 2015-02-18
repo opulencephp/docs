@@ -12,7 +12,7 @@
 9. [Vendor-Specific Query Builders](#vendor-specific-query-builders)
 
 <h2 id="introduction">Introduction</h2>
-Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `Query Builders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [RDev's PDO wrapper](rdbms).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
+Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `QueryBuilders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [RDev's PDO wrapper](rdbms).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
 
 <h2 id="basic-usage">Basic Usage</h2>
 Let's look at a simple `SELECT` query:
@@ -34,31 +34,31 @@ SELECT id, name, email FROM users WHERE datejoined < NOW()
 <h2 id="Clauses">Clauses</h2>
 `QueryBuilders` support a variety of clauses.  You may use the following clauses to build complex, but easy-to-read-and-maintain queries:
 
-* FROM
+* *FROM*
   * `from($tableName, $tableAlias)`
-* WHERE
+* *WHERE*
   * `where($condition)`
   * `andWhere($condition)`
   * `orWhere($condition)`
-* JOIN
+* *JOIN*
   * `join($tableName, $tableAlias, $condition)`
   * `innerJoin($tableName, $tableAlias, $condition)`
   * `leftJoin($tableName, $tableAlias, $condition)`
   * `rightJoin($tableName, $tableAlias, $condition)`
-* GROUP
+* *GROUP*
   * `groupBy($expression)`
   * `addGroupBy($expression)`
-* HAVING
+* *HAVING*
   * `having($condition)`
   * `andHaving($condition)`
   * `orHaving($condition)`
-* ORDER BY
+* *ORDER BY*
   * `orderBy($condition)`
   * `addOrderBy($expression)`
-* LIMIT
+* *LIMIT*
   * `limit($numRows)`
   * `offset($numRows)`
-* RETURNING (PostgreSQL only)
+* *RETURNING* (PostgreSQL only)
   * `returning($expression)`
   * `addReturning($expression)`
 
@@ -111,9 +111,9 @@ Insert queries accept a table name and a mapping of column names to values:
 
 ```php
 $query = (new PostgreSQL\QueryBuilder)->insert("users", [
-    "name" => ":name",
-    "email" => ":email",
-    "datejoined" => "NOW()"
+    "name" => "Brian",
+    "email" => "foo@bar.com",
+    "age" => [24, \PDO::PARAM_INT]
 ]);
 echo $query->getSQL();
 ```
@@ -121,23 +121,51 @@ echo $query->getSQL();
 This will output:
 
 ```
-INSERT INTO users (name, email, datejoined) VALUES (:name, :email, NOW())
+INSERT INTO users (name, email, age) VALUES (?, ?, ?)
 ```
+
+The following values are bound to the query:
+
+```php
+array(
+    ["Brian", \PDO::PARAM_STR],
+    ["foo@bar.com", \PDO::PARAM_STR],
+    [24, \PDO::PARAM_INT]
+)
+```
+
+> **Note:** `INSERT` and `UPDATE` query builders bind unnamed placeholder values.  To specify the type of the value, use an array whose first item is the value and whose second item is the type.
 
 <h2 id="update-queries">Update Queries</h2>
 Update queries accept a table name, table alias, and a mapping of column names to values:
 
 ```php
-$query = (new PostgreSQL\QueryBuilder)->update("users", "u", ["name" => ":name"])
-    ->where("id = :id");
+$query = (new PostgreSQL\QueryBuilder)->update("users", "u", [
+        "name" => "Dave",
+        "age" => [24, \PDO::PARAM_INT]
+    ])
+    ->where("id = ?")
+    ->addUnnamedPlaceholderValue(1234, \PDO::PARAM_INT);
 echo $query->getSQL();
 ```
 
 This will output:
 
 ```
-UPDATE users AS u SET name = :name WHERE id = :id
+UPDATE users AS u SET name = ?, age = ? WHERE id = ?
 ```
+
+The following values are bound to the query:
+
+```php
+array(
+    ["Dave", \PDO::PARAM_STR],
+    [24, \PDO::PARAM_INT],
+    [1234, \PDO::PARAM_INT]
+)
+```
+
+> **Note:** Like `INSERT` query builders, `UPDATE` query builders bind unnamed placeholder values.
 
 <h2 id="delete-queries">Delete Queries</h2>
 Delete queries accept a table name:
@@ -178,48 +206,64 @@ MySQL and PostgreSQL have their own query builders, which implement features tha
 ```php
 use RDev\Databases\SQL\QueryBuilders\MySQL;
 
-$deleteQuery = (new MySQL\QueryBuilder)->delete->delete("users")
-    ->where("name = 'dave'")
+$query = (new MySQL\QueryBuilder)->delete("users")
+    ->where("name = 'Dave'")
     ->limit(1);    
-echo $deleteQuery->getSQL();
+echo $query->getSQL();
 ```
 
 This will output:
 
 ```
-DELETE FROM users WHERE name = 'dave' LIMIT 1
+DELETE FROM users WHERE name = 'Dave' LIMIT 1
 ```
 
-Similarly, PostgreSQL's *UPDATE* and *INSERT* query builders support a *RETURNING* clause:
+Similarly, PostgreSQL's `UPDATE` and `INSERT` query builders support a *RETURNING* clause:
 
 ```php
 use RDev\Databases\SQL\QueryBuilders\PostgreSQL;
 
-$updateQuery = (new PostgreSQL\QueryBuilder)->update("users", "", ["name" => "david"]);
+$query = (new PostgreSQL\QueryBuilder)->update("users", "", ["status" => 0])
     ->returning("id")
     ->addReturning("name");
-echo $updateQuery->getSQL();
+echo $query->getSQL();
 ```
 
 This will output:
 
 ```
-UPDATE users SET name = ? RETURNING id, name
+UPDATE users SET status = ? RETURNING id, name
 ```
 
-And
+The following values are bound to the query:
+
+```php
+array(
+    [0, \PDO::PARAM_INT]
+)
+```
+
+Here's an example of an `INSERT` statement with a *RETURNING* clause:
 
 ```php
 use RDev\Databases\SQL\QueryBuilders\PostgreSQL;
 
-$insertQuery = (new PostgreSQL\QueryBuilder)->insert("users", "", ["name" => "david"]);
+$query = (new PostgreSQL\QueryBuilder)->insert("users", "", ["name" => "David"])
     ->returning("id")
     ->addReturning("name");
-echo $insertQuery->getSQL();
+echo $query->getSQL();
 ```
 
 This will output:
 
 ```
 INSERT INTO users (name) VALUES (?) RETURNING id, name
+```
+
+The following values are bound to the query:
+
+```php
+array(
+    ["David", \PDO::PARAM_STR]
+)
 ```
