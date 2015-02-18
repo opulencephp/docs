@@ -8,8 +8,9 @@
 5. [Select Queries](#select-queries)
 6. [Insert Queries](#insert-queries)
 7. [Update Queries](#update-queries)
-8. [Using Query Builders with PDO](#using-query-builders-with-pdo)
-9. [Vendor-Specific Query Builders](#vendor-specific-query-builders)
+8. [Delete Queries](#delete-queries)
+9. [Using Query Builders with PDO](#using-query-builders-with-pdo)
+10. [Vendor-Specific Query Builders](#vendor-specific-query-builders)
 
 <h2 id="introduction">Introduction</h2>
 Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `QueryBuilders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [RDev's PDO wrapper](rdbms).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
