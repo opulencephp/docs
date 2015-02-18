@@ -128,9 +128,9 @@ The following values are bound to the query:
 
 ```php
 array(
-    ["Brian", \PDO::PARAM_STR],
-    ["foo@bar.com", \PDO::PARAM_STR],
-    [24, \PDO::PARAM_INT]
+    array("Brian", \PDO::PARAM_STR),
+    array("foo@bar.com", \PDO::PARAM_STR),
+    array(24, \PDO::PARAM_INT)
 )
 ```
 
@@ -159,9 +159,9 @@ The following values are bound to the query:
 
 ```php
 array(
-    ["Dave", \PDO::PARAM_STR],
-    [24, \PDO::PARAM_INT],
-    [1234, \PDO::PARAM_INT]
+    array("Dave", \PDO::PARAM_STR),
+    array(24, \PDO::PARAM_INT),
+    array(1234, \PDO::PARAM_INT)
 )
 ```
 
@@ -241,7 +241,7 @@ The following values are bound to the query:
 
 ```php
 array(
-    [0, \PDO::PARAM_INT]
+    array(0, \PDO::PARAM_INT)
 )
 ```
 
@@ -266,6 +266,6 @@ The following values are bound to the query:
 
 ```php
 array(
-    ["David", \PDO::PARAM_STR]
+    array("David", \PDO::PARAM_STR)
 )
 ```
