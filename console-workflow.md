@@ -11,9 +11,9 @@ RDev uses a single point of entry for console applications.  When typing `php rd
 5. The application is started
 6. Post-start tasks are run
 7. A console `Kernel` is instantiated with a request parser, the raw string input, and the [response](console#responses) to write output to
-8. The kernel uses the request parser to parse the input into a `Request` object
-  * This contains the command name ("foo") and any arguments ("foo") and options ("--baz=blah")
-9. The command class that matches the input command name is instantiated
+8. The `Kernel` uses the request parser to parse the input into a `Request` object
+  * This contains the command name ("foo") and any arguments ("bar") and options ("--baz=blah")
+9. The command class whose `name` property matches the input command name is instantiated
 10. A command compiler compiles the command with the `Request`
 11. The command is executed
 12. A response compiler compiles any output produced by the command

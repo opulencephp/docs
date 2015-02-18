@@ -16,6 +16,7 @@ RDev uses a single point of entry for all pages.  In other words, all HTTP reque
 9. The [`Router`](routing) finds a route that matches the request
   * The user Id 23 is extracted from the URL here
 10. The `Dispatcher` dispatches the request to the `Controller`
+  * The user Id is injected into the controller method
 11. The `Controller` processes data from the request, updates/retrieves any appropriate models, and creates a `Response`
 12. The `Response` is sent back to the user
 13. Pre-shutdown tasks are run
