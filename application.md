@@ -48,11 +48,13 @@ $application->start(function()
 });
 ```
 
+> **Note:** Passing a `Closure` to `start()` is optional.
+
 <h4 id="post-start-tasks">Post-Start Tasks</h4>
 ```php
 $application->registerPostStartTask(function()
 {
-    error_log("Application entered post-start at " . date("Y-m-d H:i:s"));
+    error_log("Application finished starting at " . date("Y-m-d H:i:s"));
 });
 ```
 
@@ -72,6 +74,8 @@ $application->shutdown(function()
     error_log("Application actually shutdown at " . date("Y-m-d H:i:s"));
 });
 ```
+
+> **Note:** Passing a `Closure` to `shutdown()` is optional. 
 
 <h4 id="post-shutdown-tasks">Post-Shutdown Tasks</h4>
 ```php
