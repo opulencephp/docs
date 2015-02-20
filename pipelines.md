@@ -8,7 +8,7 @@
 4. [Specifying a Callback](#specifying-a-callback)
 
 <h2 id="introduction">Introduction</h2>
-In computer science, a pipeline refers to a series of stages where each stage's input is the previous one's output.  It can be used to implement a decorator, which adds functionality to an object from an outside object.  In RDev, this is especially useful for [HTTP middleware](middleware).  Pipelines can accept a list of:
+In computer science, a pipeline refers to a series of stages where each stage's input is the previous one's output.  It can be used to implement a decorator, which adds functionality to an object from an outside object.  In RDev, this is especially useful for [HTTP middleware](http-middleware).  Pipelines can accept a list of:
  
 * `Closures`
 * Objects and a method to run on them
