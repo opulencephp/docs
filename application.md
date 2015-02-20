@@ -40,7 +40,7 @@ $application->registerPreStartTask(function()
 ```
 
 <h4 id="start-task">Start Task</h4>
-If you'd like to perform a certain task after all the pre-start tasks have been completed, pass in a `Closure` to the `start()` method.  This is commonly used to instantiate a `Kernel` and handle a request.
+If you'd like to perform a certain task after all the pre-start tasks have been completed, pass in a `Closure` to the `start()` method.  This is commonly used to instantiate a `Kernel` and handle a request.  If the task returns anything, then `start()` returns that value.  Otherwise, it returns null.
 ```php
 $application->start(function()
 {
@@ -67,7 +67,7 @@ $application->registerPreShutdownTask(function()
 ```
 
 <h4 id="shutdown-task">Shutdown Task</h4>
-If you'd like to perform a certain task after all the pre-shutdown tasks have been completed, pass in a `Closure` to the `shutdown()` method.
+If you'd like to perform a certain task after all the pre-shutdown tasks have been completed, pass in a `Closure` to the `shutdown()` method.  If the task returns anything, then `shutdown()` returns that value.  Otherwise, it returns null.
 ```php
 $application->shutdown(function()
 {
