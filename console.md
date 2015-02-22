@@ -7,8 +7,8 @@
 4. [Built-In Commands](#built-in-commands)
   1. [app:env](#appenv)
   2. [app:rename](#apprename)
-  3. [views:flush](#viewsflush)
-  4. [make:*](#make)
+  3. [make:*](#make)
+  4. [views:flush](#viewsflush)
 5. [Arguments](#arguments)
 6. [Options](#options)
   1. [Short Names](#short-names)
@@ -50,9 +50,6 @@ Displays the current application environment name, eg "Production" or "Developme
 <h4 id="apprename">app:rename</h4>
 When you install RDev, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under "app", and the composer.json PSR-4 settings.
 
-<h4 id="viewsflush">views:flush</h4>
-If you also use RDev's HTTP kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.
-
 <h4 id="make">make:*</h4>
 To make creating new classes as simple as possible, RDev supports several `make:*` commands to generate class files:
 
@@ -63,6 +60,9 @@ To make creating new classes as simple as possible, RDev supports several `make:
 5. `make:httpmiddleware`
 
 They all accept a single argument: the name of the class to generate.  If you input a fully-qualified class name, then that namespace and class name will be used.  Otherwise, the default namespace will be used (eg controllers are under `Project\HTTP\Controller`).
+
+<h4 id="viewsflush">views:flush</h4>
+If you also use RDev's HTTP kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.
   
 <h2 id="arguments">Arguments</h2>
 Console commands can accept arguments from the user.  Arguments can be required, optional, and/or arrays.  You specify the type by bitwise OR-ing the different arguments types.  Array arguments allow a variable number of arguments to be passed in, like "php rdev foo arg1 arg2 arg3 ...".  The only catch is that array arguments must be the last argument defined for the command.
