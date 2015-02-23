@@ -146,7 +146,7 @@ $router->get("/foo", $routeOptions);
 Host variables can also have regular expression constraints, similar to path variables.
 
 <h2 id="middleware">Middleware</h2>
-Routes can run [middleware](middleware) on requests and responses.  To register middleware, add it to the `middleware` property in the route options:
+Routes can run [middleware](http-middleware) on requests and responses.  To register middleware, add it to the `middleware` property in the route options:
 
 ```php
 $options = [
