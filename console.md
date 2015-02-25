@@ -18,6 +18,7 @@
 7. [Responses](#responses)
 8. [Formatters](#formatters)
   1. [Padding](#padding)
+  2. [Tables](#tables)
 9. [Style Elements](#style-elements)
   1. [Built-In Elements](#built-in-elements)
   2. [Custom Elements](#custom-elements)
@@ -139,24 +140,67 @@ use RDev\Console\Responses\Formatters;
 
 $paddingFormatter = new Formatters\Padding();
 $rows = [
-    ["George", "Carlin"],
-    ["Chris", "Rock"],
-    ["Jim", "Gaffigan"]
+    ["George", "Carlin", "great"],
+    ["Chris", "Rock", "good"],
+    ["Jim", "Gaffigan", "pale"]
 ];
 $paddingFormatter->format($rows, function($row)
 {
-    return $row[0] . " - " . $row[1];
+    return $row[0] . " - " . $row[1] . " - " . $row[2];
 });
 ```
 
 This will return:
 ```
-George - Carlin
-Chris  - Rock
-Jim    - Gaffigan
+George - Carlin   - great
+Chris  - Rock     - good
+Jim    - Gaffigan - pale
 ```
 
 The `format()` method accepts options to add the padding before each string, change the padding character, and change the end-of-line character.
+
+<h4 id="tables">Tables</h4>
+ASCII tables are a great way to show tabular data in a console.  To create a table, use `RDev\Console\Responses\Formatters\Table`:
+
+```php
+use RDev\Console\Responses\Formatters;
+
+$table = new Formatters\Table(new Formatters\Padding());
+$table->setRows([
+    ["Sean", "Connery"],
+    ["Pierce", "Brosnan"]
+]);
+$table->format();
+```
+
+This will return:
+
+```
++--------|---------+
+| Sean   | Connery |
+| Pierce | Brosnan |
++--------|---------+
+```
+
+To add headers to the table, use `setHeaders()`:
+
+```php
+$table->setHeaders(["First", "Last"]);
+$table->format();
+```
+
+This will return:
+
+```
++--------|---------+
+| First  | Last    |
++--------|---------+
+| Sean   | Connery |
+| Pierce | Brosnan |
++--------|---------+
+```
+
+You can change the characters used to pad and outline the cells with parameters passed into the `format()` method.
 
 <h2 id="prompts">Prompts</h2>
 Prompts are great for asking users for input beyond what is accepted by arguments.  For example, you might want to confirm with a user before doing an administrative task, or you might ask her to select from a list of possible choices.  Prompts accept `RDev\Console\Prompts\Question\IQuestion` objects.
