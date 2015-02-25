@@ -176,10 +176,10 @@ $table->format();
 This will return:
 
 ```
-+--------|---------+
++--------+---------+
 | Sean   | Connery |
 | Pierce | Brosnan |
-+--------|---------+
++--------+---------+
 ```
 
 To add headers to the table, use `setHeaders()`:
@@ -192,12 +192,12 @@ $table->format();
 This will return:
 
 ```
-+--------|---------+
++--------+---------+
 | First  | Last    |
-+--------|---------+
++--------+---------+
 | Sean   | Connery |
 | Pierce | Brosnan |
-+--------|---------+
++--------+---------+
 ```
 
 You can change the characters used to pad and outline the cells with parameters passed into the `format()` method.
