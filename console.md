@@ -157,7 +157,7 @@ Chris  - Rock     - good
 Jim    - Gaffigan - pale
 ```
 
-There are few useful functions for customizing the padding formatter:
+There are a few useful functions for customizing the padding formatter:
 
 * `setEOLChar()`
   * Sets the end-of-line character
@@ -207,7 +207,7 @@ This will return:
 +--------+---------+
 ```
 
-There are few useful functions for customizing the look of table:
+There are a few useful functions for customizing the look of tables:
 
 * `setCellPaddingString()`
   * Sets the cell padding string
