@@ -157,7 +157,14 @@ Chris  - Rock     - good
 Jim    - Gaffigan - pale
 ```
 
-The `format()` method accepts options to add the padding before each string, change the padding character, and change the end-of-line character.
+There are few useful functions for customizing the padding formatter:
+
+* `setEOLChar()`
+  * Sets the end-of-line character
+* `setPadAfter()`
+  * Sets whether to pad before or after strings
+* `setPaddingString()`
+  * Sets the padding string
 
 <h4 id="tables">Tables</h4>
 ASCII tables are a great way to show tabular data in a console.  To create a table, use `RDev\Console\Responses\Formatters\Table`:
@@ -166,11 +173,11 @@ ASCII tables are a great way to show tabular data in a console.  To create a tab
 use RDev\Console\Responses\Formatters;
 
 $table = new Formatters\Table(new Formatters\Padding());
-$table->setRows([
+$rows = [
     ["Sean", "Connery"],
     ["Pierce", "Brosnan"]
-]);
-$table->format();
+];
+$table->format($rows);
 ```
 
 This will return:
@@ -182,11 +189,11 @@ This will return:
 +--------+---------+
 ```
 
-To add headers to the table, use `setHeaders()`:
+Headers can also be included in tables:
 
 ```php
-$table->setHeaders(["First", "Last"]);
-$table->format();
+$headers = ["First", "Last"];
+$table->format($rows, $headers);
 ```
 
 This will return:
@@ -200,7 +207,20 @@ This will return:
 +--------+---------+
 ```
 
-You can change the characters used to pad and outline the cells with parameters passed into the `format()` method.
+There are few useful functions for customizing the look of table:
+
+* `setCellPaddingString()`
+  * Sets the cell padding string
+* `setEOLChar()`
+  * Sets the end-of-line character
+* `setHorizontalBorderChar()`
+  * Sets the horizontal border character
+* `setIntersectionChar()`
+  * Sets the row/column intersection character
+* `setPadAfter()`
+  * Sets whether to pad before or after strings
+* `setVerticalBorderChar()`
+  * Sets the vertical border character
 
 <h2 id="prompts">Prompts</h2>
 Prompts are great for asking users for input beyond what is accepted by arguments.  For example, you might want to confirm with a user before doing an administrative task, or you might ask her to select from a list of possible choices.  Prompts accept `RDev\Console\Prompts\Question\IQuestion` objects.
