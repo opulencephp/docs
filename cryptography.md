@@ -18,7 +18,7 @@ Hashers take input and perform a one-way mapping to a hashed value.  It is impos
 use RDev\Cryptography;
 
 $stringUtility = new Cryptography\StringUtility();
-$bcryptHasher = new BCryptHasher($stringUtility);
+$bcryptHasher = new Cryptography\BCryptHasher($stringUtility);
 
 // Let's create a hash with a pepper of "bar"
 // $hash is automatically salted and suitable for database storage
