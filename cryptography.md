@@ -2,9 +2,9 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Hashers](#hashers)
+2. [Hashing](#hashing)
   1. [BCrypt](#bcrypt)
-3. [Encrypters](#encrypters)
+3. [Encryption](#encryption)
 4. [String Utility](#string-utility)
   1. [Generating Random Strings](#generating-random-strings)
   2. [String Comparison](#string-comparison)
@@ -12,7 +12,7 @@
 <h2 id="introduction">Introduction</h2>
 Keeping user data secure is of the utmost importance.  Unfortunately, PHP's built-in cryptographic support is somewhat fragmented and not easy to use.  Lucky for you, RDev has a `Cryptography` library to simplify all this.
 
-<h2 id="hashers">Hashers</h2>
+<h2 id="hashing">Hashing</h2>
 Hashers take input and perform a one-way mapping to a hashed value.  It is impossible to *decrypt* a hashed value because of the way this mapping is generated.  This hashes suitable for storing sensitive data, like user passwords.
 
 <h4 id="bcrypt">Bcrypt</h4>
@@ -36,7 +36,7 @@ $unhashedValue = "foo";
 echo $bcryptHasher->verify($hashedValue, $unhashedValue, "bar"); // 1
 ```
 
-<h2 id="encrypters">Encrypters</h2>
+<h2 id="encryption">Encryption</h2>
 Sometimes, your application needs to encrypt data, send it to another component, and then decrypt it.  This is different from hashing in that encrypted values can be decrypted.  To make this process as secure and simple as possible, RDev provides the `Encrypter` class:
 
 ```php
