@@ -15,7 +15,7 @@ Keeping user data secure is of the utmost importance.  Unfortunately, PHP's buil
 <h2 id="hashers">Hashers</h2>
 Hashers take input and perform a one-way mapping to a hashed value.  It is impossible to *decrypt* a hashed value because of the way this mapping is generated.  This hashes suitable for storing sensitive data, like user passwords.
 
-<h4 id="bcrpyt">Bcrypt</h4>
+<h4 id="bcrypt">Bcrypt</h4>
 `Bcrypt` is a popular hashing function that has built-in protection methods against timing attacks.  It accepts a "cost" parameter, which tells `Bcrypt` how long to take when attempting to verify an unhashed value.  Every time the cost goes up by one, the hasher takes 10 times longer to hash.  This prevents GPUs from being able to efficiently perform rainbow table attacks against compromised data.  You can adjust this value to make it future-proof.  Let's take a look at how to use it:
 
 ```php
