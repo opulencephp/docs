@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Hashing](#hashing)
-  1. [BCrypt](#bcrypt)
+  1. [Bcrypt](#bcrypt)
 3. [Encryption](#encryption)
 4. [String Utility](#string-utility)
   1. [Generating Random Strings](#generating-random-strings)
@@ -22,7 +22,7 @@ Hashers take input and perform a one-way mapping to a hashed value.  It is impos
 use RDev\Cryptography\Hashing;
 use RDev\Cryptography\Utilities;
 
-$bcryptHasher = new Hashing\BCryptHasher(new Utilities\Strings());
+$bcryptHasher = new Hashing\BcryptHasher(new Utilities\Strings());
 
 // Let's create a hash with a pepper of "bar"
 // $hash is automatically salted and suitable for database storage
