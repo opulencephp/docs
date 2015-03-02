@@ -67,7 +67,7 @@ echo $stringUtility->generateRandomString(16); // A random 16-character string
 ```
 
 <h4 id="string-comparison">String Comparison</h4>
-A hacker can sometimes backwards-engineer a secret value by timing how long comparisons take against his input.  For example, the following will return false after only comparing 2 characters:
+A hacker can sometimes backwards-engineer a secret value by timing how long comparisons take against his input.  For example, the following will return false after only comparing 1 character:
 
 ```php
 "aaaaa" == "bbbbb";
