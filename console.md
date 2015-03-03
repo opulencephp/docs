@@ -8,8 +8,9 @@
   1. [app:env](#appenv)
   2. [app:rename](#apprename)
   3. [composer:update](#composerupdate)
-  4. [make:*](#make)
-  5. [views:flush](#viewsflush)
+  4. [encryption:generatekey](#encryptiongeneratekey)
+  5. [make:*](#make)
+  6. [views:flush](#viewsflush)
 5. [Arguments](#arguments)
 6. [Options](#options)
   1. [Short Names](#short-names)
@@ -54,6 +55,9 @@ When you install RDev, the default namespace is "Project".  Use this command to 
 
 <h4 id="composerupdate">composer:update</h4>
 A common task is updating composer and dumping the autoload.  Instead of having to run these commands manually, just run `php rdev composer:update`.
+
+<h4 id="encryptiongeneratekey">encryption:generatekey</h4>
+Good encryption requires a secret key.  Use this command to generate that key.  Calling this will update the key that appears in `configs/environment/.env.app.php`.  Passing a `--show` option will instead only show a new key, not update the config. 
 
 <h4 id="make">make:*</h4>
 To make creating new classes as simple as possible, RDev supports several `make:*` commands to generate class files:

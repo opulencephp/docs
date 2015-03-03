@@ -70,4 +70,13 @@ $environment->setVariable("DB_NAME", "public");
 $environment->setVariable("DB_PORT", 5432);
 ```
 
-> **Note:** For performance reasons, .env.*.php files are only loaded on non-production servers.  It is strongly recommended that production servers are setup with hard-coded environment variables in their configs.  For security, it's strongly recommended that you do not version-control your environment variable configs.  Instead, each developer should be given a template of the environment config, and should fill out the config with the appropriate values for their environment.
+> **Note:** For performance reasons, .env.*.php files are only loaded on non-production servers.  It is strongly recommended that production servers are setup with hard-coded environment variables in their configs.  For security, it's strongly recommended that you do not version-control your environment variable configs.  Instead, each developer should be given a template of the environment config (eg .env.example.php), and should fill out the config with the appropriate values for their environment.
+
+When you install RDev, you'll see two environment config files:
+
+1. `.env.example.php`
+  * Values in here will not be used - it only serves as a template
+  * This can be checked into version control
+2. `.env.app.php`
+  * Where your actual environment variables should be stored
+  * This should not be checked into version control
