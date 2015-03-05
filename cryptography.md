@@ -51,7 +51,7 @@ $encryptedData = $encrypter->encrypt($unencryptedData);
 echo $unencryptedData === $encrypter->decrypt($encryptedData); // 1 
 ```
 
-You can change the underlying `Mcrypt` cipher and mode using `setCipher()` and `setMode()`, respectively.
+You can change the underlying `mcrypt` cipher and mode using `setCipher()` and `setMode()`, respectively.
 
 <h2 id="string-utility">String Utility</h2>
 RDev has a utility class `RDev\Cryptography\Utilities\Strings` to make it easy to do cryptographically-secure string functions.
