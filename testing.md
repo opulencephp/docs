@@ -6,6 +6,20 @@
   2. [PHPUnit](#php-unit)
 2. [Testing an HTTP Application](#testing-an-http-application)
   1. [route()](#route)
+  2. [assertRedirectsTo()](#assert-redirects-to)
+  3. [assertResponseContentEquals()](#assert-response-content-equals)
+  4. [assertResponseCookieValueEquals()](#assert-response-cookie-value-equals)
+  5. [assertResponseHasCookie()](#assert-response-has-cookie)
+  6. [assertResponseHasHeader()](#assert-response-has-header)
+  7. [assertResponseHeaderEquals()](#assert-response-header-equals)
+  8. [assertResponseIsInternalServerError()](#assert-response-is-internal-server-error)
+  9. [assertResponseIsNotFound()](#assert-response-is-not-found)
+  10. [assertResponseStatusCodeEquals()](#assert-response-status-code-equals)
+  11. [assertResponseIsUnauthorized()](#assert-response-is-unauthorized)
+  12. [assertTemplateHasTag()](#assert-template-has-tag)
+  13. [assertTemplateHasVar()](#assert-template-has-var)
+  14. [assertTemplateTagEquals()](#assert-template-tag-equals)
+  15. [assertTemplateVarEquals()](#assert-template-var-equals)
 
 <h2 id="introduction">Introduction</h2>
 Have you ever written a new feature only to find that it broke previously-working code?  Has something like this every slipped into your production code?  Well, unit testing is a great way to prevent this.  Basically, you write tests for all the public methods in your classes and simulate all sorts of user input to test both normal and edge cases.  When you add a new feature, you write tests to handle the new functionality.  If all of your previously-written tests still pass, you can rest easy knowing your code does not have any regressions.  Otherwise, you can patch any bugs exposed by the new feature.
@@ -16,7 +30,7 @@ Have you ever written a new feature only to find that it broke previously-workin
 <h4 id="php-unit">PHPUnit</h4>
 [PHPUnit](https://phpunit.de/) is a popular unit testing framework for PHP.  It is used extensively by RDev itself.
 
-<h2 id="testing-an-application">Testing an HTTP Application</h2>
+<h2 id="testing-an-http-application">Testing an HTTP Application</h2>
 RDev gives you a powerful tool to simulate routes and test the responses and templates created by controllers.  The tool is the `RDev\Framework\Tests\HTTPApplicationTestCase` class.
 
 <h4 id="route">route()</h4>
@@ -79,7 +93,7 @@ public function testCheckingCacheControl()
 }
 ```
 
-<h4 id="assert-response-header-value-equals">assertResponseHeaderEquals()</h4>
+<h4 id="assert-response-header-equals">assertResponseHeaderEquals()</h4>
 Asserts that a response header matches an expected value:
 
 ```php
