@@ -28,7 +28,7 @@ Have you ever written a new feature only to find that it broke previously-workin
 *Test Driven Development* is a programming methodology that entails writing your tests, and *then* writing your classes.  This gets you thinking about what your class will need to handle, which is a good way of determining if a class is well-thought-out.  This may seem counter-intuitive at first, but it is a phenomenal way to improve a class' interface and usability before writing any actual code in the class.
 
 <h4 id="php-unit">PHPUnit</h4>
-[PHPUnit](https://phpunit.de/) is a popular unit testing framework for PHP.  It is used extensively by RDev itself.
+<a href="https://phpunit.de/" target="_blank" title="PHPUnit">PHPUnit</a> is a popular unit testing framework for PHP.  It is used extensively by RDev itself.
 
 <h2 id="testing-an-http-application">Testing an HTTP Application</h2>
 RDev gives you a powerful tool to simulate routes and test the responses and templates created by controllers.  The tool is the `RDev\Framework\Tests\HTTPApplicationTestCase` class.
