@@ -25,7 +25,7 @@
 Have you ever written a new feature only to find that it broke previously-working code?  Has something like this every slipped into your production code?  Well, unit testing is a great way to prevent this.  Basically, you write tests for all the public methods in your classes and simulate all sorts of user input to test both normal and edge cases.  When you add a new feature, you write tests to handle the new functionality.  If all of your previously-written tests still pass, you can rest easy knowing your code does not have any regressions.  Otherwise, you can patch any bugs exposed by the new feature.
 
 <h4 id="test-driven-development">Test-Driven Development</h4>
-*Test Driven Development* is a programming methodology that entails writing your tests, and *then* writing your classes.  This gets you thinking about what your class will need to handle, which in and of itself is a good way of determining if a class isn't well-defined.  This may seem counter-intuitive at first, but it is a phenomenal way to improve a class' interface and usability before writing any actual code in the class.
+*Test Driven Development* is a programming methodology that entails writing your tests, and *then* writing your classes.  This gets you thinking about what your class will need to handle, which is a good way of determining if a class is well-thought-out.  This may seem counter-intuitive at first, but it is a phenomenal way to improve a class' interface and usability before writing any actual code in the class.
 
 <h4 id="php-unit">PHPUnit</h4>
 [PHPUnit](https://phpunit.de/) is a popular unit testing framework for PHP.  It is used extensively by RDev itself.
