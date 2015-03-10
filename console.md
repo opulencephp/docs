@@ -7,10 +7,11 @@
 4. [Built-In Commands](#built-in-commands)
   1. [app:env](#appenv)
   2. [app:rename](#apprename)
-  3. [composer:update](#composerupdate)
-  4. [encryption:generatekey](#encryptiongeneratekey)
-  5. [make:*](#make)
-  6. [views:flush](#viewsflush)
+  3. [composer:dump-autoload](#composerdumpautoload)
+  4. [composer:update](#composerupdate)
+  5. [encryption:generatekey](#encryptiongeneratekey)
+  6. [make:*](#make)
+  7. [views:flush](#viewsflush)
 5. [Arguments](#arguments)
 6. [Options](#options)
   1. [Short Names](#short-names)
@@ -52,6 +53,9 @@ Displays the current application environment name, eg "Production" or "Developme
 
 <h4 id="apprename">app:rename</h4>
 When you install RDev, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under "app", and the composer.json PSR-4 settings.
+
+<h4 id="composerdumpautoload">composer:dump-autoload</h4>
+This provides a wrapper around Composer's `dump-autoload` command, and is useful when another command needs to dump the autoload after running.
 
 <h4 id="composerupdate">composer:update</h4>
 A common task is updating composer and dumping the autoload.  Instead of having to run these commands manually, just run `php rdev composer:update`.
