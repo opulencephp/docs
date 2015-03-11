@@ -20,6 +20,15 @@
   13. [assertTemplateHasVar()](#assert-template-has-var)
   14. [assertTemplateTagEquals()](#assert-template-tag-equals)
   15. [assertTemplateVarEquals()](#assert-template-var-equals)
+3. [Testing a Console Application](#testing-a-console-application)
+  1. [call()](#call)
+  2. [assertOutputEquals()](#assert-output-equals)
+  3. [assertStatusCodeEquals()](#assert-status-code-equals)
+  4. [assertStatusCodeIsError()](#assert-status-code-is-error)
+  5. [assertStatusCodeIsFatal()](#assert-status-code-is-fatal)
+  6. [assertStatusCodeIsOK()](#assert-status-code-is-ok)
+  7. [assertStatusCodeIsWarning()](#assert-status-code-is-warning)
+  8. [getOutput()](#get-output)
 
 <h2 id="introduction">Introduction</h2>
 Have you ever written a new feature only to find that it broke previously-working code?  Has something like this every slipped into your production code?  Well, unit testing is a great way to prevent this.  Basically, you write tests for all the public methods in your classes and simulate all sorts of user input to test both normal and edge cases.  When you add a new feature, you write tests to handle the new functionality.  If all of your previously-written tests still pass, you can rest easy knowing your code does not have any regressions.  Otherwise, you can patch any bugs exposed by the new feature.
@@ -200,5 +209,106 @@ public function testCSSVariableIsSet()
 {
     $this->route("GET", "/home");
     $this->assertTemplateVarEquals("css", ["assets/css/style.css"]);
+}
+```
+
+<h2 id="testing-a-console-application">Testing a Console Application</h2>
+RDev comes with the ability to unit test your console commands using `ConsoleApplicationTestCase`.  Simply extend it in your test classes, and you'll inherit the following methods to help test your console application:
+
+<h4 id="call">call()</h4>
+Allows you to simulate a call to a console command.  It accepts:
+
+* The command name
+* The array of argument values
+* The array of option values
+* The answer or array of answers to use in any prompts
+* Whether or not to style the output
+
+Let's say that our command has a `Confirmation` question that we want to try testing with `true` and `false` responses:
+
+```php
+public function testConfirmation()
+{
+    $this->call("app:rename", ["Project", "MyApp"], [], true);
+    $this->assertOutputEquals("Updated name successfully");
+    $this->call("app:rename", ["Project", "MyApp"], [], false);
+    $this->assertOutputEquals("Aborted");
+}
+```
+
+<h4 id="assert-output-equals">assertOutputEquals()</h4>
+Asserts that the output of the last command equals an expected value:
+
+```php
+public function testOutputIsCorrect()
+{
+    $this->call("hello");
+    $this->assertOutputEquals("Hello, world");
+}
+```
+
+<h4 id="assert-status-code-equals">assertStatusCodeEquals()</h4>
+Asserts that the status code of the last command equals an expected value:
+
+```php
+public function testStatusCode()
+{
+    $this->call("hello");
+    $this->assertStatusCodeEquals(StatusCodes::WARNING);
+}
+```
+
+<h4 id="assert-status-code-is-error">assertStatusCodeIsError()</h4>
+Asserts that the status code of the last command is an error:
+
+```php
+public function testStatusCode()
+{
+    $this->call("errorcommand");
+    $this->assertStatusCodeIsError();
+}
+```
+
+<h4 id="assert-status-code-is-fatal">assertStatusCodeIsFatal()</h4>
+Asserts that the status code of the last command is a fatal:
+
+```php
+public function testStatusCode()
+{
+    $this->call("badcommand");
+    $this->assertStatusCodeIsFatal();
+}
+```
+
+<h4 id="assert-status-code-is-ok">assertStatusCodeIsOK()</h4>
+Asserts that the status code of the last command is OK:
+
+```php
+public function testStatusCode()
+{
+    $this->call("goodcommand");
+    $this->assertStatusCodeIsOK();
+}
+```
+
+<h4 id="assert-status-code-is-warning">assertStatusCodeIsWarning()</h4>
+Asserts that the status code of the last command is a warning:
+
+```php
+public function testStatusCode()
+{
+    $this->call("warningcommand");
+    $this->assertStatusCodeIsWarning();
+}
+```
+
+<h4 id="get-output">getOutput()</h4>
+Gets the output from the last command:
+
+```php
+public function testOutput()
+{
+    $this->call("hello");
+    $this->assertNotEquals("Goodbye, world", $this->getOutput());
 }
 ```
