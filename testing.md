@@ -270,7 +270,7 @@ public function testStatusCode()
 ```
 
 <h4 id="assert-status-code-is-fatal">assertStatusCodeIsFatal()</h4>
-Asserts that the status code of the last command is a fatal:
+Asserts that the status code of the last command is fatal:
 
 ```php
 public function testStatusCode()
