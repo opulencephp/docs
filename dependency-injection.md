@@ -69,7 +69,7 @@ The difference is subtle, but now we can easily inject `DatabaseMock` when writi
 ```php
 $database = new DatabaseMock();
 $foo = new Foo($database);
-echo $foo->insertIntoDatabase("bar"); // "1"
+echo $foo->insertIntoDatabase("bar"); // 1
 ```
 
 By inverting the control of dependencies (meaning classes no longer maintain their own dependencies), we've made our code easier to test.
@@ -132,7 +132,7 @@ Binding a specific instance to an interface is also possible through the `bind()
 ```php
 $concreteInstance = new ConcreteFoo();
 $container->bind("IFoo", $concreteInstance);
-echo $concreteInstance === $container->makeShared("IFoo"); // "1"
+echo $concreteInstance === $container->makeShared("IFoo"); // 1
 ```
 
 <h2 id="targeted-bindings">Targeted Bindings</h2>
@@ -151,7 +151,7 @@ To create a brand new instance of a class with all of its dependencies injected,
 $container->bind("IFoo", "ConcreteFoo");
 $a1 = $container->makeNew("A");
 $a2 = $container->makeNew("A");
-echo $a1 === $a2; // "0"
+echo $a1 === $a2; // 0
 ```
 
 <h2 id="creating-shared-instances">Creating Shared Instances</h2>
@@ -160,7 +160,7 @@ Shared instances are just that - shared.  No matter how many times you make a sh
 $container->bind("IFoo", "ConcreteFoo");
 $a1 = $container->makeShared("A");
 $a2 = $container->makeShared("A");
-echo $a1 === $a2; // "1"
+echo $a1 === $a2; // 1
 ```
 
 <h2 id="passing-constructor-primitives">Passing Constructor Primitives</h2>
@@ -282,20 +282,20 @@ To get the current binding for an interface, call `getBinding()`.  To check whet
 ```php
 $container->bind("IFoo", "ConcreteFoo");
 echo $container->getBinding("IFoo"); // "ConcreteFoo"
-echo $container->isBound("IFoo"); // "1"
+echo $container->isBound("IFoo"); // 1
 // Non-existent bindings return null
 echo $container->getBinding("NonExistentInterface"); // null
-echo $container->isBound("NonExistentInterface"); // "0"
+echo $container->isBound("NonExistentInterface"); // 0
 ```
 
 Similarly, you can get a current targeted binding:
 ```php
 $container->bind("IFoo", "ConcreteFoo", "A");
 echo $container->getBinding("IFoo", "A"); // "ConcreteFoo"
-echo $container->isBound("IFoo", "A"); // "1"
+echo $container->isBound("IFoo", "A"); // 1
 // Non-existent targeted bindings return null
 echo $container->getBinding("NonExistentInterface", "A"); // null
-echo $container->isBound("NonExistentInterface", "A"); // "0"
+echo $container->isBound("NonExistentInterface", "A"); // 0
 ```
 
 > **Note:** If a target is specified, but nothing has been explicitly bound to it, then `getBinding()` returns any universal bindings, and `isBound()` returns false.  Therefore, checking if something is bound to a target using the result from `getBinding()` could be misleading.
@@ -305,7 +305,7 @@ To remove a binding, call `unbind()`:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
 $container->unbind("IFoo");
-echo $container->isBound("IFoo"); // "0"
+echo $container->isBound("IFoo"); // 0
 echo $container->getBinding("IFoo"); // null
 ```
 
@@ -313,6 +313,6 @@ To remove a targeted binding:
 ```php
 $container->bind("IFoo", "ConcreteFoo", "A");
 $container->unbind("IFoo", "A");
-echo $container->isBound("IFoo", "A"); // "0"
+echo $container->isBound("IFoo", "A"); // 0
 echo $container->getBinding("IFoo", "A"); // null
 ```

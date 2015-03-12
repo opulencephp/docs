@@ -113,7 +113,7 @@ $unitOfWork->registerAggregateRootChild($user, $password, function($user, $passw
     $password->setUserId($user->getId());
 });
 $unitOfWork->commit();
-echo $password->getUserId() == $user->getId(); // "1"
+echo $password->getUserId() == $user->getId(); // 1
 ```
 
 > **Note:** Aggregate root functions are executed for entities scheduled for insertion and update.

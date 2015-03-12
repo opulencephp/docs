@@ -38,5 +38,5 @@ use RDev\Databases\SQL\Providers;
 $postgreSQLFalse = 'f';
 $provider = new Providers\PostgreSQL();
 $typeMapper = new Providers\TypeMapper($provider);
-echo $typeMapper->fromSQLBoolean($postgreSQLFalse) === false; // "1"
+echo $typeMapper->fromSQLBoolean($postgreSQLFalse) === false; // 1
 ```
