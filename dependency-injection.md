@@ -250,8 +250,8 @@ It's possible to call methods on a class using the container to resolve dependen
 ```php
 class D
 {
-    private $bar;
     private $foo;
+    private $bar;
 
     public function getBar()
     {
@@ -266,6 +266,7 @@ class D
     public function setFoo(IFoo $foo, $bar)
     {
         $this->foo = $foo;
+        $this->bar = $bar;
     }
 }
 
