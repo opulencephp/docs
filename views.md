@@ -9,7 +9,8 @@
 5. [Extending Templates](#extending-templates)
   1. [Example](#example)
   2. [Parts](#parts)
-  3. [Difference Between Tags and Statements](#difference-between-tags-and-statements)
+  3. [Parents](#parents)
+  4. [Difference Between Tags and Statements](#difference-between-tags-and-statements)
 6. [Including Templates](#including-templates)
 7. [Using PHP in Your Template](#using-php-in-your-template)
 8. [Functions](#functions)
@@ -138,7 +139,7 @@ Hello, Dave!
 > **Note:** When extending a template, the child template inherits all of the parent's parts, tags, and variable values.  If A extends B, which extends C, tags/parts/variables from part B will overwrite any identically-named tags/parts/variables from part C.
 
 <h4 id="parts">Parts</h4>
-Another common case is a master template that is leaving a child template to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child template.  Use the `{% show(NAME_OF_PART) %}` statement:
+Another common case is a master template that is leaving a child template to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child template.  Use the `{% show("NAME_OF_PART") %}` statement:
 
 ##### Master.html
 ```
@@ -167,6 +168,30 @@ We created a *part* named "sidebar".  When the child gets compiled, the contents
         <li><a href="/about">About</a></li>
     </ul>
 </div>
+```
+
+<h4 id="parents">Parents</h4>
+Sometimes, you'll want to add on to a parent template's part.  To do so, use the `{% parent("NAME_OF_PART") %}` statement:
+
+##### Master.html
+```
+{% part("greeting") %}
+Hello
+{% endpart %}
+```
+
+##### Child
+```
+{% extends("Master.html") %}
+{% part("greeting") %}
+{% parent("greeting") %}, world!
+{% endpart %}
+```
+
+This will get compiled down to:
+
+```
+Hello, world!
 ```
 
 <h4 id="difference-between-tags-and-statements">Difference Between Tags and Statements</h4>
