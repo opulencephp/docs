@@ -171,7 +171,7 @@ We created a *part* named "sidebar".  When the child gets compiled, the contents
 ```
 
 <h4 id="parents">Parents</h4>
-Sometimes, you'll want to add on to a parent template's part.  To do so, use the `{% parent("NAME_OF_PART") %}` statement:
+Sometimes, you'll want to add to a parent template's part.  To do so, use the `{% parent("NAME_OF_PART") %}` statement:
 
 ##### Master.html
 ```
@@ -251,7 +251,7 @@ $template->setVar("isAdministrator", true);
 echo $compiler->compile($template); // "Hello, Administrator"
 ```
 
-> **Note:** PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
+> **Note:** It's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
 <h2 id="functions">Functions</h2>
 RDev supports using PHP functions in tags:
