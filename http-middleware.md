@@ -11,27 +11,28 @@
 HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).  Let's take a look at an example:
 
 ```php
-use MyApp\Authentication;
-use RDev\HTTP\Middleware;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
+use Closure;
+use MyApp\Authentication\Authenticator;
+use RDev\HTTP\Middleware\IMiddleware;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\RedirectResponse;
 
-class Authentication implements Middleware\IMiddleware
+class Authentication implements IMiddleware
 {
     private $authenticator = null;
     
     // Inject any dependencies your middleware needs
-    public function __construct(Authentication\Authenticator $authenticator)
+    public function __construct(Authenticator $authenticator)
     {
         $this->authenticator = $authenticator;
     }
 
     // $next consists of the next middleware in the pipeline
-    public function handle(Requests\Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         if(!$this->authenticator->isLoggedIn())
         {
-            return new Responses\RedirectResponse("/login");
+            return new RedirectResponse("/login");
         }
         
         return $next($request);
@@ -53,11 +54,13 @@ Now, the `Authenticate` middleware will be run before the `createPost()` method 
 To manipulate the request before it gets to the controller, make changes to it before calling `$next($request)`:
 
 ```php
-use RDev\HTTP\Middleware;
+use Closure;
+use RDev\HTTP\Middleware\IMiddleware;
+use RDev\HTTP\Requests\Request;
 
-class RequestManipulator implements Middleware\IMiddleware
+class RequestManipulator implements IMiddleware
 {
-    public function handle(Requests\Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         // Do our work before returning $next($request)
         $request->getHeaders()->add("SOME_HEADER", "foo");
@@ -71,17 +74,20 @@ class RequestManipulator implements Middleware\IMiddleware
 To manipulate the response after the controller has done its work, do the following:
 
 ```php
-use RDev\HTTP\Middleware;
-use RDev\HTTP\Responses;
+use Closure;
+use DateTime;
+use RDev\HTTP\Middleware\IMiddleware;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\Cookie;
 
-class ResponseManipulator implements Middleware\IMiddleware
+class ResponseManipulator implements IMiddleware
 {
-    public function handle(Requests\Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $response = $next($request);
         
         // Make our changes
-        $cookie = new Responses\Cookie("my_cookie", "foo", \DateTime::createFromFormat("+1 week"));
+        $cookie = new Cookie("my_cookie", "foo", DateTime::createFromFormat("+1 week"));
         $response->getHeaders()->setCookie($cookie);
         
         return $response;

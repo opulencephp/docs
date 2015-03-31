@@ -19,10 +19,10 @@ Hashers take input and perform a one-way mapping to a hashed value.  It is impos
 `bcrypt` is a popular hashing function that has built-in protection methods against timing attacks.  It accepts a "cost" parameter, which tells `bcrypt` how long to take when attempting to verify an unhashed value.  Every time the cost goes up by one, the hasher takes 10 times longer to hash.  This prevents GPUs from being able to efficiently perform rainbow table attacks against compromised data.  You can adjust this value to make it future-proof.  Let's take a look at how to use it:
 
 ```php
-use RDev\Cryptography\Hashing;
-use RDev\Cryptography\Utilities;
+use RDev\Cryptography\Hashing\BcryptHasher;
+use RDev\Cryptography\Utilities\Strings;
 
-$bcryptHasher = new Hashing\BcryptHasher(new Utilities\Strings());
+$bcryptHasher = new BcryptHasher(new Strings());
 
 // Let's create a hash with a pepper of "bar"
 // $hash is automatically salted and suitable for database storage
@@ -40,12 +40,12 @@ echo $bcryptHasher->verify($hashedValue, $unhashedValue, "bar"); // 1
 Sometimes, your application needs to encrypt data, send it to another component, and then decrypt it.  This is different from hashing in that encrypted values can be decrypted.  To make this process as secure and simple as possible, RDev provides the `Encrypter` class:
 
 ```php
-use RDev\Cryptography\Encryption;
-use RDev\Cryptography\Utilities;
+use RDev\Cryptography\Encryption\Encrypter;
+use RDev\Cryptography\Utilities\Strings;
 
 // This should be a unique, random-generated string
 $myApplicationKey = "mySecretApplicationKey";
-$encrypter = new Encryption\Encrypter($myApplicationKey, new Utilities\Strings());
+$encrypter = new Encrypter($myApplicationKey, new Strings());
 $unencryptedData = "foobar";
 $encryptedData = $encrypter->encrypt($unencryptedData);
 echo $unencryptedData === $encrypter->decrypt($encryptedData); // 1 
@@ -60,9 +60,9 @@ RDev has a utility class `RDev\Cryptography\Utilities\Strings` to make it easy t
 It turns out that computers are not very good at generating random numbers.  Calling `rand()` over and over will begin to yield a pattern, which is obviously the opposite of random.  PHP recommends using `openssl_random_pseudo_bytes()`, which RDev provides a simple wrapper around:
 
 ```php
-use RDev\Cryptography\Utilities;
+use RDev\Cryptography\Utilities\Strings;
 
-$stringUtility = new Utilities\Strings();
+$stringUtility = new Strings();
 echo $stringUtility->generateRandomString(16); // A random 16-character string
 ```
 

@@ -19,9 +19,9 @@ Sometimes you need to programmatically generate SQL queries.  Rather than concat
 Let's look at a simple `SELECT` query:
 
 ```php
-use RDev\Databases\SQL\QueryBuilders\PostgreSQL;
+use RDev\Databases\SQL\QueryBuilders\PostgreSQL\QueryBuilder;
 
-$query = (new PostgreSQL\QueryBuilder)->select("id", "name", "email")
+$query = (new QueryBuilder)->select("id", "name", "email")
     ->from("users")
     ->where("datejoined < NOW()");
 echo $query->getSQL();
@@ -67,7 +67,7 @@ SELECT id, name, email FROM users WHERE datejoined < NOW()
 `QueryBuilders` provide an intuitive syntax for binding values to queries ([learn more about statement bindings](rdbms#binding-values)).  To add a named placeholder, use `addNamedPlaceholderValue()`:
 
 ```php
-$query = (new PostgreSQL\QueryBuilder)->select("content")
+$query = (new QueryBuilder)->select("content")
     ->from("posts")
     ->where("id < :id")
     ->addNamedPlaceholderValue("id", 24, \PDO::PARAM_INT);
@@ -76,7 +76,7 @@ $query = (new PostgreSQL\QueryBuilder)->select("content")
 To add many named placeholder values, use `addNamedPlaceholderValues()`:
  
 ```php
-$query = (new PostgreSQL\QueryBuilder)->select("count(*)")
+$query = (new QueryBuilder)->select("count(*)")
     ->from("users")
     ->where("username = :username")
     ->orWhere("id = :id")
@@ -96,7 +96,7 @@ Similarly, `addUnnamedPlaceholderValue()` and `addUnnamedPlaceholderValues()` ca
 Select queries use a variable argument list to specify the columns to select:
 
 ```php
-$query = (new PostgreSQL\QueryBuilder)->select("title", "author")
+$query = (new QueryBuilder)->select("title", "author")
     ->from("books");
 echo $query->getSQL();
 ```
@@ -111,7 +111,7 @@ SELECT title, author FROM books
 Insert queries accept a table name and a mapping of column names to values:
 
 ```php
-$query = (new PostgreSQL\QueryBuilder)->insert("users", [
+$query = (new QueryBuilder)->insert("users", [
     "name" => "Brian",
     "email" => "foo@bar.com",
     "age" => [24, \PDO::PARAM_INT]
@@ -141,7 +141,7 @@ array(
 Update queries accept a table name, table alias, and a mapping of column names to values:
 
 ```php
-$query = (new PostgreSQL\QueryBuilder)->update("users", "u", [
+$query = (new QueryBuilder)->update("users", "u", [
         "name" => "Dave",
         "age" => [24, \PDO::PARAM_INT]
     ])
@@ -172,7 +172,7 @@ array(
 Delete queries accept a table name:
 
 ```php
-$query = (new PostgreSQL\QueryBuilder)->delete("users")
+$query = (new QueryBuilder)->delete("users")
     ->where("id = :id");
 echo $query->getSQL();
 ```
@@ -187,7 +187,7 @@ DELETE FROM users WHERE id = :id
 Let's say you've built the following query:
 
 ```php
-$query = (new PostgreSQL\QueryBuilder)->select("author")
+$query = (new QueryBuilder)->select("author")
     ->from("books")
     ->where("title = :title")
     ->addNamedPlaceholderValue("title", "Code Complete");
@@ -205,9 +205,9 @@ $statement->execute();
 MySQL and PostgreSQL have their own query builders, which implement features that are unique to each database.  For example, the MySQL query builder supports a *LIMIT* clause:
 
 ```php
-use RDev\Databases\SQL\QueryBuilders\MySQL;
+use RDev\Databases\SQL\QueryBuilders\MySQL\QueryBuilder;
 
-$query = (new MySQL\QueryBuilder)->delete("users")
+$query = (new QueryBuilder)->delete("users")
     ->where("name = 'Dave'")
     ->limit(1);    
 echo $query->getSQL();
@@ -222,9 +222,9 @@ DELETE FROM users WHERE name = 'Dave' LIMIT 1
 Similarly, PostgreSQL's `UPDATE` and `INSERT` query builders support a *RETURNING* clause:
 
 ```php
-use RDev\Databases\SQL\QueryBuilders\PostgreSQL;
+use RDev\Databases\SQL\QueryBuilders\PostgreSQL\QueryBuilder;
 
-$query = (new PostgreSQL\QueryBuilder)->update("users", "", [
+$query = (new QueryBuilder)->update("users", "", [
         "status" => [0, \PDO::PARAM_INT]
     ])
     ->returning("id")
@@ -249,9 +249,9 @@ array(
 Here's an example of an `INSERT` statement with a *RETURNING* clause:
 
 ```php
-use RDev\Databases\SQL\QueryBuilders\PostgreSQL;
+use RDev\Databases\SQL\QueryBuilders\PostgreSQL\QueryBuilder;
 
-$query = (new PostgreSQL\QueryBuilder)->insert("users", "", ["name" => "David"])
+$query = (new QueryBuilder)->insert("users", "", ["name" => "David"])
     ->returning("id")
     ->addReturning("name");
 echo $query->getSQL();

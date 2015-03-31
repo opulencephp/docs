@@ -83,10 +83,11 @@ Console commands can accept arguments from the user.  Arguments can be required,
 Let's take a look at an example argument:
 
 ```php
-use RDev\Console\Requests;
+use RDev\Console\Requests\Argument;
+use RDev\Console\Requests\ArgumentTypes;
 
 // The argument will be required and an array
-$type = Requests\ArgumentTypes::REQUIRED | Requests\ArgumentTypes::IS_ARRAY;
+$type = ArgumentTypes::REQUIRED | ArgumentTypes::IS_ARRAY;
 // The description argument is used by the help command
 $argument = new Argument("foo", $type, "The foo argument");
 ```
@@ -111,10 +112,11 @@ Options can be arrays, eg `--foo=bar --foo=baz` will set the "foo" option to `["
 Like arguments, option types can be specified by bitwise OR-ing types together.  Let's look at an example:
 
 ```php
-use RDev\Console\Requests;
+use RDev\Console\Requests\Option;
+use RDev\Console\Requests\OptionTypes;
 
-$type = Requests\OptionTypes::REQUIRED_VALUE;
-$option = new Requests\Option("foo", "f", Requests\OptionTypes::REQUIRED_VALUE, "The foo option");
+$type = OptionTypes::REQUIRED_VALUE;
+$option = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "The foo option");
 ```
 
 <h2 id="responses">Responses</h2>
@@ -144,9 +146,9 @@ Formatters are great for nicely-formatting output to the console.
 The `RDev\Console\Responses\Formatters\Padding` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
  
 ```php
-use RDev\Console\Responses\Formatters;
+use RDev\Console\Responses\Formatters\Padding;
 
-$paddingFormatter = new Formatters\Padding();
+$paddingFormatter = new Padding();
 $rows = [
     ["George", "Carlin", "great"],
     ["Chris", "Rock", "good"],
@@ -178,9 +180,10 @@ There are a few useful functions for customizing the padding formatter:
 ASCII tables are a great way to show tabular data in a console.  To create a table, use `RDev\Console\Responses\Formatters\Table`:
 
 ```php
-use RDev\Console\Responses\Formatters;
+use RDev\Console\Responses\Formatters\Padding;
+use RDev\Console\Responses\Formatters\Table;
 
-$table = new Formatters\Table(new Formatters\Padding());
+$table = new Table(new Padding());
 $rows = [
     ["Sean", "Connery"],
     ["Pierce", "Brosnan"]
@@ -237,23 +240,23 @@ Prompts are great for asking users for input beyond what is accepted by argument
 To ask a user to confirm an action with a simple "y" or "yes", use an `RDev\Console\Prompts\Questions\Confirmation`:
 
 ```php
-use RDev\Console\Prompts;
-use RDev\Console\Prompts\Questions;
-use RDev\Console\Responses\Formatters;
+use RDev\Console\Prompts\Prompt;
+use RDev\Console\Prompts\Questions\Confirmation;
+use RDev\Console\Responses\Formatters\Padding;
 
-$prompt = new Prompts\Prompt(new Formatters\Padding());
+$prompt = new Prompt(new Padding());
 // This will return true if the answer began with "y" or "Y"
-$prompt->ask(new Questions\Confirmation("Are you sure you want to continue?"));
+$prompt->ask(new Confirmation("Are you sure you want to continue?"));
 ```
 
 <h4 id="multiple-choice">Multiple Choice</h4>
 Multiple choice questions are great for listing choices that might otherwise be difficult for a user to remember.  An `RDev\Console\Prompts\Questions\MultipleChoice` accepts question text and a list of choices:
 
 ```php
-use RDev\Console\Prompts\Questions;
+use RDev\Console\Prompts\Questions\MultipleChoice;
 
 $choices = ["Boeing 747", "Boeing 757", "Boeing 787"];
-$question = new Questions\MultipleChoice("Select your favorite airplane", $choices);
+$question = new MultipleChoice("Select your favorite airplane", $choices);
 $prompt->ask($question);
 ```
 
@@ -307,18 +310,19 @@ You can create your own style elements.  Elements are registered to `RDev\Consol
 
 ```php
 namespace MyApp\Bootstrappers\Console;
-use RDev\Applications\Bootstrappers;
-use RDev\Console\Responses\Compilers;
-use RDev\Console\Responses\Formatters\Elements;
+use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Console\Responses\Compilers\ICompiler;
+use RDev\Console\Responses\Formatters\Elements\Colors;
+use RDev\Console\Responses\Formatters\Elements\Element;
+use RDev\Console\Responses\Formatters\Elements\Style;
+use RDev\Console\Responses\Formatters\Elements\TextStyles;
 
-class CustomElements extends Bootstrappers\Bootstrappers
+class CustomElements extends Bootstrapper
 {
-    public function run(Compilers\Compiler $compiler)
+    public function run(ICompiler $compiler)
     {
         $compiler->getElements()->add(
-            new Elements\Element("foo", new Elements\Style(
-                  Elements\Colors::BLACK, Elements\Colors::YELLOW, [Elements\TextStyles::BOLD]
-            ))
+            new Element("foo", new Style(Colors::BLACK, Colors::YELLOW, [TextStyles::BOLD]))
         );
     }
 }
@@ -336,25 +340,28 @@ Let's define a simple command that greets a person and optionally shouts the gre
 
 ```php
 namespace MyApp\Console\Commands;
-use RDev\Console\Commands;
-use RDev\Console\Requests;
-use RDev\Console\Responses;
+use RDev\Console\Commands\Command;
+use RDev\Console\Requests\Argument;
+use RDev\Console\Requests\ArgumentTypes;
+use RDev\Console\Requests\Option;
+use RDev\Console\Requests\OptionTypes;
+use RDev\Console\Responses\IResponse;
 
-class Greeting extends Commands\Command
+class Greeting extends Command
 {
     protected function define()
     {
         $this->setName("greet")
             ->setDescription("Greets a person")
-            ->addArgument(new Requests\Argument(
-                "name", Requests\ArgumentTypes::REQUIRED, "The name to greet"
+            ->addArgument(new Argument(
+                "name", ArgumentTypes::REQUIRED, "The name to greet"
             ))
-            ->addOption(new Requests\Option(
-                "yell", "y", Requests\OptionTypes::OPTIONAL_VALUE, "Whether or not to yell the greeting", "yes"
+            ->addOption(new Option(
+                "yell", "y", OptionTypes::OPTIONAL_VALUE, "Whether or not to yell the greeting", "yes"
             ));
     }
     
-    protected function doExecute(Responses\IResponse $response)
+    protected function doExecute(IResponse $response)
     {
         $greeting = "Hello, " . $this->getArgumentValue("name");
         
@@ -389,17 +396,17 @@ It's possible to call a command from another command:
 
 ```php
 namespace MyApp\Console\Commands;
-use RDev\Console\Commands;
-use RDev\Console\Responses;
+use RDev\Console\Commands\Command;
+use RDev\Console\Responses\IResponse;
 
-class MyCommand extends Commands\Command
+class MyCommand extends Command
 {
     protected function define()
     {
         // Define the command...
     }
     
-    protected function doExecute(Responses\IResponse $response)
+    protected function doExecute(IResponse $response)
     {
         // Call another command
         $this->commands->call("foo", $response, ["argument1Value"], ["--option1Value"]);

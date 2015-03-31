@@ -20,22 +20,22 @@ Let's pretend you're developing an application that grabs WordPress posts from a
 
 ```php
 namespace MyApp\WordPress\Bootstrappers;
-use MyApp\WordPress;
-use RDev\Applications\Bootstrappers;
-use RDev\Databases\SQL;
-use RDev\IoC;
+use MyApp\WordPress\Posts;
+use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Databases\SQL\ConnectionPool;
+use RDev\IoC\IContainer;
 
-class MyBootstrapper extends Bootstrappers\Bootstrapper
+class MyBootstrapper extends Bootstrapper
 {
     // This will be run before any bootstrappers' run() methods have been called
-    public function registerBindings(IoC\IContainer $container)
+    public function registerBindings(IContainer $container)
     {
         // Create our Posts object
-        $container->bind("MyApp\\WordPress\\Posts", new WordPress\Posts());
+        $container->bind("MyApp\\WordPress\\Posts", new Posts());
     }
 
     // The IoC container will automatically resolve these dependencies
-    public function run(WordPress\Posts $posts, SQL\ConnectionPool $connectionPool)
+    public function run(Posts $posts, ConnectionPool $connectionPool)
     {
         // Bind the connection pool to our posts object
         $posts->setDatabaseConnection($connectionPool->getReadConnection());
@@ -43,4 +43,4 @@ class MyBootstrapper extends Bootstrappers\Bootstrapper
 }
 ```
 
-You can now inject `WordPress\Posts` into any service or controller that needs to query WordPress posts.
+You can now inject `Posts` into any service or controller that needs to query WordPress posts.

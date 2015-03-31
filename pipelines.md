@@ -22,10 +22,10 @@ In computer science, a pipeline refers to a series of stages where each stage's 
 `Closure` stages must accept the input as their first parameter and the next pipe in the pipeline as the second parameter.  Let's take a look at a simple example:
 
 ```php
-use RDev\IoC;
-use RDev\Pipelines;
+use RDev\IoC\Container;
+use RDev\Pipelines\Pipeline;
 
-$container = new IoC\Container();
+$container = new Container();
 $stages = [
     function($input, $next)
     {
@@ -40,7 +40,7 @@ $stages = [
         return $next($input);
     }
 ];
-$pipeline = new Pipelines\Pipeline($container, $stages);
+$pipeline = new Pipeline($container, $stages);
 echo $pipeline->send("foo");
 ```
 
@@ -56,17 +56,18 @@ foo-pipe1-pipe2
 > **Note:** The method MUST accept two parameters - the output from the previous stage and the next pipe in the pipeline.
 
 ```php
-use RDev\IoC;
-use RDev\Pipelines;
+use Closure;
+use RDev\IoC\Container;
+use RDev\Pipelines\Pipeline;
 
 interface IMyPipe
 {
-    public function filter($input, \Closure $next);
+    public function filter($input, Closure $next);
 }
 
 class PipeA implements IMyPipe
 {
-    public function filter($input, \Closure $next)
+    public function filter($input, Closure $next)
     {
         $input .= "-pipeA";
         
@@ -76,7 +77,7 @@ class PipeA implements IMyPipe
 
 class PipeB implements IMyPipe
 {
-    public function filter($input, \Closure $next)
+    public function filter($input, Closure $next)
     {
         $input .= "-pipeB";
         
@@ -84,10 +85,10 @@ class PipeB implements IMyPipe
     }
 }
 
-$container = new IoC\Container();
+$container = new Container();
 $stages = [new PipeA(), new PipeB()];
 // We must pass in the name of the method to call ("filter")
-$pipeline = new Pipelines\Pipeline($container, $stages, "filter");
+$pipeline = new Pipeline($container, $stages, "filter");
 echo $pipeline->send("foo");
 ```
 
@@ -102,7 +103,7 @@ Pipe class names are also supported.  They will automatically be resolved using 
  
 ```php
 $stages = ["PipeA", "PipeB"];
-$pipeline = new Pipelines\Pipeline($container, $stages, "filter");
+$pipeline = new Pipeline($container, $stages, "filter");
 ```
 
 This will output:
@@ -115,10 +116,10 @@ foo-pipeA-pipeB
 To run a callback at the very end of the pipeline, pass in a `Closure` that accepts the pipeline's output as a parameter:
 
 ```php
-use RDev\IoC;
-use RDev\Pipelines;
+use RDev\IoC\Container;
+use RDev\Pipelines\Pipeline;
 
-$container = new IoC\Container();
+$container = new Container();
 $stages = [
     function($input, $next)
     {
@@ -133,7 +134,7 @@ $stages = [
         return $next($input);
     }
 ];
-$pipeline = new Pipelines\Pipeline($container, $stages);
+$pipeline = new Pipeline($container, $stages);
 $callback = function($pipelineOutput)
 {
     return strtoupper($pipelineOutput);

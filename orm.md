@@ -49,16 +49,16 @@ Unlike other popular PHP frameworks, RDev does not force you to extend ORM class
 <h2 id="unit-of-work">Unit of Work</h2>
 *Units of work* act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the DataMappers. Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
-use RDev\Databases\SQL;
-use RDev\ORM;
+use MyApp\ORM\DataMappers\MyDataMapper;
 use RDev\ORM\DataMappers;
-use RDev\ORM\Repositories;
-use RDev\Users;
+use RDev\ORM\EntityRegistry;
+use RDev\ORM\Repositories\Repo;
+use RDev\ORM\UnitOfWork;
 
 // Assume $connection was set previously
-$unitOfWork = new ORM\UnitOfWork(new ORM\EntityRegistry(), $connection);
-$dataMapper = new DataMappers\MyDataMapper();
-$users = new Repositories\Repo("RDev\\Users\\User", $dataMapper, $unitOfWork);
+$unitOfWork = new UnitOfWork(new EntityRegistry(), $connection);
+$dataMapper = new MyDataMapper();
+$users = new Repo("RDev\\Users\\User", $dataMapper, $unitOfWork);
 
 // Let's say we know that there's a user with Id of 123 and username of "foo" in the repository
 $someUser = $users->getById(123);
@@ -77,12 +77,13 @@ echo $users->getById(123)->getUsername(); // "bar"
 <h4 id="entity-registry">Entity Registry</h4>
 Entities that are scheduled for insertion/deletion/update are managed by an `EntityRegistry`.  The `EntityRegistry` is also responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`:
 ```php
-use RDev\ORM;
+use RDev\ORM\EntityRegistry;
+use RDev\ORM\UnitOfWork;
 
 // Assume $connection was set previously
 // Also assume the user object was already instantiated
-$entityRegistry = new ORM\EntityRegistry();
-$unitOfWork = new ORM\UnitOfWork($entityRegistry, $connection); 
+$entityRegistry = new EntityRegistry();
+$unitOfWork = new UnitOfWork($entityRegistry, $connection);
 $className = $entityRegistry->getClassName($user);
 $entityRegistry->manageEntity($user);
 $user->setUsername("newUsername");

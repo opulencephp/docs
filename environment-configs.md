@@ -22,7 +22,8 @@ The configuration that's passed into `EnvironmentDetector::detect()` should be e
 
 Let's take a look at an example:
 ```php
-use RDev\Applications\Environments;
+use RDev\Applications\Environments\Environment;
+use RDev\Applications\Environments\EnvironmentDetector;
 
 $configArray = [
    // Let's say that there's only one production server
@@ -34,13 +35,14 @@ $configArray = [
        ["type" => "regex", "value" => "/^192\.168\..*$/"]
    ]
 ];
-$detector = new Environments\EnvironmentDetector($configArray);
+$detector = new EnvironmentDetector($configArray);
 $environmentName = $detector->getName();
-$environment = new Environments\Environment($environmentName);
+$environment = new Environment($environmentName);
 ```
 The following is an example with a custom callback:
 ```php
-use RDev\Applications\Environments;
+use RDev\Applications\Environments\Environment;
+use RDev\Applications\Environments\EnvironmentDetector;
 
 $callback = function()
 {
@@ -53,9 +55,9 @@ $callback = function()
     // By default, return production
     return "production";
 };
-$detector = new Environments\EnvironmentDetector($callback);
+$detector = new EnvironmentDetector($callback);
 $environmentName = $detector->getName();
-$environment = new Environments\Environment($environmentName);
+$environment = new Environment($environmentName);
 ```
 
 <h2 id="environment-variables">Environment Variables</h2>

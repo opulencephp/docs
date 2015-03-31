@@ -11,32 +11,37 @@ A common task when reading and writing to a database is translating PHP values i
 For example, let's convert a `DateTime` to a SQL-ready value:
 
 ```php
-use RDev\Databases\SQL\Providers;
+use DateTime;
+use RDev\Databases\SQL\Providers\PostgreSQL;
+use RDev\Databases\SQL\Providers\TypeMapper;
 
-$phpDateTime = new \DateTime("1987-07-24 12:34:56");
+$phpDateTime = new DateTime("1987-07-24 12:34:56");
 
 // Let's use the PostgreSQL provider
-$provider = new Providers\PostgreSQL();
-$typeMapper = new Providers\TypeMapper();
+$provider = new PostgreSQL();
+$typeMapper = new TypeMapper();
 echo $typeMapper->toSQLTimestampWithTimeZone($phpDateTime, $provider); // "1987-07-24 12:34:56"
 ```
 Alternatively, we can specify the provider in the type mapper's constructor so we don't have to constantly pass it into every type mapper method:
 ```php
-use RDev\Databases\SQL\Providers;
+use DateTime
+use RDev\Databases\SQL\Providers\MySQL;
+use RDev\Databases\SQL\Providers\TypeMapper;
 
-$phpTime = new \DateTime("1987-07-24 12:34:56");
+$phpTime = new DateTime("1987-07-24 12:34:56");
 
 // Let's use the MySQL provider
-$provider = new Providers\MySQL();
-$typeMapper = new Providers\TypeMapper($provider);
+$provider = new MySQL();
+$typeMapper = new TypeMapper($provider);
 echo $typeMapper->toSQLTimeWithTimeZone($phpTime); // "12:34:56"
 ```
 Let's translate a PostgreSQL boolean to a PHP boolean:
 ```php
-use RDev\Databases\SQL\Providers;
+use RDev\Databases\SQL\Providers\PostgreSQL;
+use RDev\Databases\SQL\Providers\TypeMapper;
 
 $postgreSQLFalse = 'f';
-$provider = new Providers\PostgreSQL();
-$typeMapper = new Providers\TypeMapper($provider);
+$provider = new PostgreSQL();
+$typeMapper = new TypeMapper($provider);
 echo $typeMapper->fromSQLBoolean($postgreSQLFalse) === false; // 1
 ```

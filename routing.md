@@ -36,16 +36,16 @@ Routes require a few pieces of information:
 
 Let's take a look at a simple route that maps a GET request to the path "/users":
 ```php
-use RDev\IoC;
-use RDev\HTTP\Routing;
-use RDev\HTTP\Routing\Compilers;
-use RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\HTTP\Routing\Dispatchers;
+use RDev\IoC\Container;
+use RDev\HTTP\Routing\Compilers\Compiler;
+use RDev\HTTP\Routing\Compilers\Parsers\Parser;
+use RDev\HTTP\Routing\Dispatchers\Dispatcher;
+use RDev\HTTP\Routing\Router;
 
-$container = new IoC\Container();
-$dispatcher = new Dispatchers\Dispatcher($container);
-$compiler = new Compilers\Compiler(new Parsers\Parser());
-$router = new Routing\Router($container, $dispatcher, $compiler);
+$container = new Container();
+$dispatcher = new Dispatcher($container);
+$compiler = new Compiler(new Parser());
+$router = new Router($container, $dispatcher, $compiler);
 // This will route a GET request to "/users" to MyController->getAllUsers()
 $router->get("/users", ["controller" => "MyApp\\MyController@getAllUsers"]);
 // This will route a POST request to "/login" to MyController->login()
@@ -78,9 +78,9 @@ Let's say you want to grab a specific user's profile page.  You'll probably want
 
 Let's take a look at a full example:
 ```php
-use RDev\HTTP\Routing;
+use RDev\HTTP\Routing\Controller;
 
-class UserController extends Routing\Controller
+class UserController extends Controller
 {
     public function showProfile($userId)
     {
@@ -270,20 +270,20 @@ In the case that the router cannot find a route that matches the request, a 404 
 Then, just add a route to handle this:
 ```php
 namespace MyApp;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
-use RDev\HTTP\Routing;
+use RDev\HTTP\Responses\Response;
+use RDev\HTTP\Responses\ResponseHeaders;
+use RDev\HTTP\Routing\Controller;
 
-class MyController extends Routing\Controller
+class MyController extends Controller
 {
     public function showHTTPError($statusCode)
     {
         switch($statusCode)
         {
-            case Responses\ResponseHeaders::HTTP_NOT_FOUND:
-                return new Responses\Response("My custom 404 page", $statusCode);
+            case ResponseHeaders::HTTP_NOT_FOUND:
+                return new Response("My custom 404 page", $statusCode);
             default:
-                return new Responses\Response("Something went wrong", $statusCode);
+                return new Response("Something went wrong", $statusCode);
         }
     }
 }
@@ -300,14 +300,13 @@ A cool feature is the ability to generate URLs from named routes using `RDev\HTT
 
 <h4 id="generating-urls-from-code">Generating URLs from Code</h4>
 ```php
-use RDev\HTTP\Routing;
-use RDev\HTTP\Routing\Compilers;
-use RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\HTTP\Routing\URL;
+use RDev\HTTP\Routing\Compilers\Compiler;
+use RDev\HTTP\Routing\Compilers\Parsers\Parser;
+use RDev\HTTP\Routing\URL\URLGenerator;
 
 // Let's assume the router is already instantiated
-$compiler = new Compilers\Compiler(new Parsers\Parser());
-$urlGenerator = new URL\URLGenerator($router->getRoutes(), $compiler);
+$compiler = new Compiler(new Parser());
+$urlGenerator = new URLGenerator($router->getRoutes(), $compiler);
 // Let's add a route named "profile"
 $router->get("/users/{userId}", ["controller" => "MyApp\\ProfileController@showProfile", "name" => "profile"]);
 // Now we can generate a URL and pass in data to it

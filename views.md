@@ -36,19 +36,19 @@ Hello, {{username}}
 ```
 ##### Application Code
 ```php
-use RDev\Files;
-use RDev\Views;
-use RDev\Views\Cache;
-use RDev\Views\Compilers;
-use RDev\Views\Factories;
-use RDev\Views\Filters;
+use RDev\Files\FileSystem;
+use RDev\Views\Cache\Cache;
+use RDev\Views\Compilers\Compiler;
+use RDev\Views\Factories\TemplateFactory;
+use RDev\Views\Filters\XSS;
+use RDev\Views\Template;
 
-$fileSystem = new Files\FileSystem();
-$cache = new Cache\Cache($fileSystem, "/tmp");
-$templateFactory = new Factories\TemplateFactory($fileSystem, PATH_TO_TEMPLATES);
-$xssFilter = new Filters\XSS();
-$compiler = new Compilers\Compiler($cache, $templateFactory, $xssFilter);
-$template = new Views\Template();
+$fileSystem = new FileSystem();
+$cache = new Cache($fileSystem, "/tmp");
+$templateFactory = new TemplateFactory($fileSystem, PATH_TO_TEMPLATES);
+$xssFilter = new XSS();
+$compiler = new Compiler($cache, $templateFactory, $xssFilter);
+$template = new Template();
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("username", "Dave");
 echo $compiler->compile($template); // "Hello, Dave"
@@ -56,18 +56,19 @@ echo $compiler->compile($template); // "Hello, Dave"
 
 Alternatively, you could just pass in a template's contents to its constructor:
 ```php
-use RDev\Files;
-use RDev\Views;
-use RDev\Views\Cache;
-use RDev\Views\Compilers;
-use RDev\Views\Factories;
-use RDev\Views\Filters;
+use RDev\Files\FileSystem;
+use RDev\Views\Cache\Cache;
+use RDev\Views\Compilers\Compiler;
+use RDev\Views\Factories\TemplateFactory;
+use RDev\Views\Filters\XSS;
+use RDev\Views\Template;
 
-$cache = new Cache\Cache(new Files\FileSystem(), "/tmp");
-$templateFactory = new Factories\TemplateFactory($fileSystem, PATH_TO_TEMPLATES);
-$xssFilter = new Filters\XSS();
-$compiler = new Compilers\Compiler($cache, $templateFactory, $xssFilter);
-$template = new Views\Template("Hello, {{username}}");
+$fileSystem = new FileSystem();
+$cache = new Cache($fileSystem, "/tmp");
+$templateFactory = new TemplateFactory($fileSystem, PATH_TO_TEMPLATES);
+$xssFilter = new XSS();
+$compiler = new Compiler($cache, $templateFactory, $xssFilter);
+$template = new Template("Hello, {{username}}");
 $template->setTag("username", "Dave");
 echo $compiler->compile($template); // "Hello, Dave"
 ```
@@ -79,12 +80,11 @@ To improve the speed of template compiling, templates are cached using a class t
 Occasionally, you should clear out old cached template files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
  
 ```php
-use RDev\Files;
-use RDev\Views;
-use RDev\Views\Cache;
+use RDev\Files\FileSystem;
+use RDev\Views\Cache\Cache;
 
 // Make 123 out of every 1,000 template compilations trigger garbage collection
-$cache = new Cache\Cache(new Files\FileSystem(), "/tmp", 123, 1000);
+$cache = new Cache(new FileSystem(), "/tmp", 123, 1000);
 ```
 Or use `setGCChance()`:
 ```php
@@ -455,12 +455,12 @@ Let's take a look at what should be passed into `registerSubCompiler()`:
 Let's take a look at an example that converts HTML comments to an HTML list of those comments:
 
 ```php
-use RDev\Views;
-use RDev\Views\Compilers\SubCompilers;
+use RDev\Views\Compilers\SubCompilers\ISubCompiler;
+use RDev\Views\ITemplate;
 
-class MySubCompiler implements SubCompilers\ISubCompiler
+class MySubCompiler implements ISubCompiler
 {
-    public function compile(Views\ITemplate $template, $content)
+    public function compile(ITemplate $template, $content)
     {
         return "<ul>" . preg_replace("/<!--((?:(?!-->).)*)-->/", "<li>$1</li>", $content) . "</ul>";
     }
@@ -508,13 +508,12 @@ echo $compiler->compile($template); // "A&amp;W Root Beer"
 Having to always pass in the full path to load a template from a file can get annoying.  It can also make it more difficult to switch your template directory should you ever decide to do so.  This is where a `Factory` comes in handy.  Simply pass in a `FileSystem` and the directory that your templates are stored in, and you'll never have to repeat yourself:
  
 ```php
-use RDev\Files;
-use RDev\Views;
-use RDev\Views\Factories;
+use RDev\Files\FileSystem;
+use RDev\Views\Factories\TemplateFactory;
 
-$fileSystem = new Files\FileSystem();
+$fileSystem = new FileSystem();
 // Assume we keep all templates at "/var/www/html/views"
-$factory = new Factories\TemplateFactory($fileSystem, "/var/www/html/views");
+$factory = new TemplateFactory($fileSystem, "/var/www/html/views");
 // This creates a template from "/var/www/html/views/login.html"
 $loginTemplate = $factory->create("login.html");
 // This creates a template from "/var/www/html/views/books/list.html"
@@ -537,13 +536,14 @@ Let's take a look at an example:
 
 ```php
 namespace MyApp\Builders;
-use RDev\Files;
-use RDev\Views;
-use RDev\Views\Factories;
+use RDev\Files\FileSystem;
+use RDev\Views\Factories\TemplateFactory;
+use RDev\Views\IBuilder;
+use RDev\Views\ITemplate;
 
-class MyBuilder implements Views\IBuilder
+class MyBuilder implements IBuilder
 {
-    public function build(Views\ITemplate $template)
+    public function build(ITemplate $template)
     {
         $template->setTag("siteName", "My Website");
         
@@ -552,7 +552,7 @@ class MyBuilder implements Views\IBuilder
 }
 
 // Register our builder to "Index.html"
-$factory = new Factories\TemplateFactory(new Files\FileSystem(), __DIR__ . "/tmp");
+$factory = new TemplateFactory(new FileSystem(), __DIR__ . "/tmp");
 $callback = function()
 {
     return new MyBuilder();

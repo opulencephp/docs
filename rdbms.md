@@ -22,12 +22,13 @@ Connection pools help you manage your database connections by doing all the dirt
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
 ```php
-use RDev\Databases\SQL;
-use RDev\Databases\SQL\PDO\MySQL;
+use RDev\Databases\SQL\PDO\MySQL\Driver;
+use RDev\Databases\SQL\Server;
+use RDev\Databases\SQL\SingleServerConnectionPool;
 
-$connectionPool = new SQL\SingleServerConnectionPool(
-    new MySQL\Driver(), // The driver to use
-    new SQL\Server(
+$connectionPool = new SingleServerConnectionPool(
+    new Driver(), // The driver to use
+    new Server(
         "localhost", // The host
         "username", // The server username
         "password", // The server password
@@ -51,12 +52,13 @@ $name = $row["name"];
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  Instead of taking a single server in their constructors, they take a master server and an array of slave servers.
 
 ```php
-use RDev\Databases\SQL;
-use RDev\Databases\SQL\PDO\PostgreSQL;
+use RDev\Databases\SQL\PDO\PostgreSQL\Driver;
+use RDev\Databases\SQL\Server;
+use RDev\Databases\SQL\SingleServerConnectionPool;
 
-$connectionPool = new SQL\SingleServerConnectionPool(
-    new PostgreSQL\Driver(), // The driver to use
-    new SQL\Server(
+$connectionPool = new SingleServerConnectionPool(
+    new Driver(), // The driver to use
+    new Server(
         "127.0.0.1", // The master host
         "username", // The master username
         "password", // The master password
@@ -65,7 +67,7 @@ $connectionPool = new SQL\SingleServerConnectionPool(
     ),
     [
         // List any slave servers
-        new SQL\Server(
+        new Server(
             "127.0.0.2", // The slave host
             "username", // The slave username
             "password", // The slave password
