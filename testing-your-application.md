@@ -135,7 +135,7 @@ public function test404()
 }
 ```
 
-<h4 id="assert-response-is-not-found">assertResponseIsOK()</h4>
+<h4 id="assert-response-is-ok">assertResponseIsOK()</h4>
 Asserts that a response is OK:
 
 ```php
