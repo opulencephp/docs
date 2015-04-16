@@ -143,12 +143,12 @@ Each response offers three methods:
 Formatters are great for nicely-formatting output to the console.
 
 <h4 id="padding">Padding</h4>
-The `RDev\Console\Responses\Formatters\Padding` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
+The `RDev\Console\Responses\Formatters\PaddingFormatter` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
  
 ```php
-use RDev\Console\Responses\Formatters\Padding;
+use RDev\Console\Responses\Formatters\PaddingFormatter;
 
-$paddingFormatter = new Padding();
+$paddingFormatter = new PaddingFormatter();
 $rows = [
     ["George", "Carlin", "great"],
     ["Chris", "Rock", "good"],
@@ -177,13 +177,13 @@ There are a few useful functions for customizing the padding formatter:
   * Sets the padding string
 
 <h4 id="tables">Tables</h4>
-ASCII tables are a great way to show tabular data in a console.  To create a table, use `RDev\Console\Responses\Formatters\Table`:
+ASCII tables are a great way to show tabular data in a console.  To create a table, use `RDev\Console\Responses\Formatters\TableFormatter`:
 
 ```php
-use RDev\Console\Responses\Formatters\Padding;
-use RDev\Console\Responses\Formatters\Table;
+use RDev\Console\Responses\Formatters\PaddingFormatter;
+use RDev\Console\Responses\Formatters\TableFormatter;
 
-$table = new Table(new Padding());
+$table = new TableFormatter(new PaddingFormatter());
 $rows = [
     ["Sean", "Connery"],
     ["Pierce", "Brosnan"]
@@ -242,9 +242,9 @@ To ask a user to confirm an action with a simple "y" or "yes", use an `RDev\Cons
 ```php
 use RDev\Console\Prompts\Prompt;
 use RDev\Console\Prompts\Questions\Confirmation;
-use RDev\Console\Responses\Formatters\Padding;
+use RDev\Console\Responses\Formatters\PaddingFormatter;
 
-$prompt = new Prompt(new Padding());
+$prompt = new Prompt(new PaddingFormatter());
 // This will return true if the answer began with "y" or "Y"
 $prompt->ask(new Confirmation("Are you sure you want to continue?"));
 ```
