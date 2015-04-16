@@ -224,12 +224,9 @@ This will compile to:
 Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  There is no need to memorize library-specific constructs here.  With RDev's template system, you can do this:
 ##### Template
 ```
-<ul><?php
-foreach(["foo", "bar"] as $item)
-{
-    echo "<li>$item</li>";
-}
-?></ul>
+<ul><?php foreach(["foo", "bar"] as $item): ?>
+    <li>{{$item}}</li>
+<?php endforeach; ?></ul>
 ```
 ##### Application Code
 ```php
