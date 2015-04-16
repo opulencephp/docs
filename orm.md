@@ -50,7 +50,6 @@ Unlike other popular PHP frameworks, RDev does not force you to extend ORM class
 *Units of work* act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the DataMappers. Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
 use MyApp\ORM\DataMappers\MyDataMapper;
-use RDev\ORM\DataMappers;
 use RDev\ORM\EntityRegistry;
 use RDev\ORM\Repositories\Repo;
 use RDev\ORM\UnitOfWork;
