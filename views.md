@@ -37,7 +37,7 @@ Hello, {{username}}
 ##### Application Code
 ```php
 use RDev\Files\FileSystem;
-use RDev\Views\Cache\Cache;
+use RDev\Views\Caching\Cache;
 use RDev\Views\Compilers\Compiler;
 use RDev\Views\Factories\TemplateFactory;
 use RDev\Views\Filters\XSS;
@@ -57,7 +57,7 @@ echo $compiler->compile($template); // "Hello, Dave"
 Alternatively, you could just pass in a template's contents to its constructor:
 ```php
 use RDev\Files\FileSystem;
-use RDev\Views\Cache\Cache;
+use RDev\Views\Caching\Cache;
 use RDev\Views\Compilers\Compiler;
 use RDev\Views\Factories\TemplateFactory;
 use RDev\Views\Filters\XSS;
@@ -74,14 +74,14 @@ echo $compiler->compile($template); // "Hello, Dave"
 ```
 
 <h2 id="caching">Caching</h2>
-To improve the speed of template compiling, templates are cached using a class that implements `RDev\Views\Cache\ICache` (`RDev\Views\Cache\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
+To improve the speed of template compiling, templates are cached using a class that implements `RDev\Views\Caching\ICache` (`RDev\Views\Caching\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
 
 <h4 id="garbage-collection">Garbage Collection</h4>
 Occasionally, you should clear out old cached template files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
  
 ```php
 use RDev\Files\FileSystem;
-use RDev\Views\Cache\Cache;
+use RDev\Views\Caching\Cache;
 
 // Make 123 out of every 1,000 template compilations trigger garbage collection
 $cache = new Cache(new FileSystem(), "/tmp", 123, 1000);
