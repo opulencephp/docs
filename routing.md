@@ -37,10 +37,10 @@ Routes require a few pieces of information:
 Let's take a look at a simple route that maps a GET request to the path "/users":
 ```php
 use RDev\IoC\Container;
-use RDev\HTTP\Routing\Compilers\Compiler;
-use RDev\HTTP\Routing\Compilers\Parsers\Parser;
-use RDev\HTTP\Routing\Dispatchers\Dispatcher;
-use RDev\HTTP\Routing\Router;
+use RDev\Routing\Compilers\Compiler;
+use RDev\Routing\Compilers\Parsers\Parser;
+use RDev\Routing\Dispatchers\Dispatcher;
+use RDev\Routing\Router;
 
 $container = new Container();
 $dispatcher = new Dispatcher($container);
@@ -78,7 +78,7 @@ Let's say you want to grab a specific user's profile page.  You'll probably want
 
 Let's take a look at a full example:
 ```php
-use RDev\HTTP\Routing\Controller;
+use RDev\Routing\Controller;
 
 class UserController extends Controller
 {
@@ -272,7 +272,7 @@ Then, just add a route to handle this:
 namespace MyApp;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
-use RDev\HTTP\Routing\Controller;
+use RDev\Routing\Controller;
 
 class MyController extends Controller
 {
@@ -294,15 +294,15 @@ $router->route($request); // Returns a 404 response with "My custom 404 page"
 ```
 
 <h2 id="url-generators">URL Generators</h2>
-A cool feature is the ability to generate URLs from named routes using `RDev\HTTP\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
+A cool feature is the ability to generate URLs from named routes using `RDev\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
 
 > **Note:** If you do not define all the non-optional variables in the host or domain, a `URLException` will be thrown.
 
 <h4 id="generating-urls-from-code">Generating URLs from Code</h4>
 ```php
-use RDev\HTTP\Routing\Compilers\Compiler;
-use RDev\HTTP\Routing\Compilers\Parsers\Parser;
-use RDev\HTTP\Routing\URL\URLGenerator;
+use RDev\Routing\Compilers\Compiler;
+use RDev\Routing\Compilers\Parsers\Parser;
+use RDev\Routing\URL\URLGenerator;
 
 // Let's assume the router is already instantiated
 $compiler = new Compiler(new Parser());
