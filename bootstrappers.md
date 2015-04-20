@@ -7,7 +7,7 @@
 4. [Bootstrapper Example](#bootstrapper-example)
 
 <h2 id="introduction">Introduction</h2>
-Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by extending `RDev\Applications\Bootstrappers\Bootstrapper`.  It accepts `Paths`, `Environment`, and `ISession` objects in its constructor, which can be useful for something like binding a particular database instance based on the current environment.
+Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by extending `RDev\Applications\Bootstrappers\Bootstrapper`.  It accepts `Paths` and `Environment` objects in its constructor, which can be useful for something like binding a particular database instance based on the current environment.
 
 <h2 id="registering-bindings">Registering Bindings</h2>
 Before you can start using your application, your IoC container needs some bindings to be registered.  This is where `Bootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the IoC container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
