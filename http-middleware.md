@@ -52,7 +52,7 @@ Now, the `Authenticate` middleware will be run before the `createPost()` method 
 
 > **Note:** If middleware does not specifically call the `$next` closure, none of the middleware after it in the pipeline will be run.
 
-> **Note:** To get the current `Route` (which is accessible through `Router::getMatchedRoute()`), inject `RDev\HTTP\Routing\Router` into the constructor.
+> **Note:** To get the current `Route` (which is accessible through `Router::getMatchedRoute()`), inject `RDev\Routing\Router` into the constructor.
 
 <h2 id="manipulating-the-request">Manipulating the Request</h2>
 To manipulate the request before it gets to the controller, make changes to it before calling `$next($request)`:
