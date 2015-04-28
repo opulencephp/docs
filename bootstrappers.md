@@ -26,7 +26,7 @@ Let's pretend you're developing an application that grabs WordPress posts from a
 namespace MyApp\WordPress\Bootstrappers;
 use MyApp\WordPress\Posts;
 use RDev\Applications\Bootstrappers\Bootstrapper;
-use RDev\Databases\SQL\ConnectionPool;
+use RDev\Databases\ConnectionPool;
 use RDev\IoC\IContainer;
 
 class MyBootstrapper extends Bootstrapper
