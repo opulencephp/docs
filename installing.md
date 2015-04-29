@@ -36,10 +36,15 @@ rdev/console
 rdev/cryptography
 rdev/databases
 rdev/files
+rdev/forms
 rdev/http
 rdev/ioc
+rdev/memcached
 rdev/orm
 rdev/pipelines
+rdev/querybuilders
+rdev/redis
+rdev/routing
 rdev/sessions
 rdev/users
 rdev/views
