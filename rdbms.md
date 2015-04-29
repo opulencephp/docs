@@ -22,9 +22,9 @@ Connection pools help you manage your database connections by doing all the dirt
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
 ```php
-use RDev\Databases\SQL\PDO\MySQL\Driver;
-use RDev\Databases\SQL\Server;
-use RDev\Databases\SQL\SingleServerConnectionPool;
+use RDev\Databases\PDO\MySQL\Driver;
+use RDev\Databases\Server;
+use RDev\Databases\SingleServerConnectionPool;
 
 $connectionPool = new SingleServerConnectionPool(
     new Driver(), // The driver to use
@@ -52,9 +52,9 @@ $name = $row["name"];
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  Instead of taking a single server in their constructors, they take a master server and an array of slave servers.
 
 ```php
-use RDev\Databases\SQL\PDO\PostgreSQL\Driver;
-use RDev\Databases\SQL\Server;
-use RDev\Databases\SQL\SingleServerConnectionPool;
+use RDev\Databases\PDO\PostgreSQL\Driver;
+use RDev\Databases\Server;
+use RDev\Databases\SingleServerConnectionPool;
 
 $connectionPool = new SingleServerConnectionPool(
     new Driver(), // The driver to use

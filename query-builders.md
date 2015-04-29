@@ -19,7 +19,7 @@ Sometimes you need to programmatically generate SQL queries.  Rather than concat
 Let's look at a simple `SELECT` query:
 
 ```php
-use RDev\Databases\SQL\QueryBuilders\PostgreSQL\QueryBuilder;
+use RDev\QueryBuilders\PostgreSQL\QueryBuilder;
 
 $query = (new QueryBuilder)->select("id", "name", "email")
     ->from("users")
@@ -205,7 +205,7 @@ $statement->execute();
 MySQL and PostgreSQL have their own query builders, which implement features that are unique to each database.  For example, the MySQL query builder supports a *LIMIT* clause:
 
 ```php
-use RDev\Databases\SQL\QueryBuilders\MySQL\QueryBuilder;
+use RDev\QueryBuilders\MySQL\QueryBuilder;
 
 $query = (new QueryBuilder)->delete("users")
     ->where("name = 'Dave'")
@@ -222,7 +222,7 @@ DELETE FROM users WHERE name = 'Dave' LIMIT 1
 Similarly, PostgreSQL's `UPDATE` and `INSERT` query builders support a *RETURNING* clause:
 
 ```php
-use RDev\Databases\SQL\QueryBuilders\PostgreSQL\QueryBuilder;
+use RDev\QueryBuilders\PostgreSQL\QueryBuilder;
 
 $query = (new QueryBuilder)->update("users", "", [
         "status" => [0, \PDO::PARAM_INT]
@@ -249,7 +249,7 @@ array(
 Here's an example of an `INSERT` statement with a *RETURNING* clause:
 
 ```php
-use RDev\Databases\SQL\QueryBuilders\PostgreSQL\QueryBuilder;
+use RDev\QueryBuilders\PostgreSQL\QueryBuilder;
 
 $query = (new QueryBuilder)->insert("users", "", ["name" => "David"])
     ->returning("id")

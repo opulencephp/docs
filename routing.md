@@ -37,10 +37,10 @@ Routes require a few pieces of information:
 Let's take a look at a simple route that maps a GET request to the path "/users":
 ```php
 use RDev\IoC\Container;
-use RDev\HTTP\Routing\Compilers\Compiler;
-use RDev\HTTP\Routing\Compilers\Parsers\Parser;
-use RDev\HTTP\Routing\Dispatchers\Dispatcher;
-use RDev\HTTP\Routing\Router;
+use RDev\Routing\Compilers\Compiler;
+use RDev\Routing\Compilers\Parsers\Parser;
+use RDev\Routing\Dispatchers\Dispatcher;
+use RDev\Routing\Router;
 
 $container = new Container();
 $dispatcher = new Dispatcher($container);
@@ -60,6 +60,8 @@ The router takes advantage of the [Dependency Injection Container](dependency-in
 
 > **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
 
+> **Note:** RDev allows you to use a plain-old PHP class as a controller.  However, it also supports the baked-in controller `RDev\Routing\Controller`, which automatically injects the `Request` into the controller as well as a view `Compiler`.  So, if you're using RDev view components or if you don't want to have to inject the `Request` into every controller's constructor, it's probably best to extend `RDev\Routing\Controller`.
+
 <h4 id="multiple-methods">Multiple Methods</h4>
 You can register a route to multiple methods using the router's `multiple()` method:
 ```php
@@ -78,7 +80,7 @@ Let's say you want to grab a specific user's profile page.  You'll probably want
 
 Let's take a look at a full example:
 ```php
-use RDev\HTTP\Routing\Controller;
+use RDev\Routing\Controller;
 
 class UserController extends Controller
 {
@@ -265,14 +267,14 @@ Going to "/users/foo/profile" or "users/foo/posts" will not match because the Id
 > **Note:** If a route has a variable regular expression specified, it takes precedence over group regular expressions.
 
 <h2 id="missing-routes">Missing Routes</h2>
-In the case that the router cannot find a route that matches the request, a 404 response will be returned.  If you'd like to customize your 404 page or any other HTTP error status page, override `showHTTPError()` in your controller and display the appropriate response.  Register your controller in the case of a missing route using `Router::setMissedRouteControllerName()`:
+In the case that the router cannot find a route that matches the request, a 404 response will be returned.  Register your controller name and method name in the case of a missing route using `Router::setMissedRouteController()` (the default method is `showHTTPError()`).  If your controller extends `RDev\Routing\Controller`, you can simply override `showHTTPError()` to display the appropriate missing response.
 
 Then, just add a route to handle this:
 ```php
 namespace MyApp;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
-use RDev\HTTP\Routing\Controller;
+use RDev\Routing\Controller;
 
 class MyController extends Controller
 {
@@ -288,21 +290,21 @@ class MyController extends Controller
     }
 }
 
-$router->setMissedRouteControllerName("MyApp\\MyController");
+$router->setMissedRouteController("MyApp\\MyController");
 // Assume $request points to a request object with a path that isn't covered in the router
 $router->route($request); // Returns a 404 response with "My custom 404 page"
 ```
 
 <h2 id="url-generators">URL Generators</h2>
-A cool feature is the ability to generate URLs from named routes using `RDev\HTTP\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
+A cool feature is the ability to generate URLs from named routes using `RDev\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
 
 > **Note:** If you do not define all the non-optional variables in the host or domain, a `URLException` will be thrown.
 
 <h4 id="generating-urls-from-code">Generating URLs from Code</h4>
 ```php
-use RDev\HTTP\Routing\Compilers\Compiler;
-use RDev\HTTP\Routing\Compilers\Parsers\Parser;
-use RDev\HTTP\Routing\URL\URLGenerator;
+use RDev\Routing\Compilers\Compiler;
+use RDev\Routing\Compilers\Parsers\Parser;
+use RDev\Routing\URL\URLGenerator;
 
 // Let's assume the router is already instantiated
 $compiler = new Compiler(new Parser());

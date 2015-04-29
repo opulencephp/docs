@@ -8,8 +8,8 @@
 5. [Route Middleware](#route-middleware)
   
 <h2 id="introduction">Introduction</h2>
-HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).
-  
+HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).  
+
 RDev uses dependency injection for type-hinted objects in a `Middleware` constructor.  So, if you need any objects in your `handle()` method, just specify them in the constructor.  Let's take a look at an example:
 
 ```php
@@ -52,7 +52,7 @@ Now, the `Authenticate` middleware will be run before the `createPost()` method 
 
 > **Note:** If middleware does not specifically call the `$next` closure, none of the middleware after it in the pipeline will be run.
 
-> **Note:** To get the current `Route` (which is accessible through `Router::getMatchedRoute()`), inject `RDev\HTTP\Routing\Router` into the constructor.
+> **Note:** To get the current `Route` (which is accessible through `Router::getMatchedRoute()`), inject `RDev\Routing\Router` into the constructor.
 
 <h2 id="manipulating-the-request">Manipulating the Request</h2>
 To manipulate the request before it gets to the controller, make changes to it before calling `$next($request)`:

@@ -18,9 +18,9 @@ An **RDev** application is started up through the `Application` class.  You can 
 <h2 id="kernels">Kernels</h2>
 A kernel is something that takes input, performs processing on it, and returns output.  In RDev, there are two kernels:
 
-1. `RDev\HTTP\Kernels\Kernel`
+1. `RDev\Framework\HTTP\Kernel`
   * [Read about HTTP applications' workflows](http-workflow)
-2. `RDev\Console\Kernels\Kernel`
+2. `RDev\Framework\Console\Kernel`
   * [Read about console applications' workflows](console-workflow)
 
 Having these two kernels allows RDev to function as both a traditional HTTP web application and a console application.
