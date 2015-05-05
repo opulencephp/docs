@@ -4,7 +4,7 @@
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
   1. [Using Closures](#using-closures)
-  2. [Using Controller Classes](#using-controller classes)
+  2. [Using Controller Classes](#using-controller-classes)
   3. [Multiple Methods](#multiple-methods)
 3. [Route Variables](#route-variables)
   1. [Regular Expressions](#regular-expressions)
