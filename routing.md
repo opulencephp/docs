@@ -47,13 +47,13 @@ $dispatcher = new Dispatcher($container);
 $compiler = new Compiler(new Parser());
 $router = new Router($container, $dispatcher, $compiler);
 // This will route a GET request to "/users" to MyController->getAllUsers()
-$router->get("/users", ["controller" => "MyApp\\MyController@getAllUsers"]);
+$router->get("/users", "MyApp\\MyController@getAllUsers");
 // This will route a POST request to "/login" to MyController->login()
-$router->post("/login", ["controller" => "MyApp\\MyController@login"]);
+$router->post("/login", "MyApp\\MyController@login");
 // This will route a DELETE request to "/users/me" to MyController->deleteUser()
-$router->delete("/users/me", ["controller" => "MyApp\\MyController@deleteUser"]);
+$router->delete("/users/me", "MyApp\\MyController@deleteUser");
 // This will route a PUT request to "/users/profile/image" to MyController->uploadProfileImage()
-$router->put("/users/profile/image", ["controller" => "MyApp\\MyController@uploadProfileImage"]);
+$router->put("/users/profile/image", "MyApp\\MyController@uploadProfileImage");
 ```
 
 The router takes advantage of the [Dependency Injection Container](dependency-injection) to instantiate your controller.
@@ -65,12 +65,12 @@ The router takes advantage of the [Dependency Injection Container](dependency-in
 <h4 id="multiple-methods">Multiple Methods</h4>
 You can register a route to multiple methods using the router's `multiple()` method:
 ```php
-$router->multiple(["GET", "POST"], ["controller" => "MyApp\\MyController@myMethod"]);
+$router->multiple(["GET", "POST"], "MyApp\\MyController@myMethod");
 ```
 
 To register a route for all methods, use the `any()` method:
 ```php
-$router->any(["controller" => "MyApp\\MyController@myMethod"]);
+$router->any("MyApp\\MyController@myMethod");
 ```
 
 <h2 id="route-variables">Route Variables</h2>
@@ -90,7 +90,7 @@ class UserController extends Controller
     }
 }
 
-$router->get("/users/{userId}/profile", ["controller" => "MyApp\\UserController@showProfile"]);
+$router->get("/users/{userId}/profile", "MyApp\\UserController@showProfile");
 ```
 
 Calling the path "/users/23/profile" will return "Profile for user 23".
@@ -98,18 +98,18 @@ Calling the path "/users/23/profile" will return "Profile for user 23".
 <h4 id="regular-expressions">Regular Expressions</h4>
 If you'd like to enforce certain rules for a route variable, you may do so in the options array.  Simply add a "variables" entry with variable names-to-regular-expression mappings:
 ```php
-$router->get("/users/{userId}/profile", [
-    "controller" => "MyApp\\UserController@showProfile",
+$options = [
     "variables" => [
         "userId" => "\d+" // The user Id variable must now be a number
     ]
-]);
+];
+$router->get("/users/{userId}/profile", "MyApp\\UserController@showProfile", $options);
 ```
 
 <h4 id="optional-variables">Optional Variables</h4>
 If a certain variable is optional, simply append "?" to it:
 ```php
-$router->get("/books/{bookId?}", ["controller" => "MyApp\\BookController@showBook"]);
+$router->get("/books/{bookId?}", "MyApp\\BookController@showBook");
 ```
 
 This would match both "/books/" and "/books/23".
@@ -117,7 +117,7 @@ This would match both "/books/" and "/books/23".
 <h4 id="default-values">Default Values</h4>
 Sometimes, you might want to have a default value for a route variable.  Doing so is simple:
 ```php
-$router->get("/food/{foodName=all}", ["controller" => "MyApp\\FoodController@showFood"]);
+$router->get("/food/{foodName=all}", "MyApp\\FoodController@showFood");
 ```
 
 If no food name was specified, "all" will be the default value.
@@ -128,21 +128,19 @@ If no food name was specified, "all" will be the default value.
 Routers can match on hosts as well as paths.  Want to match calls to a subdomain?  Easy:
 
 ```php
-$routeOptions = [
-    "controller" => "MyApp\\InboxController@showInbox",
+$options = [
     "host" => "mail.mysite.com" 
 ];
-$router->get("/inbox", $routeOptions);
+$router->get("/inbox", "MyApp\\InboxController@showInbox", $options);
 ```
 
 Just like with paths, you can create variables from components of your host.  In the following example, a variable called `$subdomain` will be passed into `MyApp\SomeController::doSomething()`:
 
 ```php
-$routeOptions = [
-    "controller" => "MyApp\\SomeController@doSomething",
+$options = [
     "host" => "{subdomain}.mysite.com" 
 ];
-$router->get("/foo", $routeOptions);
+$router->get("/foo", "MyApp\\SomeController@doSomething", $options);
 ```
 
 Host variables can also have regular expression constraints, similar to path variables.
@@ -152,10 +150,9 @@ Routes can run [middleware](http-middleware) on requests and responses.  To regi
 
 ```php
 $options = [
-    "controller" => "MyApp\\MyController@myMethod",
     "middleware" => "MyApp\\MyMiddleware" // Can also be an array of middleware
 ];
-$router->get("/books", $options);
+$router->get("/books", "MyApp\\MyController@myMethod", $options);
 ```
 
 Whenever a request matches this route, `MyApp\MyMiddleware` will be run.
@@ -165,10 +162,9 @@ Some routes should only match on an HTTPS connection.  To do this, set the `http
 
 ```php
 $options = [
-    "controller" => "MyApp\\MyController@myMethod",
     "https" => true
 ];
-$router->get("/users", $options);
+$router->get("/users", "MyApp\\MyController@myMethod", $options);
 ```
 
 HTTPS requests to "/users" will match, but non SSL connections will return a 404 response.
@@ -178,10 +174,9 @@ Routes can be given a name, which makes them identifiable.  This is especially u
 
 ```php
 $options = [
-    "controller" => "MyApp\\MyController@myMethod",
     "name" => "awesome"
 ];
-$router->get("/users", $options);
+$router->get("/users", "MyApp\\MyController@myMethod", $options);
 ```
 
 This will create a route named "awesome".
@@ -191,8 +186,8 @@ One of the most important sayings in programming is "Don't repeat yourself" or "
 ```php
 $router->group(["path" => "/users/{userId}"], function() use ($router)
 {
-    $router->get("/profile", ["controller" => "MyApp\\UserController@showProfile"]);
-    $router->delete("", ["controller" => "MyApp\\UserController@deleteUser"]);
+    $router->get("/profile", "MyApp\\UserController@showProfile");
+    $router->delete("", "MyApp\\UserController@deleteUser");
 });
 ```
 
@@ -203,8 +198,8 @@ If all the controllers in a route group belong under a common namespace, you can
 ```php
 $router->group(["controllerNamespace" => "MyApp\\Controllers"], function() use ($router)
 {
-    $router->get("/users", ["controller" => "UserController@showAllUsers"]);
-    $router->get("/posts", ["controller" => "PostController@showAllPosts"]);
+    $router->get("/users", "UserController@showAllUsers");
+    $router->get("/posts", "PostController@showAllPosts");
 });
 ```
 
@@ -215,8 +210,8 @@ Route groups allow you to apply middleware to multiple routes:
 ```php
 $router->group(["middleware" => "MyApp\\Authenticate"], function() use ($router)
 {
-    $router->get("/users/{userId}/profile", ["controller" => "MyApp\\UserController@showProfile"]);
-    $router->get("/posts", ["controller" => "MyApp\\PostController@showPosts"]);
+    $router->get("/users/{userId}/profile", "MyApp\\UserController@showProfile");
+    $router->get("/posts", "MyApp\\PostController@showPosts");
 });
 ```
 
@@ -228,10 +223,10 @@ You can filter by host in router groups:
 ```php
 $router->group(["host" => "google.com"], function() use ($router)
 {
-    $router->get("/", ["controller" => "MyApp\\HomeController@showHomePage"]);
+    $router->get("/", "MyApp\\HomeController@showHomePage");
     $router->group(["host" => "mail."], function() use ($router)
     {
-        $router->get("/", ["controller" => "MyApp\\MailController@showInbox"]);
+        $router->get("/", "MyApp\\MailController@showInbox");
     });
 });
 ```
@@ -244,8 +239,8 @@ You can force all routes in a group to be HTTPS:
 ```php
 $router->group(["https" => true], function() use ($router)
 {
-    $router->get("/", ["controller" => "MyApp\\HomeController@showHomePage"]);
-    $router->get("/books", ["controller" => "MyApp\\BookController@showBooksPage"]);
+    $router->get("/", "MyApp\\HomeController@showHomePage");
+    $router->get("/books", "MyApp\\BookController@showBooksPage");
 });
 ```
 
@@ -257,8 +252,8 @@ Groups support regular expressions for path variables:
 ```php
 $router->group(["path" => "/users/{userId}", "variables" => ["userId" => ["\d+"]], function() use ($router)
 {
-    $router->get("/profile", ["controller" => "MyApp\\ProfileController@showProfilePage"]);
-    $router->get("/posts", ["controller" => "MyApp\\PostController@showPostsPage"]);
+    $router->get("/profile", "MyApp\\ProfileController@showProfilePage");
+    $router->get("/posts", "MyApp\\PostController@showPostsPage");
 });
 ```
 
@@ -310,7 +305,7 @@ use RDev\Routing\URL\URLGenerator;
 $compiler = new Compiler(new Parser());
 $urlGenerator = new URLGenerator($router->getRoutes(), $compiler);
 // Let's add a route named "profile"
-$router->get("/users/{userId}", ["controller" => "MyApp\\ProfileController@showProfile", "name" => "profile"]);
+$router->get("/users/{userId}", "MyApp\\ProfileController@showProfile", ["name" => "profile"]);
 // Now we can generate a URL and pass in data to it
 echo $urlGenerator->createFromName("profile", 23); // "/users/23"
 ```
@@ -320,12 +315,11 @@ If we specify a host in our route, an absolute URL is generated.  We can even de
 ```php
 // Let's assume the URL generator is already instantiated
 // Let's add a route named "inbox"
-$routeOptions = [
-    "controller" => "MyApp\\InboxController@showInbox",
+$options = [
     "host" => "{country}.mail.example.com",
     "name" => "inbox"
 ];
-$router->get("/users/{userId}", $routeOptions);
+$router->get("/users/{userId}", "MyApp\\InboxController@showInbox", $options);
 // Any values passed in will first be used to define variables in the host
 // Any leftover values will define the values in the path
 echo $urlGenerator->createFromName("inbox", ["us", 724]); // "http://us.mail.example.com/users/724"
@@ -335,10 +329,7 @@ echo $urlGenerator->createFromName("inbox", ["us", 724]); // "http://us.mail.exa
 URLs can also be generated from views using the `route()` template function.  Here's an example router config:
 
 ```php
-$router->get("/users/{userId}/profile", [
-    "controller" => "UserController@showProfile", 
-    "name" => "profile"
-]);
+$router->get("/users/{userId}/profile", "UserController@showProfile", ["name" => "profile"]);
 ```
 
 Here's how to generate a URL to the "profile" route:
@@ -356,13 +347,13 @@ This will compile to:
 <h2 id="notes">Notes</h2>
 Routes are matched based on the order they were added to the router.  So, if you did the following:
 ```php
-$router->get("/{foo}", [
-    "controller" => "MyApp\\MyController@myMethod",
+$options = [
     "variables" => [
         "foo" => ".*"
     ]
-]);
-$router->get("/users", ["controller" => "MyApp\\MyController@myMethod"]);
+];
+$router->get("/{foo}", "MyApp\\MyController@myMethod", $options);
+$router->get("/users", "MyApp\\MyController@myMethod");
 ```
 
 ...The first route "/{foo}" would always match first because it was added first.  Add any "fall-through" routes after you've added the rest of your routes.
