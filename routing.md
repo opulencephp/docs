@@ -61,6 +61,18 @@ $router->get("/foo", function()
 });
 ```
 
+If you need any object like the `Request` to be passed into the closure, just type-hint it:
+
+```php
+use RDev\HTTP\Requests\Request;
+
+$router->get("/users/{id}", function(Request $request, $id)
+{
+    // $request will be the HTTP request
+    // $id will be the path variable
+});
+```
+
 <h4 id="using-controller-classes">Using Controller Classes</h4>
 Anything other than super-simple applications should probably use full-blown controller classes.  They provide reusability, better separation of responsibilities, and more features.  The router takes advantage of the [Dependency Injection Container](dependency-injection) to instantiate your controller.
 
