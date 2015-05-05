@@ -12,6 +12,7 @@
 7. [Passing Constructor Primitives](#passing-constructor-primitives)
 8. [Using Setters](#using-setters)
 9. [Calling Methods](#calling-methods)
+  1. [Calling a Closure](#calling-closure)
 10. [Getting a Binding](#getting-a-binding)
 11. [Removing a Binding](#removing-a-binding)
 
@@ -245,7 +246,7 @@ $c->sayAdditionalMessage(); // "I love setters!"
 ```
 
 <h2 id="calling-methods">Calling Methods</h2>
-It's possible to call methods on a class using the container to resolve dependencies using `call()`:
+It's possible to call methods on a class using the container to resolve dependencies using `call()`.  Simply pass a `<a href="http://php.net/manual/en/language.types.callable.php" target="__blank">callable</a>`:
 
 ```php
 class D
@@ -272,9 +273,27 @@ class D
 
 $container->bind("IFoo", "ConcreteFoo");
 $instance = new D();
-$container->call($instance, "setFoo", ["Primitive was set"]);
+$container->call([$instance, "setFoo"], ["Primitive was set"]);
 echo get_class($c->getFoo()); // "ConcreteFoo"
 echo $instance->getBar(); // "Primitive was set"
+```
+
+<h3 id="calling-closure">Calling a Closure</h3>
+You can use `call()` to automatically inject parameters into a `Closure`:
+
+```php
+echo $container->call(
+    function(Foo $foo, $somePrimitive)
+    {
+        return get_class($foo) . ":" . $somePrimitive;
+    },
+    ["123"] // Pass in any primitive values
+);
+```
+
+This will output:
+```
+Foo:123
 ```
 
 <h2 id="getting-a-binding">Getting a Binding</h2>
