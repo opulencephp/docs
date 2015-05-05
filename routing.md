@@ -3,7 +3,9 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
-  1. [Multiple Methods](#multiple-methods)
+  1. [Using Closures](#using-closures)
+  2. [Using Controller Classes](#using-controller classes)
+  3. [Multiple Methods](#multiple-methods)
 3. [Route Variables](#route-variables)
   1. [Regular Expressions](#regular-expressions)
   2. [Optional Variables](#optional-variables)
@@ -30,11 +32,21 @@ So, you've made some page templates, and you've written some models.  Now, you n
 <h2 id="basic-usage">Basic Usage</h2>
 Routes require a few pieces of information:
 * The path the route is valid for
-* The HTTP method (eg "GET", "POST", "DELETE", or "PUT") the route is valid for
-* The fully-qualified name of the controller class to use
-* The name of the method in that controller to call to render the view
+* The HTTP method (eg "GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", or "HEAD") the route is valid for
+* The action to perform on a match
 
-Let's take a look at a simple route that maps a GET request to the path "/users":
+`RDev\Routing\Router` supports various methods out of the gate:
+* `get()`
+* `post()`
+* `delete()`
+* `put()`
+* `head()`
+* `options()`
+* `patch()`
+
+<h4 id="using-closures">Using Closures</h4>
+For very simple applications, it's probably easiest to use closures as your routes' controllers:
+
 ```php
 use RDev\IoC\Container;
 use RDev\Routing\Compilers\Compiler;
@@ -42,21 +54,17 @@ use RDev\Routing\Compilers\Parsers\Parser;
 use RDev\Routing\Dispatchers\Dispatcher;
 use RDev\Routing\Router;
 
-$container = new Container();
-$dispatcher = new Dispatcher($container);
-$compiler = new Compiler(new Parser());
 $router = new Router($container, $dispatcher, $compiler);
-// This will route a GET request to "/users" to MyController->getAllUsers()
-$router->get("/users", "MyApp\\MyController@getAllUsers");
-// This will route a POST request to "/login" to MyController->login()
-$router->post("/login", "MyApp\\MyController@login");
-// This will route a DELETE request to "/users/me" to MyController->deleteUser()
-$router->delete("/users/me", "MyApp\\MyController@deleteUser");
-// This will route a PUT request to "/users/profile/image" to MyController->uploadProfileImage()
-$router->put("/users/profile/image", "MyApp\\MyController@uploadProfileImage");
+$router->get("/foo", function()
+{
+    return "Hello, world!";
+});
 ```
 
-The router takes advantage of the [Dependency Injection Container](dependency-injection) to instantiate your controller.
+<h4 id="using-controller-classes">Using Controller Classes</h4>
+Anything other than super-simple applications should probably use full-blown controller classes.  They provide reusability, better separation of responsibilities, and more features.  The router takes advantage of the [Dependency Injection Container](dependency-injection) to instantiate your controller.
+
+> **Note:** Controllers that return plain text will have their responses wrapped up into an `RDev\HTTP\Responses\Response` object.
 
 > **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
 
@@ -76,7 +84,7 @@ $router->any("MyApp\\MyController@myMethod");
 <h2 id="route-variables">Route Variables</h2>
 Let's say you want to grab a specific user's profile page.  You'll probably want to structure your URL like "/users/{userId}/profile", where "{userId}" is the Id of the user whose profile we want to view.  Using a `Router`, the data matched in "{userId}" will be mapped to a parameter in your controller's method named "$userId".
 
-> **Note**: All non-optional parameters in the controller method must have identically-named route variables.  In other words, if your method looks like `function showBook($authorName, $bookTitle = null)`, your path must have a "{authorName}" variable.  The routes "/authors/{authorName}/books" and "/authors/{authorName}/books/{bookTitle}" would be valid, but "/authors" would not.
+> **Note**: This also works for closure controllers.  All non-optional parameters in the controller method must have identically-named route variables.  In other words, if your method looks like `function showBook($authorName, $bookTitle = null)`, your path must have a "{authorName}" variable.  The routes "/authors/{authorName}/books" and "/authors/{authorName}/books/{bookTitle}" would be valid, but "/authors" would not.
 
 Let's take a look at a full example:
 ```php
