@@ -15,7 +15,6 @@
   1. [Example](#example)
   2. [Parts](#parts)
   3. [Parents](#parents)
-  4. [Difference Between Tags and Statements](#difference-between-tags-and-statements)
 6. [Including Templates](#including-templates)
 7. [Template Factory](#template-factory)
   1. [Builders](#builders)
@@ -38,6 +37,9 @@ $template->setTag("username", "Dave");
 
 <h4 id="statements">Statements</h4>
 Statements perform template logic.  For example, they can be used to denote a [template that extends another template](#extending-templates) or [include another template](#including-templates).
+
+<h5 id="difference-between-tags-and-statements">Difference Between Tags and Statements</h5>
+You might be asking what the difference between tags and statements is.  Tags are temporary placeholders for data that is inserted through a controller.  Statements, on the other hand, provide a shorthand for executing logic entirely within a template.
 
 <h4 id="escaping-tag-delimiters">Escaping Tag Delimiters</h4>
 Want to escape a tag delimiter?  Easy!  Just add a backslash before the opening tag like so:
@@ -249,9 +251,6 @@ This will get compiled down to:
 ```
 Hello, world!
 ```
-
-<h4 id="difference-between-tags-and-statements">Difference Between Tags and Statements</h4>
-You might be asking what the difference between tags and statements is.  Tags are temporary placeholders for data that is inserted through a controller.  Statements, on the other hand, provide a shorthand for executing logic entirely within a template.
 
 <h2 id="including-templates">Including Templates</h2>
 Including another template (in much the same way PHP's `include` works) is an easy way to not repeat yourself.  Here's an example of how to include a template:
