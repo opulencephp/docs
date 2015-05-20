@@ -5,7 +5,6 @@
 2. [Basic Usage](#basic-usage)
   1. [Tags](#tags)
   2. [Statements](#statements)
-    1. [Difference Between Tags and Statements](#difference-between-tags-and-statements)
   3. [Escaping Tag Delimiters](#escaping-tag-delimiters)
   4. [Custom Tag Delimiters](#custom-tag-delimiters)
   5. [Compiling](#compiling)
@@ -38,8 +37,7 @@ $template->setTag("username", "Dave");
 <h4 id="statements">Statements</h4>
 Statements perform template logic.  For example, they can be used to denote a [template that extends another template](#extending-templates) or [include another template](#including-templates).
 
-<h5 id="difference-between-tags-and-statements">Difference Between Tags and Statements</h5>
-You might be asking what the difference between tags and statements is.  Tags are temporary placeholders for data that is inserted through a controller.  Statements, on the other hand, provide a shorthand for executing logic entirely within a template.
+> **Note:** You might be asking what the difference between tags and statements is.  Tags are temporary placeholders for data that is inserted through a controller.  Statements, on the other hand, provide a shorthand for executing logic entirely within a template.
 
 <h4 id="escaping-tag-delimiters">Escaping Tag Delimiters</h4>
 Want to escape a tag delimiter?  Easy!  Just add a backslash before the opening tag like so:
