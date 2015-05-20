@@ -10,6 +10,7 @@
   5. [Deleting Data](#deleting-data)
   6. [Flushing All Data](#flushing-all-data)
   7. [Flashing Data](#flashing-data)
+  8. [Regenerating the Id](#regenerating-the-id)
 3. [Session Handlers](#session-handlers)
 4. [Middleware](#middleware)
 5. [Using Sessions In Controllers](#using-sessions-in-controllers)
@@ -71,12 +72,17 @@ $session->flush();
 Let's say you're writing a form that can display any validation errors after submitting, and you'd like to remember these error messages only for the next request.  Use `flash()`:
 
 ```php
-$session->flash("formErrors", ["Username is required", "Password must be at least 8 characters"]);
-// Redirect back to the login form
+$session->flash("formErrors", ["Username is required", "Invalid email address"]);
+// ...redirect back to the form...
 foreach($session->get("formErrors") as $error)
 {
     echo htmlentities($error);
 }
+```
+
+<h3 id="regenerating-the-id">Regenerating the Id</h3>
+```php
+$session->regenerateId();
 ```
 
 On the next request, the data in "formErrors" will be deleted.  Want to extend the lifetime of the flash data by one more request?  Use `reflash()`.
