@@ -8,8 +8,6 @@
 3. [Renaming Project](#renaming-project)
 
 <h2 id="requirements">Requirements</h2>
-RDev is most easily installed using Composer:
-
 * PHP 5.5, 5.6, 7.0, or HHVM >= 3.4.0
 * OpenSSL
 * mbstring
