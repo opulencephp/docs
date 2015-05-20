@@ -25,7 +25,7 @@ HTTP is a stateless protocol.  What that means is that each request has no memor
 <h2 id="basic-usage">Basic Usage</h2>
 RDev sessions must implement `RDev\Sessions\ISession` (`RDev\Sessions\Session` comes built-in).
 
-<h3 id="setting-data">Setting Data</h3>
+<h4 id="setting-data">Setting Data</h4>
 Any kind of serializable data can be written to sessions:
 
 ```php
@@ -36,13 +36,13 @@ $session->set("someString", "foo");
 $session->set("someArray", ["bar", "baz"]);
 ```
 
-<h3 id="getting-data">Getting Data</h3>
+<h4 id="getting-data">Getting Data</h4>
 ```php
 $session->set("someKey", "myValue");
 echo $session->get("someKey"); // "myValue"
 ```
 
-<h3 id="getting-all-data">Getting All Data</h3>
+<h4 id="getting-all-data">Getting All Data</h4>
 ```php
 $session->set("foo", "bar");
 $session->set("baz", "blah");
@@ -51,24 +51,24 @@ echo $data[0]; // "bar"
 echo $data[1]; // "blah"
 ```
 
-<h3 id="checking-if-session-has-key">Checking if a Session Has a Key</h3>
+<h4 id="checking-if-session-has-key">Checking if a Session Has a Key</h4>
 ```php
 echo $session->has("foo"); // 0
 $session->set("foo", "bar");
 echo $session->has("foo"); // 1
 ```
 
-<h3 id="deleting-data">Deleting Data</h3>
+<h4 id="deleting-data">Deleting Data</h4>
 ```php
 $session->delete("someKey");
 ```
 
-<h3 id="flushing-all-data">Flushing All Data</h3>
+<h4 id="flushing-all-data">Flushing All Data</h4>
 ```php
 $session->flush();
 ```
 
-<h3 id="flashing-data">Flashing Data</h3>
+<h4 id="flashing-data">Flashing Data</h4>
 Let's say you're writing a form that can display any validation errors after submitting, and you'd like to remember these error messages only for the next request.  Use `flash()`:
 
 ```php
@@ -80,12 +80,12 @@ foreach($session->get("formErrors") as $error)
 }
 ```
 
-<h3 id="regenerating-the-id">Regenerating the Id</h3>
+On the next request, the data in "formErrors" will be deleted.  Want to extend the lifetime of the flash data by one more request?  Use `reflash()`.
+
+<h4 id="regenerating-the-id">Regenerating the Id</h4>
 ```php
 $session->regenerateId();
 ```
-
-On the next request, the data in "formErrors" will be deleted.  Want to extend the lifetime of the flash data by one more request?  Use `reflash()`.
 
 <h2 id="session-handlers">Session Handlers</h2>
 **Session handlers** are what actually read and write session data from some form of storage, eg text files, cache, or cookies.  All RDev handlers implement `\SessionHandlerInterface` (built-into PHP).  Typically, they read and write session data using [middleware](#middleware).  The following are session handlers built-into RDev:
@@ -101,7 +101,23 @@ The best place to read and write session data with the `handler` is in middlewar
 Typically in middleware, your `handler` will read from session storage using data passed in through the request.  After the request has been handled and a response generated, the session data is written back to storage via the `handler`.
 
 <h2 id="using-sessions-in-controllers">Using Sessions in Controllers</h2>
-To use sessions in your controllers, simply inject it into the controller's constructor along with a type hint.
+To use sessions in your controllers, simply inject it into the controller's constructor along with a type hint:
+
+```php
+namespace MyApp\HTTP\Controllers;
+use RDev\Sessions\ISession;
+
+class MyController
+{
+    private $session;
+    
+    // The session will be automatically injected into the controller by the router
+    public function __construct(ISession $session)
+    {
+        $this->session = $session;
+    }
+}
+```
 
 <h2 id="id-generators">Id Generators</h2>
 If your session has just started or if its data has been invalidated, a new session Id will need to be generated.  These Ids must be cryptographically secure to prevent session hijacking.  If you're using `RDev\Sessions\Session`, you can either pass in your own Id generator (must implement `RDev\Sessions\Ids\IIdGenerator`) or use the default `RDev\Sessions\Ids\IdGenerator`.
