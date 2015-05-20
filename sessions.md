@@ -9,12 +9,12 @@
   4. [Checking if a Session Has a Key](#checking-if-session-has-key)
   5. [Deleting Data](#deleting-data)
   6. [Flushing All Data](#flushing-all-data)
-3. [Flashing Data](#flashing-data)
-4. [Session Handlers](#session-handlers)
-5. [Middleware](#middleware)
-6. [Using Sessions In Controllers](#using-sessions-in-controllers)
+  7. [Flashing Data](#flashing-data)
+3. [Session Handlers](#session-handlers)
+4. [Middleware](#middleware)
+5. [Using Sessions In Controllers](#using-sessions-in-controllers)
+6. [Id Generators](#id-generators)
 7. [Configuring](#configuring)
-8. [Id Generators](#id-generators)
 
 <h2 id="introduction">Introduction</h2>
 HTTP is a stateless protocol.  What that means is that each request has no memory of previous requests.  If you've ever used the web, though, you've probably noticed that websites are able to remember information across requests.  For example, a "shopping cart" on an e-commerce website remembers what items you've added to your cart.  How'd they do that?  **Sessions**.
@@ -22,7 +22,7 @@ HTTP is a stateless protocol.  What that means is that each request has no memor
 > **Note:** Although similar in concept, RDev's sessions do not use PHP's built-in `$_SESSION` functionality because it is awful.
 
 <h2 id="basic-usage">Basic Usage</h2>
-RDev's sessions implement `RDev\Sessions\ISession`.  `RDev\Sessions\Session` implements `ISession` and comes with RDev.
+RDev sessions must implement `RDev\Sessions\ISession` (`RDev\Sessions\Session` comes built-in).
 
 <h3 id="setting-data">Setting Data</h3>
 Any kind of serializable data can be written to sessions:
@@ -67,7 +67,7 @@ $session->delete("someKey");
 $session->flush();
 ```
 
-<h2 id="flashing-data">Flashing Data</h2>
+<h3 id="flashing-data">Flashing Data</h3>
 Let's say you're writing a form that can display any validation errors after submitting, and you'd like to remember these error messages only for the next request.  Use `flash()`:
 
 ```php
@@ -82,7 +82,7 @@ foreach($session->get("formErrors") as $error)
 On the next request, the data in "formErrors" will be deleted.  Want to extend the lifetime of the flash data by one more request?  Use `reflash()`.
 
 <h2 id="session-handlers">Session Handlers</h2>
-**Session handlers** are what actually read and write session data from some form of storage, eg text files, cache, or cookies.  Typically, they read and write session data using [middleware](#middleware).  The following are session handlers built-into RDev:
+**Session handlers** are what actually read and write session data from some form of storage, eg text files, cache, or cookies.  All RDev handlers implement `\SessionHandlerInterface` (built-into PHP).  Typically, they read and write session data using [middleware](#middleware).  The following are session handlers built-into RDev:
 
 * `RDev\Sessions\Handlers\FileSessionHandler`
   * Stores session data to plain-text files
@@ -97,10 +97,10 @@ Typically in middleware, your `handler` will read from session storage using dat
 <h2 id="using-sessions-in-controllers">Using Sessions in Controllers</h2>
 To use sessions in your controllers, simply inject it into the controller's constructor along with a type hint.
 
-<h2 id="configuring">Configuring</h2>
-If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a> and you'd like to configure your session, you can do so in `configs/http/sessions.php`.  Your environment config in `configs/environment/.env.app.php` contains a variable `SESSION_HANDLER`, which should point to the handler class to use (defaults to `FileSessionHandler`).
-
 <h2 id="id-generators">Id Generators</h2>
 If your session has just started or if its data has been invalidated, a new session Id will need to be generated.  These Ids must be cryptographically secure to prevent session hijacking.  If you're using `RDev\Sessions\Session`, you can either pass in your own Id generator (must implement `RDev\Sessions\Ids\IIdGenerator`) or use the default `RDev\Sessions\Ids\IdGenerator`.
 
 > **Note:** It's recommended you use RDev's `IdGenerator` unless you know what you're doing.
+
+<h2 id="configuring">Configuring</h2>
+If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a> and you'd like to configure your session, you can do so in `configs/http/sessions.php`.  Your environment config in `configs/environment/.env.app.php` contains a variable `SESSION_HANDLER`, which should point to the handler class to use (defaults to `FileSessionHandler`).
