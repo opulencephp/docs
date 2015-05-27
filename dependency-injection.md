@@ -6,7 +6,9 @@
   2. [Dependency Injection Container](#dependency-injection-container)
 2. [Basic Usage](#basic-usage)
 3. [Binding a Specific Instance](#binding-a-specific-instance)
+  1. [Using Callbacks](#universal-callback-bindings)
 4. [Targeted Bindings](#targeted-bindings)
+  1. [Using Callbacks](#targeted-callback-bindings)
 5. [Creating New Instances](#creating-new-instances)
 6. [Creating Shared Instances](#creating-shared-instances)
 7. [Passing Constructor Primitives](#passing-constructor-primitives)
@@ -136,6 +138,19 @@ $container->bind("IFoo", $concreteInstance);
 echo $concreteInstance === $container->makeShared("IFoo"); // 1
 ```
 
+<h4 id="universal-callback-bindings">Using Callbacks</h4>
+RDev supports binding callbacks:
+
+```php
+$container->bind("IFoo", function()
+{
+    return new ConcreteFoo();
+});
+echo get_class($container->makeNew("IFoo")); // "ConcreteFoo" 
+```
+
+Callbacks are evaluated only when they're needed.  If you are [creating shared instances](#creating-shared-instances), the results of the callbacks will be used for future `makeShared()` calls.
+
 <h2 id="targeted-bindings">Targeted Bindings</h2>
 By default, bindings are registered so that they can be used by all classes.  If you'd like to bind a concrete class to an interface or abstract class for only a specific class, you can create a targeted binding:
 ```php
@@ -145,6 +160,16 @@ $container->bind("IFoo", "ConcreteFoo", "A");
 Now, `ConcreteFoo` is only bound to `IFoo` for the target class `A`.
 
 > **Note:** Targeted bindings take precedence over universal bindings.
+
+<h4 id="targeted-callback-bindings">Using Callbacks</h4>
+Callbacks can be used for targeted bindings, [similar to universal bindings](#universal-callback-bindings):
+
+```php
+$container->bind("IFoo", function()
+{
+    return new ConcreteFoo();
+}, "A");
+```
 
 <h2 id="creating-new-instances">Creating New Instances</h2>
 To create a brand new instance of a class with all of its dependencies injected, you can call `makeNew()`:
