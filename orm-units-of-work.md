@@ -39,6 +39,7 @@ $unitOfWork->commit();
 
 // To prove that this really worked, let's print the name of the user now
 echo $users->getById(123)->getUsername(); // "bar"
+```
 
 <h2 id="entity-registry">Entity Registry</h2>
 Entities that are scheduled for insertion/deletion/update are managed by an `EntityRegistry`.  The `EntityRegistry` is also responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`:

@@ -36,7 +36,5 @@
   * Can synchronize entities in cache with those in the SQL database using `refreshEntities()`
     * Returns an array with the same format as `getUnsyncedEntities()`
 
-```
-
 <h2 id="automatic-caching">Automatic Caching</h2>
 By extending the `CachedSQLDataMapper`, you can take advantage of automatic caching of entities for faster performance.  Entities are searched in cache before defaulting to an SQL database, and they are added to cache on misses.  Writes to cache are automatically queued whenever writing to a `CachedSQLDataMapper`.  To keep cache in sync with SQL, the writes are only performed once a unit of work commits successfully.
