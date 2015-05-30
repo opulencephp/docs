@@ -76,6 +76,7 @@ Let's say that when creating a user you also create a password object.  This pas
 // Order here matters: aggregate roots should be added before their children
 $unitOfWork->scheduleForInsertion($user);
 $unitOfWork->scheduleForInsertion($password);
+
 // Pass in the aggregate root, the child, and the function that sets the aggregate root Id in the child
 // The first argument of the function you pass in should be the aggregate root, and the second should be the child
 $unitOfWork->registerAggregateRootChild($user, $password, function($user, $password)
@@ -83,6 +84,7 @@ $unitOfWork->registerAggregateRootChild($user, $password, function($user, $passw
     // This will be executed after the user is inserted but before the password is inserted
     $password->setUserId($user->getId());
 });
+
 $unitOfWork->commit();
 echo $password->getUserId() == $user->getId(); // 1
 ```
