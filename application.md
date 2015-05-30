@@ -71,7 +71,7 @@ If you'd like to perform a certain task after all the pre-shutdown tasks have be
 ```php
 $application->shutdown(function()
 {
-    error_log("Application actually shutdown at " . date("Y-m-d H:i:s"));
+    error_log("Application actually shut down at " . date("Y-m-d H:i:s"));
 });
 ```
 
