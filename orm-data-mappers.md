@@ -123,7 +123,6 @@ class PostSQLDataMapper extends SQLDataMapper
     
     protected function setIdGenerator()
     {
-
         // This Id generator accepts the name of the Id sequence
         $this->idGenerator = new IntSequenceIdGenerator("posts_id_seq");
     }
@@ -141,9 +140,6 @@ Redis data mappers implement the following methods:
 * `getEntityHashById()`
   * Gets a hash (row) of data from Redis for an entity
   * You must implement this for each Redis data mapper
-* `deleteKeyPatterns()`
-  * Deletes keys that match a pattern
-  * Use an asterisk "*" as a wildcard
 * `getById()`
   * Gets an entity by an Id
 * `loadEntity()`
@@ -178,13 +174,14 @@ class PostRedisDataMapper extends PHPRedisDataMapper
         }
 
         // Create an index of post Ids
+        // This is useful for the getAll() method
         $this->redis->sAdd("posts", $post->getID());
     }
     
     /** @var Post $post */
     public function delete(IEntity &$post)
     {
-        if(!$this->redis->del("posts:" . $post->getID()))
+        if(!$this->redis->del("posts:{$post->getID()}"))
         {
             throw new ORMException("Failed to delete post with ID {$post->getID()} from Redis");
         }
@@ -211,7 +208,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper
     /** @var Post $post */
     public function update(IEntity &$post)
     {
-        // In our case, an update will do the same thing as an addition
+        // In this case, an update will do the same thing as an addition
         $this->add($post);
     }
     
@@ -242,7 +239,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper
 <h2 id="cached-sql-data-mappers">Cached SQL Data Mappers</h2>
 Cached SQL data mappers use an SQL database with a cache layer on top.  This reduces the number of queries going to your database by up to 95%, which drastically increases the speed of your data retrieval and improves scalability.  All writes are coordinated by the [unit of work](orm-units-of-work) so that cache and the SQL database are never out of sync.  Cached SQL data mappers contain a cache data mapper and an SQL data mapper.  It coordinates reads and writes between the two sub-data mappers and gives priority to the cache data mapper.  If data cannot be found in cache, it is queried from the SQL database and written back to cache for future queries.
 
-> **Note:** The cache and SQL data mappers MUST implement the same interface.  This allows the cached SQL data mapper to try and call a method from the cache data mapper, and if it fails, call it from the SQL data mapper.  If one of your data mappers does not return data for a particular method, just return `null` if the method returns a single entity, otherwise an empty array if it returns a list of entities.
+> **Note:** The cache and SQL data mappers MUST implement the same interface for all `get*()` methods.  This allows the cached SQL data mapper to try and call a method from the cache data mapper, and if it fails, call it from the SQL data mapper.  If one of your data mappers does not return data for a particular method, just return `null` if the method returns a single entity, otherwise an empty array if it returns a list of entities.
 
 Cached SQL data mappers must implement `RDev\ORM\DataMappers\ICachedSQLDataMapper` (`CachedSQLDataMapper` comes built-in).  `RedisCachedSQLDataMapper` and `MemcachedCachedSQLDataMapper` both extend `CachedSQLDataMapper` and provide functionality to simplify interactions with Redis and Memcached, respectively.
 
@@ -275,9 +272,9 @@ Let's take a look at a cached SQL data mapper example that uses the cache and SQ
 ```php
 namespace MyApp\WordPress\ORM\DataMappers;
 use RDev\Databases\ConnectionPool;
-use RDev\ORM\DataMappers\CachedSQLDataMapper;
+use RDev\ORM\DataMappers\RedisCachedSQLDataMapper;
 
-class PostCachedSQLDataMapper extends CachedSQLDataMapper
+class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper
 {
     protected function setCacheDataMapper($cache)
     {
