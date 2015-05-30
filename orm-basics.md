@@ -86,14 +86,16 @@ $unitOfWork = new UnitOfWork($entityRegistry, $connection);
 $className = $entityRegistry->getClassName($user);
 $entityRegistry->manageEntity($user);
 $user->setUsername("newUsername");
+
 // Let's pretend that all we care about in checking if two user objects are identical is comparing their usernames
 // Register a comparison function that takes two user objects and returns whether or not the usernames matched
 $entityRegistry->registerComparisonFunction($className, function($a, $b)
 {
     return $a->getUsername() == $b->getUsername();
 });
+
 // On commit, the entity registry will run the comparison function, and it will determine that the $user's
-// username has changed.  So, it will be scheduled for update and committed
+// username has changed.  So, it will be scheduled for update and committed.
 $unitOfWork->commit();
 ```
 > **Note:** PHP's `clone` feature performs a shallow clone.  In other words, it only clones the object, but not any objects contained in that object.  If your object contains another object and you'd like to take advantage of automatic change tracking, you must write a `__clone()` method for that class to clone any objects it contains.  Otherwise, the automatic change tracking will not pick up on changes made to the objects contained in other objects.
