@@ -9,6 +9,7 @@
   2. [Example](#cache-example)
 4. [Cached SQL Data Mappers](#cached-sql-data-mappers)
   1. [Example](#cached-sql-example)
+5. [Generating Data Mapper Classes](#generating-data-mapper-classes)
 
 <h2 id="introduction">Introduction</h2>
 *Data mappers* act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.  All repositories must implement the following interfaces:
@@ -289,3 +290,6 @@ class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper
 ```
 
 That's it.  Just use this cached SQL data mapper throughout your application, and you will take advantage of aggressive caching.
+
+<h2 id="generating-data-mapper-classes">Generating Data Mapper Classes</h2>
+You can use the console to generate any type of built-in data mapper using `php rdev make:datamapper`, and then selecting from the menu.

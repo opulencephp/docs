@@ -10,7 +10,7 @@
 4. [Renaming Project](#renaming-project)
 
 <h2 id="requirements">Requirements</h2>
-* PHP 5.5, 5.6, 7.0, or HHVM >= 3.4.0
+* PHP 5.5, 5.6, 7.0, or HHVM &ge; 3.4.0
 * OpenSSL
 * mbstring
 * A default PHP timezone set in the PHP.ini
