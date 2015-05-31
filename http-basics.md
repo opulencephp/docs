@@ -1,0 +1,88 @@
+# HTTP Basics
+
+## Table of Contents
+1. [Introduction](#introduction)
+2, [Models](#models)
+3. [Views](#views)
+4. [Controllers](#controllers)
+  1. [Dependency Injection](#depdency-injection)
+  2. [Responses](#responses)
+
+<h2 id="introduction">Introduction</h2>
+HTTP (website) applications are the most common types of applications created with RDev.  They make it easy to handle HTTP requests, perform business logic, render views, and send HTTP responses back to the user.  RDev uses a powerful, yet simple way of building your HTTP applications - MVC (Model, View, and Controller).  
+MVC is a programming architecture that separates your models from your views from your controllers.  This allows you to swap any component of your application without affecting the rest.  For example, you might decide to give your website a facelift.  Doing so should really only affect the views in your application.  By strictly following the MVC architecture, you can redesign your website without having to worry much at all about the backend.
+
+<h2 id="models">Models</h2>
+Models store data and the business logic behind your application.  Think of them as the heart of your application.  Your models can be plain-old PHP objects in RDev.
+
+<h2 id="views">Views</h2>
+Views comprise the user interface portion of your application.  They should be relatively independent of your models to allow proper abstraction.  RDev has a built-in [template engine](views-basics), although you are free to use any template engine you'd like in an RDev application.
+
+<h2 id="controllers">Controllers</h2>
+Controllers act as the go-between for models and views in an application.  When a model is updated, the controller updates the view.  Similarly, when a view is updated, the controller updates the models.  In RDev, controllers can either be plain-old PHP classes, or they can extend `RDev\Routing\Controller`, which automatically injects the `RDev\HTTP\Requests\Request` object and sets up your views to use RDev's template engine.
+
+<h4 id="dependency-injection">Dependency Injection</h4>
+RDev uses a [dependency injection container](dependency-injection) to create controllers.  Taking advantage of this is simple:  type-hint any objects your controller needs in the controller's constructor.  RDev will inject the appropriate objects into your controllers via your [bootstrappers](bootstrappers).
+
+> **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
+
+Let's take a look at an example bootstrapper and controller to demonstrate how dependency injection works:
+
+<h5 id="bootstrapper">Bootstrapper</h5>
+```php
+namespace MyApp\Bootstrappers\ORM;
+use MyApp\HTTP\Controllers\UserList;
+use MyApp\Users\ORM\UserRepo;
+use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\IoC\IContainer;
+use RDev\ORM\Repositories\IRepo;
+
+class UserBootstrapper extends Bootstrapper
+{
+    public function registerBindings(IContainer $container)
+    {
+        // Bind the user repository to the UserList controller
+        $container->bind(IRepo::class, UserRepo::class, UserList::class);
+    }
+}
+```
+
+<h5 id="controller">Controller</h5>
+```php
+namespace MyApp\HTTP\Controllers;
+use RDev\ORM\Repositories\IRepo;
+use RDev\Routing\Controller;
+
+class UserList extends Controller
+{
+    private $users;
+    
+    // UserBootstrapper bound UserRepo to this controller, so that's what will be injected here
+    public function __construct(IRepo $users)
+    {
+        $this->users = $users;
+    }
+    
+    public function showAll()
+    {
+        $this->template->setVar("users", $this->users->getAll());
+    }
+}
+```
+
+<h5 id="view">View</h5>
+```
+<section class="user">
+    <?php foreach($users as $user): ?>
+    <h2>{{$user->getName()}}</h2>
+    Email: <a href="mailto:{{$user->getEmail()}}>{{$user->getEmail()}}</a>
+    <?php endforeach; ?>
+</section>
+```
+
+In this example, the bootstrapper will bind `IRepo` to `UserRepo` for the `UserList` controller.  The route dispatcher will then instantiate this controller with the help of the IoC container.  The container will scan `UserList`'s constructor, realize that it needs a `UserRepo` instance, and create the `UserList` with a `UserRepo` instance.
+
+For more information about routing, [read the documentation](routing).
+
+<h4 id="responses">Responses</h4>
+Controller methods should return an instance of the (`RDev\HTTP\Responses\Response`)[http-requests-responses) class.  If a response is not returned, whatever was returned will be wrapped up into a `200` response object.

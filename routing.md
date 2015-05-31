@@ -74,13 +74,7 @@ $router->get("/users/{id}", function(Request $request, $id)
 ```
 
 <h4 id="using-controller-classes">Using Controller Classes</h4>
-Anything other than super-simple applications should probably use full-blown controller classes.  They provide reusability, better separation of responsibilities, and more features.  The router takes advantage of the [Dependency Injection Container](dependency-injection) to instantiate your controller.
-
-> **Note:** Controllers that return plain text will have their responses wrapped up into an `RDev\HTTP\Responses\Response` object.
-
-> **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
-
-> **Note:** RDev allows you to use a plain-old PHP class as a controller.  However, it also supports the baked-in controller `RDev\Routing\Controller`, which automatically injects the `Request` into the controller as well as a view `Compiler`.  So, if you're using RDev view components or if you don't want to have to inject the `Request` into every controller's constructor, it's probably best to extend `RDev\Routing\Controller`.
+Anything other than super-simple applications should probably use full-blown controller classes.  They provide reusability, better separation of responsibilities, and more features.  [Read here](http-basics#controllers) for more information about controllers.
 
 <h4 id="multiple-methods">Multiple Methods</h4>
 You can register a route to multiple methods using the router's `multiple()` method:
