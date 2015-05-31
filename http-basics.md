@@ -2,10 +2,10 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2, [Models](#models)
+2. [Models](#models)
 3. [Views](#views)
 4. [Controllers](#controllers)
-  1. [Dependency Injection](#depdency-injection)
+  1. [Dependency Injection](#dependency-injection)
   2. [Responses](#responses)
 
 <h2 id="introduction">Introduction</h2>
@@ -16,7 +16,7 @@ MVC is a programming architecture that separates your models from your views fro
 Models store data and the business logic behind your application.  Think of them as the heart of your application.  Your models can be plain-old PHP objects in RDev.
 
 <h2 id="views">Views</h2>
-Views comprise the user interface portion of your application.  They should be relatively independent of your models to allow proper abstraction.  RDev has a built-in [template engine](views-basics), although you are free to use any template engine you'd like in an RDev application.
+Views comprise the user interface portion of your application.  They should be relatively independent of your models to allow proper abstraction.  RDev has a built-in [template engine](view-basics), although you are free to use any template engine you'd like.
 
 <h2 id="controllers">Controllers</h2>
 Controllers act as the go-between for models and views in an application.  When a model is updated, the controller updates the view.  Similarly, when a view is updated, the controller updates the models.  In RDev, controllers can either be plain-old PHP classes, or they can extend `RDev\Routing\Controller`, which automatically injects the `RDev\HTTP\Requests\Request` object and sets up your views to use RDev's template engine.
@@ -26,7 +26,7 @@ RDev uses a [dependency injection container](dependency-injection) to create con
 
 > **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
 
-Let's take a look at an example bootstrapper and controller to demonstrate how dependency injection works:
+Let's take a look at an example bootstrapper, controller, and view to demonstrate how controllers work:
 
 <h5 id="bootstrapper">Bootstrapper</h5>
 ```php
@@ -57,7 +57,8 @@ class UserList extends Controller
 {
     private $users;
     
-    // UserBootstrapper bound UserRepo to this controller, so that's what will be injected here
+    // UserBootstrapper bound UserRepo to this controller
+    // So, that's what will be injected here
     public function __construct(IRepo $users)
     {
         $this->users = $users;
@@ -71,7 +72,7 @@ class UserList extends Controller
 ```
 
 <h5 id="view">View</h5>
-```
+```php
 <section class="user">
     <?php foreach($users as $user): ?>
     <h2>{{$user->getName()}}</h2>
