@@ -71,7 +71,6 @@ Create a virtual host in your Apache config with the following settings:
     # Boot up the application
     RewriteRule ^index.php - [L]
     RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^(.*)$ index.php [QSA,L]
 </VirtualHost>
 ```
