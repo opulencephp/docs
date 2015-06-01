@@ -91,7 +91,7 @@ server {
 ```
 
 <h2 id="renaming-project">Renaming Project</h2>
-By default, an RDev project is named "Project".  To change it to something more fitting for your application, open up a console on your server and run:
+By default, an RDev project is named "Project".  To change it to something more fitting for your application, open up a console on your server, navigate to the directory RDev was installed to, and run:
 
 ```
 php rdev app:rename Project NEW_NAME
