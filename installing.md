@@ -84,8 +84,8 @@ Add the following to your Nginx config:
 ```
 server {
     listen 80;
-    server_name YOUR_SITE_DOMAIN
-    root YOUR_SITE_DIRECTORY/public
+    server_name YOUR_SITE_DOMAIN;
+    root YOUR_SITE_DIRECTORY/public;
     
     # Handle trailing slashes
     rewrite ^/(.*)/$ /$1 permanent;
