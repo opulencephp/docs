@@ -64,9 +64,6 @@ Create a virtual host in your Apache config with the following settings:
     
     # Create pretty URLs
     RewriteEngine On
-    
-    # Don't remove trailing slashes for API docs
-    RewriteRule ^api/ - [L]
 
     # Handle trailing slashes
     RewriteRule ^(.*)/$ /$1 [L,R=301]
