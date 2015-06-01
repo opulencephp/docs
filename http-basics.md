@@ -86,4 +86,4 @@ In this example, the bootstrapper will bind `IRepo` to `UserRepo` for the `UserL
 For more information about routing, [read the documentation](routing).
 
 <h4 id="responses">Responses</h4>
-Controller methods should return an instance of the (`RDev\HTTP\Responses\Response`)[http-requests-responses) class.  If a response is not returned, whatever was returned will be wrapped up into a `200` response object.
+Controller methods should return an instance of the [`RDev\HTTP\Responses\Response`](http-requests-responses) class.  If a response is not returned, whatever was returned will be wrapped up into a `200` response object.
