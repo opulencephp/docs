@@ -62,7 +62,6 @@ Create a virtual host in your Apache config with the following settings:
     ServerName YOUR_SITE_DOMAIN
     DocumentRoot YOUR_SITE_DIRECTORY/public
 
-    # Create pretty URLs
     <IfModule mod_rewrite.c>
         <Directory YOUR_DOCUMENT_ROOT/public>
             RewriteEngine On
@@ -70,7 +69,7 @@ Create a virtual host in your Apache config with the following settings:
             # Handle trailing slashes
             RewriteRule ^(.*)/$ /$1 [L,R=301]
 
-            # Boot up the application
+            # Create pretty URLs
             RewriteCond %{REQUEST_FILENAME} !-f
             RewriteRule ^ index.php [L]
         </Directory>
@@ -84,8 +83,12 @@ Add the following to your Nginx config:
 
 ```
 server {
+    listen 80;
     server_name YOUR_SITE_DOMAIN
     root YOUR_SITE_DIRECTORY/public
+    
+    # Handle trailing slashes
+    rewrite ^/(.*)/$ /$1 permanent;
     
     # Create pretty URLs
     location {
