@@ -61,18 +61,22 @@ Create a virtual host in your Apache config with the following settings:
 <VirtualHost *:80>
     ServerName YOUR_SITE_DOMAIN
     DocumentRoot YOUR_SITE_DIRECTORY/public
-    
+
     # Create pretty URLs
-    RewriteEngine On
+    <IfModule mod_rewrite.c>
+        <Directory YOUR_DOCUMENT_ROOT/public>
+            RewriteEngine On
 
-    # Handle trailing slashes
-    RewriteRule ^(.*)/$ /$1 [L,R=301]
+            # Handle trailing slashes
+            RewriteRule ^(.*)/$ /$1 [L,R=301]
 
-    # Boot up the application
-    RewriteRule ^index.php - [L]
-    RewriteCond %{REQUEST_FILENAME} !-f
-    RewriteRule ^(.*)$ index.php [QSA,L]
+            # Boot up the application
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteRule ^ index.php [L]
+        </Directory>
+    </IfModule>
 </VirtualHost>
+
 ```
 
 <h4 id="nginx-config">Nginx Config</h4>
