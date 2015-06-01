@@ -76,7 +76,7 @@ class UserList extends Controller
 <section class="user">
     <?php foreach($users as $user): ?>
     <h2>{{$user->getName()}}</h2>
-    Email: <a href="mailto:{{$user->getEmail()}}>{{$user->getEmail()}}</a>
+    Email: <a href="mailto:{{$user->getEmail()}}">{{$user->getEmail()}}</a>
     <?php endforeach; ?>
 </section>
 ```
