@@ -32,6 +32,7 @@ RDev is broken into various libraries, each of which can be installed individual
 ```
 rdev/applications
 rdev/authentication
+rdev/cache
 rdev/console
 rdev/cryptography
 rdev/databases
