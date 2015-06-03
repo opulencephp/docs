@@ -128,7 +128,13 @@ $a = $container->makeNew("A");
 $a->getFoo()->sayHi(); // "Hi"
 ```
 
-As you can see, the container automatically injected an instance of `ConcreteFoo`.
+As you can see, the container automatically injected an instance of `ConcreteFoo`.  You can also bind a value to multiple interfaces with a single call:
+
+```php
+$concreteFoo = new ConcreteFoo();
+// $concreteFoo will be bound to both "IFoo" and "ConcreteFoo"
+$container->bind(["IFoo", "ConcreteFoo"], $concreteFoo);
+```
 
 <h2 id="binding-a-specific-instance">Binding a Specific Instance</h2>
 Binding a specific instance to an interface is also possible through the `bind()` method:
