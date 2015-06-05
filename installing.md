@@ -63,8 +63,8 @@ Create a virtual host in your Apache config with the following settings:
     ServerName YOUR_SITE_DOMAIN
     DocumentRoot YOUR_SITE_DIRECTORY/public
 
-    <IfModule mod_rewrite.c>
-        <Directory YOUR_DOCUMENT_ROOT/public>
+    <Directory YOUR_DOCUMENT_ROOT/public>
+        <IfModule mod_rewrite.c>
             RewriteEngine On
 
             # Handle trailing slashes
@@ -73,8 +73,8 @@ Create a virtual host in your Apache config with the following settings:
             # Create pretty URLs
             RewriteCond %{REQUEST_FILENAME} !-f
             RewriteRule ^ index.php [L]
-        </Directory>
-    </IfModule>
+        </IfModule>
+    </Directory>
 </VirtualHost>
 
 ```

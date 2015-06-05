@@ -3,8 +3,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Kernels](#kernels)
-3. [Logging](#logging)
-4. [Tasks](#tasks)
+3. [Tasks](#tasks)
   1. [Pre-Start Tasks](#pre-start-tasks)
   2. [Start Task](#start-task)
   3. [Post-Start Tasks](#post-start-tasks)
@@ -25,15 +24,15 @@ A kernel is something that takes input, performs processing on it, and returns o
 
 Having these two kernels allows RDev to function as both a traditional HTTP web application and a console application.
 
-<h2 id="logging">Logging</h2>
-RDev takes advantage of the wonderful `Monolog` library.  To learn more about it, <a href="https://github.com/Seldaek/monolog" target="_blank">read its official documentation</a>.
-
 <h2 id="tasks">Tasks</h2>
-To start and shutdown an application, simply call the `start()` and `shutdown()` methods, respectively, on the application object.  If you'd like to do some tasks before or after startup, you may do them using `registerPreStartTask()` and `registerPostStartTask()`, respectively.  Similarly, you can add tasks before and after shutdown using `registerPreShutdownTask()` and `registerPostShutdownTask()`, respectively.  These tasks are handy places to do any setting up that your application requires or any housekeeping after start/shutdown.
+To start and shutdown an application, simply call the `start()` and `shutdown()` methods, respectively, on the application object.  If you'd like to do some tasks before or after startup, you may do so with the `RDev\Applications\Tasks\Dispatchers\Dispatcher`, which is injected into the `Application` object.  Tasks are handy places to do any setting up that your application requires or any housekeeping after start/shutdown.
 
 <h4 id="pre-start-tasks">Pre-Start Tasks</h4>
+Pre-start tasks are performed before the application is started.
 ```php
-$application->registerPreStartTask(function()
+use RDev\Applications\Tasks\TaskTypes;
+
+$dispatcher->register(TaskTypes::PRE_START, function()
 {
     error_log("Application issued start command at " . date("Y-m-d H:i:s"));
 });
@@ -51,8 +50,11 @@ $application->start(function()
 > **Note:** Passing a `Closure` to `start()` is optional.
 
 <h4 id="post-start-tasks">Post-Start Tasks</h4>
+Post-start tasks are performed after the application has started.
 ```php
-$application->registerPostStartTask(function()
+use RDev\Applications\Tasks\TaskTypes;
+
+$dispatcher->register(TaskTypes::PRE_START, function()
 {
     error_log("Application finished starting at " . date("Y-m-d H:i:s"));
 });
@@ -60,7 +62,11 @@ $application->registerPostStartTask(function()
 
 <h4 id="pre-shutdown-tasks">Pre-Shutdown Tasks</h4>
 ```php
-$application->registerPreShutdownTask(function()
+Pre-shutdown tasks are performed before the application shuts down.
+```php
+use RDev\Applications\Tasks\TaskTypes;
+
+$dispatcher->register(TaskTypes::PRE_SHUTDOWN, function()
 {
     error_log("Application issued shutdown command at " . date("Y-m-d H:i:s"));
 });
@@ -78,8 +84,11 @@ $application->shutdown(function()
 > **Note:** Passing a `Closure` to `shutdown()` is optional. 
 
 <h4 id="post-shutdown-tasks">Post-Shutdown Tasks</h4>
+Post-shutdown tasks are performed after the application has shut down.
 ```php
-$application->registerPostShutdownTask(function()
+use RDev\Applications\Tasks\TaskTypes;
+
+$dispatcher->register(TaskTypes::POST_SHUTDOWN, function()
 {
     error_log("Application finished shutting down at " . date("Y-m-d H:i:s"));
 });
