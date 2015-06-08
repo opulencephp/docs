@@ -61,7 +61,6 @@ $dispatcher->register(TaskTypes::PRE_START, function()
 ```
 
 <h4 id="pre-shutdown-tasks">Pre-Shutdown Tasks</h4>
-```php
 Pre-shutdown tasks are performed before the application shuts down.
 ```php
 use RDev\Applications\Tasks\TaskTypes;

@@ -89,7 +89,7 @@ server {
     root YOUR_SITE_DIRECTORY/public;
     
     # Handle trailing slashes
-    rewrite ^/(.*)/$ /$1 permanent;
+    rewrite ^(.*)/$ /$1 permanent;
     
     # Create pretty URLs
     location {
