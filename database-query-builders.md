@@ -13,7 +13,7 @@
 10. [Vendor-Specific Query Builders](#vendor-specific-query-builders)
 
 <h2 id="introduction">Introduction</h2>
-Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `QueryBuilders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [RDev's PDO wrapper](rdbms).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
+Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `QueryBuilders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [RDev's PDO wrapper](database-basics).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
 
 <h2 id="basic-usage">Basic Usage</h2>
 Let's look at a simple `SELECT` query:
@@ -64,7 +64,7 @@ SELECT id, name, email FROM users WHERE datejoined < NOW()
   * `addReturning($expression)`
 
 <h2 id="binding-values">Binding Values</h2>
-`QueryBuilders` provide an intuitive syntax for binding values to queries ([learn more about statement bindings](rdbms#binding-values)).  To add a named placeholder, use `addNamedPlaceholderValue()`:
+`QueryBuilders` provide an intuitive syntax for binding values to queries ([learn more about statement bindings](database-basics#binding-values)).  To add a named placeholder, use `addNamedPlaceholderValue()`:
 
 ```php
 $query = (new QueryBuilder)->select("content")
@@ -193,7 +193,7 @@ $query = (new QueryBuilder)->select("author")
     ->addNamedPlaceholderValue("title", "Code Complete");
 ```
 
-Simply call `getSQL()` and `getParameters()` to use this in `PDO` or in [RDev's PDO wrapper](rdbms):
+Simply call `getSQL()` and `getParameters()` to use this in `PDO` or in [RDev's PDO wrapper](database-basics):
 
 ```php
 $statement = $connection->prepare($query->getSQL());
