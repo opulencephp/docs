@@ -7,7 +7,7 @@
 4. [Aggregate Roots](#aggregate-roots)
 
 <h2 id="introduction">Introduction</h2>
-*Units of work* act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the DataMappers.  The benefits of using units of work include:
+**Units of work** act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the DataMappers.  The benefits of using units of work include:
                                                                                                                                              
 1. Transactions across multiple repositories can be rolled back, giving you "all or nothing" functionality
 2. Changes made to entities retrieved by repositories are automatically checked for changes and, if any are found, scheduled for updating when the unit of work is committed
@@ -70,7 +70,7 @@ $unitOfWork->commit();
 > **Note:** PHP's `clone` feature performs a shallow clone.  In other words, it only clones the object, but not any objects contained in that object.  If your object contains another object and you'd like to take advantage of automatic change tracking, you must write a `__clone()` method for that class to clone any objects it contains.  Otherwise, the automatic change tracking will not pick up on changes made to the objects contained in other objects.
 
 <h2 id="aggregate-roots">Aggregate Roots</h2>
-Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an *aggregate root* because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:
+Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:
 ```php
 // Let's assume the unit of work has already been setup and that the user and password objects are created
 // Order here matters: aggregate roots should be added before their children

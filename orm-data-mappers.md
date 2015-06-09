@@ -12,7 +12,7 @@
 5. [Generating Data Mapper Classes](#generating-data-mapper-classes)
 
 <h2 id="introduction">Introduction</h2>
-*Data mappers* act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.  All repositories must implement the following interfaces:
+**Data mappers** act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.  All repositories must implement the following interfaces:
 
 * `add()`
 * `delete()`

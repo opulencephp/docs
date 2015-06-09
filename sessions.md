@@ -93,7 +93,7 @@ $session->regenerateId();
 * `RDev\Sessions\Handlers\FileSessionHandler`
   * Stores session data to plain-text files
 * `RDev\Sessions\Handlers\CacheSessionHandler`
-  * Stores session data to some form of cache, eg Memcached or Redis
+  * Stores session data to some form of [cache](cache), eg Memcached or Redis
 
 <h2 id="middleware">Middleware</h2>
 The best place to read and write session data with the `handler` is in middleware.  RDev comes with a class middleware baked-in:  `RDev\Framework\HTTP\Middleware\Session`.  

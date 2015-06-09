@@ -26,7 +26,7 @@
   2. [From SQL](#json-from-sql)
 
 <h2 id="introduction">Introduction</h2>
-A common task when reading and writing to a database is translating PHP values into database values and vice versa.  For example, you might store a date as a `DateTime` in PHP, but you need to translate this into a string with a `Y-m-d H:i:s` format before storing it in the database.  *Providers* contain the rules for each database provider (eg MySQL, PostgreSQL, etc) on how to translate PHP and database values.  Using a combination of *type mappers* and *providers*, you can translate PHP-to-database and database-to-PHP values.
+A common task when reading and writing to a database is translating PHP values into database values and vice versa.  For example, you might store a date as a `DateTime` in PHP, but you need to translate this into a string with a `Y-m-d H:i:s` format before storing it in the database.  *Providers* contain the rules for each database provider (eg MySQL, PostgreSQL, etc) on how to translate PHP and database values.  Using a combination of type mappers and providers, you can translate PHP-to-database and database-to-PHP values.
 
 <h2 id="basic-usage">Basic Usage</h2>
 Type mappers need a provider, eg MySQL or PostgreSQL, to do the conversions.  You can either pass the provider in the constructor:

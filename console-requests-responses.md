@@ -172,7 +172,7 @@ There are a few useful functions for customizing the look of tables:
   * Sets the vertical border character
 
 <h2 id="style-elements">Style Elements</h2>
-RDev supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an *Abstract Syntax Tree*, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
+RDev supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an **Abstract Syntax Tree**, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
 
 ```
 <b>Hello!</b>

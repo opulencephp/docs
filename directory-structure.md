@@ -25,8 +25,6 @@ All configuration files for your application should go here.  Console-specific c
 <h2 id="public">public</h2>
 Like the name implies, this is the directory that is publicly-accessible.  Assets like CSS, JavaScript, and images should go under the "assets" subdirectory.
 
-> **Note:** ".htaccess" and "index.php" are essential to routing HTTP requests.  Only edit these if you know what you are doing.
-
 <h2 id="resources">resources</h2>
 This is where your views and other non-publicly-accessible files go.  For example, SCSS files and un-minified JavaScript files belong here.
  

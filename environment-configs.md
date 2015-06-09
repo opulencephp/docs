@@ -61,7 +61,7 @@ $environment = new Environment($environmentName);
 ```
 
 <h2 id="environment-variables">Environment Variables</h2>
-Variables that are specifically tied to the environment the application is running on are called *environment variables*.  Setting an environment variable using RDev is as easy as `$environment->setVariable("foo", "bar")`.  To make configuring your environment variables as easy as possible, RDev supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "configs/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
+Variables that are specifically tied to the environment the application is running on are called **environment variables**.  Setting an environment variable using RDev is as easy as `$environment->setVariable("foo", "bar")`.  To make configuring your environment variables as easy as possible, RDev supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "configs/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
  
 ##### .env.example.php
 ```php

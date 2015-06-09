@@ -53,7 +53,7 @@ class MyBootstrapper extends Bootstrapper
 You can now inject `Posts` into any service or controller that needs to query WordPress posts.
 
 <h2 id="lazy-bootstrappers">Lazy Bootstrappers</h2>
-It's not very efficient to create, register bindings, run, and shut down every bootstrapper in your application when they're not all needed.  Sometimes, you may only like a bootstrapper to be registered/run/shut down if its bindings are required.  This is the purpose of *lazy bootstrappers*.  In RDev, you can designate a bootstrapper to be lazy-loaded by making it implement `RDev\Applications\Bootstrappers\ILazyBootstrapper`, which requires a `getBoundClasses()` method to be defined.  This method should return a list of all classes/interfaces bound to the IoC container by that bootstrapper.  Let's take a look at an example:
+It's not very efficient to create, register bindings, run, and shut down every bootstrapper in your application when they're not all needed.  Sometimes, you may only like a bootstrapper to be registered/run/shut down if its bindings are required.  This is the purpose of **lazy bootstrappers**.  In RDev, you can designate a bootstrapper to be lazy-loaded by making it implement `RDev\Applications\Bootstrappers\ILazyBootstrapper`, which requires a `getBindings()` method to be defined.  This method should return a list of all classes/interfaces bound to the IoC container by that bootstrapper.  Let's take a look at an example:
 
 <h4 id="lazy-example">Example</h4>
 ```php
@@ -66,7 +66,7 @@ use RDev\IoC\IContainer;
 
 class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
-    public function getBoundClasses()
+    public function getBindings()
     {
         return [IFoo::class];
     }

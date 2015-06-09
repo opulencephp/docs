@@ -15,7 +15,7 @@
 Keeping user data secure is of the utmost importance.  Unfortunately, PHP's built-in cryptographic support is somewhat fragmented and not easy to use.  Lucky for you, RDev has a `Cryptography` library to simplify all this.
 
 <h2 id="hashing">Hashing</h2>
-Hashers take input and perform a one-way mapping to a hashed value.  It is impossible to *decrypt* a hashed value because of the way this mapping is generated.  This hashes suitable for storing sensitive data, like user passwords.
+Hashers take input and perform a one-way mapping to a hashed value.  It is impossible to decrypt a hashed value because of the way this mapping is generated.  This hashes suitable for storing sensitive data, like user passwords.
 
 <h4 id="bcrypt">bcrypt</h4>
 `bcrypt` is a popular hashing function that has built-in protection methods against timing attacks.  It accepts a "cost" parameter, which tells `bcrypt` how long to take when attempting to verify an unhashed value.  Every time the cost goes up by one, the hasher takes 10 times longer to hash.  This prevents GPUs from being able to efficiently perform rainbow table attacks against compromised data.  You can adjust this value to make it future-proof.  Let's take a look at how to use it:
@@ -52,6 +52,8 @@ $encrypter = new Encrypter($myApplicationKey, new Strings());
 ```
 
 You can change the underlying `OpenSSL` cipher using `setCipher()`.
+
+> **Note:** The default cipher is AES-128-CBC.  Although you can use any OpenSSL cipher you'd like, it is strongly recommended you use an AES CBC cipher such as AES-128-CBC or AES-256-CBC. 
 
 <h4 id="encrypting-data">Encrypting Data</h4>
 ```php

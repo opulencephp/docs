@@ -96,13 +96,13 @@ $id = 24;
 $query = "SELECT email FROM users WHERE id = $id";
 ```
 
-The issue here is what's called *SQL injection*.  What would happen if a malicious user input "1 OR 1=1" into the query above?  We'd get:
+The issue here is what's called **SQL injection**.  What would happen if a malicious user input "1 OR 1=1" into the query above?  We'd get:
 
 ```php
 "SELECT email FROM users WHERE id = 1 OR 1=1"
 ```
 
-See the issue there?  The malicious user just tricked your application into returning the email address for every user.  This is where *prepared statements* and binding comes in handy.  Instead of just concatenating your value into the query, `PDO` will automatically escape the data before using it in the query.
+See the issue there?  The malicious user just tricked your application into returning the email address for every user.  This is where **prepared statements** and binding comes in handy.  Instead of just concatenating your value into the query, `PDO` will automatically escape the data before using it in the query.
 
 > **Note:** For data binding to work properly, it is imperative that you include the type of the parameter being bound, eg `PDO::PARAM_INT` or `PDO::PARAM_BOOL`.
 

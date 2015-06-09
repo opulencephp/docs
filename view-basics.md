@@ -70,7 +70,7 @@ echo $compiler->compile($template); // "A&amp;W Root Beer"
 ```
 
 <h4 id="compiling">Compiling</h4>
-RDev compiles templates using a compiler that implements `RDev\Views\Compilers\ICompiler` (`RDev\Views\Compilers\Compiler` come built-into RDev).  By separating compiling into a separate class, we separate the concerns of templates and compiling templates, thus satisfying the *Single Responsibility Principle* (*SRP*).  Let's take a look at a basic example:
+RDev compiles templates using a compiler that implements `RDev\Views\Compilers\ICompiler` (`RDev\Views\Compilers\Compiler` come built-into RDev).  By separating compiling into a separate class, we separate the concerns of templates and compiling templates, thus satisfying the **Single Responsibility Principle** (**SRP**).  Let's take a look at a basic example:
 
 ##### Template
 ```
@@ -167,7 +167,7 @@ echo $compiler->compile($template); // "Hello, Administrator"
 > **Note:** It's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
 <h2 id="extending-templates">Extending Templates</h2>
-Most templates extend some sort of master template.  To make your life easy, RDev builds support for this functionality into its templates.  RDev uses a *statement tag* `{% %}` for RDev-specific logic statements.  They provide the ability do such things as extend templates.
+Most templates extend some sort of master template.  To make your life easy, RDev builds support for this functionality into its templates.  RDev uses a statement tag `{% %}` for RDev-specific logic statements.  They provide the ability do such things as extend templates.
 
 <h4 id="example">Example</h4>
 
@@ -212,7 +212,7 @@ Another common case is a master template that is leaving a child template to fil
 {% endpart %}
 ```
 
-We created a *part* named "sidebar".  When the child gets compiled, the contents of that part will be shown in any `{% show() %}` statement whose parameter matches the name of the part. We will get the following:
+We created a part named "sidebar".  When the child gets compiled, the contents of that part will be shown in any `{% show() %}` statement whose parameter matches the name of the part. We will get the following:
 
 ```
 <div id="sidebar">

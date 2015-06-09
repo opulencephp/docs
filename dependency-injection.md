@@ -20,7 +20,7 @@
 
 <h2 id="introduction">Introduction</h2>
 <h4 id="explanation-of-dependency-injection">Explanation of Dependency Injection</h4>
-*Dependency Injection* refers to the practice of passing a class its dependencies instead of the class creating them on its own.  This is very useful for creating loosely-coupled, testable code.  Let's take a look at an example that doesn't use dependency injection:
+**Dependency Injection** refers to the practice of passing a class its dependencies instead of the class creating them on its own.  This is very useful for creating loosely-coupled, testable code.  Let's take a look at an example that doesn't use dependency injection:
 
 ```php
 class Foo
