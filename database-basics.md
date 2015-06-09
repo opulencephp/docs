@@ -86,7 +86,7 @@ To read from the database, simply use the connection returned by `$connectionPoo
 <h2 id="how-to-query-and-fetch-results">How to Query and Fetch Results</h2>
 RDev uses the exact same methods as `PDO` to query and fetch results.  To learn how to query using `PDO`, try the <a href="http://php.net/manual/en/book.pdo.php" target="_blank">official PHP documentation</a>.
 
-RDev's `PDO` wrappers make it easy to connect to the database without having to remember things like how to format the DSN.  RDev's wrappers also support [type mappers](type-mappers) for easy conversion between a database vendor's data types and PHP data types.  They even provide support for nested database transactions.
+RDev's `PDO` wrappers make it easy to connect to the database without having to remember things like how to format the DSN.  RDev's wrappers also support [type mappers](database-type-mappers) for easy conversion between a database vendor's data types and PHP data types.  They even provide support for nested database transactions.
 
 <h2 id="binding-values">Binding Values</h2>
 Most database queries use a dynamic variable to filter results.  The unsafe method would be to put it directly in the string:
