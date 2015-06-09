@@ -46,7 +46,7 @@ use RDev\Cryptography\Encryption\Encrypter;
 use RDev\Cryptography\Encryption\EncryptionException;
 use RDev\Cryptography\Utilities\Strings;
 
-// This should be a unique, random-generated string
+// This should be a unique, random string
 $myApplicationKey = "mySecretApplicationKey";
 $encrypter = new Encrypter($myApplicationKey, new Strings());
 ```
@@ -65,7 +65,7 @@ catch(EncryptionException $ex)
 }
 ```
 
-A **Message Authentication Code** (**MAC**) is created using the encrypted value to detect any tampering the the encrypted data.  If there was any issue encrypting the data, an `RDev\Cryptography\Encryption\EncryptionException` will be thrown.
+A **Message Authentication Code** (**MAC**) is created using the encrypted value to detect any tampering with the encrypted data.  If there was any issue encrypting the data, an `RDev\Cryptography\Encryption\EncryptionException` will be thrown.
 
 <h4 id="decrypting-data">Decrypting Data</h4>
 ```php
