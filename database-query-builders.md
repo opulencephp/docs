@@ -128,11 +128,11 @@ INSERT INTO users (name, email, age) VALUES (?, ?, ?)
 The following values are bound to the query:
 
 ```php
-array(
-    array("Brian", \PDO::PARAM_STR),
-    array("foo@bar.com", \PDO::PARAM_STR),
-    array(24, \PDO::PARAM_INT)
-)
+[
+    ["Brian", \PDO::PARAM_STR],
+    ["foo@bar.com", \PDO::PARAM_STR],
+    [24, \PDO::PARAM_INT]
+]
 ```
 
 > **Note:** `INSERT` and `UPDATE` query builders bind unnamed placeholder values.  To specify the type of the value, use an array whose first item is the value and whose second item is the type.
@@ -159,11 +159,11 @@ UPDATE users AS u SET name = ?, age = ? WHERE id = ?
 The following values are bound to the query:
 
 ```php
-array(
-    array("Dave", \PDO::PARAM_STR),
-    array(24, \PDO::PARAM_INT),
-    array(1234, \PDO::PARAM_INT)
-)
+[
+    ["Dave", \PDO::PARAM_STR],
+    [24, \PDO::PARAM_INT],
+    [1234, \PDO::PARAM_INT]
+]
 ```
 
 > **Note:** Like `INSERT` query builders, `UPDATE` query builders bind unnamed placeholder values.
@@ -241,9 +241,9 @@ UPDATE users SET status = ? RETURNING id, name
 The following values are bound to the query:
 
 ```php
-array(
-    array(0, \PDO::PARAM_INT)
-)
+[
+    [0, \PDO::PARAM_INT]
+]
 ```
 
 Here's an example of an `INSERT` statement with a *RETURNING* clause:
@@ -266,7 +266,7 @@ INSERT INTO users (name) VALUES (?) RETURNING id, name
 The following values are bound to the query:
 
 ```php
-array(
-    array("David", \PDO::PARAM_STR)
-)
+[
+    ["David", \PDO::PARAM_STR]
+]
 ```
