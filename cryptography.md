@@ -5,6 +5,8 @@
 2. [Hashing](#hashing)
   1. [bcrypt](#bcrypt)
 3. [Encryption](#encryption)
+  1. [Encrypting Data](#encrypting-data)
+  2. [Decrypting Data](#decrypting-data)
 4. [String Utility](#string-utility)
   1. [Generating Random Strings](#generating-random-strings)
   2. [String Comparison](#string-comparison)
@@ -37,21 +39,51 @@ echo $bcryptHasher->verify($hashedValue, $unhashedValue, "bar"); // 1
 ```
 
 <h2 id="encryption">Encryption</h2>
-Sometimes, your application needs to encrypt data, send it to another component, and then decrypt it.  This is different from hashing in that encrypted values can be decrypted.  To make this process as secure and simple as possible, RDev provides the `Encrypter` class:
+Sometimes, your application needs to encrypt data, send it to another component, and then decrypt it.  This is different from hashing in that encrypted values can be decrypted.  To make this process as secure and simple as possible, RDev has an easy-to-use wrapper around `OpenSSL` in its `Encrypter` class:
 
 ```php
 use RDev\Cryptography\Encryption\Encrypter;
+use RDev\Cryptography\Encryption\EncryptionException;
 use RDev\Cryptography\Utilities\Strings;
 
 // This should be a unique, random-generated string
 $myApplicationKey = "mySecretApplicationKey";
 $encrypter = new Encrypter($myApplicationKey, new Strings());
-$unencryptedData = "foobar";
-$encryptedData = $encrypter->encrypt($unencryptedData);
-echo $unencryptedData === $encrypter->decrypt($encryptedData); // 1 
 ```
 
-You can change the underlying `mcrypt` cipher and mode using `setCipher()` and `setMode()`, respectively.
+You can change the underlying `OpenSSL` cipher using `setCipher()`.
+
+<h4 id="encrypting-data">Encrypting Data</h4>
+```php
+try
+{
+    $encryptedData = $encrypter->encrypt("foobar");
+}
+catch(EncryptionException $ex)
+{
+    // Handle the exception
+}
+```
+
+A **Message Authentication Code** (**MAC**) is created using the encrypted value to detect any tampering the the encrypted data.  If there was any issue encrypting the data, an `RDev\Cryptography\Encryption\EncryptionException` will be thrown.
+
+<h4 id="decrypting-data">Decrypting Data</h4>
+```php
+try
+{
+    $encryptedData = $encrypter->encrypt("foobar");
+    $decryptedData = $encrypter->decrypt($encryptedData);
+}
+catch(EncryptionException $ex)
+{
+    // Handle the exception
+}
+
+// Verify the decrypted data matches our original value
+echo $decryptedData === "foobar"; // 1 
+```
+
+If there was any issue decrypting the data, an `RDev\Cryptography\Encryption\EncryptionException` will be thrown.
 
 <h2 id="string-utility">String Utility</h2>
 RDev has a utility class `RDev\Cryptography\Utilities\Strings` to make it easy to do cryptographically-secure string functions.
