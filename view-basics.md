@@ -20,7 +20,7 @@
 8. [Extending the Compiler](#extending-the-compiler)
 
 <h2 id="introduction">Introduction</h2>
-**RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
+RDev has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
 
 <h2 id="basic-usage">Basic Usage</h2>
 
