@@ -1,4 +1,4 @@
-# Relational Databases
+# Database Basics
 
 ## Table of Contents
 1. [Introduction](#introduction)
