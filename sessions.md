@@ -135,7 +135,7 @@ use RDev\Cryptography\Encryption\Encrypter;
 use RDev\Cryptography\Utilities\Strings;
 use RDev\Sessions\Handlers\FileSessionHandler;
 
-$encrypter = new Encrypter("yourSecretKey", new Strings());
+$encrypter = new Encrypter("mySecretApplicationKey", new Strings());
 $handler = new FileSessionHandler("path/to/my/session/files");
 $handler->useEncryption(true);
 $handler->setEncrypter($encrypter);
