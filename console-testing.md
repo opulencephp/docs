@@ -14,6 +14,8 @@
 <h2 id="introduction">Introduction</h2>
 RDev comes with the ability to integration test your console commands using `RDev\Framework\Tests\Console\ApplicationTestCase`.  With it, you can test the output of your commands, simulate responses to prompt questions, and check the status code of the kernel.  Simply extend `ApplicationTestCase` in your test classes, and you'll inherit the following methods to help test your console application:
 
+> **Note:** If you need to define a `setUp()` or `tearDown()` method in your test, make sure to call `parent::setUp()` or `parent::tearDown()`.
+
 <h2 id="call">call()</h2>
 Allows you to simulate a call to a console command.  It accepts:
 
@@ -113,5 +115,3 @@ public function testOutput()
     $this->assertNotEquals("Goodbye, world", $this->getOutput());
 }
 ```
-
-> **Note:** If you need to define a `setUp()` or `tearDown()` method in your test, make sure to call `parent::setUp()` or `parent::tearDown()`.
