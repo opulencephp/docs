@@ -15,7 +15,8 @@
 4. [Middleware](#middleware)
 5. [Using Sessions In Controllers](#using-sessions-in-controllers)
 6. [Id Generators](#id-generators)
-7. [Configuring](#configuring)
+7. [Encrypting Session Data](#encrypting-session-data)
+8. [Configuring](#configuring)
 
 <h2 id="introduction">Introduction</h2>
 HTTP is a stateless protocol.  What that means is that each request has no memory of previous requests.  If you've ever used the web, though, you've probably noticed that websites are able to remember information across requests.  For example, a "shopping cart" on an e-commerce website remembers what items you've added to your cart.  How'd they do that?  **Sessions**.
@@ -126,5 +127,21 @@ If your session has just started or if its data has been invalidated, a new sess
 
 > **Note:** It's recommended you use RDev's `IdGenerator` unless you know what you're doing.
 
+<h2 id="encrypting-session-data">Encrypting Session Data</h2>
+You might find yourself storing sensitive data in sessions, in which case you'll want to encrypt it.  To do this, use the `useEncryption()` and `setEncrypter()` methods:
+
+```php
+use RDev\Cryptography\Encryption\Encrypter;
+use RDev\Cryptography\Utilities\Strings;
+use RDev\Sessions\Handlers\FileSessionHandler;
+
+$encrypter = new Encrypter("yourSecretKey", new Strings());
+$handler = new FileSessionHandler("path/to/my/session/files");
+$handler->useEncryption(true);
+$handler->setEncrypter($encrypter);
+```
+
+Now, all your session data will be encrypted before being written and decrypted after being read.  [Learn more](cryptography#encryption) about encryption.
+
 <h2 id="configuring">Configuring</h2>
-If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a> and you'd like to configure your session, you can do so in `configs/http/sessions.php`.  Your environment config in `configs/environment/.env.app.php` contains a variable `SESSION_HANDLER`, which should point to the handler class to use (defaults to `FileSessionHandler`).
+If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a> and you'd like to configure your session, you can do so in `configs/http/sessions.php`.  Your environment config in `configs/environment/.env.app.php` contains a variable `SESSION_HANDLER`, which should point to the handler class to use (defaults to `FileSessionHandler`).  It also contains a variable `SESSION_CACHE_BRIDGE`, which holds the class that implements `RDev\Cache\ICacheBridge` and that should be used when using cache-backed sessions.
