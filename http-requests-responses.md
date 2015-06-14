@@ -23,41 +23,48 @@ RDev makes interacting with HTTP requests and responses easy.  Tasks like checki
 <h2 id="requests">Requests</h2>
 RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` class.  This includes storing the following pieces of data:
 * $_GET
-  * Available through `$request->getQuery()`
+  * `$request->getQuery()`
 * $_POST
-  * Available through `$request->getPost()`
+  * `$request->getPost()`
   * Only populated with `x-www-form-urlencoded` content type
 * Input data
-  * Available through `$request->getInput()`
+  * `$request->getInput()`
   * Checks the query and post variables for the data
   * If the request body was JSON, it returns the JSON property with the input name
 * PUT data
-  * Available through `request->getPut()`
+  * `request->getPut()`
   * Only populated with `x-www-form-urlencoded` content type
 * PATCH data
-  * Available through `request->getPatch()`
+  * `request->getPatch()`
   * Only populated with `x-www-form-urlencoded` content type
 * DELETE data
-  * Available through `request->getDelete()`
+  * `request->getDelete()`
   * Only populated with `x-www-form-urlencoded` content type
 * $_COOKIE
-  * Available through `$request->getCookies()`
+  * `$request->getCookies()`
 * $_SERVER
-  * Available through `$request->getServer()`
+  * `$request->getServer()`
 * HTTP headers
-  * Available through `$request->getHeaders()`
+  * `$request->getHeaders()`
   * These are the $\_SERVER values whose names began with "HTTP\_"
 * $_FILES
-  * Available through `$request->getFiles()`
+  * `$request->getFiles()`
 * $_ENV
-  * Available through `$request->getEnv()`
+  * `$request->getEnv()`
 * IP address
-  * Available through `$request->getIPAddress()`
+  * `$request->getIPAddress()`
   * Automatically handles HTTP forwarded IP addresses
 * HTTPS
-  * Available through `$request->isSecure()`
+  * `$request->isSecure()`
+* Full URL
+  * `$request->getFullURL()`
+* Previous URL
+  * `$request->getPreviousURL()`
+  * Only works when using the session middleware
 * Path
-  * Available through `$request->getPath()`
+  * `$request->getPath()`
+* PHP authentication info
+  * `$request->getUser()` and `$request->getPassword()`
   
 > **Note:** Non `x-www-form-urlencoded` requests are stored in a request's raw body.
   
