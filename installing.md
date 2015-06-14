@@ -19,7 +19,7 @@
 RDev can be easily installed using Composer:
 
 ```
-composer create-project rdev/project --prefer-dist
+composer create-project rdev/project DESIRED_SERVER_PATH --prefer-dist
 ```
 
 Be sure to [configure Apache](#apache-config) to finish the installation.  Load up your website in a browser, and you should see a basic website explaining on how to start customizing it.  That's it!  If it does not show up, make sure you've made `{PATH_TO_RDEV}/tmp` writable.
