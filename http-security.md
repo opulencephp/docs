@@ -8,7 +8,7 @@
 3. [Comparing Strings](#comparing-strings)
   1. [What is It?](#comparing-strings-what-is-it)
   2. [How to Use It](#comparing-strings-how-to-use-it)
-4. [Hashing][#hashing]
+4. [Hashing](#hashing)
   1. [What is It?](#hashing-what-is-it)
   2. [How to Use It](#hashing-how-to-use-it)
 5. [Encryption](#encryption)
@@ -29,7 +29,7 @@ Building a secure application is extremely difficult.  Protecting your users fro
 Random strings are commonly used to ensure security for things like session Ids and authentication tokens.  If your random strings are not so random, then your entire application can be compromised.
 
 <h4 id="random-strings-how-to-use-it">How to Use It</h4>
-[Read](cryptography#generating-random-strings) how to generate random strings in RDev.
+Learn how to [generate random strings](cryptography#generating-random-strings) in RDev.
 
 <h2 id="comparing-strings">Comparing Strings</h2>
 <h4 id="comparing-strings-what-is-it">What is It?</h4>
@@ -37,21 +37,21 @@ Comparing sensitive strings, like hashes and tokens, using PHP's `==` operator c
 a sensitive timer and many iterations, a hacker could figure out any secured hash that's being compared with user input.
 
 <h4 id="comparing-strings-how-to-use-it">How to Use It</h4>
-[Read](cryptography#string-comparison) about how to securely compare strings in RDev.
+Learn how to [securely compare strings](cryptography#string-comparison) in RDev.
    
 <h2 id="hashing">Hashing</h2>
 <h4 id="hashing-what-is-it">What is It?</h4>
 Hashing involves performing a one-way mapping of input to a hashed value, which is suitable for storing sensitive data.  
 
 <h4 id="hashing-how-to-use-it">How to Use It</h4>
-[Read](cryptography#hashing) how to use hashing in RDev.
+Learn how to [hash data](cryptography#hashing) in RDev.
    
 <h2 id="encryption">Encryption</h2>
 <h4 id="encryption-what-is-it">What is It?</h4>
 Encryption is the process of encoding data with a special key so that only authorized parties may read it.  
 
 <h4 id="encryption-how-to-use-it">How to Use It</h4>
-[Read](cryptography#encryption) how to use encryption in RDev.
+Learn how to [encrypt data](cryptography#encryption) in RDev.
 
 <h2 id="cross-site-scripting">Cross-Site Scripting (CSS)</h2>
 <h4 id="css-what-is-it">What is It?</h4>
