@@ -36,7 +36,7 @@ Dave Young
 ```
 
 <h2 id="rdev-functions">RDev Functions</h2>
-RDev supplies some built-in functions:
+RDev supplies some built-in functions in the view library:
 * `charset()`
   * Returns HTML used to select a character set
   * Accepts the following arguments:
@@ -66,16 +66,22 @@ RDev supplies some built-in functions:
   * Returns HTML used to display a title
   * Accepts the following arguments:
     1. `string $title` - The title to use
-* `route()`
-  * Returns a URL that is created using the rules of the input route name
-  * Accepts the following arguments:
-    1. `string $routeName` - The name of the route whose URL we're creating
-    2. `array|mixed $args` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](routing#url-generators))
 * `script()`
   * Returns HTML used to link to a script file
   * Accepts the following arguments:
     1. `array|string $paths` - The path or list of paths to the scripts
     2. `string $type` - The script type, eg "text/javascript"
+    
+If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, RDev also supplies the following functions:
+* `csrfInput()`
+  * Returns a hidden input containing the CSRF token
+* `csrfToken()`
+  * Returns the current CSRF token
+* `route()`
+  * Returns a URL that is created using the rules of the input route name
+  * Accepts the following arguments:
+    1. `string $routeName` - The name of the route whose URL we're creating
+    2. `array|mixed $args` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](routing#url-generators))
 
 Since these functions output HTML, use them inside unescaped tags.  Here's an example of how to use these functions:
 

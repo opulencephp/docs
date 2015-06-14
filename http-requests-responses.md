@@ -27,6 +27,10 @@ RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` cl
 * $_POST
   * Available through `$request->getPost()`
   * Only populated with `x-www-form-urlencoded` content type
+* Input data
+  * Available through `$request->getInput()`
+  * Checks the query and post variables for the data
+  * If the request body was JSON, it returns the JSON property with the input name
 * PUT data
   * Available through `request->getPut()`
   * Only populated with `x-www-form-urlencoded` content type
@@ -65,6 +69,12 @@ RDev can accept JSON as input, which makes it easy to start developing REST appl
 
 ```php
 $request->getJSONBody();
+```
+
+You can check if a request is JSON:
+
+```php
+$request->isJSON();
 ```
 
 <h5 id="raw-body">Raw Body</h5>
