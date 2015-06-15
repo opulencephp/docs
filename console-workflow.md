@@ -15,7 +15,7 @@ RDev uses a single point of entry for console applications.  When typing `php rd
   1. Bootstrappers' bindings are registered by the bootstrapper `Dispatcher`
   2. Bootstrappers are run by the bootstrapper `Dispatcher`
 5. The application is [started](application#start-task)
-6. A console `Kernel` is instantiated with a request parser, the raw string input, and the [response](console#responses) to write output to
+6. A console `Kernel` is instantiated with a request parser, the raw string input, and the [response](console-requests-responses#responses) to write output to
 7. The `Kernel` uses the request parser to parse the input into a `Request` object
   * This contains the command name ("foo") and any arguments ("bar") and options ("--baz=blah")
 8. The command class whose `name` property matches the input command name is instantiated

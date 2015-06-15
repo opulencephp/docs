@@ -16,7 +16,7 @@ RDev uses a single point of entry for all pages.  In other words, all HTTP reque
   1. Bootstrappers' bindings are registered by the bootstrapper `Dispatcher`
   2. Bootstrappers are run by the bootstrapper `Dispatcher`
 6. The application is [started](application#start-task)
-7. An HTTP `Kernel` is instantiated, which converts the [HTTP request](http#requests) into a [response](http#responses)
+7. An HTTP `Kernel` is instantiated, which converts the [HTTP request](http-requests-responses#requests) into a [response](http-requests-responses#responses)
   * The path "/users/23/profile" is detected by the request
 8. All global [middleware](http-middleware) are run
 9. The [`Router`](routing) finds a route that matches the request
