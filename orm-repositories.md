@@ -7,12 +7,11 @@
   2. [Deleting Entities](#delete)
   3. [Getting All Entities](#get-all)
   4. [Getting By Id](#get-by-id)
-3. [Creating a Repository](#creating-a-repository)
-4. [Committing Changes](#commit)
-5. [Updating Entities](#update)
+3. [Committing Changes](#commit)
+4. [Updating Entities](#update)
 
 <h2 id="introduction">Introduction</h2>
-**Repositories** are simply collections of entities.  They provide methods for adding, deleting, and retrieving entities, but they leave the actual data retrieval to [**data mappers**](orm-data-mappers).  These data mappers can interact with an SQL database, cache, some other form of storage, or a mixture of storage mechanisms.  By utilising a [**unit of work**](orm-units-of-work), writes to the data mappers are scheduled and only executed when calling `$unitOfWork->commit()`.  This gives you the ability to wrap multiple repositories' actions into a single, "all-or-nothing" transaction.
+**Repositories** are simply collections of entities.  They provide methods for adding, deleting, and retrieving entities, but they leave the actual data retrieval to [**data mappers**](orm-data-mappers).  These data mappers can interact with an SQL database, cache, some other form of storage, or a mixture of storage mechanisms.  By utilizing a [**unit of work**](orm-units-of-work), writes to the data mappers are scheduled and only executed when calling `$unitOfWork->commit()`.  This gives you the ability to wrap multiple repositories' writes into a single, "all-or-nothing" transaction.
 
 <h2 id="basic-usage">Basic Usage</h2>
 If your repository will not implement any methods outside of `RDev\ORM\Repositories\Repo`, you don't even have to create your own repository class.  Just use `RDev\ORM\Repositories\Repo`:
@@ -52,7 +51,7 @@ $postToAdd = new Post(123, "First Post", "This is my first post");
 $repo->add($postToAdd);
 ```
 
-The new post will be scheduled for addition by the unit of work.
+The new post will be scheduled for insertion by the unit of work.
 
 <h4 id="delete">Deleting Entities</h4>
 ```php

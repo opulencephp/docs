@@ -18,7 +18,6 @@
 
 <h2 id="i-data-mapper">IDataMapper</h2>
 All data mappers must implement `RDev\ORM\DataMappers\IDataMapper`, which includes the following methods:
-
 * `add()`
 * `delete()`
 * `getAll()`
