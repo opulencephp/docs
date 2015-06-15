@@ -22,7 +22,7 @@ RDev can be easily installed using Composer:
 composer create-project rdev/project DESIRED_SERVER_PATH --prefer-dist
 ```
 
-Be sure to [configure your server](#server-config) to finish the installation.  Load up your website in a browser, and you should see a basic website explaining on how to start customizing it.  That's it!  If it does not show up, make sure you've made `{PATH_TO_RDEV}/tmp` writable.
+Be sure to [configure your server](#server-config) to finish the installation.  Load up your website in a browser, and you should see a basic website explaining on how to start customizing it.  That's it!  If it does not show up, make sure you've made `PATH_TO_RDEV/tmp` writable.
 
 > **Note:** You can <a href="https://getcomposer.org/download/" target="_blank">download Composer from here</a>.
 
@@ -55,6 +55,8 @@ rdev/views
 * RDev's `tmp` directory needs to be writable from PHP
 * The document root needs to be set to RDev's `public` directory (usually `/var/www/html/public` or `/var/www/html/YOUR_SITE_NAME/public`)
 
+> **Note:** You must set `YOUR_SITE_DOMAIN` and `YOUR_SITE_DIRECTORY` with the appropriate values in the configs below.
+
 <h4 id="apache-config">Apache Config</h4>
 Create a virtual host in your Apache config with the following settings:
 
@@ -76,7 +78,6 @@ Create a virtual host in your Apache config with the following settings:
         </IfModule>
     </Directory>
 </VirtualHost>
-
 ```
 
 <h4 id="nginx-config">Nginx Config</h4>
