@@ -68,7 +68,7 @@ $request->getPost()->get("foo");
 $request->getInput("foo");
 ```
 
-> **Note:** This is useful if you do not know if form data is coming from the query string or post data.  If the request body was JSON, `getInput()` returns the JSON property with the input name.
+> **Note:** This is similar to the data in `$_REQUEST`.  This is useful if you do not know if form data is coming from the query string or post data.  If the request body was JSON, `getInput()` returns the JSON property with the input name.
 
 <h4 id="put-data">Put Data</h4>
 ```php
