@@ -191,7 +191,7 @@ $request->getFullURL();
 ```php
 $request->getPreviousURL();
 ```
-> **Note:** This only works when using the session middleware
+> **Note:** This only works when using the session middleware.
 
 <h4 id="authentication-data">Authentication Data</h4>
 ```php
