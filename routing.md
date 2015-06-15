@@ -90,7 +90,7 @@ $router->any("MyApp\\MyController@myMethod");
 <h2 id="route-variables">Route Variables</h2>
 Let's say you want to grab a specific user's profile page.  You'll probably want to structure your URL like "/users/{userId}/profile", where "{userId}" is the Id of the user whose profile we want to view.  Using a `Router`, the data matched in "{userId}" will be mapped to a parameter in your controller's method named "$userId".
 
-> **Note:** This also works for closure controllers.  All non-optional parameters in the controller method must have identically-named route variables.  In other words, if your method looks like `function showBook($authorName, $bookTitle = null)`, your path must have a "{authorName}" variable.  The routes "/authors/{authorName}/books" and "/authors/{authorName}/books/{bookTitle}" would be valid, but "/authors" would not.
+> **Note:** This also works for closure controllers.  All non-optional parameters in the controller method must have identically-named route variables.  In other words, if your method looks like `function showBook($authorName, $bookTitle = null)`, your path must have a "{authorName}" variable.  The routes `/authors/{authorName}/books` and `/authors/{authorName}/books/{bookTitle}` would be valid, but `/authors` would not.
 
 Let's take a look at a full example:
 ```php
@@ -107,7 +107,7 @@ class UserController extends Controller
 $router->get("/users/{userId}/profile", "MyApp\\UserController@showProfile");
 ```
 
-Calling the path "/users/23/profile" will return "Profile for user 23".
+Calling the path `/users/23/profile` will return "Profile for user 23".
 
 <h4 id="regular-expressions">Regular Expressions</h4>
 If you'd like to enforce certain rules for a route variable, you may do so in the options array.  Simply add a "variables" entry with variable names-to-regular-expression mappings:
@@ -126,7 +126,7 @@ If a certain variable is optional, simply append "?" to it:
 $router->get("/books/{bookId?}", "MyApp\\BookController@showBook");
 ```
 
-This would match both "/books/" and "/books/23".
+This would match both `/books/` and `/books/23`.
 
 <h4 id="default-values">Default Values</h4>
 Sometimes, you might want to have a default value for a route variable.  Doing so is simple:
@@ -181,7 +181,7 @@ $options = [
 $router->get("/users", "MyApp\\MyController@myMethod", $options);
 ```
 
-HTTPS requests to "/users" will match, but non SSL connections will return a 404 response.
+HTTPS requests to `/users` will match, but non SSL connections will return a 404 response.
 
 <h2 id="named-routes">Named Routes</h2>
 Routes can be given a name, which makes them identifiable.  This is especially useful for things like [generating URLs for a route](#generating-urls-from-code).  To name a route, pass a `"name" => "THE_NAME"` into the route options:
@@ -205,7 +205,7 @@ $router->group(["path" => "/users/{userId}"], function() use ($router)
 });
 ```
 
-Now, a GET request to "/users/{userId}/profile" will get a user's profile, and a DELETE request to "/users/{userId}" will delete a user.
+Now, a GET request to `/users/{userId}/profile` will get a user's profile, and a DELETE request to `/users/{userId}` will delete a user.
 
 <h4 id="controller-namespaces">Controller Namespaces</h4>
 If all the controllers in a route group belong under a common namespace, you can specify the namespace in the group options:
@@ -217,7 +217,7 @@ $router->group(["controllerNamespace" => "MyApp\\Controllers"], function() use (
 });
 ```
 
-Now, a GET request to "/users" will route to `MyApp\Controllers\UserController::showAllUsers()`, and a GET request to "/posts" will route to `MyApp\Controllers\PostController::showAllPosts()`.
+Now, a GET request to `/users` will route to `MyApp\Controllers\UserController::showAllUsers()`, and a GET request to `/posts` will route to `MyApp\Controllers\PostController::showAllPosts()`.
 
 <h4 id="group-middleware">Group Middleware</h4>
 Route groups allow you to apply middleware to multiple routes:
@@ -271,7 +271,7 @@ $router->group(["path" => "/users/{userId}", "variables" => ["userId" => ["\d+"]
 });
 ```
 
-Going to "/users/foo/profile" or "users/foo/posts" will not match because the Id was not numeric.
+Going to `/users/foo/profile` or `users/foo/posts` will not match because the Id was not numeric.
 
 > **Note:** If a route has a variable regular expression specified, it takes precedence over group regular expressions.
 
@@ -349,7 +349,7 @@ $router->get("/users/{userId}/profile", "UserController@showProfile", ["name" =>
 Here's how to generate a URL to the "profile" route:
 
 ```php
-<a href="{{route('profile', [123])}}">View Profile</a>
+<a href="{{!route('profile', [123])!}}">View Profile</a>
 ```
 
 This will compile to:
@@ -370,4 +370,4 @@ $router->get("/{foo}", "MyApp\\MyController@myMethod", $options);
 $router->get("/users", "MyApp\\MyController@myMethod");
 ```
 
-...The first route "/{foo}" would always match first because it was added first.  Add any "fall-through" routes after you've added the rest of your routes.
+...The first route `/{foo}` would always match first because it was added first.  Add any "fall-through" routes after you've added the rest of your routes.

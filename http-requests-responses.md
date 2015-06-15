@@ -3,11 +3,28 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Requests](#requests)
+  1. [Query String Data](#query-string-data)
+  1. [Post Data](#post-data)
+  1. [Request Data](#request-data)
+  1. [Put Data](#put-data)
+  1. [Patch Data](#patch-data)
+  1. [Delete Data](#delete-data)
+  1. [Cookies](#cookies)
+  1. [Server Data](#server-data)
+  1. [Header Data](#header-data)
+  1. [File Data](#file-data)
+  1. [Env Data](#env-data)
+  1. [Getting the Path](#getting-the-path)
+    1. [Checking the Path](#checking-the-path)
   1. [Body](#body)
     1. [JSON](#json)
     2. [Raw Body](#raw-body)
-  2. [AJAX](#ajax)
-  3. [Checking Path](#checking-path)
+  1. [AJAX](#ajax)
+  1. [Getting the IP Address](#getting-the-ip-address)
+  1. [Checking if HTTPS](#checking-if-https)
+  1. [Getting the Full URL](#getting-the-full-url)
+  1. [Getting the Previous URL](#getting-the-previous-url)
+  1. [Authentication Data](#authentication-data)
 3. [Responses](#responses)
   1. [Status Codes](#status-codes)
   2. [Headers](#headers)
@@ -21,52 +38,99 @@
 RDev makes interacting with HTTP requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the HTTP tools PHP gives you by default.  Use RDev's tools, and stop worry about stuff like this.
   
 <h2 id="requests">Requests</h2>
-RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` class.  This includes storing the following pieces of data:
-* $_GET
-  * `$request->getQuery()`
-* $_POST
-  * `$request->getPost()`
-  * Only populated with `x-www-form-urlencoded` content type
-* Input data
-  * `$request->getInput()`
-  * Checks the query and post variables for the data
-  * If the request body was JSON, it returns the JSON property with the input name
-* PUT data
-  * `request->getPut()`
-  * Only populated with `x-www-form-urlencoded` content type
-* PATCH data
-  * `request->getPatch()`
-  * Only populated with `x-www-form-urlencoded` content type
-* DELETE data
-  * `request->getDelete()`
-  * Only populated with `x-www-form-urlencoded` content type
-* $_COOKIE
-  * `$request->getCookies()`
-* $_SERVER
-  * `$request->getServer()`
-* HTTP headers
-  * `$request->getHeaders()`
-  * These are the $\_SERVER values whose names began with "HTTP\_"
-* $_FILES
-  * `$request->getFiles()`
-* $_ENV
-  * `$request->getEnv()`
-* IP address
-  * `$request->getIPAddress()`
-  * Automatically handles HTTP forwarded IP addresses
-* HTTPS
-  * `$request->isSecure()`
-* Full URL
-  * `$request->getFullURL()`
-* Previous URL
-  * `$request->getPreviousURL()`
-  * Only works when using the session middleware
-* Path
-  * `$request->getPath()`
-* PHP authentication info
-  * `$request->getUser()` and `$request->getPassword()`
+RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` class.
+
+<h4 id="query-string-data">Query String Data</h4>
+```php
+$request->getQuery();
+```
+
+> **Note:** This is similar to the data in `$_GET`
+
+<h4 id="post-data">Post Data</h4>
+```php
+$request->getPost();
+```
+
+> **Note:** This is similar to the data in `$_POST`
+
+<h4 id="request-data">Request Data</h4>
+```php
+$request->getInput("foo");
+```
+
+> **Note:** This is useful if you do not know if form data is coming from the query string or post data.  If the request body was JSON, `getInput()` returns the JSON property with the input name.
+
+<h4 id="put-data">Put Data</h4>
+```php
+$request->getPut();
+```
+
+> **Note:** This is only populated with `x-www-form-urlencoded` content type
+
+<h4 id="patch-data">Patch Data</h4>
+```php
+$request->getPatch();
+```
+
+> **Note:** This is only populated with `x-www-form-urlencoded` content type
+
+<h4 id="delete-data">Delete Data</h4>
+```php
+$request->getDelete();
+```
+
+> **Note:** This is only populated with `x-www-form-urlencoded` content type
+
+<h4 id="cookies">Cookies</h4>
+```php
+$request->getCookies();
+```
+
+> **Note:** This is similar to the data in `$_COOKIE`
+
+<h4 id="server-data">Server Data</h4>
+```php
+$request->getServer();
+```
+
+> **Note:** This is similar to the data in `$_SERVER`
+
+<h4 id="header-data">Header Data</h4>
+```php
+$request->getHeaders();
+```
+
+> **Note:** These are the $\_SERVER values whose names with with "HTTP\_"
+
+<h4 id="file-data">File Data</h4>
+```php
+$request->getFiles();
+```
+
+> **Note:** This is similar to the data in `$_FILES`
+
+<h4 id="env-data">Env Data</h4>
+```php
+$request->getEnv();
+```
+
+> **Note:** This is similar to the data in `$_ENV`
+
+<h4 id="getting-the-path">Getting the Path</h4>
+```php
+$request->getPath()
+```
   
-> **Note:** Non `x-www-form-urlencoded` requests are stored in a request's raw body.
+<h5 id="checking-the-path">Checking the Path</h5>
+RDev allows you to check if a certain path is the current path using `$request->isPath(PATH_TO_MATCH)`.  It also allows you to use a regular expression for more complex matching:
+
+```php
+// The second parameter lets the request know that we're using a regular expression
+$request->isPath("/docs/.*", true);
+```
+
+> **Note:** Do not include regular expression delimiters in your regular expression.
   
 <h4 id="body">Body</h4>
 The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
@@ -97,17 +161,33 @@ To determine if a request was made by AJAX, call:
 ```php
 $request->isAJAX();
 ```
-  
-<h4 id="checking-path">Checking Path</h4>
-RDev allows you to check if a certain path is the current path using `$request->isPath(PATH_TO_MATCH)`.  It also allows you to use a regular expression for more complex matching:
 
+<h4 id="getting-the-ip-address">Getting the IP Address</h4>
 ```php
-// The second parameter lets the request know that we're using a regular expression
-$request->isPath("/docs/.*", true);
+$request->getIPAddress()
 ```
 
-> **Note:** Do not include regular expression delimiters in your regular expression.
+<h4 id="checking-if-https">Checking if HTTPS</h4>
+```php
+$request->isSecure()
+```
 
+<h4 id="getting-the-full-url">Getting the Full URL</h4>
+```php
+$request->getFullURL()
+```
+
+<h4 id="getting-the-previous-url">Getting the Previous URL</h4>
+```php
+$request->getPreviousURL()
+```
+> **Note:** This only works when using the session middleware
+
+<h4 id="authentication-data">Authentication Data</h4>
+```php
+$phpAuthUser = $request->getUser();
+$phpAuthPassword = $request->getPassword();
+```
 <h2 id="responses">Responses</h2>
 RDev also wraps an HTTP response into the `RDev\HTTP\Responses\Response` class.  You can set the content, HTTP status code, headers, and cookies in a response.  RDev also supports JSON responses and redirects.
 
