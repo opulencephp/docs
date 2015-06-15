@@ -3,28 +3,29 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Requests](#requests)
-  1. [Query String Data](#query-string-data)
-  1. [Post Data](#post-data)
-  1. [Request Data](#request-data)
-  1. [Put Data](#put-data)
-  1. [Patch Data](#patch-data)
-  1. [Delete Data](#delete-data)
-  1. [Cookies](#cookies)
-  1. [Server Data](#server-data)
-  1. [Header Data](#header-data)
-  1. [File Data](#file-data)
-  1. [Env Data](#env-data)
-  1. [Getting the Path](#getting-the-path)
+  1. [Parameters](#parameters)
+  2. [Query String Data](#query-string-data)
+  3. [Post Data](#post-data)
+  4. [Request Data](#request-data)
+  5. [Put Data](#put-data)
+  6. [Patch Data](#patch-data)
+  7. [Delete Data](#delete-data)
+  8. [Cookies](#cookies)
+  9. [Server Data](#server-data)
+  10. [Header Data](#header-data)
+  11. [File Data](#file-data)
+  12. [Env Data](#env-data)
+  13. [Getting the Path](#getting-the-path)
     1. [Checking the Path](#checking-the-path)
-  1. [Body](#body)
+  14. [Body](#body)
     1. [JSON](#json)
     2. [Raw Body](#raw-body)
-  1. [AJAX](#ajax)
-  1. [Getting the IP Address](#getting-the-ip-address)
-  1. [Checking if HTTPS](#checking-if-https)
-  1. [Getting the Full URL](#getting-the-full-url)
-  1. [Getting the Previous URL](#getting-the-previous-url)
-  1. [Authentication Data](#authentication-data)
+  15. [AJAX](#ajax)
+  16. [Getting the IP Address](#getting-the-ip-address)
+  17. [Checking if HTTPS](#checking-if-https)
+  18. [Getting the Full URL](#getting-the-full-url)
+  19. [Getting the Previous URL](#getting-the-previous-url)
+  20. [Authentication Data](#authentication-data)
 3. [Responses](#responses)
   1. [Status Codes](#status-codes)
   2. [Headers](#headers)
@@ -40,16 +41,24 @@ RDev makes interacting with HTTP requests and responses easy.  Tasks like checki
 <h2 id="requests">Requests</h2>
 RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` class.
 
+<h4 id="parameters">Parameters</h4>
+Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `RDev\HTTP\Parameters` objects, which have the following methods:
+
+* `get($key)`
+* `has($key)`
+* `remove($key)`
+* `set($key, $value)`
+
 <h4 id="query-string-data">Query String Data</h4>
 ```php
-$request->getQuery();
+$request->getQuery()->get("foo");
 ```
 
 > **Note:** This is similar to the data in `$_GET`
 
 <h4 id="post-data">Post Data</h4>
 ```php
-$request->getPost();
+$request->getPost()->get("foo");
 ```
 
 > **Note:** This is similar to the data in `$_POST`
@@ -63,63 +72,63 @@ $request->getInput("foo");
 
 <h4 id="put-data">Put Data</h4>
 ```php
-$request->getPut();
+$request->getPut()->get("foo");
 ```
 
 > **Note:** This is only populated with `x-www-form-urlencoded` content type
 
 <h4 id="patch-data">Patch Data</h4>
 ```php
-$request->getPatch();
+$request->getPatch()->get("foo");
 ```
 
 > **Note:** This is only populated with `x-www-form-urlencoded` content type
 
 <h4 id="delete-data">Delete Data</h4>
 ```php
-$request->getDelete();
+$request->getDelete()->get("foo");
 ```
 
 > **Note:** This is only populated with `x-www-form-urlencoded` content type
 
 <h4 id="cookies">Cookies</h4>
 ```php
-$request->getCookies();
+$request->getCookies()->get("foo");
 ```
 
 > **Note:** This is similar to the data in `$_COOKIE`
 
 <h4 id="server-data">Server Data</h4>
 ```php
-$request->getServer();
+$request->getServer()->get("foo");
 ```
 
 > **Note:** This is similar to the data in `$_SERVER`
 
 <h4 id="header-data">Header Data</h4>
 ```php
-$request->getHeaders();
+$request->getHeaders()->get("foo");
 ```
 
 > **Note:** These are the $\_SERVER values whose names with with "HTTP\_"
 
 <h4 id="file-data">File Data</h4>
 ```php
-$request->getFiles();
+$request->getFiles()->get("foo");
 ```
 
 > **Note:** This is similar to the data in `$_FILES`
 
 <h4 id="env-data">Env Data</h4>
 ```php
-$request->getEnv();
+$request->getEnv()->get("foo");
 ```
 
 > **Note:** This is similar to the data in `$_ENV`
 
 <h4 id="getting-the-path">Getting the Path</h4>
 ```php
-$request->getPath()
+$request->getPath();
 ```
   
 <h5 id="checking-the-path">Checking the Path</h5>
@@ -164,22 +173,22 @@ $request->isAJAX();
 
 <h4 id="getting-the-ip-address">Getting the IP Address</h4>
 ```php
-$request->getIPAddress()
+$request->getIPAddress();
 ```
 
 <h4 id="checking-if-https">Checking if HTTPS</h4>
 ```php
-$request->isSecure()
+$request->isSecure();
 ```
 
 <h4 id="getting-the-full-url">Getting the Full URL</h4>
 ```php
-$request->getFullURL()
+$request->getFullURL();
 ```
 
 <h4 id="getting-the-previous-url">Getting the Previous URL</h4>
 ```php
-$request->getPreviousURL()
+$request->getPreviousURL();
 ```
 > **Note:** This only works when using the session middleware
 
