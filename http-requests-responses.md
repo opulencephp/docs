@@ -54,14 +54,14 @@ Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `RDev\HTTP\Pa
 $request->getQuery()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_GET`
+> **Note:** This is similar to the data in `$_GET`.  Calling `getQuery()` returns a `Parameters` object.
 
 <h4 id="post-data">Post Data</h4>
 ```php
 $request->getPost()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_POST`
+> **Note:** This is similar to the data in `$_POST`.  Calling `getPost()` returns a `Parameters` object.
 
 <h4 id="request-data">Request Data</h4>
 ```php
@@ -75,56 +75,56 @@ $request->getInput("foo");
 $request->getPut()->get("foo");
 ```
 
-> **Note:** This is only populated with `x-www-form-urlencoded` content type
+> **Note:** This is only populated with `x-www-form-urlencoded` content type.  Calling `getPut()` returns a `Parameters` object.
 
 <h4 id="patch-data">Patch Data</h4>
 ```php
 $request->getPatch()->get("foo");
 ```
 
-> **Note:** This is only populated with `x-www-form-urlencoded` content type
+> **Note:** This is only populated with `x-www-form-urlencoded` content type.  Calling `getPatch()` returns a `Parameters` object.
 
 <h4 id="delete-data">Delete Data</h4>
 ```php
 $request->getDelete()->get("foo");
 ```
 
-> **Note:** This is only populated with `x-www-form-urlencoded` content type
+> **Note:** This is only populated with `x-www-form-urlencoded` content type.  Calling `getDelete()` returns a `Parameters` object.
 
 <h4 id="cookies">Cookies</h4>
 ```php
 $request->getCookies()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_COOKIE`
+> **Note:** This is similar to the data in `$_COOKIE`.  Calling `getCookies()` returns a `Parameters` object.
 
 <h4 id="server-data">Server Data</h4>
 ```php
 $request->getServer()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_SERVER`
+> **Note:** This is similar to the data in `$_SERVER`.  Calling `getServer()` returns a `Parameters` object.
 
 <h4 id="header-data">Header Data</h4>
 ```php
 $request->getHeaders()->get("foo");
 ```
 
-> **Note:** These are the $\_SERVER values whose names with with "HTTP\_"
+> **Note:** These are the $\_SERVER values whose names with with "HTTP\_".  Calling `getHeaders()` returns a `Parameters` object.
 
 <h4 id="file-data">File Data</h4>
 ```php
 $request->getFiles()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_FILES`
+> **Note:** This is similar to the data in `$_FILES`.  Calling `getFiles()` returns a `Parameters` object.
 
 <h4 id="env-data">Env Data</h4>
 ```php
 $request->getEnv()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_ENV`
+> **Note:** This is similar to the data in `$_ENV`.  Calling `getEnv()` returns a `Parameters` object.
 
 <h4 id="getting-the-path">Getting the Path</h4>
 ```php
