@@ -2,23 +2,43 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [SQL Data Mappers](#sql-data-mappers)
+2. [IDataMapper](#i-data-mapper)
+  1. [Creating Custom getBy*() Methods](#creating-custom-getby-methods)
+3. [SQL Data Mappers](#sql-data-mappers)
   1. [Example](#sql-example)
-3. [Cache Data Mappers](#cache-data-mappers)
+4. [Cache Data Mappers](#cache-data-mappers)
   1. [Redis Data Mappers](#redis-data-mappers)
   2. [Example](#cache-example)
-4. [Cached SQL Data Mappers](#cached-sql-data-mappers)
+5. [Cached SQL Data Mappers](#cached-sql-data-mappers)
   1. [Example](#cached-sql-example)
-5. [Generating Data Mapper Classes](#generating-data-mapper-classes)
+6. [Generating Data Mapper Classes](#generating-data-mapper-classes)
 
 <h2 id="introduction">Introduction</h2>
-**Data mappers** act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.  All repositories must implement the following interfaces:
+**Data mappers** act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.
+
+<h2 id="i-data-mapper">IDataMapper</h2>
+All data mappers must implement `RDev\ORM\DataMappers\IDataMapper`, which includes the following methods:
 
 * `add()`
 * `delete()`
 * `getAll()`
 * `getById()`
 * `update()`
+
+<h4 id="creating-custom-getby-methods">Creating Custom getBy*() Methods</h4>
+You'll frequently find yourself wanting to query entities by some criteria besides Id.  For example, you might want to look up posts by title using a `getByTitle()` method.  Let's create an interface with this method:
+
+```php
+namespace MyApp\Posts\ORM\DataMappers;
+use RDev\ORM\DataMappers\IDataMapper;
+
+interface IPostDataMapper extends IDataMapper
+{
+    public function getByTitle($title);
+}
+```
+
+We'll implement this interface in the examples below.
 
 <h2 id="sql-data-mappers">SQL Data Mappers</h2>
 SQL data mappers use an SQL database for storage and querying.  They must implement the `RDev\ORM\DataMappers\ISQLDataMapper` (`SQLDataMapper` comes built-in).  An SQL data mapper implements all the methods from `IDataMapper` as well as `getIdGenerator()`, which returns the instance of the Id generator used by the data mapper.
@@ -49,7 +69,7 @@ use RDev\ORM\DataMappers\SQLDataMapper;
 use RDev\ORM\Ids\IntSequenceIdGenerator;
 use RDev\ORM\IEntity;
 
-class PostSQLDataMapper extends SQLDataMapper
+class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
 {
     /** @var Post $post */
     public function add(IEntity &$post)
@@ -98,6 +118,18 @@ class PostSQLDataMapper extends SQLDataMapper
         return $this->read($sql, $parameters, true);
     }
     
+    // This is a custom getBy*() method defined in IPostDataMapper
+    public function getByTitle($title)
+    {
+        $sql = "SELECT id, content, title, author FROM posts WHERE title = :title";
+        $parameters = [
+            "title" => $title
+        ];
+        
+        // The last parameter says that we are expecting a single result
+        return $this->read($sql, $parameters, true);
+    }
+    
     /** @var Post $post */
     public function update(IEntity &$post)
     {
@@ -115,6 +147,7 @@ class PostSQLDataMapper extends SQLDataMapper
     
     protected function loadEntity(array $hash, IConnection $connection)
     {
+        // $hash contains the column values from a single row in the results
         return new Post(
             (int)$hash["id"],
             $hash["title"],
@@ -159,7 +192,7 @@ use RDev\ORM\DataMappers\PHPRedisDataMapper;
 use RDev\ORM\IEntity;
 use RDev\ORM\ORMException;
 
-class PostRedisDataMapper extends PHPRedisDataMapper
+class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
 {
     /** @var Post $post */
     public function add(IEntity &$post)
@@ -177,6 +210,9 @@ class PostRedisDataMapper extends PHPRedisDataMapper
         // Create an index of post Ids
         // This is useful for the getAll() method
         $this->redis->sAdd("posts", $post->getID());
+        // Create an index of post titles
+        // This is useful for the getByTitle() method
+        $this->redis->set("posts:titles:{$post->getTitle()}", $post->getId());
     }
     
     /** @var Post $post */
@@ -204,6 +240,13 @@ class PostRedisDataMapper extends PHPRedisDataMapper
     {
         // This will load all the Ids in the "posts" set and generate Post objects from them
         return $this->read("posts", self::VALUE_TYPE_SET);
+    }
+    
+    // This is a custom getBy*() method defined in IPostDataMapper
+    public function getByTitle($title)
+    {
+        // This will load the Id in the "posts:titles:$title" key and generate a Post object from it
+        return $this->read("posts:titles:$title", self::VALUE_TYPE_STRING);
     }
     
     /** @var Post $post */
@@ -275,8 +318,13 @@ namespace MyApp\WordPress\ORM\DataMappers;
 use RDev\Databases\ConnectionPool;
 use RDev\ORM\DataMappers\RedisCachedSQLDataMapper;
 
-class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper
+class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper implements IPostDataMapper
 {
+    public function getByTitle($title)
+    {
+        return $this->read("getByTitle", [$title]);
+    }
+
     protected function setCacheDataMapper($cache)
     {
         $this->cacheDataMapper = new PostCacheDataMapper($cache);
@@ -289,7 +337,7 @@ class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper
 }
 ```
 
-That's it.  Just use this cached SQL data mapper throughout your application, and you will take advantage of aggressive caching.
+Our `getByTitle()` method calls `$this->read()`, which automatically handles reading from cache and falling back to the SQL database on a cache miss.  This is all you need to do to take advantage of aggressive caching in your data mappers.
 
 <h2 id="generating-data-mapper-classes">Generating Data Mapper Classes</h2>
 You can use the console to generate any type of built-in data mapper using `php rdev make:datamapper`, and then selecting from the menu.

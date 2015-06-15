@@ -7,7 +7,7 @@
 4. [Aggregate Roots](#aggregate-roots)
 
 <h2 id="introduction">Introduction</h2>
-**Units of work** act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the DataMappers.  The benefits of using units of work include:
+**Units of work** act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the data mappers.  The benefits of using units of work include:
                                                                                                                                              
 1. Transactions across multiple repositories can be rolled back, giving you "all or nothing" functionality
 2. Changes made to entities retrieved by repositories are automatically checked for changes and, if any are found, scheduled for updating when the unit of work is committed
