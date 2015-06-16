@@ -359,7 +359,7 @@ class PostDataMapper extends SQLDataMapper
     protected function loadEntity(array $hash, IConnection $connection)
     {
         // Grab the author
-        $author = $this->authorRepo->getById(($hash["author_id"]);
+        $author = $this->authorRepo->getById($hash["author_id"]);
         
         return new Post(
             (int)$hash["id"],
