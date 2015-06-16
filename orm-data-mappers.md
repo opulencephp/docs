@@ -11,7 +11,8 @@
   2. [Example](#cache-example)
 5. [Cached SQL Data Mappers](#cached-sql-data-mappers)
   1. [Example](#cached-sql-example)
-6. [Generating Data Mapper Classes](#generating-data-mapper-classes)
+6. [Relationships](#relationships)
+7. [Generating Data Mapper Classes](#generating-data-mapper-classes)
 
 <h2 id="introduction">Introduction</h2>
 **Data mappers** act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.
@@ -337,6 +338,37 @@ class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper implements IPostD
 ```
 
 Our `getByTitle()` method calls `$this->read()`, which automatically handles reading from cache and falling back to the SQL database on a cache miss.  This is all you need to do to take advantage of aggressive caching in your data mappers.
+
+<h2 id="relationships">Relationships</h2>
+Instead of just containing the author's name, let's say your `Post` object contains an `Author` object.  Whenever you query a `Post` object from the data mapper, you'll also need to query the `Author` object.  The easiest way to do this is to inject the author repository into the post data mapper:
+
+```php
+use MyApp\WordPress\ORM\AuthorRepo;
+use MyApp\WordPress\Post;
+use RDev\Databases\IConnection;
+
+class PostDataMapper extends SQLDataMapper
+{
+    private $authorRepo;
+    
+    public function __construct(AuthorRepo $authorRepo)
+    {
+        $this->authorRepo = $authorRepo;
+    }
+    
+    protected function loadEntity(array $hash, IConnection $connection)
+    {
+        // Grab the author
+        $author = $this->authorRepo->getById(($hash["author_id"]);
+        
+        return new Post(
+            (int)$hash["id"],
+            $hash["title"],
+            $author
+        );
+    }
+}
+```
 
 <h2 id="generating-data-mapper-classes">Generating Data Mapper Classes</h2>
 You can use the console to generate any type of built-in data mapper using `php rdev make:datamapper`, and then selecting from the menu.
