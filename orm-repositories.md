@@ -1,6 +1,6 @@
 # Repositories
 
-## Table of contents
+## Table of Contents
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
   1. [Adding Entities](#add)
