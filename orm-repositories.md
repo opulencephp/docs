@@ -28,7 +28,7 @@ $unitOfWork = new UnitOfWork();
 $repo = new Repo(Post::class, $dataMapper, $unitOfWork); 
 ```
 
-However, if your repository implements any custom `getBy*()` methods, you'll have to extend `RDev\ORM\Repositories\Repo`.  Let's take a look at a repository that supports a `getByTitle()` method:
+However, if your repository implements any custom `get*()` methods, you'll have to extend `RDev\ORM\Repositories\Repo`.  Let's take a look at a repository that supports a `getByTitle()` method:
 
 ```php
 namespace MyApp\WordPress\ORM;
@@ -43,7 +43,7 @@ class PostRepo extends Repo
 }
 ```
 
-Rather than calling `$this->dataMapper->getByTitle()` directly, you should use the helper function `$this->getFromDataMapper()`, which automatically handles registering entities to the entity registry.  Next, you'll need to [add the `getByTitle()` method to your data mapper](orm-data-mappers#creating-custom-getby-methods).
+Rather than calling `$this->dataMapper->getByTitle()` directly, you should use the helper function `$this->getFromDataMapper()`, which automatically handles registering entities to the entity registry.  Next, you'll need to [add the `getByTitle()` method to your data mapper](orm-data-mappers#creating-custom-get-methods).
 
 <h4 id="add">Adding Entities</h4>
 ```php

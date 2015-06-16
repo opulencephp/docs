@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [IDataMapper](#i-data-mapper)
-  1. [Creating Custom getBy*() Methods](#creating-custom-getby-methods)
+  1. [Creating Custom get*() Methods](#creating-custom-get-methods)
 3. [SQL Data Mappers](#sql-data-mappers)
   1. [Example](#sql-example)
 4. [Cache Data Mappers](#cache-data-mappers)
@@ -24,7 +24,7 @@ All data mappers must implement `RDev\ORM\DataMappers\IDataMapper`, which includ
 * `getById()`
 * `update()`
 
-<h4 id="creating-custom-getby-methods">Creating Custom getBy*() Methods</h4>
+<h4 id="creating-custom-get-methods">Creating Custom get*() Methods</h4>
 You'll frequently find yourself wanting to query entities by some criteria besides Id.  For example, you might want to look up posts by title using a `getByTitle()` method.  Let's create an interface with this method:
 
 ```php
@@ -117,7 +117,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
         return $this->read($sql, $parameters, true);
     }
     
-    // This is a custom getBy*() method defined in IPostDataMapper
+    // This is a custom get*() method defined in IPostDataMapper
     public function getByTitle($title)
     {
         $sql = "SELECT id, content, title, author FROM posts WHERE title = :title";
@@ -241,7 +241,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
         return $this->read("posts", self::VALUE_TYPE_SET);
     }
     
-    // This is a custom getBy*() method defined in IPostDataMapper
+    // This is a custom get*() method defined in IPostDataMapper
     public function getByTitle($title)
     {
         // This will load the Id in the "posts:titles:$title" key and generate a Post object from it
