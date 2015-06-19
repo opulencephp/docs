@@ -63,12 +63,14 @@ use RDev\Events\Dispatchers\IDispatcher;
 
 class RegistrationEmail
 {
-    public function handleRegistration(UserRegisteredEvent $event, $eventName, IDispatcher $dispatcher)
+    public function handle(UserRegisteredEvent $event, $eventName, IDispatcher $dispatcher)
     {
         mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
     }
 }
 ```
+
+> **Note:** Listener methods can be named whatever you'd like.
 
 <h4 id="stopping-propagation">Stopping Propagation</h4>
 There might be a case where your listener wants to prevent other listeners from being notified of an event.  In this case, your listener can call `Event::stopPropagation()`:
@@ -89,7 +91,7 @@ The **event dispatcher** dispatches events to the registered listeners.  Let's a
 use RDev\Events\Dispatchers\Dispatcher;
 
 $dispatcher = new Dispatcher();
-$dispatcher->addListener("user.registered", [new RegistrationEmail(), "handleRegistration"]);
+$dispatcher->addListener("user.registered", [new RegistrationEmail(), "handle"]);
 ```
 
 > **Note:** Event names can be whatever you want.  In this case, we made it as descriptive as possible:  `user.registered`.
@@ -106,7 +108,7 @@ $user = new User("Dave", "foo@bar.com");
 $dispatcher->dispatch("user.registered", new UserRegisteredEvent($user));
 ```
 
-The dispatcher will loop through and call all listeners registered for the `user.registered` event.  In this case, `RegistrationEmail::handleRegistration()` will be called, and the user will receive a welcome email.
+The dispatcher will loop through and call all listeners registered for the `user.registered` event.  In this case, `RegistrationEmail::handle()` will be called, and the user will receive a welcome email.
 
 <h2 id="config">Config</h2>
 If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, you'll see a config array in `configs/events.php`.  The array accepts event names to an array of listeners.  A listener can be any one of the following:

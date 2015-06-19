@@ -18,24 +18,24 @@ This is where your project's core code goes.  If it's a PHP class, it belongs in
 
 * `bootstrappers`
   * `console`
-    * Console bootstrappers are here
+      * Console bootstrappers are here
   * `http`
-    * HTTP bootstrappers are here
+      * HTTP bootstrappers are here
 * `console`
   * `commands`
-    * Console commands are here
+      * Console commands are here
 * `events`
   * `events`
-    * Events are here
+      * Events are here
   * `listeners`
-    * Event listeners are here
+      * Event listeners are here
 * `http`
   * `controllers`
-    * HTTP controllers are here
+      * HTTP controllers are here
   * `middleware`
-    * HTTP middleware are here
+      * HTTP middleware are here
   * `views`
-    * View builders are here
+      * View builders are here
 
 <h2 id="bootstrap">bootstrap</h2>
 This contains the code that actually boots up your application.  It's probably best not to touch the contents unless you are sure you know what you are doing.
