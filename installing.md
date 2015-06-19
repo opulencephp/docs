@@ -36,6 +36,7 @@ rdev/cache
 rdev/console
 rdev/cryptography
 rdev/databases
+rdev/events
 rdev/files
 rdev/forms
 rdev/http
