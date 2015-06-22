@@ -25,8 +25,7 @@ This is where your project's core code goes.  If it's a PHP class, it belongs in
   * `commands`
       * Console commands are here
 * `events`
-  * `events`
-      * Events are here
+  * Events are here
   * `listeners`
       * Event listeners are here
 * `http`
