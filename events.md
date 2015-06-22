@@ -91,7 +91,7 @@ The **event dispatcher** dispatches events to the registered listeners.  Let's a
 use RDev\Events\Dispatchers\Dispatcher;
 
 $dispatcher = new Dispatcher();
-$dispatcher->addListener("user.registered", [new RegistrationEmail(), "handle"]);
+$dispatcher->registerListener("user.registered", [new RegistrationEmail(), "handle"]);
 ```
 
 > **Note:** Event names can be whatever you want.  In this case, we made it as descriptive as possible:  `user.registered`.
