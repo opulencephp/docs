@@ -15,7 +15,7 @@ There might be times in your application that you need to immediately notify cer
 An event object holds data about the event, which can be used by any listeners handling the event.  Events must either implement `RDev\Events\IEvent` or extend `RDev\Events\Event`.  Let's take a look at an example event to be fired when a user registers:
 
 ```php
-namespace MyApp\Events\Events;
+namespace MyApp\Events;
 use MyApp\Users\User;
 use RDev\Events\Event;
 
@@ -43,7 +43,7 @@ A **listener** is what handles an event.  Listeners must be callables.  They are
 <h5 id="listener-closure">Listener Closure</h5>
 You can use a closure for your listener:
 ```php
-use MyApp\Events\Events\UserRegisteredEvent;
+use MyApp\Events\UserRegisteredEvent;
 use MyApp\Users\User;
 use RDev\Events\Dispatchers\IDispatcher;
 
@@ -57,7 +57,7 @@ $listener = function(UserRegisteredEvent $event, $eventName, IDispatcher $dispat
 You can also use a class for your listener:
 ```php
 namespace MyApp\Events\Listeners;
-use MyApp\Events\Events\UserRegisteredEvent;
+use MyApp\Events\UserRegisteredEvent;
 use MyApp\Users\User;
 use RDev\Events\Dispatchers\IDispatcher;
 
