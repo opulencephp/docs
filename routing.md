@@ -23,8 +23,9 @@
 9. [URL Generators](#url-generators)
   1. [Generating URLs from Code](#generating-urls-from-code)
   2. [Generating URLs from Views](#generating-urls-from-views)
-10. [Missing Routes](#missing-routes)
-11. [Notes](#notes)
+10. [Caching](#caching)
+11. [Missing Routes](#missing-routes)
+10. [Notes](#notes)
 
 <h2 id="introduction">Introduction</h2>
 So, you've made some page templates, and you've written some models.  Now, you need a way to wire everything up so that users can access your pages.  To do this, you need a `Router` and controllers.  The `Router` can capture data from the URL to help you decide which controller to use and what data to send to the view.  It makes building a RESTful application a cinch.
@@ -48,10 +49,6 @@ Routes require a few pieces of information:
 For very simple applications, it's probably easiest to use closures as your routes' controllers:
 
 ```php
-use RDev\IoC\Container;
-use RDev\Routing\Compilers\Compiler;
-use RDev\Routing\Compilers\Parsers\Parser;
-use RDev\Routing\Dispatchers\Dispatcher;
 use RDev\Routing\Router;
 
 $router = new Router($container, $dispatcher, $compiler);
@@ -275,6 +272,11 @@ Going to `/users/foo/profile` or `users/foo/posts` will not match because the Id
 
 > **Note:** If a route has a variable regular expression specified, it takes precedence over group regular expressions.
 
+<h2 id="caching">Caching</h2>
+Routes must be parsed to generate the regular expressions used to match the host and path.  This parsing takes a noticeable amount of time with a moderate number of routes.  To make the parsing faster, RDev caches the parsed routes.  If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, you can enable or disable cache by editing `configs/http/routing.php`.
+
+> **Note:** If you're in your production environment, you must run `php rdev framework:flushcache` every time you add/modify/delete a route in `configs/http/routes.php`.
+
 <h2 id="missing-routes">Missing Routes</h2>
 In the case that the router cannot find a route that matches the request, a 404 response will be returned.  Register your controller name and method name in the case of a missing route using `Router::setMissedRouteController()` (the default method is `showHTTPError()`).  If your controller extends `RDev\Routing\Controller`, you can simply override `showHTTPError()` to display the appropriate missing response.
 
@@ -311,12 +313,9 @@ A cool feature is the ability to generate URLs from named routes using `RDev\Rou
 
 <h4 id="generating-urls-from-code">Generating URLs from Code</h4>
 ```php
-use RDev\Routing\Compilers\Compiler;
-use RDev\Routing\Compilers\Parsers\Parser;
 use RDev\Routing\URL\URLGenerator;
 
-// Let's assume the router is already instantiated
-$compiler = new Compiler(new Parser());
+// Let's assume the router and compiler are already instantiated
 $urlGenerator = new URLGenerator($router->getRoutes(), $compiler);
 // Let's add a route named "profile"
 $router->get("/users/{userId}", "MyApp\\ProfileController@showProfile", ["name" => "profile"]);

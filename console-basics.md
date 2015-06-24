@@ -48,7 +48,13 @@ A common task is updating composer and dumping the autoload.  Instead of having 
 Good encryption requires a secret key.  Use this command to generate that key.  Calling this will update the key that appears in `configs/environment/.env.app.php`.  Passing a `--show` option will instead only show a new key, not update the config. 
 
 <h4 id="frameworkflushcache">framework:flushcache</h4>
-RDev has an internal cache to remember things like bootstrapper data.  If you add/remove/modify bootstrappers, you'll need to flush the RDev internal cache using this command for the changes to take effect.
+RDev has an internal cache for several of its components:
+
+* Bootstrappers
+* Routes
+* Views
+
+If you add/remove/modify any of these components in your application, you **must** run this command to flush the internal cache.  Otherwise, your changes may not take effect.
 
 <h4 id="make">make:*</h4>
 To make creating new classes as simple as possible, RDev supports several `make:*` commands to generate class files:
