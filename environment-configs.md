@@ -2,63 +2,48 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Config Structure](#config-structure)
-3. [Environment Variables](#environment-variables)
+2. [Host Registry](#host-registry)
+3. [Environment Detector](#environment-detector)
+4. [Environment Variables](#environment-variables)
 
 <h2 id="introduction">Introduction</h2>
-Sometimes, you might want to change the way your application behaves depending on whether or not it's running on a production, staging, testing, or development machine.  A common example is a database connection - each environment might have different server credentials.  By detecting the environment, you can load the appropriate credentials.  To actually detect the environment, use an `EnvironmentDetector`.  In it, you can specify rules for various environment names.  You can also detect if you're running in a console vs an HTTP connection.
+Sometimes, you might want to change the way your application behaves depending on whether or not it's running on a production, staging, testing, or development machine.  A common example is a database connection - each environment might have different server credentials.  By detecting the environment, you can load the appropriate data.
 
-<h2 id="config-structure">Config Structure</h2>
-The configuration that's passed into `EnvironmentDetector::detect()` should be either:
+<h2 id="host-registry">Host Registry</h2>
+The host registry is where you can map environment names to hosts.  The `Host` class lets you specify the host name to match against.
 
-* A callback function that returns the name of the environment the current server resides in OR
-* An array that maps environment names to rules
-  * Each rule must be one of the following:
-    1. A server host IP or array of host IPs that belong to that environment
-    2. An array containing the following keys:
-      * "type" => One of the following values:
-        * "regex" => Denotes that the rule uses a regular expression
-      * "value" => The value of the rule, eg the regular expression to use
-
-Let's take a look at an example:
 ```php
-use RDev\Applications\Environments\Environment;
+use RDev\Applications\Environments\Hosts\Host;
+
+$host = new Host("127.0.0.1", false);
+```
+
+You can also match against a regular expression by setting the last parameter to `true`:
+
+```php
+$host = new Host("#^127\.0\.0\.\d+$#", true);
+```
+
+Let's register the host to the registry:
+
+```php
+use RDev\Applications\Environments\Hosts\HostRegistry;
+
+$registry = new HostRegistry();
+$registry->registerHost("production", $host);
+```
+
+<h2 id="environment-detector">Environment Detector</h2>
+The environment detector accepts a host registry and attempts to find the correct host in the registry.  If no matching host is found, then `"production"` is returned.  `EnvironmentDetector::detect()` returns the name of the current environment.
+
+```php
 use RDev\Applications\Environments\EnvironmentDetector;
 
-$configArray = [
-   // Let's say that there's only one production server
-   "production" => "123.456.7.8",
-   // Let's say there's a list of staging servers
-   "staging" => ["123.456.7.9", "123.456.7.10"],
-   // Let's use a regular expression to detect a development environment
-   "development" => [
-       ["type" => "regex", "value" => "/^192\.168\..*$/"]
-   ]
-];
-$detector = new EnvironmentDetector($configArray);
-$environmentName = $detector->getName();
-$environment = new Environment($environmentName);
+$detector = new EnvironmentDetector();
+$detector->detect($registry);
 ```
-The following is an example with a custom callback:
-```php
-use RDev\Applications\Environments\Environment;
-use RDev\Applications\Environments\EnvironmentDetector;
 
-$callback = function()
-{
-    // Look to see if a PHP environment variable was set
-    if(isset($_ENV["environment"]))
-    {
-        return $_ENV["environment"];
-    }
-
-    // By default, return production
-    return "production";
-};
-$detector = new EnvironmentDetector($callback);
-$environmentName = $detector->getName();
-$environment = new Environment($environmentName);
-```
+You can use the result of `detect()` to set the environment name via `RDev\Applications\Environments\Environment::setName()`.
 
 <h2 id="environment-variables">Environment Variables</h2>
 Variables that are specifically tied to the environment the application is running on are called **environment variables**.  Setting an environment variable using RDev is as easy as `$environment->setVariable("foo", "bar")`.  To make configuring your environment variables as easy as possible, RDev supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "configs/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
