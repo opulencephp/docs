@@ -35,9 +35,10 @@ $host = new HostRegex("^127\.0\.0\.\d+$");
 > **Note:** You do not need to add regular expression delimiters.  The "#" character is used as the default delimiter.
 
 <h2 id="environment-detector">Environment Detector</h2>
-The environment detector registers hosts with environments and attempts to find the correct host in the registry.  If no matching host is found, then `"production"` is returned.  `EnvironmentDetector::detect()` returns the name of the current environment.
+The environment detector registers hosts with environments and attempts to find the correct host in the registry.  If no matching host is found, then `"production"` is returned.  `EnvironmentDetector::detect()` returns the name of the current environment.  We can use this value to set the name of the environment:
 
 ```php
+use RDev\Applications\Environments\Environment;
 use RDev\Applications\Environments\EnvironmentDetector;
 use RDev\Applications\Environments\Hosts\HostName;
 use RDev\Applications\Environments\Hosts\HostRegex;
@@ -45,10 +46,9 @@ use RDev\Applications\Environments\Hosts\HostRegex;
 $detector = new EnvironmentDetector();
 $detector->registerHost("production", new HostName("192.168.1.1"));
 $detector->registerHost("testing", new HostRegex(^"127\.0\.0\.\d+$"));
-$detector->detect();
+$environmentName = $detector->detect();
+$environment = new Environment($environmentName);
 ```
-
-You can use the result of `detect()` to set the environment name via `RDev\Applications\Environments\Environment::setName()`.
 
 <h2 id="environment-variables">Environment Variables</h2>
 Variables that are specifically tied to the environment the application is running on are called **environment variables**.  Setting an environment variable using RDev is as easy as `$environment->setVariable("foo", "bar")`.  To make configuring your environment variables as easy as possible, RDev supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "configs/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
