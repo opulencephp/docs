@@ -3,6 +3,8 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Hosts](#hosts)
+  1. [Host Name](#host-name)
+  2. [Host Regular Expression](#host-regular-expression)
 3. [Environment Detector](#environment-detector)
 4. [Environment Variables](#environment-variables)
 
@@ -10,30 +12,40 @@
 Sometimes, you might want to change the way your application behaves depending on whether or not it's running on a production, staging, testing, or development machine.  A common example is a database connection - each environment might have different server credentials.  By detecting the environment, you can load the appropriate data.
 
 <h2 id="hosts">Hosts</h2>
-The `RDev\Applications\Environments\Host` class lets you specify the host name to match against.
+RDev uses host classes to help the application determine which environment it's running in.  Hosts implement `RDev\Applications\Environments\Hosts\IHost`.
+
+<h3 id="host-name">Host Name</h3>
+If you're adding a rule for a single, specific host, use `HostName`:
 
 ```php
-use RDev\Applications\Environments\Host;
+use RDev\Applications\Environments\Hosts\HostName;
 
-$host = new Host("127.0.0.1", false);
+$host = new HostName("127.0.0.1");
 ```
 
-You can also match against a regular expression by setting the last parameter to `true`:
+<h3 id="host-regular-expression">Host Regular Expression</h3>
+You can use a regular expression to match hosts by using `HostRegex`:
 
 ```php
-$host = new Host("#^127\.0\.0\.\d+$#", true);
+use RDev\Applications\Environments\Hosts\HostRegex;
+
+$host = new HostRegex("^127\.0\.0\.\d+$");
 ```
+
+> **Note:** You do not need to add regular expression delimiters.  The "#" character is used as the default delimiter.
 
 <h2 id="environment-detector">Environment Detector</h2>
 The environment detector registers hosts with environments and attempts to find the correct host in the registry.  If no matching host is found, then `"production"` is returned.  `EnvironmentDetector::detect()` returns the name of the current environment.
 
 ```php
 use RDev\Applications\Environments\EnvironmentDetector;
-use RDev\Applications\Environments\Host;
+use RDev\Applications\Environments\Hosts\HostName;
+use RDev\Applications\Environments\Hosts\HostRegex;
 
 $detector = new EnvironmentDetector();
-$detector->registerHost("production", new Host("192.168.1.1", false);
-$detector->detect($registry);
+$detector->registerHost("production", new HostName("192.168.1.1"));
+$detector->registerHost("testing", new HostRegex(^"127\.0\.0\.\d+$"));
+$detector->detect();
 ```
 
 You can use the result of `detect()` to set the environment name via `RDev\Applications\Environments\Environment::setName()`.
