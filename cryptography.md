@@ -28,7 +28,7 @@ $bcryptHasher = new BcryptHasher(new Strings());
 
 // Let's create a hash with a pepper of "bar"
 // $hash is automatically salted and suitable for database storage
-$hashedValue = $bcryptHasher->generate("foo", ["cost" => 10], "bar");
+$hashedValue = $bcryptHasher->hash("foo", ["cost" => 10], "bar");
 ```
 
 To verify that an unhashed value hashes to a particular value, use `verify()`:

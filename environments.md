@@ -2,18 +2,18 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Host Registry](#host-registry)
+2. [Hosts](#hosts)
 3. [Environment Detector](#environment-detector)
 4. [Environment Variables](#environment-variables)
 
 <h2 id="introduction">Introduction</h2>
 Sometimes, you might want to change the way your application behaves depending on whether or not it's running on a production, staging, testing, or development machine.  A common example is a database connection - each environment might have different server credentials.  By detecting the environment, you can load the appropriate data.
 
-<h2 id="host-registry">Host Registry</h2>
-The host registry is where you can map environment names to hosts.  The `Host` class lets you specify the host name to match against.
+<h2 id="hosts">Hosts</h2>
+The `RDev\Applications\Environments\Host` class lets you specify the host name to match against.
 
 ```php
-use RDev\Applications\Environments\Hosts\Host;
+use RDev\Applications\Environments\Host;
 
 $host = new Host("127.0.0.1", false);
 ```
@@ -24,22 +24,15 @@ You can also match against a regular expression by setting the last parameter to
 $host = new Host("#^127\.0\.0\.\d+$#", true);
 ```
 
-Let's register the host to the registry:
-
-```php
-use RDev\Applications\Environments\Hosts\HostRegistry;
-
-$registry = new HostRegistry();
-$registry->registerHost("production", $host);
-```
-
 <h2 id="environment-detector">Environment Detector</h2>
-The environment detector accepts a host registry and attempts to find the correct host in the registry.  If no matching host is found, then `"production"` is returned.  `EnvironmentDetector::detect()` returns the name of the current environment.
+The environment detector registers hosts with environments and attempts to find the correct host in the registry.  If no matching host is found, then `"production"` is returned.  `EnvironmentDetector::detect()` returns the name of the current environment.
 
 ```php
 use RDev\Applications\Environments\EnvironmentDetector;
+use RDev\Applications\Environments\Host;
 
 $detector = new EnvironmentDetector();
+$detector->registerHost("production", new Host("192.168.1.1", false);
 $detector->detect($registry);
 ```
 
