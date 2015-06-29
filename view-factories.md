@@ -25,7 +25,7 @@ $loginTemplate = $factory->create("login.html");
 $bookListTemplate = $factory->create("books/list.html");
 ```
  
-> **Note:** Preceding slashes in `create()` are not necessary.
+> **Note:** Preceding slashes in `create()` are not necessary.  Also, your template files can be any text extension, eg .html, .php, etc.
  
 <h2 id="builders">Builders</h2>
  
