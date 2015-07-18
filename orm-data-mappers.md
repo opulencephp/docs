@@ -18,7 +18,7 @@
 **Data mappers** act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.
 
 <h2 id="i-data-mapper">IDataMapper</h2>
-All data mappers must implement `RDev\ORM\DataMappers\IDataMapper`, which includes the following methods:
+All data mappers must implement `Opulence\ORM\DataMappers\IDataMapper`, which includes the following methods:
 * `add()`
 * `delete()`
 * `getAll()`
@@ -30,7 +30,7 @@ You'll frequently find yourself wanting to query entities by some criteria besid
 
 ```php
 namespace MyApp\Posts\ORM\DataMappers;
-use RDev\ORM\DataMappers\IDataMapper;
+use Opulence\ORM\DataMappers\IDataMapper;
 
 interface IPostDataMapper extends IDataMapper
 {
@@ -41,9 +41,9 @@ interface IPostDataMapper extends IDataMapper
 We'll implement this interface in the examples below.
 
 <h2 id="sql-data-mappers">SQL Data Mappers</h2>
-SQL data mappers use an SQL database for storage and querying.  They must implement the `RDev\ORM\DataMappers\ISQLDataMapper` (`SQLDataMapper` comes built-in).  An SQL data mapper implements all the methods from `IDataMapper` as well as `getIdGenerator()`, which returns the instance of the Id generator used by the data mapper.
+SQL data mappers use an SQL database for storage and querying.  They must implement the `Opulence\ORM\DataMappers\ISQLDataMapper` (`SQLDataMapper` comes built-in).  An SQL data mapper implements all the methods from `IDataMapper` as well as `getIdGenerator()`, which returns the instance of the Id generator used by the data mapper.
 
-> **Note:** Id generators are in the `RDev\ORM\Ids` namespace.
+> **Note:** Id generators are in the `Opulence\ORM\Ids` namespace.
 
 `SQLDataMapper` comes with a few extra methods built-in:
 
@@ -64,10 +64,10 @@ Let's take a look at an example of an SQL data mapper for WordPress posts:
 namespace MyApp\WordPress\ORM\DataMappers;
 use MyApp\WordPress\Post;
 use PDO;
-use RDev\Databases\IConnection;
-use RDev\ORM\DataMappers\SQLDataMapper;
-use RDev\ORM\Ids\IntSequenceIdGenerator;
-use RDev\ORM\IEntity;
+use Opulence\Databases\IConnection;
+use Opulence\ORM\DataMappers\SQLDataMapper;
+use Opulence\ORM\Ids\IntSequenceIdGenerator;
+use Opulence\ORM\IEntity;
 
 class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
 {
@@ -166,7 +166,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
 > **Note:** The unit of work automatically handles setting the Id on the entity after the `add()` method is run as well as resetting it in case the transaction is rolled back.
 
 <h2 id="cache-data-mappers">Cache Data Mappers</h2>
-Cache data mappers use some form of cache (eg Redis or Memcached) for storage.  They must implement the `RDev\ORM\DataMappers\ICacheDataMapper` (`PHPRedisDataMapper` and `PredisDataMapper` come built-in).  A cache data mapper implements all the methods from `IDataMapper` as well as `flush()`, which flushes from cache all instances managed by the data mapper.
+Cache data mappers use some form of cache (eg Redis or Memcached) for storage.  They must implement the `Opulence\ORM\DataMappers\ICacheDataMapper` (`PHPRedisDataMapper` and `PredisDataMapper` come built-in).  A cache data mapper implements all the methods from `IDataMapper` as well as `flush()`, which flushes from cache all instances managed by the data mapper.
 
 <h4 id="redis-data-mappers">Redis Data Mappers</h4>
 Redis data mappers implement the following methods:
@@ -188,9 +188,9 @@ Let's take a look at a PHPRedis data mapper example:
 ```php
 namespace MyApp\WordPress\ORM\DataMappers;
 use MyApp\WordPress\Post;
-use RDev\ORM\DataMappers\PHPRedisDataMapper;
-use RDev\ORM\IEntity;
-use RDev\ORM\ORMException;
+use Opulence\ORM\DataMappers\PHPRedisDataMapper;
+use Opulence\ORM\IEntity;
+use Opulence\ORM\ORMException;
 
 class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
 {
@@ -285,7 +285,7 @@ Cached SQL data mappers use an SQL database with a cache layer on top.  This red
 
 > **Note:** The cache and SQL data mappers MUST implement the same interface for all `get*()` methods.  This allows the cached SQL data mapper to try and call a method from the cache data mapper, and if it fails, call it from the SQL data mapper.  If one of your data mappers does not return data for a particular method, just return `null` if the method returns a single entity, otherwise an empty array if it returns a list of entities.
 
-Cached SQL data mappers must implement `RDev\ORM\DataMappers\ICachedSQLDataMapper` (`CachedSQLDataMapper` comes built-in).  `RedisCachedSQLDataMapper` and `MemcachedCachedSQLDataMapper` both extend `CachedSQLDataMapper` and provide functionality to simplify interactions with Redis and Memcached, respectively.
+Cached SQL data mappers must implement `Opulence\ORM\DataMappers\ICachedSQLDataMapper` (`CachedSQLDataMapper` comes built-in).  `RedisCachedSQLDataMapper` and `MemcachedCachedSQLDataMapper` both extend `CachedSQLDataMapper` and provide functionality to simplify interactions with Redis and Memcached, respectively.
 
 They come with the following methods built-in:
 
@@ -315,8 +315,8 @@ Let's take a look at a cached SQL data mapper example that uses the cache and SQ
 
 ```php
 namespace MyApp\WordPress\ORM\DataMappers;
-use RDev\Databases\ConnectionPool;
-use RDev\ORM\DataMappers\RedisCachedSQLDataMapper;
+use Opulence\Databases\ConnectionPool;
+use Opulence\ORM\DataMappers\RedisCachedSQLDataMapper;
 
 class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper implements IPostDataMapper
 {
@@ -345,7 +345,7 @@ Instead of just containing the author's name, let's say your `Post` object conta
 ```php
 use MyApp\WordPress\ORM\AuthorRepo;
 use MyApp\WordPress\Post;
-use RDev\Databases\IConnection;
+use Opulence\Databases\IConnection;
 
 class PostDataMapper extends SQLDataMapper
 {
@@ -371,4 +371,4 @@ class PostDataMapper extends SQLDataMapper
 ```
 
 <h2 id="generating-data-mapper-classes">Generating Data Mapper Classes</h2>
-You can use the console to generate any type of built-in data mapper using `php rdev make:datamapper`, and then selecting from the menu.
+You can use the console to generate any type of built-in data mapper using `php opulence make:datamapper`, and then selecting from the menu.

@@ -11,7 +11,7 @@
   2. [Caching](#bootstrapper-caching)
 
 <h2 id="introduction">Introduction</h2>
-Most applications need to do some configuration before starting.  For example, they might need to setup a database connection, configure which view engine to use, or assign the authentication scheme to use.  Because RDev uses [dependency injection](dependency-injection) heavily, it's important that you set your bindings in the IoC container.  Bootstrappers are the place to do this.  They're loaded before the request is handled.  Typically, they register bindings to the IoC container, but they can also perform any necessary logic once all of the bindings are registered or before the application is shut down.  Bootstrappers extend `RDev\Applications\Bootstrappers\Bootstrapper`.  They accept `Paths` and `Environment` objects in their constructors, which can be useful for something like binding a particular database instance based on the current environment.
+Most applications need to do some configuration before starting.  For example, they might need to setup a database connection, configure which view engine to use, or assign the authentication scheme to use.  Because Opulence uses [dependency injection](dependency-injection) heavily, it's important that you set your bindings in the IoC container.  Bootstrappers are the place to do this.  They're loaded before the request is handled.  Typically, they register bindings to the IoC container, but they can also perform any necessary logic once all of the bindings are registered or before the application is shut down.  Bootstrappers extend `Opulence\Applications\Bootstrappers\Bootstrapper`.  They accept `Paths` and `Environment` objects in their constructors, which can be useful for something like binding a particular database instance based on the current environment.
 
 <h2 id="registering-bindings">Registering Bindings</h2>
 Before you can start using your application, your IoC container needs some bindings to be registered.  This is where `Bootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the IoC container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
@@ -28,9 +28,9 @@ Let's pretend you're developing an application that grabs WordPress posts from a
 ```php
 namespace MyApp\Bootstrappers\WordPress;
 use MyApp\WordPress\Posts;
-use RDev\Applications\Bootstrappers\Bootstrapper;
-use RDev\Databases\ConnectionPool;
-use RDev\IoC\IContainer;
+use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Databases\ConnectionPool;
+use Opulence\IoC\IContainer;
 
 class MyBootstrapper extends Bootstrapper
 {
@@ -53,16 +53,16 @@ class MyBootstrapper extends Bootstrapper
 You can now inject `Posts` into any service or controller that needs to query WordPress posts.
 
 <h2 id="lazy-bootstrappers">Lazy Bootstrappers</h2>
-It's not very efficient to create, register bindings, run, and shut down every bootstrapper in your application when they're not all needed.  Sometimes, you may only like a bootstrapper to be registered/run/shut down if its bindings are required.  This is the purpose of **lazy bootstrappers**.  In RDev, you can designate a bootstrapper to be lazy-loaded by making it implement `RDev\Applications\Bootstrappers\ILazyBootstrapper`, which requires a `getBindings()` method to be defined.  This method should return a list of all classes/interfaces bound to the IoC container by that bootstrapper.  Let's take a look at an example:
+It's not very efficient to create, register bindings, run, and shut down every bootstrapper in your application when they're not all needed.  Sometimes, you may only like a bootstrapper to be registered/run/shut down if its bindings are required.  This is the purpose of **lazy bootstrappers**.  In Opulence, you can designate a bootstrapper to be lazy-loaded by making it implement `Opulence\Applications\Bootstrappers\ILazyBootstrapper`, which requires a `getBindings()` method to be defined.  This method should return a list of all classes/interfaces bound to the IoC container by that bootstrapper.  Let's take a look at an example:
 
 <h4 id="lazy-example">Example</h4>
 ```php
 namespace MyApp\Bootstrappers;
 use MyApp\ConcreteFoo;
 use MyApp\IFoo;
-use RDev\Applications\Bootstrappers\Bootstrapper;
-use RDev\Applications\Bootstrappers\ILazyBootstrapper;
-use RDev\IoC\IContainer;
+use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
+use Opulence\IoC\IContainer;
 
 class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
@@ -79,4 +79,4 @@ class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 ```
 
 <h4 id="bootstrapper-caching">Caching</h4>
-RDev automatically caches data about its lazy and eager (ie not lazy) bootstrappers.  This way, it doesn't have to instantiate each bootstrapper to determine which kind it is.  It also remembers which classes are bound by which bootstrappers.  If you add/remove/modify any bootstrappers, you must run [`php rdev framework:flushcache`](console-basics#frameworkflushcache) command in the console to flush this cache.
+Opulence automatically caches data about its lazy and eager (ie not lazy) bootstrappers.  This way, it doesn't have to instantiate each bootstrapper to determine which kind it is.  It also remembers which classes are bound by which bootstrappers.  If you add/remove/modify any bootstrappers, you must run [`php opulence framework:flushcache`](console-basics#frameworkflushcache) command in the console to flush this cache.

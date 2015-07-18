@@ -21,16 +21,16 @@
 <h2 id="introduction">Introduction</h2>
 HTTP is a stateless protocol.  What that means is that each request has no memory of previous requests.  If you've ever used the web, though, you've probably noticed that websites are able to remember information across requests.  For example, a "shopping cart" on an e-commerce website remembers what items you've added to your cart.  How'd they do that?  **Sessions**.
 
-> **Note:** Although similar in concept, RDev's sessions do not use PHP's built-in `$_SESSION` functionality because it is awful.
+> **Note:** Although similar in concept, Opulence's sessions do not use PHP's built-in `$_SESSION` functionality because it is awful.
 
 <h2 id="basic-usage">Basic Usage</h2>
-RDev sessions must implement `RDev\Sessions\ISession` (`RDev\Sessions\Session` comes built-in).
+Opulence sessions must implement `Opulence\Sessions\ISession` (`Opulence\Sessions\Session` comes built-in).
 
 <h4 id="setting-data">Setting Data</h4>
 Any kind of serializable data can be written to sessions:
 
 ```php
-use RDev\Sessions\Session;
+use Opulence\Sessions\Session;
 
 $session = new Session();
 $session->set("someString", "foo");
@@ -89,15 +89,15 @@ $session->regenerateId();
 ```
 
 <h2 id="session-handlers">Session Handlers</h2>
-**Session handlers** are what actually read and write session data from some form of storage, eg text files, cache, or cookies.  All RDev handlers implement `\SessionHandlerInterface` (built-into PHP).  Typically, they read and write session data using [middleware](#middleware).  The following are session handlers built-into RDev:
+**Session handlers** are what actually read and write session data from some form of storage, eg text files, cache, or cookies.  All Opulence handlers implement `\SessionHandlerInterface` (built-into PHP).  Typically, they read and write session data using [middleware](#middleware).  The following are session handlers built-into Opulence:
 
-* `RDev\Sessions\Handlers\FileSessionHandler`
+* `Opulence\Sessions\Handlers\FileSessionHandler`
   * Stores session data to plain-text files
-* `RDev\Sessions\Handlers\CacheSessionHandler`
+* `Opulence\Sessions\Handlers\CacheSessionHandler`
   * Stores session data to some form of [cache](cache), eg Memcached or Redis
 
 <h2 id="middleware">Middleware</h2>
-The best place to read and write session data with the `handler` is in middleware.  RDev comes with a class middleware baked-in:  `RDev\Framework\HTTP\Middleware\Session`.  
+The best place to read and write session data with the `handler` is in middleware.  Opulence comes with a class middleware baked-in:  `Opulence\Framework\HTTP\Middleware\Session`.  
 
 > **Note:** This middleware is an abstract class.  If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, you can simply use the middleware `Project\HTTP\Middleware\Session` to finish extending it.  Otherwise, you can roll your own session middleware.
 
@@ -108,7 +108,7 @@ To use sessions in your controllers, simply inject it into the controller's cons
 
 ```php
 namespace MyApp\HTTP\Controllers;
-use RDev\Sessions\ISession;
+use Opulence\Sessions\ISession;
 
 class MyController
 {
@@ -123,17 +123,17 @@ class MyController
 ```
 
 <h2 id="id-generators">Id Generators</h2>
-If your session has just started or if its data has been invalidated, a new session Id will need to be generated.  These Ids must be cryptographically secure to prevent session hijacking.  If you're using `RDev\Sessions\Session`, you can either pass in your own Id generator (must implement `RDev\Sessions\Ids\IIdGenerator`) or use the default `RDev\Sessions\Ids\IdGenerator`.
+If your session has just started or if its data has been invalidated, a new session Id will need to be generated.  These Ids must be cryptographically secure to prevent session hijacking.  If you're using `Opulence\Sessions\Session`, you can either pass in your own Id generator (must implement `Opulence\Sessions\Ids\IIdGenerator`) or use the default `Opulence\Sessions\Ids\IdGenerator`.
 
-> **Note:** It's recommended you use RDev's `IdGenerator` unless you know what you're doing.
+> **Note:** It's recommended you use Opulence's `IdGenerator` unless you know what you're doing.
 
 <h2 id="encrypting-session-data">Encrypting Session Data</h2>
 You might find yourself storing sensitive data in sessions, in which case you'll want to encrypt it.  To do this, use the `useEncryption()` and `setEncrypter()` methods:
 
 ```php
-use RDev\Cryptography\Encryption\Encrypter;
-use RDev\Cryptography\Utilities\Strings;
-use RDev\Sessions\Handlers\FileSessionHandler;
+use Opulence\Cryptography\Encryption\Encrypter;
+use Opulence\Cryptography\Utilities\Strings;
+use Opulence\Sessions\Handlers\FileSessionHandler;
 
 $encrypter = new Encrypter("mySecretApplicationKey", new Strings());
 $handler = new FileSessionHandler("path/to/my/session/files");
@@ -144,4 +144,4 @@ $handler->setEncrypter($encrypter);
 Now, all your session data will be encrypted before being written and decrypted after being read.  [Learn more](cryptography#encryption) about encryption.
 
 <h2 id="configuring">Configuring</h2>
-If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a> and you'd like to configure your session, you can do so in `configs/http/sessions.php`.  Your environment config in `configs/environment/.env.app.php` contains a variable `SESSION_HANDLER`, which should point to the handler class to use (defaults to `FileSessionHandler`).  For cache-backed sessions, `.env.app.php` also contains the variable `SESSION_CACHE_BRIDGE`.  This should point to the class that implements `RDev\Cache\ICacheBridge`.
+If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a> and you'd like to configure your session, you can do so in `configs/http/sessions.php`.  Your environment config in `configs/environment/.env.app.php` contains a variable `SESSION_HANDLER`, which should point to the handler class to use (defaults to `FileSessionHandler`).  For cache-backed sessions, `.env.app.php` also contains the variable `SESSION_CACHE_BRIDGE`.  This should point to the class that implements `Opulence\Cache\ICacheBridge`.

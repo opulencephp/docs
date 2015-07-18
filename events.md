@@ -9,15 +9,15 @@
 5. [Config](#config)
 
 <h2 id="introduction">Introduction</h2>
-There might be times in your application that you need to immediately notify certain components that an event took place.  For example, if you have "hooks" that execute before and after an action, you will need a way for components to subscribe to those hooks.  This is a great use case of events in RDev.  An event **dispatcher** holds a list of **listeners** for each type of event.  Whenever an event is fired, the dispatcher notifies all the listeners.
+There might be times in your application that you need to immediately notify certain components that an event took place.  For example, if you have "hooks" that execute before and after an action, you will need a way for components to subscribe to those hooks.  This is a great use case of events in Opulence.  An event **dispatcher** holds a list of **listeners** for each type of event.  Whenever an event is fired, the dispatcher notifies all the listeners.
 
 <h2 id="events">Events</h2>
-An event object holds data about the event, which can be used by any listeners handling the event.  Events must either implement `RDev\Events\IEvent` or extend `RDev\Events\Event`.  Let's take a look at an example event to be fired when a user registers:
+An event object holds data about the event, which can be used by any listeners handling the event.  Events must either implement `Opulence\Events\IEvent` or extend `Opulence\Events\Event`.  Let's take a look at an example event to be fired when a user registers:
 
 ```php
 namespace MyApp\Events;
 use MyApp\Users\User;
-use RDev\Events\Event;
+use Opulence\Events\Event;
 
 class UserRegisteredEvent extends Event
 {
@@ -45,7 +45,7 @@ You can use a closure for your listener:
 ```php
 use MyApp\Events\UserRegisteredEvent;
 use MyApp\Users\User;
-use RDev\Events\Dispatchers\IDispatcher;
+use Opulence\Events\Dispatchers\IDispatcher;
 
 $listener = function(UserRegisteredEvent $event, $eventName, IDispatcher $dispatcher)
 {
@@ -59,7 +59,7 @@ You can also use a class for your listener:
 namespace MyApp\Events\Listeners;
 use MyApp\Events\UserRegisteredEvent;
 use MyApp\Users\User;
-use RDev\Events\Dispatchers\IDispatcher;
+use Opulence\Events\Dispatchers\IDispatcher;
 
 class RegistrationEmail
 {
@@ -88,7 +88,7 @@ $listener = function(IEvent $event)
 The **event dispatcher** dispatches events to the registered listeners.  Let's add the [listener example](#listeners) to the [event example](#events):
 
 ```php
-use RDev\Events\Dispatchers\Dispatcher;
+use Opulence\Events\Dispatchers\Dispatcher;
 
 $dispatcher = new Dispatcher();
 $dispatcher->registerListener("user.registered", [new RegistrationEmail(), "handle"]);

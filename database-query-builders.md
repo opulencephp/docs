@@ -13,13 +13,13 @@
 10. [Vendor-Specific Query Builders](#vendor-specific-query-builders)
 
 <h2 id="introduction">Introduction</h2>
-Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `QueryBuilders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [RDev's PDO wrapper](database-basics).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
+Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `QueryBuilders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [Opulence's PDO wrapper](database-basics).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
 
 <h2 id="basic-usage">Basic Usage</h2>
 Let's look at a simple `SELECT` query:
 
 ```php
-use RDev\QueryBuilders\PostgreSQL\QueryBuilder;
+use Opulence\QueryBuilders\PostgreSQL\QueryBuilder;
 
 $query = (new QueryBuilder)->select("id", "name", "email")
     ->from("users")
@@ -193,7 +193,7 @@ $query = (new QueryBuilder)->select("author")
     ->addNamedPlaceholderValue("title", "Code Complete");
 ```
 
-Simply call `getSQL()` and `getParameters()` to use this in `PDO` or in [RDev's PDO wrapper](database-basics):
+Simply call `getSQL()` and `getParameters()` to use this in `PDO` or in [Opulence's PDO wrapper](database-basics):
 
 ```php
 $statement = $connection->prepare($query->getSQL());
@@ -205,7 +205,7 @@ $statement->execute();
 MySQL and PostgreSQL have their own query builders, which implement features that are unique to each database.  For example, the MySQL query builder supports a *LIMIT* clause:
 
 ```php
-use RDev\QueryBuilders\MySQL\QueryBuilder;
+use Opulence\QueryBuilders\MySQL\QueryBuilder;
 
 $query = (new QueryBuilder)->delete("users")
     ->where("name = 'Dave'")
@@ -222,7 +222,7 @@ DELETE FROM users WHERE name = 'Dave' LIMIT 1
 Similarly, PostgreSQL's `UPDATE` and `INSERT` query builders support a *RETURNING* clause:
 
 ```php
-use RDev\QueryBuilders\PostgreSQL\QueryBuilder;
+use Opulence\QueryBuilders\PostgreSQL\QueryBuilder;
 
 $query = (new QueryBuilder)->update("users", "", [
         "status" => [0, \PDO::PARAM_INT]
@@ -249,7 +249,7 @@ The following values are bound to the query:
 Here's an example of an `INSERT` statement with a *RETURNING* clause:
 
 ```php
-use RDev\QueryBuilders\PostgreSQL\QueryBuilder;
+use Opulence\QueryBuilders\PostgreSQL\QueryBuilder;
 
 $query = (new QueryBuilder)->insert("users", "", ["name" => "David"])
     ->returning("id")

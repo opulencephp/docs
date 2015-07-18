@@ -11,16 +11,16 @@
 5. [Calling From Code](#calling-from-code)
 
 <h2 id="introduction">Introduction</h2>
-RDev's console library makes it easy to create powerful, custom commands.  From compiling Markdown files to resynchronzing cache with the database, commands simplify administrative components in your application.
+Opulence's console library makes it easy to create powerful, custom commands.  From compiling Markdown files to resynchronzing cache with the database, commands simplify administrative components in your application.
   
 <h2 id="arguments">Arguments</h2>
-Console commands can accept arguments from the user.  Arguments can be required, optional, and/or arrays.  You specify the type by bitwise OR-ing the different arguments types.  Array arguments allow a variable number of arguments to be passed in, like "php rdev foo arg1 arg2 arg3 ...".  The only catch is that array arguments must be the last argument defined for the command.
+Console commands can accept arguments from the user.  Arguments can be required, optional, and/or arrays.  You specify the type by bitwise OR-ing the different arguments types.  Array arguments allow a variable number of arguments to be passed in, like "php opulence foo arg1 arg2 arg3 ...".  The only catch is that array arguments must be the last argument defined for the command.
 
 Let's take a look at an example argument:
 
 ```php
-use RDev\Console\Requests\Argument;
-use RDev\Console\Requests\ArgumentTypes;
+use Opulence\Console\Requests\Argument;
+use Opulence\Console\Requests\ArgumentTypes;
 
 // The argument will be required and an array
 $type = ArgumentTypes::REQUIRED | ArgumentTypes::IS_ARRAY;
@@ -31,7 +31,7 @@ $argument = new Argument("foo", $type, "The foo argument");
 >**Note:** Like array arguments, optional arguments must appear after any required arguments. 
 
 <h2 id="options">Options</h2>
-You might want different behavior in your command depending on whether or not an option is set.  This is possible using `RDev\Console\Requests\Option`.  Options have two formats:
+You might want different behavior in your command depending on whether or not an option is set.  This is possible using `Opulence\Console\Requests\Option`.  Options have two formats:
 
 1. Short, eg "-h"
 2. Long, eg "--help"
@@ -48,15 +48,15 @@ Options can be arrays, eg `--foo=bar --foo=baz` will set the "foo" option to `["
 Like arguments, option types can be specified by bitwise OR-ing types together.  Let's look at an example:
 
 ```php
-use RDev\Console\Requests\Option;
-use RDev\Console\Requests\OptionTypes;
+use Opulence\Console\Requests\Option;
+use Opulence\Console\Requests\OptionTypes;
 
 $type = OptionTypes::REQUIRED_VALUE;
 $option = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "The foo option");
 ```
 
 <h2 id="creating-commands">Creating Commands</h2>
-You can create your own commands and register them to the application.  You do this by extending `RDev\Console\Commands\Command`.  To get going, you only need to define two methods:
+You can create your own commands and register them to the application.  You do this by extending `Opulence\Console\Commands\Command`.  To get going, you only need to define two methods:
 
 1. `define()`
   * Used to set the name, description, arguments, and options
@@ -67,12 +67,12 @@ Let's define a simple command that greets a person and optionally shouts the gre
 
 ```php
 namespace MyApp\Console\Commands;
-use RDev\Console\Commands\Command;
-use RDev\Console\Requests\Argument;
-use RDev\Console\Requests\ArgumentTypes;
-use RDev\Console\Requests\Option;
-use RDev\Console\Requests\OptionTypes;
-use RDev\Console\Responses\IResponse;
+use Opulence\Console\Commands\Command;
+use Opulence\Console\Requests\Argument;
+use Opulence\Console\Requests\ArgumentTypes;
+use Opulence\Console\Requests\Option;
+use Opulence\Console\Requests\OptionTypes;
+use Opulence\Console\Responses\IResponse;
 
 class Greeting extends Command
 {
@@ -105,7 +105,7 @@ class Greeting extends Command
 To call this command, run:
 
 ```
-php rdev greet Dave -y
+php opulence greet Dave -y
 ```
 
 This will output:
@@ -123,8 +123,8 @@ It's possible to call a command from another command:
 
 ```php
 namespace MyApp\Console\Commands;
-use RDev\Console\Commands\Command;
-use RDev\Console\Responses\IResponse;
+use Opulence\Console\Commands\Command;
+use Opulence\Console\Responses\IResponse;
 
 class MyCommand extends Command
 {
@@ -141,6 +141,6 @@ class MyCommand extends Command
 }
 ```
 
-You must list the arguments in the same order they were defined in the command.  If you want to call the other command but not write its output, use the `RDev\Console\Responses\Silent` response.
+You must list the arguments in the same order they were defined in the command.  If you want to call the other command but not write its output, use the `Opulence\Console\Responses\Silent` response.
 
 > **Note:** If a command is being called by a lot of other commands, it might be best to refactor its actions into a separate class.  This way, it can be used by multiple commands without the extra overhead of calling console commands through PHP code.

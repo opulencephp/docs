@@ -18,36 +18,36 @@ Cache is in-memory storage for frequently-accessed data.  Data in cache is commo
 6. `increment($key, $by = 1)`
 7. `set($key, $value, $lifetime)`
 
-In this case, you can use a cache **bridge** to provide a simple wrapper around your favorite cache libraries.  RDev supplies the `RDev\Cache\ICacheBridge` interface with the above methods as well as some bridges to the most popular cache libraries.
+In this case, you can use a cache **bridge** to provide a simple wrapper around your favorite cache libraries.  Opulence supplies the `Opulence\Cache\ICacheBridge` interface with the above methods as well as some bridges to the most popular cache libraries.
   
 <h2 id="array-bridge">Array Bridge</h2>
-`RDev\Cache\ArrayBridge` provides a simple cache bridge most useful for running tests.
+`Opulence\Cache\ArrayBridge` provides a simple cache bridge most useful for running tests.
 
 ```php
-use RDev\Cache\ArrayBridge;
+use Opulence\Cache\ArrayBridge;
 
 $arrayBridge = new ArrayBridge();
 ```
 
 <h2 id="file-bridge">File Bridge</h2>
-`RDev\Cache\FileBridge` allows you to easily cache data to plaintext files on your server.
+`Opulence\Cache\FileBridge` allows you to easily cache data to plaintext files on your server.
 
 ```php
-use RDev\Cache\FileBridge;
+use Opulence\Cache\FileBridge;
 
 $fileBridge = new FileBridge("/path/to/my/cache/files");
 ```
 
 <h2 id="memcached-bridge">Memcached Bridge</h2>
-`RDev\Cache\Memcached` acts as a simple wrapper around Memcached.  You can either use an instance of `Memcached` or `RDev\Memcached\RDevMemcached`.
+`Opulence\Cache\Memcached` acts as a simple wrapper around Memcached.  You can either use an instance of `Memcached` or `Opulence\Memcached\OpulenceMemcached`.
 
 ```php
-use RDev\Cache\MemcachedBridge;
-use RDev\Memcached\RDevMemcached;
-use RDev\Memcached\Server;
-use RDev\Memcached\TypeMapper;
+use Opulence\Cache\MemcachedBridge;
+use Opulence\Memcached\OpulenceMemcached;
+use Opulence\Memcached\Server;
+use Opulence\Memcached\TypeMapper;
 
-$memcached = new RDevMemcached(new TypeMapper());
+$memcached = new OpulenceMemcached(new TypeMapper());
 $memcached->addServer(new Server("localhost", 11211));
 $memcachedBridge = new MemcachedBridge($memcached);
 ```
@@ -60,19 +60,19 @@ $memcachedBridge = new MemcachedBridge($memcached, "myapp:");
 
 If you need the underlying Memcached instance to do anything beyond what the bridge does, you may call `getMemcached()`.
 
-> **Note:** [Read more information](nosql#memcached) about RDev's Memcached extension.
+> **Note:** [Read more information](nosql#memcached) about Opulence's Memcached extension.
 
 <h2 id="redis-bridge">Redis Bridge</h2>
-`RDev\Cache\Redis` is a simple bridge to Redis.  You can either use an instance of `Redis` or `RDev\Redis\RDevPHPRedis`.
+`Opulence\Cache\Redis` is a simple bridge to Redis.  You can either use an instance of `Redis` or `Opulence\Redis\OpulencePHPRedis`.
 
 ```php
-use RDev\Cache\RedisBridge;
-use RDev\Redis\RDevPHPRedis;
-use RDev\Redis\Server;
-use RDev\Redis\TypeMapper;
+use Opulence\Cache\RedisBridge;
+use Opulence\Redis\OpulencePHPRedis;
+use Opulence\Redis\Server;
+use Opulence\Redis\TypeMapper;
 
 $server = new Server("localhost");
-$redis = new RDevPHPRedis($server, new TypeMapper());
+$redis = new OpulencePHPRedis($server, new TypeMapper());
 $redisBridge = new RedisBridge($redis);
 ```
 
@@ -84,4 +84,4 @@ $redisBridge = new RedisBridge($redis, "myapp:");
 
 If you need the underlying Redis instance to do anything beyond what the bridge does, you may call `getRedis()`.
 
-> **Note:** [Read more information](nosql#redis) about RDev's Redis extension.
+> **Note:** [Read more information](nosql#redis) about Opulence's Redis extension.

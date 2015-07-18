@@ -13,15 +13,15 @@
   2. [Custom Elements](#custom-elements)
 
 <h2 id="prompts">Prompts</h2>
-Prompts are great for asking users for input beyond what is accepted by arguments.  For example, you might want to confirm with a user before doing an administrative task, or you might ask her to select from a list of possible choices.  Prompts accept `RDev\Console\Prompts\Question\IQuestion` objects.
+Prompts are great for asking users for input beyond what is accepted by arguments.  For example, you might want to confirm with a user before doing an administrative task, or you might ask her to select from a list of possible choices.  Prompts accept `Opulence\Console\Prompts\Question\IQuestion` objects.
 
 <h4 id="confirmation">Confirmation</h4>
-To ask a user to confirm an action with a simple "y" or "yes", use an `RDev\Console\Prompts\Questions\Confirmation`:
+To ask a user to confirm an action with a simple "y" or "yes", use an `Opulence\Console\Prompts\Questions\Confirmation`:
 
 ```php
-use RDev\Console\Prompts\Prompt;
-use RDev\Console\Prompts\Questions\Confirmation;
-use RDev\Console\Responses\Formatters\PaddingFormatter;
+use Opulence\Console\Prompts\Prompt;
+use Opulence\Console\Prompts\Questions\Confirmation;
+use Opulence\Console\Responses\Formatters\PaddingFormatter;
 
 $prompt = new Prompt(new PaddingFormatter());
 // This will return true if the answer began with "y" or "Y"
@@ -29,10 +29,10 @@ $prompt->ask(new Confirmation("Are you sure you want to continue?"));
 ```
 
 <h4 id="multiple-choice">Multiple Choice</h4>
-Multiple choice questions are great for listing choices that might otherwise be difficult for a user to remember.  An `RDev\Console\Prompts\Questions\MultipleChoice` accepts question text and a list of choices:
+Multiple choice questions are great for listing choices that might otherwise be difficult for a user to remember.  An `Opulence\Console\Prompts\Questions\MultipleChoice` accepts question text and a list of choices:
 
 ```php
-use RDev\Console\Prompts\Questions\MultipleChoice;
+use Opulence\Console\Prompts\Questions\MultipleChoice;
 
 $choices = ["Boeing 747", "Boeing 757", "Boeing 787"];
 $question = new MultipleChoice("Select your favorite airplane", $choices);
@@ -60,10 +60,10 @@ This allows a user to separate multiple choices with a comma, eg "1,3".
 <h2 id="responses">Responses</h2>
 Responses are classes that allow you to write output to an end user.  The different responses classes include:
 
-1. `RDev\Console\Responses\Console`
+1. `Opulence\Console\Responses\Console`
   * Used to write output to the console
   * The response used by default
-2. `RDev\Console\Responses\Silent`
+2. `Opulence\Console\Responses\Silent`
   * Used when we don't want any output to be written
   * Useful for when one command calls another
   
@@ -81,10 +81,10 @@ Each response offers three methods:
 Formatters are great for nicely-formatting output to the console.
 
 <h4 id="padding">Padding</h4>
-The `RDev\Console\Responses\Formatters\PaddingFormatter` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
+The `Opulence\Console\Responses\Formatters\PaddingFormatter` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
  
 ```php
-use RDev\Console\Responses\Formatters\PaddingFormatter;
+use Opulence\Console\Responses\Formatters\PaddingFormatter;
 
 $paddingFormatter = new PaddingFormatter();
 $rows = [
@@ -115,11 +115,11 @@ There are a few useful functions for customizing the padding formatter:
   * Sets the padding string
 
 <h4 id="tables">Tables</h4>
-ASCII tables are a great way to show tabular data in a console.  To create a table, use `RDev\Console\Responses\Formatters\TableFormatter`:
+ASCII tables are a great way to show tabular data in a console.  To create a table, use `Opulence\Console\Responses\Formatters\TableFormatter`:
 
 ```php
-use RDev\Console\Responses\Formatters\PaddingFormatter;
-use RDev\Console\Responses\Formatters\TableFormatter;
+use Opulence\Console\Responses\Formatters\PaddingFormatter;
+use Opulence\Console\Responses\Formatters\TableFormatter;
 
 $table = new TableFormatter(new PaddingFormatter());
 $rows = [
@@ -172,7 +172,7 @@ There are a few useful functions for customizing the look of tables:
   * Sets the vertical border character
 
 <h2 id="style-elements">Style Elements</h2>
-RDev supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an **Abstract Syntax Tree**, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
+Opulence supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an **Abstract Syntax Tree**, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
 
 ```
 <b>Hello!</b>
@@ -187,7 +187,7 @@ RDev supports HTML-like style elements to perform basic output formatting like b
 ..., which will output an underlined string where "Dave" is both bold AND underlined.
 
 <h4 id="built-in-elements">Built-In Elements</h4>
-The following elements come built-into RDev:
+The following elements come built-into Opulence:
 * &lt;success&gt;&lt;/success&gt;
 * &lt;info&gt;&lt;/info&gt;
 * &lt;question&gt;&lt;/question&gt;
@@ -199,16 +199,16 @@ The following elements come built-into RDev:
 * &lt;u&gt;&lt;/u&gt;
 
 <h4 id="custom-elements">Custom Elements</h4>
-You can create your own style elements.  Elements are registered to `RDev\Console\Responses\Compilers\Compiler`.  To register a custom element, use a bootstrapper:
+You can create your own style elements.  Elements are registered to `Opulence\Console\Responses\Compilers\Compiler`.  To register a custom element, use a bootstrapper:
 
 ```php
 namespace MyApp\Bootstrappers\Console;
-use RDev\Applications\Bootstrappers\Bootstrapper;
-use RDev\Console\Responses\Compilers\ICompiler;
-use RDev\Console\Responses\Formatters\Elements\Colors;
-use RDev\Console\Responses\Formatters\Elements\Element;
-use RDev\Console\Responses\Formatters\Elements\Style;
-use RDev\Console\Responses\Formatters\Elements\TextStyles;
+use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Console\Responses\Compilers\ICompiler;
+use Opulence\Console\Responses\Formatters\Elements\Colors;
+use Opulence\Console\Responses\Formatters\Elements\Element;
+use Opulence\Console\Responses\Formatters\Elements\Style;
+use Opulence\Console\Responses\Formatters\Elements\TextStyles;
 
 class CustomElements extends Bootstrapper
 {

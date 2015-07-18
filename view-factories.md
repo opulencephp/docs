@@ -13,8 +13,8 @@ Having to always pass in the full path to load a template from a file can get an
 Simply pass in a `FileSystem` and the directory that your templates are stored in, and you'll never have to repeat yourself:
  
 ```php
-use RDev\Files\FileSystem;
-use RDev\Views\Factories\TemplateFactory;
+use Opulence\Files\FileSystem;
+use Opulence\Views\Factories\TemplateFactory;
 
 $fileSystem = new FileSystem();
 // Assume we keep all templates at "/var/www/html/views"
@@ -29,7 +29,7 @@ $bookListTemplate = $factory->create("books/list.html");
  
 <h2 id="builders">Builders</h2>
  
-Repetitive tasks such as setting up templates should not be done in controllers.  That should be left to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `ITemplateFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  Builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](bootstrappers).
+Repetitive tasks such as setting up templates should not be done in controllers.  That should be left to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `ITemplateFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  Builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `Opulence\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](bootstrappers).
 
 Let's take a look at an example:
 
@@ -41,10 +41,10 @@ Let's take a look at an example:
 
 ```php
 namespace MyApp\Builders;
-use RDev\Files\FileSystem;
-use RDev\Views\Factories\TemplateFactory;
-use RDev\Views\IBuilder;
-use RDev\Views\ITemplate;
+use Opulence\Files\FileSystem;
+use Opulence\Views\Factories\TemplateFactory;
+use Opulence\Views\IBuilder;
+use Opulence\Views\ITemplate;
 
 class MyBuilder implements IBuilder
 {

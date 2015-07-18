@@ -18,14 +18,14 @@
  Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
 use MyApp\ORM\DataMappers\MyDataMapper;
-use RDev\ORM\EntityRegistry;
-use RDev\ORM\Repositories\Repo;
-use RDev\ORM\UnitOfWork;
+use Opulence\ORM\EntityRegistry;
+use Opulence\ORM\Repositories\Repo;
+use Opulence\ORM\UnitOfWork;
 
 // Assume $connection was set previously
 $unitOfWork = new UnitOfWork(new EntityRegistry(), $connection);
 $dataMapper = new MyDataMapper();
-$users = new Repo("RDev\\Users\\User", $dataMapper, $unitOfWork);
+$users = new Repo("Opulence\\Users\\User", $dataMapper, $unitOfWork);
 
 // Let's say we know that there's a user with Id of 123 and username of "foo" in the repository
 $someUser = $users->getById(123);
@@ -45,8 +45,8 @@ echo $users->getById(123)->getUsername(); // "bar"
 Entities that are scheduled for insertion/deletion/update are managed by an `EntityRegistry`.  The `EntityRegistry` is also responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`:
 
 ```php
-use RDev\ORM\EntityRegistry;
-use RDev\ORM\UnitOfWork;
+use Opulence\ORM\EntityRegistry;
+use Opulence\ORM\UnitOfWork;
 
 // Assume $connection was set previously
 // Also assume the user object was already instantiated

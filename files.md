@@ -27,10 +27,10 @@
   22. [Copying a Directory](#copying-a-directory)
 
 <h2 id="introduction">Introduction</h2>
-Most programs interact with a computer's file system in some way.  RDev comes with the `FileSystem` class to facilitate these interactions.  With it, you can easily read and write files, get attributes of files, copy files and folders, and recursively delete directories, and do other common tasks.
+Most programs interact with a computer's file system in some way.  Opulence comes with the `FileSystem` class to facilitate these interactions.  With it, you can easily read and write files, get attributes of files, copy files and folders, and recursively delete directories, and do other common tasks.
 
 <h2 id="basic-usage">Basic Usage</h2>
-For all examples below, assume `$fileSystem = new \RDev\Files\FileSystem();`.
+For all examples below, assume `$fileSystem = new \Opulence\Files\FileSystem();`.
 
 <h4 id="reading-a-file">Reading a File</h4>
 ```php

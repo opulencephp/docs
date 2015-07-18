@@ -15,40 +15,40 @@
   8. [views:flush](#viewsflush)
   
 <h2 id="introduction">Introduction</h2>
-Console applications are great for administrative tasks and code generation.  RDev supports a robust console kernel with features like easy-to-create commands, question prompts, and HTML-like syntax for output styling.
+Console applications are great for administrative tasks and code generation.  Opulence supports a robust console kernel with features like easy-to-create commands, question prompts, and HTML-like syntax for output styling.
 
 <h2 id="running-commands">Running Commands</h2>
-To run commands, type `php rdev COMMAND_NAME` from the directory that RDev is installed in.
+To run commands, type `php opulence COMMAND_NAME` from the directory that Opulence is installed in.
 
 <h2 id="getting-help">Getting Help</h2>
 To get help with any command, use the help command.  There are a few different ways to call it:
 
 ```
-php rdev help COMMAND_NAME
-php rdev COMMAND_NAME -h
-php rdev COMMAND_NAME --help
+php opulence help COMMAND_NAME
+php opulence COMMAND_NAME -h
+php opulence COMMAND_NAME --help
 ```
 
 <h2 id="built-in-commands">Built-In Commands</h2>
-A good place to start is to run `php rdev` in the directory you installed RDev.  This will list the commands registered to the console.  Out of the box, a few commands come bundled with RDev:
+A good place to start is to run `php opulence` in the directory you installed Opulence.  This will list the commands registered to the console.  Out of the box, a few commands come bundled with Opulence:
 
 <h4 id="appenv">app:env</h4>
 Displays the current application environment name, eg "Production" or "Development".
 
 <h4 id="apprename">app:rename</h4>
-When you install RDev, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under "app", and the composer.json PSR-4 settings.
+When you install Opulence, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under "app", and the composer.json PSR-4 settings.
 
 <h4 id="composerdumpautoload">composer:dump-autoload</h4>
 This provides a wrapper around Composer's `dump-autoload` command, and is useful when another command needs to dump the autoload after running.
 
 <h4 id="composerupdate">composer:update</h4>
-A common task is updating composer and dumping the autoload.  Instead of having to run these commands manually, just run `php rdev composer:update`.
+A common task is updating composer and dumping the autoload.  Instead of having to run these commands manually, just run `php opulence composer:update`.
 
 <h4 id="encryptiongeneratekey">encryption:generatekey</h4>
 Good encryption requires a secret key.  Use this command to generate that key.  Calling this will update the key that appears in `configs/environment/.env.app.php`.  Passing a `--show` option will instead only show a new key, not update the config. 
 
 <h4 id="frameworkflushcache">framework:flushcache</h4>
-RDev has an internal cache for several of its components:
+Opulence has an internal cache for several of its components:
 
 * Bootstrappers
 * Routes
@@ -57,7 +57,7 @@ RDev has an internal cache for several of its components:
 If you add/remove/modify any of these components in your application, you **must** run this command to flush the internal cache.  Otherwise, your changes may not take effect.
 
 <h4 id="make">make:*</h4>
-To make creating new classes as simple as possible, RDev supports several `make:*` commands to generate class files:
+To make creating new classes as simple as possible, Opulence supports several `make:*` commands to generate class files:
 
 1. `make:command`
 2. `make:controller`
@@ -68,4 +68,4 @@ To make creating new classes as simple as possible, RDev supports several `make:
 They all accept a single argument: the name of the class to generate.  If you input a fully-qualified class name, then that namespace and class name will be used.  Otherwise, the default namespace will be used (eg controllers are under `Project\HTTP\Controllers`).
 
 <h4 id="viewsflush">views:flush</h4>
-If you also use RDev's HTTP kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.
+If you also use Opulence's HTTP kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.

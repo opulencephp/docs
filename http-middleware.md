@@ -10,14 +10,14 @@
 <h2 id="introduction">Introduction</h2>
 HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).  
 
-RDev uses dependency injection for type-hinted objects in a `Middleware` constructor.  So, if you need any objects in your `handle()` method, just specify them in the constructor.  Let's take a look at an example:
+Opulence uses dependency injection for type-hinted objects in a `Middleware` constructor.  So, if you need any objects in your `handle()` method, just specify them in the constructor.  Let's take a look at an example:
 
 ```php
 use Closure;
 use MyApp\Authentication\Authenticator;
-use RDev\HTTP\Middleware\IMiddleware;
-use RDev\HTTP\Requests\Request;
-use RDev\HTTP\Responses\RedirectResponse;
+use Opulence\HTTP\Middleware\IMiddleware;
+use Opulence\HTTP\Requests\Request;
+use Opulence\HTTP\Responses\RedirectResponse;
 
 class Authentication implements IMiddleware
 {
@@ -52,15 +52,15 @@ Now, the `Authenticate` middleware will be run before the `createPost()` method 
 
 > **Note:** If middleware does not specifically call the `$next` closure, none of the middleware after it in the pipeline will be run.
 
-> **Note:** To get the current `Route` (which is accessible through `Router::getMatchedRoute()`), inject `RDev\Routing\Router` into the constructor.
+> **Note:** To get the current `Route` (which is accessible through `Router::getMatchedRoute()`), inject `Opulence\Routing\Router` into the constructor.
 
 <h2 id="manipulating-the-request">Manipulating the Request</h2>
 To manipulate the request before it gets to the controller, make changes to it before calling `$next($request)`:
 
 ```php
 use Closure;
-use RDev\HTTP\Middleware\IMiddleware;
-use RDev\HTTP\Requests\Request;
+use Opulence\HTTP\Middleware\IMiddleware;
+use Opulence\HTTP\Requests\Request;
 
 class RequestManipulator implements IMiddleware
 {
@@ -80,9 +80,9 @@ To manipulate the response after the controller has done its work, do the follow
 ```php
 use Closure;
 use DateTime;
-use RDev\HTTP\Middleware\IMiddleware;
-use RDev\HTTP\Requests\Request;
-use RDev\HTTP\Responses\Cookie;
+use Opulence\HTTP\Middleware\IMiddleware;
+use Opulence\HTTP\Requests\Request;
+use Opulence\HTTP\Responses\Cookie;
 
 class ResponseManipulator implements IMiddleware
 {

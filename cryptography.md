@@ -12,7 +12,7 @@
   2. [String Comparison](#string-comparison)
 
 <h2 id="introduction">Introduction</h2>
-Keeping user data secure is of the utmost importance.  Unfortunately, PHP's built-in cryptographic support is somewhat fragmented and not easy to use.  Lucky for you, RDev has a `Cryptography` library to simplify all this.
+Keeping user data secure is of the utmost importance.  Unfortunately, PHP's built-in cryptographic support is somewhat fragmented and not easy to use.  Lucky for you, Opulence has a `Cryptography` library to simplify all this.
 
 <h2 id="hashing">Hashing</h2>
 Hashers take input and perform a one-way mapping to a hashed value.  It is impossible to decrypt a hashed value because of the way this mapping is generated.  This hashes suitable for storing sensitive data, like user passwords.
@@ -21,8 +21,8 @@ Hashers take input and perform a one-way mapping to a hashed value.  It is impos
 `bcrypt` is a popular hashing function that has built-in protection methods against timing attacks.  It accepts a "cost" parameter, which tells `bcrypt` how long to take when attempting to verify an unhashed value.  Every time the cost goes up by one, the hasher takes 10 times longer to hash.  This prevents GPUs from being able to efficiently perform rainbow table attacks against compromised data.  You can adjust this value to make it future-proof.  Let's take a look at how to use it:
 
 ```php
-use RDev\Cryptography\Hashing\BcryptHasher;
-use RDev\Cryptography\Utilities\Strings;
+use Opulence\Cryptography\Hashing\BcryptHasher;
+use Opulence\Cryptography\Utilities\Strings;
 
 $bcryptHasher = new BcryptHasher(new Strings());
 
@@ -39,12 +39,12 @@ echo $bcryptHasher->verify($hashedValue, $unhashedValue, "bar"); // 1
 ```
 
 <h2 id="encryption">Encryption</h2>
-Sometimes, your application needs to encrypt data, send it to another component, and then decrypt it.  This is different from hashing in that encrypted values can be decrypted.  To make this process as secure and simple as possible, RDev has an easy-to-use wrapper around `OpenSSL` in its `Encrypter` class:
+Sometimes, your application needs to encrypt data, send it to another component, and then decrypt it.  This is different from hashing in that encrypted values can be decrypted.  To make this process as secure and simple as possible, Opulence has an easy-to-use wrapper around `OpenSSL` in its `Encrypter` class:
 
 ```php
-use RDev\Cryptography\Encryption\Encrypter;
-use RDev\Cryptography\Encryption\EncryptionException;
-use RDev\Cryptography\Utilities\Strings;
+use Opulence\Cryptography\Encryption\Encrypter;
+use Opulence\Cryptography\Encryption\EncryptionException;
+use Opulence\Cryptography\Utilities\Strings;
 
 // This should be a unique, random string
 $myApplicationKey = "mySecretApplicationKey";
@@ -67,7 +67,7 @@ catch(EncryptionException $ex)
 }
 ```
 
-A **Message Authentication Code** (**MAC**) is created using the encrypted value to detect any tampering with the encrypted data.  If there was any issue encrypting the data, an `RDev\Cryptography\Encryption\EncryptionException` will be thrown.
+A **Message Authentication Code** (**MAC**) is created using the encrypted value to detect any tampering with the encrypted data.  If there was any issue encrypting the data, an `Opulence\Cryptography\Encryption\EncryptionException` will be thrown.
 
 <h4 id="decrypting-data">Decrypting Data</h4>
 ```php
@@ -85,16 +85,16 @@ catch(EncryptionException $ex)
 echo $decryptedData === "foobar"; // 1 
 ```
 
-If there was any issue decrypting the data, an `RDev\Cryptography\Encryption\EncryptionException` will be thrown.
+If there was any issue decrypting the data, an `Opulence\Cryptography\Encryption\EncryptionException` will be thrown.
 
 <h2 id="string-utility">String Utility</h2>
-RDev has a utility class `RDev\Cryptography\Utilities\Strings` to make it easy to do cryptographically-secure string functions.
+Opulence has a utility class `Opulence\Cryptography\Utilities\Strings` to make it easy to do cryptographically-secure string functions.
 
 <h4 id="generating-random-strings">Generating Random Strings</h4>
-It turns out that computers are not very good at generating random numbers.  Calling `rand()` over and over will begin to yield a pattern, which is obviously the opposite of random.  PHP recommends using `openssl_random_pseudo_bytes()`, which RDev provides a simple wrapper around:
+It turns out that computers are not very good at generating random numbers.  Calling `rand()` over and over will begin to yield a pattern, which is obviously the opposite of random.  PHP recommends using `openssl_random_pseudo_bytes()`, which Opulence provides a simple wrapper around:
 
 ```php
-use RDev\Cryptography\Utilities\Strings;
+use Opulence\Cryptography\Utilities\Strings;
 
 $stringUtility = new Strings();
 echo $stringUtility->generateRandomString(16); // A random 16-character string
@@ -113,7 +113,7 @@ This will return false after comparing 5 characters and will take a little longe
 "bbbba" == "bbbbb";
 ```
 
-Because of this comparison timing vulnerability, it's important to compare the entire length of the user input against the known value, even if you know they're not equal from the first character.  RDev has a wrapper function around **Symfony's** excellent safe string comparison function:
+Because of this comparison timing vulnerability, it's important to compare the entire length of the user input against the known value, even if you know they're not equal from the first character.  Opulence has a wrapper function around **Symfony's** excellent safe string comparison function:
 
 ```php
 echo $stringUtility->isEqual("aaaaa", "bbbbb"); // 0

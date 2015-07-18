@@ -32,8 +32,8 @@ A common task when reading and writing to a database is translating PHP values i
 Type mappers need a provider, eg MySQL or PostgreSQL, to do the conversions.  You can either pass the provider in the constructor:
 
 ```php
-use RDev\Databases\Providers\MySQLProvider;
-use RDev\Databases\Providers\TypeMapper;
+use Opulence\Databases\Providers\MySQLProvider;
+use Opulence\Databases\Providers\TypeMapper;
 
 $typeMapper = new TypeMapper(new MySQLProvider());
 ```

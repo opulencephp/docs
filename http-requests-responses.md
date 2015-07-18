@@ -36,13 +36,13 @@
   5. [Redirect Responses](#redirect-responses)
 
 <h2 id="introduction">Introduction</h2>
-RDev makes interacting with HTTP requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the HTTP tools PHP gives you by default.  Use RDev's tools, and stop worry about stuff like this.
+Opulence makes interacting with HTTP requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the HTTP tools PHP gives you by default.  Use Opulence's tools, and stop worry about stuff like this.
   
 <h2 id="requests">Requests</h2>
-RDev has a wrapper around an HTTP request in the `RDev\HTTP\Requests\Request` class.
+Opulence has a wrapper around an HTTP request in the `Opulence\HTTP\Requests\Request` class.
 
 <h4 id="parameters">Parameters</h4>
-Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `RDev\HTTP\Parameters` objects, which have the following methods:
+Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `Opulence\HTTP\Parameters` objects, which have the following methods:
 
 * `get($key)`
 * `has($key)`
@@ -133,7 +133,7 @@ $request->getPath();
 ```
   
 <h5 id="checking-the-path">Checking the Path</h5>
-RDev allows you to check if a certain path is the current path using `$request->isPath(PATH_TO_MATCH)`.  It also allows you to use a regular expression for more complex matching:
+Opulence allows you to check if a certain path is the current path using `$request->isPath(PATH_TO_MATCH)`.  It also allows you to use a regular expression for more complex matching:
 
 ```php
 // The second parameter lets the request know that we're using a regular expression
@@ -146,7 +146,7 @@ $request->isPath("/docs/.*", true);
 The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
 
 <h5 id="json">JSON</h5>
-RDev can accept JSON as input, which makes it easy to start developing REST applications:
+Opulence can accept JSON as input, which makes it easy to start developing REST applications:
 
 ```php
 $request->getJSONBody();
@@ -199,14 +199,14 @@ $phpAuthUser = $request->getUser();
 $phpAuthPassword = $request->getPassword();
 ```
 <h2 id="responses">Responses</h2>
-RDev also wraps an HTTP response into the `RDev\HTTP\Responses\Response` class.  You can set the content, HTTP status code, headers, and cookies in a response.  RDev also supports JSON responses and redirects.
+Opulence also wraps an HTTP response into the `Opulence\HTTP\Responses\Response` class.  You can set the content, HTTP status code, headers, and cookies in a response.  Opulence also supports JSON responses and redirects.
 
 <h4 id="status-codes">Status Codes</h4>
-By default, a status code of 200 (HTTP OK) is returned.  A full list of codes is available in `RDev\HTTP\Responses\ResponseHeaders`.  For example, here's how to set an "Unauthorized" status code:
+By default, a status code of 200 (HTTP OK) is returned.  A full list of codes is available in `Opulence\HTTP\Responses\ResponseHeaders`.  For example, here's how to set an "Unauthorized" status code:
 
 ```php
-use RDev\HTTP\Responses\Response;
-use RDev\HTTP\Responses\ResponseHeaders;
+use Opulence\HTTP\Responses\Response;
+use Opulence\HTTP\Responses\ResponseHeaders;
 
 $response = new Response("Permission denied", ResponseHeaders::HTTP_UNAUTHORIZED);
 $response->send();
@@ -216,8 +216,8 @@ $response->send();
 You can specify any headers you'd like in your response.  To do something like set a "Content-Type" header to an octet stream, do the following:
 
 ```php
-use RDev\HTTP\Responses\Response;
-use RDev\HTTP\Responses\ResponseHeaders;
+use Opulence\HTTP\Responses\Response;
+use Opulence\HTTP\Responses\ResponseHeaders;
 
 $response = new Response("Foo");
 $response->getHeaders()->set("Content-Type", ResponseHeaders::CONTENT_TYPE_OCTET_STREAM);
@@ -225,11 +225,11 @@ $response->getHeaders()->set("Content-Type", ResponseHeaders::CONTENT_TYPE_OCTET
 
 <h4 id="cookies">Cookies</h4>
 <h5 id="setting-cookies">Setting Cookies</h5>
-Cookies are meant to help you remember information about a user, such as authentication credentials or site preferences.  RDev wraps a cookie into the `RDev\HTTP\Responses\Cookie` class.  To create a cookie, first create a `Cookie` object.  Then, add it to the `Response` object's headers so that it will be sent to the user.
+Cookies are meant to help you remember information about a user, such as authentication credentials or site preferences.  Opulence wraps a cookie into the `Opulence\HTTP\Responses\Cookie` class.  To create a cookie, first create a `Cookie` object.  Then, add it to the `Response` object's headers so that it will be sent to the user.
 
 ```php
 use DateTime;
-use RDev\HTTP\Responses\Cookie;
+use Opulence\HTTP\Responses\Cookie;
 
 // This should look pretty familiar to PHP's setcookie() function
 $userIdCookie = new Cookie("userId", 12345, new DateTime("+1 week"), "/", ".example.com", true, true);
@@ -237,7 +237,7 @@ $response->getHeaders()->setCookie($userIdCookie);
 $response->send();
 ```
 
-> **Note:** Unlike PHP's `setcookie()`, RDev defaults to setting the `httpOnly` flag to true.  This makes sites less prone to cross-site request forgeries. 
+> **Note:** Unlike PHP's `setcookie()`, Opulence defaults to setting the `httpOnly` flag to true.  This makes sites less prone to cross-site request forgeries. 
 
 <h5 id="deleting-cookies">Deleting Cookies</h5>
 Deleting a cookie is easy:
@@ -249,11 +249,11 @@ $response->send();
 ```
 
 <h4 id="json-responses">JSON Responses</h4>
-JSON responses are great for API calls.  RDev supports JSON responses in the `RDev\HTTP\Responses\JSONResponse` class.  It accepts either an `array` or `ArrayObject` as its content.
+JSON responses are great for API calls.  Opulence supports JSON responses in the `Opulence\HTTP\Responses\JSONResponse` class.  It accepts either an `array` or `ArrayObject` as its content.
 
 ```php
-use RDev\HTTP\Responses\JSONResponse;
-use RDev\HTTP\Responses\ResponseHeaders;
+use Opulence\HTTP\Responses\JSONResponse;
+use Opulence\HTTP\Responses\ResponseHeaders;
 
 $response = new JSONResponse(["message" => "Hello, world!"], ResponseHeaders::HTTP_OK);
 $response->send();
@@ -266,11 +266,11 @@ This will yield the following JSON:
 ```
 
 <h4 id="redirect-responses">Redirect Responses</h4>
-You'll often finding yourself wanting to redirect a user after things like logging in or out or after filling out a form.  Use an `RDev\HTTP\Responses\RedirectResponse`:
+You'll often finding yourself wanting to redirect a user after things like logging in or out or after filling out a form.  Use an `Opulence\HTTP\Responses\RedirectResponse`:
 
 ```php
-use RDev\HTTP\Responses\RedirectResponse;
-use RDev\HTTP\Responses\ResponseHeaders;
+use Opulence\HTTP\Responses\RedirectResponse;
+use Opulence\HTTP\Responses\ResponseHeaders;
 
 $response = new RedirectResponse("http://www.example.com/login", ResponseHeaders::HTTP_FOUND);
 $response->send();

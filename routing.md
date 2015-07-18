@@ -36,7 +36,7 @@ Routes require a few pieces of information:
 * The HTTP method (eg "GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", or "HEAD") the route is valid for
 * The action to perform on a match
 
-`RDev\Routing\Router` supports various methods out of the gate:
+`Opulence\Routing\Router` supports various methods out of the gate:
 * `get()`
 * `post()`
 * `delete()`
@@ -49,7 +49,7 @@ Routes require a few pieces of information:
 For very simple applications, it's probably easiest to use closures as your routes' controllers:
 
 ```php
-use RDev\Routing\Router;
+use Opulence\Routing\Router;
 
 $router = new Router($container, $dispatcher, $compiler);
 $router->get("/foo", function()
@@ -61,7 +61,7 @@ $router->get("/foo", function()
 If you need any object like the `Request` to be passed into the closure, just type-hint it:
 
 ```php
-use RDev\HTTP\Requests\Request;
+use Opulence\HTTP\Requests\Request;
 
 $router->get("/users/{id}", function(Request $request, $id)
 {
@@ -91,7 +91,7 @@ Let's say you want to grab a specific user's profile page.  You'll probably want
 
 Let's take a look at a full example:
 ```php
-use RDev\Routing\Controller;
+use Opulence\Routing\Controller;
 
 class UserController extends Controller
 {
@@ -273,19 +273,19 @@ Going to `/users/foo/profile` or `users/foo/posts` will not match because the Id
 > **Note:** If a route has a variable regular expression specified, it takes precedence over group regular expressions.
 
 <h2 id="caching">Caching</h2>
-Routes must be parsed to generate the regular expressions used to match the host and path.  This parsing takes a noticeable amount of time with a moderate number of routes.  To make the parsing faster, RDev caches the parsed routes.  If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, you can enable or disable cache by editing `configs/http/routing.php`.
+Routes must be parsed to generate the regular expressions used to match the host and path.  This parsing takes a noticeable amount of time with a moderate number of routes.  To make the parsing faster, Opulence caches the parsed routes.  If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, you can enable or disable cache by editing `configs/http/routing.php`.
 
-> **Note:** If you're in your production environment, you must run `php rdev framework:flushcache` every time you add/modify/delete a route in `configs/http/routes.php`.
+> **Note:** If you're in your production environment, you must run `php opulence framework:flushcache` every time you add/modify/delete a route in `configs/http/routes.php`.
 
 <h2 id="missing-routes">Missing Routes</h2>
-In the case that the router cannot find a route that matches the request, a 404 response will be returned.  Register your controller name and method name in the case of a missing route using `Router::setMissedRouteController()` (the default method is `showHTTPError()`).  If your controller extends `RDev\Routing\Controller`, you can simply override `showHTTPError()` to display the appropriate missing response.
+In the case that the router cannot find a route that matches the request, a 404 response will be returned.  Register your controller name and method name in the case of a missing route using `Router::setMissedRouteController()` (the default method is `showHTTPError()`).  If your controller extends `Opulence\Routing\Controller`, you can simply override `showHTTPError()` to display the appropriate missing response.
 
 Then, just add a route to handle this:
 ```php
 namespace MyApp;
-use RDev\HTTP\Responses\Response;
-use RDev\HTTP\Responses\ResponseHeaders;
-use RDev\Routing\Controller;
+use Opulence\HTTP\Responses\Response;
+use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Routing\Controller;
 
 class MyController extends Controller
 {
@@ -307,13 +307,13 @@ $router->route($request); // Returns a 404 response with "My custom 404 page"
 ```
 
 <h2 id="url-generators">URL Generators</h2>
-A cool feature is the ability to generate URLs from named routes using `RDev\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
+A cool feature is the ability to generate URLs from named routes using `Opulence\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
 
 > **Note:** If you do not define all the non-optional variables in the host or domain, a `URLException` will be thrown.
 
 <h4 id="generating-urls-from-code">Generating URLs from Code</h4>
 ```php
-use RDev\Routing\URL\URLGenerator;
+use Opulence\Routing\URL\URLGenerator;
 
 // Let's assume the router and compiler are already instantiated
 $urlGenerator = new URLGenerator($router->getRoutes(), $compiler);

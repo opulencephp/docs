@@ -3,15 +3,15 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [PHP Functions](#php-functions)
-3. [RDev Functions](#rdev-functions)
+3. [Opulence Functions](#opulence-functions)
 4. [Custom Functions](#custom-functions)
 5. [Using Template Functions in PHP Code](#using-template-functions-in-php-code)
 
 <h2 id="introduction">Introduction</h2>
-RDev supports using functions in templates.  They are a great way to reuse logic or formatting throughout your templates.  You can use PHP functions, functions defined by RDev, or your very own functions.
+Opulence supports using functions in templates.  They are a great way to reuse logic or formatting throughout your templates.  You can use PHP functions, functions defined by Opulence, or your very own functions.
 
 <h2 id="php-functions">PHP Functions</h2>
-RDev supports using PHP functions in tags:
+Opulence supports using PHP functions in tags:
 
 ##### Template
 ```
@@ -23,7 +23,7 @@ Hello, {{strtoupper("Dave")}}
 Hello, DAVE
 ```
 
-You can also pass variables into your functions in the template and set them using `setVar()`.  RDev even supports nested functions:
+You can also pass variables into your functions in the template and set them using `setVar()`.  Opulence even supports nested functions:
 
 ##### Template
 ```
@@ -35,8 +35,8 @@ You can also pass variables into your functions in the template and set them usi
 Dave Young
 ```
 
-<h2 id="rdev-functions">RDev Functions</h2>
-RDev supplies some built-in functions in the view library:
+<h2 id="opulence-functions">Opulence Functions</h2>
+Opulence supplies some built-in functions in the view library:
 * `charset()`
   * Returns HTML used to select a character set
   * Accepts the following arguments:
@@ -72,7 +72,7 @@ RDev supplies some built-in functions in the view library:
     1. `array|string $paths` - The path or list of paths to the scripts
     2. `string $type` - The script type, eg "text/javascript"
     
-If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, RDev also supplies the following functions:
+If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, Opulence also supplies the following functions:
 * `csrfInput()`
   * Returns a hidden input containing the CSRF token
 * `csrfToken()`
@@ -94,7 +94,7 @@ Since these functions output HTML, use them inside unescaped tags.  Here's an ex
         {{!httpEquiv("content-type", "text/html")!}}
         {{!pageTitle("My Website")!}}
         {{!metaDescription("An example website")!}}
-        {{!metaKeywords(["RDev", "sample"])!}}
+        {{!metaKeywords(["Opulence", "sample"])!}}
         {{!favicon("favicon.ico")!}}
         {{!css("stylesheet.css")!}}
     </head>
@@ -121,7 +121,7 @@ This will output:
         <meta http-equiv="content-type" content="text/html">
         <title>My Website</title>
         <meta name="description" content="An example website">
-        <meta name="keywords" content="RDev,sample">
+        <meta name="keywords" content="Opulence,sample">
         <link href="favicon.ico" rel="shortcut icon">
         <link href="stylesheet.css" rel="stylesheet">
     </head>
@@ -165,7 +165,7 @@ echo $compiler->compile($template); // "Hello, Mrs. Young"
 ```
 
 <h2 id="using-template-functions-in-php-code">Using Template Functions in PHP Code</h2>
-You may execute template functions in your PHP code by calling `RDev\Views\Compilers\ICompiler::executeTemplateFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | NAME_OF_PAGE`:
+You may execute template functions in your PHP code by calling `Opulence\Views\Compilers\ICompiler::executeTemplateFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | NAME_OF_PAGE`:
 
 ##### Template
 ```

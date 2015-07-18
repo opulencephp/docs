@@ -20,7 +20,7 @@
 8. [Extending the Compiler](#extending-the-compiler)
 
 <h2 id="introduction">Introduction</h2>
-RDev has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
+Opulence has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
 
 <h2 id="basic-usage">Basic Usage</h2>
 
@@ -70,7 +70,7 @@ echo $compiler->compile($template); // "A&amp;W Root Beer"
 ```
 
 <h4 id="compiling">Compiling</h4>
-RDev compiles templates using a compiler that implements `RDev\Views\Compilers\ICompiler` (`RDev\Views\Compilers\Compiler` come built-into RDev).  By separating compiling into a separate class, we separate the concerns of templates and compiling templates, thus satisfying the **Single Responsibility Principle** (**SRP**).  Let's take a look at a basic example:
+Opulence compiles templates using a compiler that implements `Opulence\Views\Compilers\ICompiler` (`Opulence\Views\Compilers\Compiler` come built-into Opulence).  By separating compiling into a separate class, we separate the concerns of templates and compiling templates, thus satisfying the **Single Responsibility Principle** (**SRP**).  Let's take a look at a basic example:
 
 ##### Template
 ```
@@ -78,12 +78,12 @@ Hello, {{username}}
 ```
 ##### Application Code
 ```php
-use RDev\Files\FileSystem;
-use RDev\Views\Caching\Cache;
-use RDev\Views\Compilers\Compiler;
-use RDev\Views\Factories\TemplateFactory;
-use RDev\Views\Filters\XSSFilter;
-use RDev\Views\Template;
+use Opulence\Files\FileSystem;
+use Opulence\Views\Caching\Cache;
+use Opulence\Views\Compilers\Compiler;
+use Opulence\Views\Factories\TemplateFactory;
+use Opulence\Views\Filters\XSSFilter;
+use Opulence\Views\Template;
 
 $fileSystem = new FileSystem();
 $cache = new Cache($fileSystem, "/tmp");
@@ -98,12 +98,12 @@ echo $compiler->compile($template); // "Hello, Dave"
 
 Alternatively, you could just pass in a template's contents to its constructor:
 ```php
-use RDev\Files\FileSystem;
-use RDev\Views\Caching\Cache;
-use RDev\Views\Compilers\Compiler;
-use RDev\Views\Factories\TemplateFactory;
-use RDev\Views\Filters\XSSFilter;
-use RDev\Views\Template;
+use Opulence\Files\FileSystem;
+use Opulence\Views\Caching\Cache;
+use Opulence\Views\Compilers\Compiler;
+use Opulence\Views\Factories\TemplateFactory;
+use Opulence\Views\Filters\XSSFilter;
+use Opulence\Views\Template;
 
 $fileSystem = new FileSystem();
 $cache = new Cache($fileSystem, "/tmp");
@@ -137,7 +137,7 @@ Alternatively, you can output a string literal inside tags:
 This will output "A&amp;amp;W vs A&amp;W".
 
 <h2 id="using-php-in-your-template">Using PHP in Your Template</h2>
-Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  There is no need to memorize library-specific constructs here.  With RDev's template system, you can do this:
+Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  There is no need to memorize library-specific constructs here.  With Opulence's template system, you can do this:
 ##### Template
 ```
 <ul><?php foreach(["foo", "bar"] as $item): ?>
@@ -167,7 +167,7 @@ echo $compiler->compile($template); // "Hello, Administrator"
 > **Note:** It's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
 <h2 id="extending-templates">Extending Templates</h2>
-Most templates extend some sort of master template.  To make your life easy, RDev builds support for this functionality into its templates.  RDev uses a statement tag `{% %}` for RDev-specific logic statements.  They provide the ability do such things as extend templates.
+Most templates extend some sort of master template.  To make your life easy, Opulence builds support for this functionality into its templates.  Opulence uses a statement tag `{% %}` for Opulence-specific logic statements.  They provide the ability do such things as extend templates.
 
 <h4 id="example">Example</h4>
 
@@ -182,7 +182,7 @@ Hello, world!
 Hello, Dave!
 ```
 
-When the child template gets compiled, the `Master.html` template is automatically created by an `RDev\Views\Factories\ITemplateFactory` and inserted into the template to produce the following output:
+When the child template gets compiled, the `Master.html` template is automatically created by an `Opulence\Views\Factories\ITemplateFactory` and inserted into the template to produce the following output:
 
 ```
 Hello, world!
@@ -271,14 +271,14 @@ This will compile to:
 ```
 
 <h2 id="caching">Caching</h2>
-To improve the speed of template compiling, templates are cached using a class that implements `RDev\Views\Caching\ICache` (`RDev\Views\Caching\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
+To improve the speed of template compiling, templates are cached using a class that implements `Opulence\Views\Caching\ICache` (`Opulence\Views\Caching\Cache` comes built-in to Opulence).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
 
 <h4 id="garbage-collection">Garbage Collection</h4>
 Occasionally, you should clear out old cached template files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
  
 ```php
-use RDev\Files\FileSystem;
-use RDev\Views\Caching\Cache;
+use Opulence\Files\FileSystem;
+use Opulence\Views\Caching\Cache;
 
 // Make 123 out of every 1,000 template compilations trigger garbage collection
 $cache = new Cache(new FileSystem(), "/tmp", 123, 1000);
@@ -290,11 +290,11 @@ $cache->setGCChance(1, 500);
 ```
 
 <h2 id="extending-the-compiler">Extending the Compiler</h2>
-Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with RDev's `Compiler`.  Using `Compiler::registerSubCompiler()`, you can compile the syntax in your template to the desired output.  RDev itself uses `registerSubCompiler()` to compile statements, PHP, and tags in templates.
+Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with Opulence's `Compiler`.  Using `Compiler::registerSubCompiler()`, you can compile the syntax in your template to the desired output.  Opulence itself uses `registerSubCompiler()` to compile statements, PHP, and tags in templates.
 
 Let's take a look at what should be passed into `registerSubCompiler()`:
 
-  1. `RDev\Views\Compilers\SubCompilers\ISubCompiler $subCompiler`
+  1. `Opulence\Views\Compilers\SubCompilers\ISubCompiler $subCompiler`
   2. `int|null $priority`
     * If your sub-compiler needs to be executed before other compilers, simply pass in an integer to prioritize the sub-compiler (1 is the highest)
     * If you do not specify a priority, then the compiler will be executed after the prioritized sub-compilers in the order it was added
@@ -302,8 +302,8 @@ Let's take a look at what should be passed into `registerSubCompiler()`:
 Let's take a look at an example that converts HTML comments to an HTML list of those comments:
 
 ```php
-use RDev\Views\Compilers\SubCompilers\ISubCompiler;
-use RDev\Views\ITemplate;
+use Opulence\Views\Compilers\SubCompilers\ISubCompiler;
+use Opulence\Views\ITemplate;
 
 class MySubCompiler implements ISubCompiler
 {

@@ -13,7 +13,7 @@
   3. [Binding Multiple Values](#binding-multiple-values)
 
 <h2 id="introduction">Introduction</h2>
-Relational databases store information about data and how it's related to other data.  RDev provides classes and methods for connecting to relational databases and querying them for data.  It does this by extending `PDO` and `PDOStatement` to give users a familiar interface to work with.  <a href="http://php.net/manual/en/book.pdo.php" target="_blank">PDO</a> is a powerful wrapper for database interactions, and comes with built-in tools to prevent SQL injection. 
+Relational databases store information about data and how it's related to other data.  Opulence provides classes and methods for connecting to relational databases and querying them for data.  It does this by extending `PDO` and `PDOStatement` to give users a familiar interface to work with.  <a href="http://php.net/manual/en/book.pdo.php" target="_blank">PDO</a> is a powerful wrapper for database interactions, and comes with built-in tools to prevent SQL injection. 
 
 <h4 id="connection-pools">Connection Pools</h4>
 Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a `SingleServerConnectionPool`.  If you have a master/slave(s) setup, you can use a `MasterSlaveConnectionPool`.
@@ -22,9 +22,9 @@ Connection pools help you manage your database connections by doing all the dirt
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
 ```php
-use RDev\Databases\PDO\MySQL\Driver;
-use RDev\Databases\Server;
-use RDev\Databases\SingleServerConnectionPool;
+use Opulence\Databases\PDO\MySQL\Driver;
+use Opulence\Databases\Server;
+use Opulence\Databases\SingleServerConnectionPool;
 
 $connectionPool = new SingleServerConnectionPool(
     new Driver(), // The driver to use
@@ -52,9 +52,9 @@ $name = $row["name"];
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  Instead of taking a single server in their constructors, they take a master server and an array of slave servers.
 
 ```php
-use RDev\Databases\PDO\PostgreSQL\Driver;
-use RDev\Databases\Server;
-use RDev\Databases\SingleServerConnectionPool;
+use Opulence\Databases\PDO\PostgreSQL\Driver;
+use Opulence\Databases\Server;
+use Opulence\Databases\SingleServerConnectionPool;
 
 $connectionPool = new SingleServerConnectionPool(
     new Driver(), // The driver to use
@@ -84,9 +84,9 @@ $connectionPool = new SingleServerConnectionPool(
 To read from the database, simply use the connection returned by `$connectionPool->getReadConnection()`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.
 
 <h2 id="how-to-query-and-fetch-results">How to Query and Fetch Results</h2>
-RDev uses the exact same methods as `PDO` to query and fetch results.  To learn how to query using `PDO`, try the <a href="http://php.net/manual/en/book.pdo.php" target="_blank">official PHP documentation</a>.
+Opulence uses the exact same methods as `PDO` to query and fetch results.  To learn how to query using `PDO`, try the <a href="http://php.net/manual/en/book.pdo.php" target="_blank">official PHP documentation</a>.
 
-RDev's `PDO` wrappers make it easy to connect to the database without having to remember things like how to format the DSN.  RDev's wrappers also support [type mappers](database-type-mappers) for easy conversion between a database vendor's data types and PHP data types.  They even provide support for nested database transactions.
+Opulence's `PDO` wrappers make it easy to connect to the database without having to remember things like how to format the DSN.  Opulence's wrappers also support [type mappers](database-type-mappers) for easy conversion between a database vendor's data types and PHP data types.  They even provide support for nested database transactions.
 
 <h2 id="binding-values">Binding Values</h2>
 Most database queries use a dynamic variable to filter results.  The unsafe method would be to put it directly in the string:
@@ -127,7 +127,7 @@ $statement->execute();
 ```
 
 <h4 id="binding-multiple-values">Binding Multiple Values</h4>
-`PDOStatement` has a `bindValue()` method, but it does not natively support binding multiple values at once.  RDev's extension of `PDOStatement` does:
+`PDOStatement` has a `bindValue()` method, but it does not natively support binding multiple values at once.  Opulence's extension of `PDOStatement` does:
 
 ```php
 $statement->bindValues([
