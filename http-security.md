@@ -79,7 +79,7 @@ Cross-site request forgery is an attack where unauthorized commands are sent to 
 <h4 id="csrf-how-to-defend-against-it">How to Defend Against It</h4>
 To prevent this from happening, a unique token should be embedded in every form and with every session.  When the form is submitted, the form token and session token should be compared, and if they are not equal, the submission should be rejected.  In the example case above, the form token would not be set.  With CSRF protection in place, the form and session tokens would not match, and the form submission would be rejected.
 
-Opulence automatically generates and compares the tokens using middleware.  To include the token in your form, use the `{{!csrfInput()!}}` template function in your view.  This will create a hidden input with your token, which will validate against the session token.  You can also use the `{{csrfToken()}}` template function to print the token in elements like meta tags:
+Opulence automatically generates and compares the tokens using middleware.  To include the token in your form, use the `{{!csrfInput()!}}` view function in your view.  This will create a hidden input with your token, which will validate against the session token.  You can also use the `{{csrfToken()}}` template function to print the token in elements like meta tags:
 
 ```php
 <meta name="csrf-token" content="{{csrfToken()}}">

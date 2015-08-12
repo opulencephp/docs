@@ -5,15 +5,15 @@
 2. [PHP Functions](#php-functions)
 3. [Opulence Functions](#opulence-functions)
 4. [Custom Functions](#custom-functions)
-5. [Using Template Functions in PHP Code](#using-template-functions-in-php-code)
+5. [Using View Functions in PHP Code](#using-view-functions-in-php-code)
 
 <h2 id="introduction">Introduction</h2>
-Opulence supports using functions in templates.  They are a great way to reuse logic or formatting throughout your templates.  You can use PHP functions, functions defined by Opulence, or your very own functions.
+Opulence supports using functions in views.  They are a great way to reuse logic or formatting throughout your views.  You can use PHP functions, functions defined by Opulence, or your very own functions.
 
 <h2 id="php-functions">PHP Functions</h2>
 Opulence supports using PHP functions in tags:
 
-##### Template
+##### View
 ```
 Hello, {{strtoupper("Dave")}}
 ```
@@ -23,9 +23,9 @@ Hello, {{strtoupper("Dave")}}
 Hello, DAVE
 ```
 
-You can also pass variables into your functions in the template and set them using `setVar()`.  Opulence even supports nested functions:
+You can also pass variables into your functions in the view and set them using `setVar()`.  Opulence even supports nested functions:
 
-##### Template
+##### View
 ```
 {{trim(ucwords(" dave young "))}}
 ```
@@ -85,7 +85,7 @@ If you're using the <a href="https://github.com/ramblingsofadev/Project" target=
 
 Since these functions output HTML, use them inside unescaped tags.  Here's an example of how to use these functions:
 
-##### Template
+##### View
 ```
 <!DOCTYPE html>
 <html>
@@ -107,8 +107,8 @@ Since these functions output HTML, use them inside unescaped tags.  Here's an ex
 
 ##### Application Code
 ```php
-$template->setContents(TEMPLATE);
-echo $compiler->compile($template);
+$view->setContents(VIEW);
+echo $compiler->compile($view);
 ```
 
 This will output:
@@ -134,17 +134,17 @@ This will output:
 ```
 
 <h2 id="custom-functions">Custom Functions</h2>
-It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:
-##### Template
+It's possible to add custom functions to your view.  For example, you might want to add a salutation to a last name in your view.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:
+##### View
 ```
 Hello, {{salutation("Young", false, true)}}
 ```
 
 ##### Application Code
 ```php
-$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
+$view->setContents($fileSystem->read(PATH_TO_HTML_VIEW));
 // Our function simply needs to have a printable return value
-$compiler->registerTemplateFunction("salutation", function($lastName, $isMale, $isMarried)
+$compiler->registerViewFunction("salutation", function($lastName, $isMale, $isMarried)
 {
     if($isMale)
     {
@@ -161,13 +161,13 @@ $compiler->registerTemplateFunction("salutation", function($lastName, $isMale, $
 
     return $salutation . " " . $lastName;
 });
-echo $compiler->compile($template); // "Hello, Mrs. Young"
+echo $compiler->compile($view); // "Hello, Mrs. Young"
 ```
 
-<h2 id="using-template-functions-in-php-code">Using Template Functions in PHP Code</h2>
-You may execute template functions in your PHP code by calling `Opulence\Views\Compilers\ICompiler::executeTemplateFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | NAME_OF_PAGE`:
+<h2 id="using-view-functions-in-php-code">Using View Functions in PHP Code</h2>
+You may call view functions in your PHP code by calling `Opulence\Views\Compilers\ICompiler::callViewFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | NAME_OF_PAGE`:
 
-##### Template
+##### View
 ```
 <!DOCTYPE html>
 <html>
@@ -182,13 +182,13 @@ You may execute template functions in your PHP code by calling `Opulence\Views\C
 
 ##### Application Code
 ```php
-$compiler->registerTemplateFunction("myPageTitle", function($title) use ($compiler, $template)
+$compiler->registerViewFunction("myPageTitle", function($title) use ($compiler, $view)
 {
-    // Take advantage of the built-in template function
-    return $compiler->executeTemplateFunction("pageTitle", [$template, $title . " | My Site"]);
+    // Take advantage of the built-in view function
+    return $compiler->callViewFunction("pageTitle", $view, $title . " | My Site");
 });
-$template->setContents(TEMPLATE);
-echo $compiler->compile($template);
+$view->setContents(VIEW);
+echo $compiler->compile($view);
 ```
 
 This will output:

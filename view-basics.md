@@ -9,12 +9,12 @@
   4. [Custom Tag Delimiters](#custom-tag-delimiters)
   5. [Compiling](#compiling)
 3. [Cross-Site Scripting](#cross-site-scripting)
-4. [Using PHP in Your Template](#using-php-in-your-template)
-5. [Extending Templates](#extending-templates)
+4. [Using PHP in Your View](#using-php-in-your-view)
+5. [Extending Views](#extending-views)
   1. [Example](#example)
   2. [Parts](#parts)
   3. [Parents](#parents)
-6. [Including Templates](#including-templates)
+6. [Including Views](#including-views)
 7. [Caching](#caching)
   1. [Garbage Collection](#garbage-collection)
 8. [Extending the Compiler](#extending-the-compiler)
@@ -25,120 +25,120 @@ Opulence has a template system, which is meant to simplify adding dynamic conten
 <h2 id="basic-usage">Basic Usage</h2>
 
 <h4 id="tags">Tags</h4>
-Tags are placeholders for values in your templates.  For example, let's say that you want to print `Hello, {{username}}` at the top of your website.  To set the "username" tag, use `setTag()`:
+Tags are placeholders for values in your views.  For example, let's say that you want to print `Hello, {{$username}}` at the top of your website.  To set the "username" variable, use `setVar()`:
 
 ```php
-$template->setTag("username", "Dave");
+$view->setVar("username", "Dave");
 ```
 
 <h4 id="statements">Statements</h4>
-Statements perform template logic.  For example, they can be used to denote a [template that extends another template](#extending-templates) or [include another template](#including-templates).
+Statements perform view logic.  For example, they can be used to denote a [view that extends another view](#extending-views) or [include another view](#including-views).
 
-> **Note:** You might be asking what the difference between tags and statements is.  Tags are temporary placeholders for data that is inserted through a controller.  Statements, on the other hand, provide a shorthand for executing logic entirely within a template.
+> **Note:** You might be asking what the difference between tags and statements is.  Tags are temporary placeholders for data that is inserted through a controller.  Statements, on the other hand, provide a shorthand for executing logic entirely within a view.
 
 <h4 id="escaping-tag-delimiters">Escaping Tag Delimiters</h4>
 Want to escape a tag delimiter?  Easy!  Just add a backslash before the opening tag like so:
-##### Template
+##### View
 ```
-Hello, {{username}}.  \{{I am escaped}}! \{{!Me too!}}. \{%So am I%}.
+Hello, {{$username}}.  \{{I am escaped}}! \{{!Me too!}}. \<%So am I%>.
 ```
 ##### Application Code
 ```php
-$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-$template->setTag("username", "Mr Schwarzenegger");
-echo $compiler->compile($template); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}. {%So am I%}."
+$view->setContents($fileSystem->read(PATH_TO_HTML_VIEW));
+$view->setVar("username", "Mr Schwarzenegger");
+echo $compiler->compile($view); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}. <%So am I%>."
 ```
 
 <h4 id="custom-tag-delimiters">Custom Tag Delimiters</h4>
-Want to use a custom character/string for the tag delimiters?  Easy!  Just specify it in the `Template` object like so:
-##### Template
+Want to use a custom character/string for the tag delimiters?  Easy!  Just specify it in the `View` object like so:
+##### View
 ```
 ^^name$$ ++food--
 ```
 ##### Application Code
 ```php
-$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-$template->setDelimiters($template::DELIMITER_TYPE_ESCAPED_TAG, ["^^", "$$"]);
+$view->setContents($fileSystem->read(PATH_TO_HTML_VIEW));
+$view->setDelimiters($view::DELIMITER_TYPE_ESCAPED_TAG, ["^^", "$$"]);
 // You can also override the unescaped tag delimiters
-$template->setDelimiters($template::DELIMITER_TYPE_UNESCAPED_TAG, ["++", "--"]);
+$view->setDelimiters($view::DELIMITER_TYPE_UNESCAPED_TAG, ["++", "--"]);
 // You can even override statement delimiters
-$template->setDelimiters($template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
+$view->setDelimiters($view::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
 // Try setting some tags
-$template->setTag("name", "A&W");
-$template->setTag("food", "Root Beer");
-echo $compiler->compile($template); // "A&amp;W Root Beer"
+$view->setVar("name", "A&W");
+$view->setVar("food", "Root Beer");
+echo $compiler->compile($view); // "A&amp;W Root Beer"
 ```
 
 <h4 id="compiling">Compiling</h4>
-Opulence compiles templates using a compiler that implements `Opulence\Views\Compilers\ICompiler` (`Opulence\Views\Compilers\Compiler` come built-into Opulence).  By separating compiling into a separate class, we separate the concerns of templates and compiling templates, thus satisfying the **Single Responsibility Principle** (**SRP**).  Let's take a look at a basic example:
+Opulence compiles views using a compiler that implements `Opulence\Views\Compilers\ICompiler` (`Opulence\Views\Compilers\Compiler` come built-into Opulence).  By separating compiling into a separate class, we separate the concerns of views and compiling views, thus satisfying the **Single Responsibility Principle** (**SRP**).  Let's take a look at a basic example:
 
-##### Template
+##### View
 ```
-Hello, {{username}}
+Hello, {{$username}}
 ```
 ##### Application Code
 ```php
 use Opulence\Files\FileSystem;
 use Opulence\Views\Caching\Cache;
 use Opulence\Views\Compilers\Compiler;
-use Opulence\Views\Factories\TemplateFactory;
+use Opulence\Views\Factories\ViewFactory;
 use Opulence\Views\Filters\XSSFilter;
-use Opulence\Views\Template;
+use Opulence\Views\View;
 
 $fileSystem = new FileSystem();
 $cache = new Cache($fileSystem, "/tmp");
-$templateFactory = new TemplateFactory($fileSystem, PATH_TO_TEMPLATES);
+$viewFactory = new ViewFactory($fileSystem, PATH_TO_VIEWS);
 $xssFilter = new XSSFilter();
-$compiler = new Compiler($cache, $templateFactory, $xssFilter);
-$template = new Template();
-$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-$template->setTag("username", "Dave");
-echo $compiler->compile($template); // "Hello, Dave"
+$compiler = new Compiler($cache, $viewFactory, $xssFilter);
+$view = new View();
+$view->setContents($fileSystem->read(PATH_TO_HTML_VIEW));
+$view->setVar("username", "Dave");
+echo $compiler->compile($view); // "Hello, Dave"
 ```
 
-Alternatively, you could just pass in a template's contents to its constructor:
+Alternatively, you could just pass in a view's contents to its constructor:
 ```php
 use Opulence\Files\FileSystem;
 use Opulence\Views\Caching\Cache;
 use Opulence\Views\Compilers\Compiler;
-use Opulence\Views\Factories\TemplateFactory;
+use Opulence\Views\Factories\ViewFactory;
 use Opulence\Views\Filters\XSSFilter;
-use Opulence\Views\Template;
+use Opulence\Views\View;
 
 $fileSystem = new FileSystem();
 $cache = new Cache($fileSystem, "/tmp");
-$templateFactory = new TemplateFactory($fileSystem, PATH_TO_TEMPLATES);
+$viewFactory = new ViewFactory($fileSystem, PATH_TO_VIEWS);
 $xssFilter = new XSSFilter();
-$compiler = new Compiler($cache, $templateFactory, $xssFilter);
-$template = new Template("Hello, {{username}}");
-$template->setTag("username", "Dave");
-echo $compiler->compile($template); // "Hello, Dave"
+$compiler = new Compiler($cache, $viewFactory, $xssFilter);
+$view = new View('Hello, {{$username}}');
+$view->setVar("username", "Dave");
+echo $compiler->compile($view); // "Hello, Dave"
 ```
 
 <h2 id="cross-site-scripting">Cross-Site Scripting</h2>
 Tags are automatically sanitized to prevent cross-site scripting (XSS) when using the "{{" and "}}" tags.  To display unescaped data, simply use "{{!MY_UNESCAPED_TAG_NAME_HERE!}}".
-##### Template
+##### View
 ```
-{{name}} vs {{!name!}}
+{{$name}} vs {{!$name!}}
 ```
 ##### Application Code
 ```php
-$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-$template->setTag("name", "A&W");
-echo $compiler->compile($template); // "A&amp;W vs A&W"
+$view->setContents($fileSystem->read(PATH_TO_HTML_VIEW));
+$view->setVar("name", "A&W");
+echo $compiler->compile($view); // "A&amp;W vs A&W"
 ```
 
 Alternatively, you can output a string literal inside tags:
-##### Template
+##### View
 ```
 {{"A&W"}} vs {{!"A&W"!}}
 ```
 
 This will output "A&amp;amp;W vs A&amp;W".
 
-<h2 id="using-php-in-your-template">Using PHP in Your Template</h2>
+<h2 id="using-php-in-your-view">Using PHP in Your View</h2>
 Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  There is no need to memorize library-specific constructs here.  With Opulence's template system, you can do this:
-##### Template
+##### View
 ```
 <ul><?php foreach(["foo", "bar"] as $item): ?>
     <li>{{$item}}</li>
@@ -146,12 +146,12 @@ Keeping your view separate from your business logic is important.  However, ther
 ```
 ##### Application Code
 ```php
-$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-echo $compiler->compile($template); // "<ul><li>foo</li><li>bar</li></ul>"
+$view->setContents($fileSystem->read(PATH_TO_HTML_VIEW));
+echo $compiler->compile($view); // "<ul><li>foo</li><li>bar</li></ul>"
 ```
 
-You can also inject values from your application code into variables in your template:
-##### Template
+You can also inject values from your application code into variables in your view:
+##### View
 ```
 <?php if($isAdministrator): ?>
 Hello, Administrator
@@ -159,15 +159,15 @@ Hello, Administrator
 ```
 ##### Application Code
 ```php
-$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-$template->setVar("isAdministrator", true);
-echo $compiler->compile($template); // "Hello, Administrator"
+$view->setContents($fileSystem->read(PATH_TO_HTML_VIEW));
+$view->setVar("isAdministrator", true);
+echo $compiler->compile($view); // "Hello, Administrator"
 ```
 
-> **Note:** It's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
+> **Note:** It's recommended to keep as much business logic out of the views as you can.  In other words, utilize PHP in the view to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the view when necessary.
 
-<h2 id="extending-templates">Extending Templates</h2>
-Most templates extend some sort of master template.  To make your life easy, Opulence builds support for this functionality into its templates.  Opulence uses a statement tag `{% %}` for Opulence-specific logic statements.  They provide the ability do such things as extend templates.
+<h2 id="extending-views">Extending Views</h2>
+Most views extend some sort of master view.  To make your life easy, Opulence builds support for this functionality into its views.  Opulence uses a statement tag `<% %>` for Opulence-specific logic statements.  They provide the ability do such things as extend views.
 
 <h4 id="example">Example</h4>
 
@@ -178,41 +178,41 @@ Hello, world!
 
 ##### Child
 ```
-{% extends("Master.html") %}
+<% extends("Master.html") %>
 Hello, Dave!
 ```
 
-When the child template gets compiled, the `Master.html` template is automatically created by an `Opulence\Views\Factories\ITemplateFactory` and inserted into the template to produce the following output:
+When the child view gets compiled, the `Master.html` view is automatically created by an `Opulence\Views\Factories\IViewFactory` and inserted into the view to produce the following output:
 
 ```
 Hello, world!
 Hello, Dave!
 ```
 
-> **Note:** When extending a template, the child template inherits all of the parent's parts, tags, and variable values.  If A extends B, which extends C, tags/parts/variables from part B will overwrite any identically-named tags/parts/variables from part C.
+> **Note:** When extending a view, the child view inherits all of the parent's parts, tags, and variable values.  If A extends B, which extends C, tags/parts/variables from part B will overwrite any identically-named tags/parts/variables from part C.
 
 <h4 id="parts">Parts</h4>
-Another common case is a master template that is leaving a child template to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child template.  Use the `{% show("NAME_OF_PART") %}` statement:
+Another common case is a master view that is leaving a child view to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child view.  Use the `<% show("NAME_OF_PART") %>` statement:
 
 ##### Master.html
 ```
 <div id="sidebar">
-    {% show("sidebar") %}
+    <% show("sidebar") %>
 </div>
 ```
 
 ##### Child
 ```
-{% extends("Master.html") %}
-{% part("sidebar") %}
+<% extends("Master.html") %>
+<% part("sidebar") %>
 <ul>
     <li><a href="/">Home</a></li>
     <li><a href="/about">About</a></li>
 </ul>
-{% endpart %}
+<% endpart %>
 ```
 
-We created a part named "sidebar".  When the child gets compiled, the contents of that part will be shown in any `{% show() %}` statement whose parameter matches the name of the part. We will get the following:
+We created a part named "sidebar".  When the child gets compiled, the contents of that part will be shown in any `<% show() %>` statement whose parameter matches the name of the part. We will get the following:
 
 ```
 <div id="sidebar">
@@ -224,21 +224,21 @@ We created a part named "sidebar".  When the child gets compiled, the contents o
 ```
 
 <h4 id="parents">Parents</h4>
-Sometimes, you'll want to add to a parent template's part.  To do so, use the `{% parent("NAME_OF_PART") %}` statement:
+Sometimes, you'll want to add to a parent view's part.  To do so, use the `<% parent("NAME_OF_PART") %>` statement:
 
 ##### Master.html
 ```
-{% part("greeting") %}
+<% part("greeting") %>
 Hello
-{% endpart %}
+<% endpart %>
 ```
 
 ##### Child
 ```
-{% extends("Master.html") %}
-{% part("greeting") %}
-{% parent("greeting") %}, world!
-{% endpart %}
+<% extends("Master.html") %>
+<% part("greeting") %>
+<% parent("greeting") %>, world!
+<% endpart %>
 ```
 
 This will get compiled down to:
@@ -247,18 +247,18 @@ This will get compiled down to:
 Hello, world!
 ```
 
-<h2 id="including-templates">Including Templates</h2>
-Including another template (in much the same way PHP's `include` works) is an easy way to not repeat yourself.  Here's an example of how to include a template:
+<h2 id="including-views">Including Views</h2>
+Including another view (in much the same way PHP's `include` works) is an easy way to not repeat yourself.  Here's an example of how to include a view:
 
-##### IncludedTemplate.html
+##### IncludedView.html
 ```
 Hello, world!
 ```
 
-##### Master Template
+##### Master View
 ```
 <div id="important-message">
-    {% include("IncludedTemplate.html") %}
+    <% include("IncludedView.html") %>
 </div>
 ```
 
@@ -271,26 +271,26 @@ This will compile to:
 ```
 
 <h2 id="caching">Caching</h2>
-To improve the speed of template compiling, templates are cached using a class that implements `Opulence\Views\Caching\ICache` (`Opulence\Views\Caching\Cache` comes built-in to Opulence).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
+To improve the speed of view compiling, views are cached using a class that implements `Opulence\Views\Caching\ICache` (`Opulence\Views\Caching\Cache` comes built-in to Opulence).  You can specify how long a view should live in cache using `setLifetime()`.  If you do not want views to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for views, just implement `ICache` and pass it into your `View` class.
 
 <h4 id="garbage-collection">Garbage Collection</h4>
-Occasionally, you should clear out old cached template files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
+Occasionally, you should clear out old cached view files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
  
 ```php
 use Opulence\Files\FileSystem;
 use Opulence\Views\Caching\Cache;
 
-// Make 123 out of every 1,000 template compilations trigger garbage collection
+// Make 123 out of every 1,000 view compilations trigger garbage collection
 $cache = new Cache(new FileSystem(), "/tmp", 123, 1000);
 ```
 Or use `setGCChance()`:
 ```php
-// Make 1 out of every 500 template compilations trigger garbage collection
+// Make 1 out of every 500 view compilations trigger garbage collection
 $cache->setGCChance(1, 500);
 ```
 
 <h2 id="extending-the-compiler">Extending the Compiler</h2>
-Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with Opulence's `Compiler`.  Using `Compiler::registerSubCompiler()`, you can compile the syntax in your template to the desired output.  Opulence itself uses `registerSubCompiler()` to compile statements, PHP, and tags in templates.
+Let's pretend that there's some unique feature or syntax you want to implement in your view that cannot currently be compiled with Opulence's `Compiler`.  Using `Compiler::registerSubCompiler()`, you can compile the syntax in your view to the desired output.  Opulence itself uses `registerSubCompiler()` to compile statements, PHP, and tags in views.
 
 Let's take a look at what should be passed into `registerSubCompiler()`:
 
@@ -303,17 +303,17 @@ Let's take a look at an example that converts HTML comments to an HTML list of t
 
 ```php
 use Opulence\Views\Compilers\SubCompilers\ISubCompiler;
-use Opulence\Views\ITemplate;
+use Opulence\Views\IView;
 
 class MySubCompiler implements ISubCompiler
 {
-    public function compile(ITemplate $template, $content)
+    public function compile(IView $view, $content)
     {
         return "<ul>" . preg_replace("/<!--((?:(?!-->).)*)-->/", "<li>$1</li>", $content) . "</ul>";
     }
 }
 
 $compiler->registerSubCompiler(new MySubCompiler());
-$template->setContents("<!--Comment 1--><!--Comment 2-->");
-echo $compiler->compile($template); // "<ul><li>Comment 1</li><li>Comment 2</li></ul>"
+$view->setContents("<!--Comment 1--><!--Comment 2-->");
+echo $compiler->compile($view); // "<ul><li>Comment 1</li><li>Comment 2</li></ul>"
 ```

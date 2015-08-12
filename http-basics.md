@@ -66,7 +66,7 @@ class UserList extends Controller
     
     public function showAll()
     {
-        $this->template->setVar("users", $this->users->getAll());
+        $this->view->setVar("users", $this->users->getAll());
     }
 }
 ```

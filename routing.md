@@ -28,7 +28,7 @@
 10. [Notes](#notes)
 
 <h2 id="introduction">Introduction</h2>
-So, you've made some page templates, and you've written some models.  Now, you need a way to wire everything up so that users can access your pages.  To do this, you need a `Router` and controllers.  The `Router` can capture data from the URL to help you decide which controller to use and what data to send to the view.  It makes building a RESTful application a cinch.
+So, you've made some page views, and you've written some models.  Now, you need a way to wire everything up so that users can access your pages.  To do this, you need a `Router` and controllers.  The `Router` can capture data from the URL to help you decide which controller to use and what data to send to the view.  It makes building a RESTful application a cinch.
 
 <h2 id="basic-usage">Basic Usage</h2>
 Routes require a few pieces of information:
@@ -339,7 +339,7 @@ echo $urlGenerator->createFromName("inbox", ["us", 724]); // "http://us.mail.exa
 ```
 
 <h4 id="generating-urls-from-views">Generating URLs from Views</h4>
-URLs can also be generated from views using the `route()` template function.  Here's an example router config:
+URLs can also be generated from views using the `route()` view function.  Here's an example router config:
 
 ```php
 $router->get("/users/{userId}/profile", "UserController@showProfile", ["name" => "profile"]);
