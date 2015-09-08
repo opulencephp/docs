@@ -10,9 +10,9 @@
   2. [Loops](#loops)
   3. [Including Views](#including-views)
   4. [Extending Views](#extending-views)
+      1. [Parents](#parents)
   5. [Parts](#parts)
-  6. [Parents](#parents)
-  7. [Creating Directives](#creating-directives)
+  6. [Creating Directives](#creating-directives)
 4. [Functions](#functions)
   1. [Fortune Functions](#fortune-functions)
   2. [Custom Functions](#custom-functions)
@@ -24,7 +24,7 @@
   1. [Garbage Collection](#garbage-collection)
 
 <h2 id="introduction">Introduction</h2>
-Fortune is the view engine that comes built into Opulence.  It simplifies adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own directives.  To get started using Fortune, simply create files with the extension ".fortune", eg "Master.fortune".  Opulence will detect that the file is a Fortune template and will use the Fortune compiler.
+Fortune is the view engine that comes built into Opulence.  It simplifies adding dynamic content to web pages.  You can inject data into your pages, extend other views, prevent XSS attacks, and even extend the compiler.  To get started using Fortune, simply create files with the extension "fortune", eg `Master.fortune`.  Opulence will detect that the file is a Fortune template and will use the Fortune compiler.
 
 Fortune uses a lexer to tokenize the raw template into a stream of tokens.  The tokens are then parsed into an abstract syntax tree, which is transpiled into regular PHP code.  The transpiler caches the generated PHP code to significantly speed up subsequent requests.
 
@@ -66,7 +66,7 @@ Directives perform view logic.  For example, they can be used to denote a [view 
 ```php
 <% if($user->isAdmin()) %>
     <a href="edit">Edit Post</a>
-<% elseif($user->canViewPosts() %>
+<% elseif($user->canViewPosts()) %>
     <a href="view">View Post</a>
 <% else %>
     You cannot view this post
@@ -74,7 +74,7 @@ Directives perform view logic.  For example, they can be used to denote a [view 
 ```
 
 <h4 id="loops">Loops</h4>
-```php
+```
 <% for($i = 1;$i <= 5;$i++) %>
     {{$i}}
 <% endfor %>
@@ -83,6 +83,8 @@ Directives perform view logic.  For example, they can be used to denote a [view 
     <a href="posts/{{$post->getId()}}">{{$post->getTitle()}}</a>
 <% endforeach %>
 
+// If there are posts in $posts, display them
+// Otherwise, display "There are no posts"
 <% forif($posts as $post) %>
     <a href="posts/{{$post->getId()}}">{{$post->getTitle()}}</a>
 <% forelse %>
@@ -97,15 +99,15 @@ Directives perform view logic.  For example, they can be used to denote a [view 
 <h4 id="including-views">Including Views</h4>
 Including another view (in much the same way PHP's `include` works) is an easy way to not repeat yourself.  Here's an example of how to include a view:
 
-##### IncludedView.fortune
+##### Included.fortune
 ```
 Hello, world!
 ```
 
-##### Master View
+##### Master.fortune
 ```
 <div id="important-message">
-    <% include("IncludedView.fortune") %>
+    <% include("Included.fortune") %>
 </div>
 ```
 
@@ -127,7 +129,7 @@ Most views extend some sort of master view.  To make your life easy, Fortune bui
 Hello, world!
 ```
 
-##### Child
+##### Child.fortune
 ```
 <% extends("Master.fortune") %>
 Hello, Dave!
@@ -142,6 +144,30 @@ Hello, Dave!
 
 > **Note:** When extending a view, the child view inherits all of the parent's parts and variable values.  If A extends B, which extends C, parts and variables from part B will overwrite any identically-named parts and variables from part C.
 
+<h5 id="parents">Parents</h5>
+Sometimes, you'll want to add to a parent view's part.  To do so, use the `<% parent %>` directive:
+
+##### Master.fortune
+```
+<% part("greeting") %>
+Hello
+<% endpart %>
+```
+
+##### Child.fortune
+```
+<% extends("Master.fortune") %>
+<% part("greeting") %>
+    <% parent %>, world!
+<% endpart %>
+```
+
+This will get compiled down to:
+
+```
+Hello, world!
+```
+
 <h4 id="parts">Parts</h4>
 Another common case is a master view that is leaving a child view to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child view.  Use the `<% show("NAME_OF_PART") %>` directive:
 
@@ -152,7 +178,7 @@ Another common case is a master view that is leaving a child view to fill in som
 </div>
 ```
 
-##### Child
+##### Child.fortune
 ```
 <% extends("Master.fortune") %>
 <% part("sidebar") %>
@@ -174,32 +200,8 @@ We created a part named "sidebar".  When the child gets compiled, the contents o
 </div>
 ```
 
-<h4 id="parents">Parents</h4>
-Sometimes, you'll want to add to a parent view's part.  To do so, use the `<% parent %>` directive:
-
-##### Master.fortune
-```
-<% part("greeting") %>
-Hello
-<% endpart %>
-```
-
-##### Child
-```
-<% extends("Master.fortune") %>
-<% part("greeting") %>
-    <% parent %>, world!
-<% endpart %>
-```
-
-This will get compiled down to:
-
-```
-Hello, world!
-```
-
 <h4 id="creating-directives">Creating Directives</h4>
-To create your own Fortune directives, simply register them to the Fortune transpiler using `registerDirectiveTranspiler`.  The first argument is the name of the directive, and the second is a callback that returns transpiled PHP code.  The callback optionally accepts an expression, which can be used when transpiling to PHP.  Registering your directive transpiler is most easily accomplished in a `Bootstrapper`.  Let's take a look at Fortune's `if()` directive transpiler:
+To create your own Fortune directives, simply register them to the Fortune transpiler using `registerDirectiveTranspiler()`.  The first argument is the name of the directive, and the second is a callback that returns transpiled PHP code.  The callback optionally accepts an expression, which can be used when transpiling to PHP.  Registering your directive transpiler is most easily accomplished in a `Bootstrapper`.  Let's take a look at Fortune's `if` statement directive transpiler:
 
 ```php
 use Opulence\Applications\Bootstrappers\Bootstrapper;
@@ -367,7 +369,7 @@ Compiling `{{!myPageTitle("About")!}}` will give us `<title>About | My Site</tit
 Fortune allows you to customize the delimiters used with tags and directives.
 
 <h4 id="escaping-delimiters">Escaping Delimiters</h4>
-Lots of JavaScript frameworks use similar syntax to Fortune to display data.  To display a raw tag or directive, escape them using the `\\` character:
+Lots of JavaScript frameworks use similar syntax to Fortune to display data.  To display a raw tag or directive, escape them using the `\` character:
 
 ```
 \<% foo %>

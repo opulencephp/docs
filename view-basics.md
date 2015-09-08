@@ -116,6 +116,7 @@ class MyController
         return new Response($this->compiler->compile($view));
     }
 }
+```
  
 <h4 id="builders">Builders</h4>
 Repetitive tasks such as setting up views should not be done in controllers.  That should be left to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a view after it is created by the factory.  You can register a `Builder` to a view so that each time that view is loaded by the factory, the builders are run.  Register builders via `IViewFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  Builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `Opulence\Views\Factories\IViewBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](bootstrappers).
@@ -123,8 +124,9 @@ Repetitive tasks such as setting up views should not be done in controllers.  Th
 Let's take a look at an example:
 
 ##### Index.fortune
+
 ```
-<h1>{{$siteName}}</h1>
+{{$siteName}}
 ```
 
 ```php
