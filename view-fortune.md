@@ -275,7 +275,7 @@ If you're using the <a href="https://github.com/opulencephp/Project" target="_bl
 
 Since these functions output HTML, use them inside unsanitized tags.  Here's an example of how to use these functions:
 
-##### View
+##### View.fortune
 ```
 <!DOCTYPE html>
 <html>
