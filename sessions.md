@@ -99,7 +99,7 @@ $session->regenerateId();
 <h2 id="middleware">Middleware</h2>
 The best place to read and write session data with the `handler` is in middleware.  Opulence comes with a class middleware baked-in:  `Opulence\Framework\HTTP\Middleware\Session`.  
 
-> **Note:** This middleware is an abstract class.  If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, you can simply use the middleware `Project\HTTP\Middleware\Session` to finish extending it.  Otherwise, you can roll your own session middleware.
+> **Note:** This middleware is an abstract class.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can simply use the middleware `Project\HTTP\Middleware\Session` to finish extending it.  Otherwise, you can roll your own session middleware.
 
 Typically in middleware, your `handler` will read from session storage using data passed in through the request.  After the request has been handled and a response generated, the session data is written back to storage via the `handler`.
 
@@ -144,4 +144,4 @@ $handler->setEncrypter($encrypter);
 Now, all your session data will be encrypted before being written and decrypted after being read.  [Learn more](cryptography#encryption) about encryption.
 
 <h2 id="configuring">Configuring</h2>
-If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a> and you'd like to configure your session, you can do so in `configs/http/sessions.php`.  Your environment config in `configs/environment/.env.app.php` contains a variable `SESSION_HANDLER`, which should point to the handler class to use (defaults to `FileSessionHandler`).  For cache-backed sessions, `.env.app.php` also contains the variable `SESSION_CACHE_BRIDGE`.  This should point to the class that implements `Opulence\Cache\ICacheBridge`.
+If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a> and you'd like to configure your session, you can do so in `configs/http/sessions.php`.  Your environment config in `configs/environment/.env.app.php` contains a variable `SESSION_HANDLER`, which should point to the handler class to use (defaults to `FileSessionHandler`).  For cache-backed sessions, `.env.app.php` also contains the variable `SESSION_CACHE_BRIDGE`.  This should point to the class that implements `Opulence\Cache\ICacheBridge`.

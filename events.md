@@ -111,7 +111,7 @@ $dispatcher->dispatch("user.registered", new UserRegisteredEvent($user));
 The dispatcher will loop through and call all listeners registered for the `user.registered` event.  In this case, `RegistrationEmail::handle()` will be called, and the user will receive a welcome email.
 
 <h2 id="config">Config</h2>
-If you're using the <a href="https://github.com/ramblingsofadev/Project" target="_blank">skeleton project</a>, you'll see a config array in `configs/events.php`.  The array accepts event names to an array of listeners.  A listener can be any one of the following:
+If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you'll see a config array in `configs/events.php`.  The array accepts event names to an array of listeners.  A listener can be any one of the following:
 
 * A `callable`, eg a `Closure` or an array whose first item is the listener object and whose second item is the name of the method to call in that listener
 * A string with the format `Fully\Qualified\ClassName@methodName`, where the class name is the name of the listener class and the method name is the method to call in that listener
