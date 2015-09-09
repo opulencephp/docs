@@ -27,13 +27,29 @@ Let's say you would like to output a user's name in your template:
 Hello, <?php echo $user->getName(); ?>
 ```
 
-You can set the `$user` variable in your application code using `$view->setVar("user", new User("Dave"))`.  When the view gets compiled, you'll see `Hello, Dave`.  You can also set many variables using `$view->setVars(["foo" => "bar", "baz" => "blah"])`.
+You can set the `$user` variable in your application code using
+
+```php
+$view->setVar("user", new User("Dave"))
+```
+
+When the view gets compiled, you'll see
+ 
+```
+Hello, Dave
+```
+
+You can also set many variables using 
+
+```php
+$view->setVars(["foo" => "bar", "baz" => "blah"])
+```
 
 <h2 id="compilers">Compilers</h2>
 Compilers are what turn your raw views into valid markup, such as HTML and XML.  They must implement `Opulence\Views\Compilers\ICompiler`, which only has a single method - `compile()`.
 
 <h4 id="registering-compilers">Registering Compilers</h4>
-Opulence's `Opulence\Views\Compilers\Compiler` compiler uses an `Opulence\Views\Compilers\ICompilerRegistry` to determine which compiler to use by looking at a view's file extension.  For example, if a view file is `foo.php`, the [PHP compiler](#php-compiler) will be used.  Likewise, if a view file is named `bar.fortune`, the [Fortune compiler](#fortune-compiler) will be used.  You can register a compiler for a particular expression using `ICompilerRegistry::registerCompiler()`:
+Opulence's `Opulence\Views\Compilers\Compiler` compiler uses an `Opulence\Views\Compilers\ICompilerRegistry` to determine which compiler to use by looking at a view's file extension.  For example, if a view file is named `foo.php`, the [PHP compiler](#php-compiler) will be used.  Likewise, if a view file is named `bar.fortune`, the [Fortune compiler](#fortune-compiler) will be used.  You can register a compiler for a particular extension using `ICompilerRegistry::registerCompiler()`:
 
 ```php
 use Opulence\Views\Compilers\CompilerRegistry;
@@ -47,13 +63,14 @@ Now, files with extension `my-extension` will be compiled by `MyCompiler`.
 > **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the PHP and Fortune compilers are already registered to the compiler registry.
 
 <h4 id="php-compiler">PHP Compiler</h4>
-If your views only use native PHP, name them with the `php` file extension, eg `MyView.php`.  Then, they'll be compiled as native PHP by Opulence.  You can still set and use variables in views when using the PHP compiler:
+If your views only use native PHP, name them with the `php` file extension, eg `MyView.php`.  You can still set and use variables in views when using the PHP compiler:
 
 ##### View.php
 ```php
 <?php echo $foo; ?>
 ```
 
+##### Application Code
 ```php
 $view->setVar("foo", "bar");
 ```
@@ -61,26 +78,24 @@ $view->setVar("foo", "bar");
 The PHP compiler will compile this to `bar`.
 
 <h4 id="fortune-compiler">Fortune Compiler</h4>
-Fortune is Opulence's powerful built-in view engine.  To make use Fortune, name your view file with the `fortune` file extension, eg `MyView.fortune`.  To learn more about Fortune, [read the documentation on it](view-fortune).
+Fortune is Opulence's powerful built-in view engine.  To use Fortune, name your view file with the `fortune` file extension, eg `MyView.fortune`.  To learn more about Fortune, [read the documentation on it](view-fortune).
 
 <h2 id="factories">Factories</h2>
 Having to always pass in the full path to load a view from a file can get annoying.  It can also make it more difficult to switch your view directory should you ever decide to do so.  This is where a `Factory` comes in handy.
 
 <h4 id="registering-resolvers">Registering Resolvers</h4>
-The view factory allows you to create a view using nothing but the filename (no path or extension).  It does this using a file name resolver.  You register the path where all view files reside as well as the possible file extensions views may have.  Then, the resolver then finds the raw view file, creates a `View` object from its contents, and returns it.
+The view factory allows you to create a view using nothing but the filename (no path or extension).  It does this using a file name resolver.  You register the path where all view files reside as well as the possible file extensions views may have.  Then, the resolver finds the raw view file, creates a `View` object from its contents, and returns it.
 
 ```php
 use Opulence\Views\Factories\FileViewNameResolver;
 
 $resolver = new FileViewNameResolver();
 $resolver->registerPath("/var/www/html/views/some-directory");
-
 // Register another path that has a priority, which means it will be searched first
 $resolver->registerPath("/var/www/html/views/another-directory", 1);
 
 // Register an extension
 $resolver->registerExtension("php");
-
 // Register another extension with a priority, which means it will be searched for first
 $resolver->registerExtension("fortune", 1);
 ```
@@ -119,7 +134,7 @@ class MyController
 ```
  
 <h4 id="builders">Builders</h4>
-Repetitive tasks such as setting up views should not be done in controllers.  That should be left to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a view after it is created by the factory.  You can register a `Builder` to a view so that each time that view is loaded by the factory, the builders are run.  Register builders via `IViewFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  Builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `Opulence\Views\Factories\IViewBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](bootstrappers).
+Repetitive tasks such as setting up views should not be done in controllers.  That should be left to dedicated classes called `ViewBuilders`.  A `ViewBuilder` is a class that does any setup on a view after it is created by the factory.  You can register a `ViewBuilder` to a view so that each time that view is loaded by the factory, the builders are run.  Register builders via `IViewFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  View builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `Opulence\Views\Factories\IViewBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](bootstrappers).
 
 Let's take a look at an example:
 
@@ -130,9 +145,6 @@ Let's take a look at an example:
 ```
 
 ```php
-namespace MyApp\Builders;
-use Opulence\Files\FileSystem;
-use Opulence\Views\Factories\FortuneViewFactory;
 use Opulence\Views\Factories\IViewBuilder;
 use Opulence\Views\IView;
 

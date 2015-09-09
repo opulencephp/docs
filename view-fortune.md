@@ -2,6 +2,7 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
+  1. [How it works](#how-it-works)
 2. [Tags](#tags)
   1. [Sanitized Tags](#sanitized-tags)
   2. [Unsanitized Tags](#unsanitized-tags)
@@ -26,6 +27,8 @@
 <h2 id="introduction">Introduction</h2>
 Fortune is the view engine that comes built into Opulence.  It simplifies adding dynamic content to web pages.  You can inject data into your pages, extend other views, prevent XSS attacks, and even extend the compiler.  To get started using Fortune, simply create files with the extension "fortune", eg `Master.fortune`.  Opulence will detect that the file is a Fortune template and will use the Fortune compiler.
 
+
+<h4 id="how-it-works">How It Works</h4>
 Fortune uses a lexer to tokenize the raw template into a stream of tokens.  The tokens are then parsed into an abstract syntax tree, which is transpiled into regular PHP code.  The transpiler caches the generated PHP code to significantly speed up subsequent requests.
 
 <h2 id="tags">Tags</h2>
@@ -55,15 +58,15 @@ Unsanitized tags are useful for outputting HTML:
 
 This will compile to `<title>My Title</title>`.
 
-> **Note**:  Always sanitize user input before displaying it on your pages.
+> **Note**:  Always sanitize user input before displaying it in your views.
 
 <h2 id="directives">Directives</h2>
-Directives perform view logic.  For example, they can be used to denote a [view that extends another view](#extending-views) or [include another view](#including-views).
+Directives perform view logic.  For example, they can be used to [extend another view](#extending-views), perform if/else logic, and loop through data.
 
 > **Note:** You might be asking what the difference between tags and directives is.  Tags are temporary placeholders for data that is inserted through a controller.  Directives, on the other hand, provide a shorthand for executing logic entirely within a view.
 
 <h4 id="if-statements">If Statements</h4>
-```php
+```
 <% if($user->isAdmin()) %>
     <a href="edit">Edit Post</a>
 <% elseif($user->canViewPosts()) %>
@@ -83,7 +86,7 @@ Directives perform view logic.  For example, they can be used to denote a [view 
     <a href="posts/{{$post->getId()}}">{{$post->getTitle()}}</a>
 <% endforeach %>
 
-// If there are posts in $posts, display them
+// If there are any posts, display them
 // Otherwise, display "There are no posts"
 <% forif($posts as $post) %>
     <a href="posts/{{$post->getId()}}">{{$post->getTitle()}}</a>
@@ -97,7 +100,7 @@ Directives perform view logic.  For example, they can be used to denote a [view 
 ```
 
 <h4 id="including-views">Including Views</h4>
-Including another view (in much the same way PHP's `include` works) is an easy way to not repeat yourself.  Here's an example of how to include a view:
+Including another view (like PHP's `include`) is an easy way to not repeat yourself.  Here's an example of how to include a view:
 
 ##### Included.fortune
 ```
@@ -150,7 +153,7 @@ Sometimes, you'll want to add to a parent view's part.  To do so, use the `<% pa
 ##### Master.fortune
 ```
 <% part("greeting") %>
-Hello
+    Hello
 <% endpart %>
 ```
 
@@ -182,10 +185,10 @@ Another common case is a master view that is leaving a child view to fill in som
 ```
 <% extends("Master.fortune") %>
 <% part("sidebar") %>
-<ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/about">About</a></li>
-</ul>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
 <% endpart %>
 ```
 
@@ -374,6 +377,7 @@ Lots of JavaScript frameworks use similar syntax to Fortune to display data.  To
 ```
 \<% foo %>
 \{{bar}}
+\{{!baz!}}
 ```
 
 This will compile to:
@@ -381,6 +385,7 @@ This will compile to:
 ```
 <% foo %>
 {{bar}}
+{{!baz!}}
 ```
 
 <h4 id="changing-delimiters">Changing Delimiters</h4>
@@ -398,8 +403,10 @@ $view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ["^^", "$$"]);
 $view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ["++", "--"]);
 ```
 
+Because delimiters are set for each view, you can have one view with one set of delimiters and another view with other delimiters.  This is useful if only one or a couple of views' delimiters conflict with JavaScript framework delimiters.
+
 <h2 id="caching">Caching</h2>
-To improve the speed of view compiling, views are cached using a class that implements `Opulence\Views\Caching\ICache` (`Opulence\Views\Caching\Cache` comes built-in to Opulence).  You can specify how long a view should live in cache using `setLifetime()`.  If you do not want views to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for views, just implement `ICache` and pass it into your `View` class.
+To improve the speed of view compilers, views are cached using a class that implements `Opulence\Views\Caching\ICache` (`Opulence\Views\Caching\Cache` comes built-in to Opulence).  You can specify how long a view should live in cache using `setLifetime()`.  If you do not want views to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for views, just implement `ICache` and pass it into your `View` class.
 
 <h4 id="garbage-collection">Garbage Collection</h4>
 Occasionally, you should clear out old cached view files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
