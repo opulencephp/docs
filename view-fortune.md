@@ -110,7 +110,7 @@ Hello, world!
 ##### Master.fortune
 ```
 <div id="important-message">
-    <% include("Included.fortune") %>
+    <% include("Included") %>
 </div>
 ```
 
@@ -125,8 +125,6 @@ This will compile to:
 <h4 id="extending-views">Extending Views</h4>
 Most views extend some sort of master view.  To make your life easy, Fortune builds support for this functionality into its views.
 
-<h5 id="example">Example</h5>
-
 ##### Master.fortune
 ```
 Hello, world!
@@ -134,7 +132,7 @@ Hello, world!
 
 ##### Child.fortune
 ```
-<% extends("Master.fortune") %>
+<% extends("Master") %>
 Hello, Dave!
 ```
 
@@ -159,7 +157,7 @@ Sometimes, you'll want to add to a parent view's part.  To do so, use the `<% pa
 
 ##### Child.fortune
 ```
-<% extends("Master.fortune") %>
+<% extends("Master") %>
 <% part("greeting") %>
     <% parent %>, world!
 <% endpart %>
@@ -183,7 +181,7 @@ Another common case is a master view that is leaving a child view to fill in som
 
 ##### Child.fortune
 ```
-<% extends("Master.fortune") %>
+<% extends("Master") %>
 <% part("sidebar") %>
     <ul>
         <li><a href="/">Home</a></li>
@@ -204,7 +202,11 @@ We created a part named "sidebar".  When the child gets compiled, the contents o
 ```
 
 <h4 id="creating-directives">Creating Directives</h4>
-To create your own Fortune directives, simply register them to the Fortune transpiler using `registerDirectiveTranspiler()`.  The first argument is the name of the directive, and the second is a callback that returns transpiled PHP code.  The callback optionally accepts an expression, which can be used when transpiling to PHP.  Registering your directive transpiler is most easily accomplished in a `Bootstrapper`.  Let's take a look at Fortune's `if` statement directive transpiler:
+To create your own Fortune directives, simply register them to the Fortune transpiler using `registerDirectiveTranspiler()`.  The first argument is the name of the directive, and the second is a callback that returns transpiled PHP code.  The callback optionally accepts an expression, which can be used when transpiling to PHP.
+
+> **Note:**  Registering your directive transpiler is most easily done in a [`Bootstrapper`](bootstrappers).
+
+Let's take a look at Fortune's `if` statement directive transpiler:
 
 ```php
 use Opulence\Applications\Bootstrappers\Bootstrapper;
@@ -321,7 +323,9 @@ This will be compiled to:
 ```
 
 <h4 id="custom-functions">Custom Functions</h4>
-It's possible to add custom functions to your view.  For example, you might want to add a salutation to a last name in your view.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the Fortune transpiler.  This is most easily done in a `Bootstrapper`:
+It's possible to add custom functions to your view.  For example, you might want to add a salutation to a last name in your view.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the Fortune transpiler.  
+
+> **Note:** This is most easily done in a [`Bootstrapper`](bootstrappers).
 
 ```php
 use Opulence\Applications\Bootstrappers\Bootstrapper;
@@ -356,7 +360,7 @@ class MyFunctions extends Bootstrapper
 Compiling `Hello, {{salutation("Young", false, true)}}` will give us `Hello, Mrs. Young`.
 
 <h4 id="using-view-functions-in-php-code">Using View Functions in PHP Code</h4>
-You may call view functions in your PHP code by calling `Opulence\Views\Compilers\Fortune\ITranspiler::callViewFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | NAME_OF_PAGE`:
+You may call view functions in your PHP code by calling `Opulence\Views\Compilers\Fortune\ITranspiler::callViewFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `NAME_OF_PAGE | My Site`:
 
 ```php
 $transpiler->registerViewFunction("myPageTitle", function($title) use ($transpiler, $view)
@@ -369,7 +373,7 @@ $transpiler->registerViewFunction("myPageTitle", function($title) use ($transpil
 Compiling `{{!myPageTitle("About")!}}` will give us `<title>About | My Site</title>`.
 
 <h2 id="delimiters">Delimiters</h2>
-Fortune allows you to customize the delimiters used with tags and directives.
+Delimiters are the characters that surround tags and directives, eg `{{ }}` and `<% %>`.  Fortune allows you to escape delimiters as well as change delimiters.
 
 <h4 id="escaping-delimiters">Escaping Delimiters</h4>
 Lots of JavaScript frameworks use similar syntax to Fortune to display data.  To display a raw tag or directive, escape them using the `\` character:

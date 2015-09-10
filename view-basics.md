@@ -27,7 +27,7 @@ Let's say you would like to output a user's name in your template:
 Hello, <?php echo $user->getName(); ?>
 ```
 
-You can set the `$user` variable in your application code using
+You can set the `$user` variable in your controller using
 
 ```php
 $view->setVar("user", new User("Dave"))
@@ -49,7 +49,7 @@ $view->setVars(["foo" => "bar", "baz" => "blah"])
 Compilers are what turn your raw views into valid markup, such as HTML and XML.  They must implement `Opulence\Views\Compilers\ICompiler`, which only has a single method - `compile()`.
 
 <h4 id="registering-compilers">Registering Compilers</h4>
-Opulence's `Opulence\Views\Compilers\Compiler` compiler uses an `Opulence\Views\Compilers\ICompilerRegistry` to determine which compiler to use by looking at a view's file extension.  For example, if a view file is named `foo.php`, the [PHP compiler](#php-compiler) will be used.  Likewise, if a view file is named `bar.fortune`, the [Fortune compiler](#fortune-compiler) will be used.  You can register a compiler for a particular extension using `ICompilerRegistry::registerCompiler()`:
+Opulence's compiler looks at a view's file extension to determine which compiler to use.  For example, if a view file is named `foo.php`, the [PHP compiler](#php-compiler) will be used.  Likewise, if a view file is named `bar.fortune`, the [Fortune compiler](#fortune-compiler) will be used.  You can register a compiler for a particular extension using `ICompilerRegistry::registerCompiler()`:
 
 ```php
 use Opulence\Views\Compilers\CompilerRegistry;
@@ -81,7 +81,7 @@ The PHP compiler will compile this to `bar`.
 Fortune is Opulence's powerful built-in view engine.  To use Fortune, name your view file with the `fortune` file extension, eg `MyView.fortune`.  To learn more about Fortune, [read the documentation on it](view-fortune).
 
 <h2 id="factories">Factories</h2>
-Having to always pass in the full path to load a view from a file can get annoying.  It can also make it more difficult to switch your view directory should you ever decide to do so.  This is where a `Factory` comes in handy.
+Factories simplify the way you create `View` objects from view files.
 
 <h4 id="registering-resolvers">Registering Resolvers</h4>
 The view factory allows you to create a view using nothing but the filename (no path or extension).  It does this using a file name resolver.  You register the path where all view files reside as well as the possible file extensions views may have.  Then, the resolver finds the raw view file, creates a `View` object from its contents, and returns it.
@@ -134,7 +134,9 @@ class MyController
 ```
  
 <h4 id="builders">Builders</h4>
-Repetitive tasks such as setting up views should not be done in controllers.  That should be left to dedicated classes called `ViewBuilders`.  A `ViewBuilder` is a class that does any setup on a view after it is created by the factory.  You can register a `ViewBuilder` to a view so that each time that view is loaded by the factory, the builders are run.  Register builders via `IViewFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  View builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `Opulence\Views\Factories\IViewBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](bootstrappers).
+Your views will often need variables to be set whenever they're instantiated.  Ideally, this repetitive task should not be done in controllers.  Instead, it can be done by `ViewBuilders`.  A `ViewBuilder` is a class that sets up a `View` object after it has been created by the `ViewFactory`.  Register builders via `IViewFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  View builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  
+
+> **Note:** Registering your builders is most easily done in a [`Bootstrapper`](bootstrappers).
 
 Let's take a look at an example:
 
@@ -158,7 +160,7 @@ class MyBuilder implements IViewBuilder
     }
 }
 
-$factory->registerBuilder("Index.fortune", function()
+$factory->registerBuilder("Index", function()
 {
     return new MyBuilder();
 });
