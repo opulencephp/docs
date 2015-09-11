@@ -30,7 +30,7 @@ Hello, <?php echo $user->getName(); ?>
 You can set the `$user` variable in your controller using
 
 ```php
-$view->setVar("user", new User("Dave"))
+$view->setVar("user", new User("Dave"));
 ```
 
 When the view gets compiled, you'll see
@@ -42,7 +42,7 @@ Hello, Dave
 You can also set many variables using 
 
 ```php
-$view->setVars(["foo" => "bar", "baz" => "blah"])
+$view->setVars(["foo" => "bar", "baz" => "blah"]);
 ```
 
 <h2 id="compilers">Compilers</h2>
@@ -146,6 +146,7 @@ Let's take a look at an example:
 {{$siteName}}
 ```
 
+##### View Builder
 ```php
 use Opulence\Views\Factories\IViewBuilder;
 use Opulence\Views\IView;
@@ -159,13 +160,27 @@ class MyBuilder implements IViewBuilder
         return $view;
     }
 }
+```
 
-$factory->registerBuilder("Index", function()
+##### Bootstrapper
+```php
+use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Views\Factories\IViewFactory;
+
+class ViewBuilderBootstrapper extends Bootstrapper
 {
-    return new MyBuilder();
-});
+    public function run(IViewFactory $factory)
+    {
+        $factory->registerBuilder("Index", function()
+        {
+            return new MyBuilder();
+        });
+    }
+}
+```
 
-// Now, whenever we request "Index", the "siteName" variable will be set to "My Website"
+Now, whenever we create the `Index` view, `$siteName` will be set to `My Website`.
+```php
 $view = $factory->create("Index");
 echo $view->getVar("siteName"); // "My Website"
 ```
