@@ -35,16 +35,16 @@ Fortune uses a lexer to tokenize the raw template into a stream of tokens.  The 
 Tags are syntactic sugar for echoing PHP data in your view.  You can put any printable value inside of tags, including PHP code:
 
 ```
-{{"foo"}}
-{{$bar}}
-{{isset($baz) ? "Baz is set" : "Baz is NOT set"}}
+{{ "foo" }}
+{{ $bar }}
+{{ isset($baz) ? "Baz is set" : "Baz is NOT set" }}
 ```
   
 <h4 id="sanitized-tags">Sanitized Tags</h4>
 Sanitized tags prevent malicious users from executing a cross-site scripting (XSS) attack:
 
 ```
-{{"A&W > water"}}
+{{ "A&W > water" }}
 ```
 
 This will compile to `A&amp;W &gt; water`.
@@ -53,7 +53,7 @@ This will compile to `A&amp;W &gt; water`.
 Unsanitized tags are useful for outputting HTML:
 
 ```
-{{!"<title>My Title</title>"!}}
+{{! "<title>My Title</title>" !}}
 ```
 
 This will compile to `<title>My Title</title>`.
@@ -79,17 +79,17 @@ Directives perform view logic.  For example, they can be used to [extend another
 <h4 id="loops">Loops</h4>
 ```
 <% for($i = 1;$i <= 5;$i++) %>
-    {{$i}}
+    {{ $i }}
 <% endfor %>
 
 <% foreach($posts as $post) %>
-    <a href="posts/{{$post->getId()}}">{{$post->getTitle()}}</a>
+    <a href="posts/{{ $post->getId() }}">{{ $post->getTitle() }}</a>
 <% endforeach %>
 
 // If there are any posts, display them
 // Otherwise, display "There are no posts"
 <% forif($posts as $post) %>
-    <a href="posts/{{$post->getId()}}">{{$post->getTitle()}}</a>
+    <a href="posts/{{ $post->getId() }}">{{ $post->getTitle() }}</a>
 <% forelse %>
     There are no posts
 <% endif %>
@@ -228,7 +228,7 @@ class MyDirectives extends Bootstrapper
 If in our template we have `<% if($user->isAdmin()) %>`, Fortune will transpile it to `<?php if($user->isAdmin()): ?>`.
 
 <h2 id="functions">Functions</h2>
-Fortune supports using functions in views.  They are a great way to reuse logic or formatting throughout your views.  You can use PHP functions, functions defined by Fortune, or your very own functions.  For example, `{{strtoupper("Dave")}}` will output `DAVE`.
+Fortune supports using functions in views.  They are a great way to reuse logic or formatting throughout your views.  You can use PHP functions, functions defined by Fortune, or your very own functions.  For example, `{{ trtoupper("Dave")}}` will output `DAVE`.
 
 <h4 id="fortune-functions">Fortune Functions</h4>
 Fortune supplies some built-in functions in the view library:
@@ -285,17 +285,17 @@ Since these functions output HTML, use them inside unsanitized tags.  Here's an 
 <!DOCTYPE html>
 <html>
     <head>
-        {{!charset("utf-8")!}}
-        {{!httpEquiv("content-type", "text/html")!}}
-        {{!pageTitle("My Website")!}}
-        {{!metaDescription("An example website")!}}
-        {{!metaKeywords(["Opulence", "sample"])!}}
-        {{!favicon("favicon.ico")!}}
-        {{!css("stylesheet.css")!}}
+        {{! charset("utf-8") !}}
+        {{! httpEquiv("content-type", "text/html") !}}
+        {{! pageTitle("My Website") !}}
+        {{! metaDescription("An example website") !}}
+        {{! metaKeywords(["Opulence", "sample"]) !}}
+        {{! favicon("favicon.ico") !}}
+        {{! css("stylesheet.css") !}}
     </head>
     <body>
         Hello, World!
-        {{!script(["jquery.js", "angular.js"])!}}
+        {{! script(["jquery.js", "angular.js"]) !}}
     </body>
 </html>
 ```
@@ -357,7 +357,7 @@ class MyFunctions extends Bootstrapper
 }
 ```
 
-Compiling `Hello, {{salutation("Young", false, true)}}` will give us `Hello, Mrs. Young`.
+Compiling `Hello, {{ salutation("Young", false, true) }}` will give us `Hello, Mrs. Young`.
 
 <h4 id="using-view-functions-in-php-code">Using View Functions in PHP Code</h4>
 You may call view functions in your PHP code by calling `Opulence\Views\Compilers\Fortune\ITranspiler::callViewFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `NAME_OF_PAGE | My Site`:
@@ -370,7 +370,7 @@ $transpiler->registerViewFunction("myPageTitle", function($title) use ($transpil
 });
 ```
 
-Compiling `{{!myPageTitle("About")!}}` will give us `<title>About | My Site</title>`.
+Compiling `{{! myPageTitle("About") !}}` will give us `<title>About | My Site</title>`.
 
 <h2 id="delimiters">Delimiters</h2>
 Delimiters are the characters that surround tags and directives, eg `{{ }}` and `<% %>`.  Fortune allows you to escape delimiters as well as change delimiters.
@@ -380,16 +380,16 @@ Lots of JavaScript frameworks use similar syntax to Fortune to display data.  To
 
 ```
 \<% foo %>
-\{{bar}}
-\{{!baz!}}
+\{{ bar }}
+\{{! baz !}}
 ```
 
 This will compile to:
 
 ```
 <% foo %>
-{{bar}}
-{{!baz!}}
+{{ bar }}
+{{! baz !}}
 ```
 
 <h4 id="changing-delimiters">Changing Delimiters</h4>
