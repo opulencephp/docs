@@ -14,14 +14,15 @@
       1. [Parents](#parents)
   5. [Parts](#parts)
   6. [Creating Directives](#creating-directives)
-4. [Functions](#functions)
+4. [Comments](#comments)
+5. [Functions](#functions)
   1. [Fortune Functions](#fortune-functions)
   2. [Custom Functions](#custom-functions)
   3. [Using View Functions in PHP Code](#using-view-functions-in-php-code)
-5. [Delimiters](#delimiters)
+6. [Delimiters](#delimiters)
   1. [Escaping Delimiters](#escaping-delimiters)
   2. [Changing Delimiters](#changing-delimiters)
-6. [Caching](#caching)
+7. [Caching](#caching)
   1. [Garbage Collection](#garbage-collection)
 
 <h2 id="introduction">Introduction</h2>
@@ -227,6 +228,21 @@ class MyDirectives extends Bootstrapper
 
 If in our template we have `<% if($user->isAdmin()) %>`, Fortune will transpile it to `<?php if($user->isAdmin()): ?>`.
 
+<h2 id="comments">Comments</h2>
+When writing complex views, it'd be nice to be able to leave comments for your other developers:
+
+```
+{# This is an example of a comment #}
+```
+
+Fortune will transpile this to:
+
+```php
+<?php /* This is an example of a comment */ ?>
+```
+
+> **Note:** Fortune comments do not show up client-side.  They only exist server-side.
+
 <h2 id="functions">Functions</h2>
 Fortune supports using functions in views.  They are a great way to reuse logic or formatting throughout your views.  You can use PHP functions, functions defined by Fortune, or your very own functions.  For example, `{{ trtoupper("Dave")}}` will output `DAVE`.
 
@@ -373,15 +389,16 @@ $transpiler->registerViewFunction("myPageTitle", function($title) use ($transpil
 Compiling `{{! myPageTitle("About") !}}` will give us `<title>About | My Site</title>`.
 
 <h2 id="delimiters">Delimiters</h2>
-Delimiters are the characters that surround tags and directives, eg `{{ }}` and `<% %>`.  Fortune allows you to escape delimiters as well as change delimiters.
+Delimiters are the characters that surround tags, directives, and comments, eg `{{ }}`, `{{! !}}`, `<% %>`, and `{# #}`.  Fortune allows you to escape delimiters as well as change delimiters.
 
 <h4 id="escaping-delimiters">Escaping Delimiters</h4>
-Lots of JavaScript frameworks use similar syntax to Fortune to display data.  To display a raw tag or directive, escape them using the `\` character:
+Lots of JavaScript frameworks use similar syntax to Fortune to display data.  To display a raw tag, directive, or comment, escape it using the `\` character:
 
 ```
 \<% foo %>
 \{{ bar }}
 \{{! baz !}}
+\{# blah #}
 ```
 
 This will compile to:
@@ -390,6 +407,7 @@ This will compile to:
 <% foo %>
 {{ bar }}
 {{! baz !}}
+{# blah #}
 ```
 
 <h4 id="changing-delimiters">Changing Delimiters</h4>
@@ -405,6 +423,8 @@ $view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ["{%", "%}"]);
 $view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ["^^", "$$"]);
 // Set new open and close delimiters for unsanitized tags
 $view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ["++", "--"]);
+// Set new open and close delimiters for comments
+$view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ["((", "))"]);
 ```
 
 Because delimiters are set for each view, you can have one view with one set of delimiters and another view with other delimiters.  This is useful if only one or a couple of views' delimiters conflict with JavaScript framework delimiters.
