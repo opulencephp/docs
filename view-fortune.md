@@ -229,7 +229,7 @@ class MyDirectives extends Bootstrapper
 If in our template we have `<% if($user->isAdmin()) %>`, Fortune will transpile it to `<?php if($user->isAdmin()): ?>`.
 
 <h2 id="comments">Comments</h2>
-When writing complex views, it'd be nice to be able to leave comments for your other developers:
+When writing complex views, you can easily leave comments:
 
 ```
 {# This is an example of a comment #}
