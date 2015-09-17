@@ -141,6 +141,6 @@ class MyCommand extends Command
 }
 ```
 
-You must list the arguments in the same order they were defined in the command.  If you want to call the other command but not write its output, use the `Opulence\Console\Responses\Silent` response.
+You must list the arguments in the same order they were defined in the command.  If you want to call the other command but not write its output, use the `Opulence\Console\Responses\SilentResponse` response.
 
 > **Note:** If a command is being called by a lot of other commands, it might be best to refactor its actions into a separate class.  This way, it can be used by multiple commands without the extra overhead of calling console commands through PHP code.
