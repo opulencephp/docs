@@ -78,7 +78,7 @@ class UserList extends Controller
 ```
 
 ##### UserList.fortune
-```php
+```
 <section class="user">
     <% foreach($users as $user) %>
     <h2>{{ $user->getName() }}</h2>
