@@ -19,7 +19,7 @@ Models store data and the business logic behind your application.  Think of them
 Views comprise the user interface portion of your application.  They should be relatively independent of your models to allow proper abstraction.  Opulence has a built-in [template engine](view-basics), although you are free to use any template engine you'd like.
 
 <h2 id="controllers">Controllers</h2>
-Controllers act as the go-between for models and views in an application.  When a model is updated, the controller updates the view.  Similarly, when a view is updated, the controller updates the models.  In Opulence, controllers can either be plain-old PHP classes, or they can extend `Opulence\Routing\Controller`, which automatically injects the `Opulence\HTTP\Requests\Request` object and sets up your views to use Opulence's template engine.
+Controllers act as the go-between for models and views in an application.  When a model is updated, the controller updates the view.  Similarly, when a view is updated, the controller updates the models.  In Opulence, controllers can either be plain-old PHP classes, or they can extend `Opulence\Routing\Controller`, which automatically injects the HTTP request, the view factory, and the view compiler.
 
 <h4 id="dependency-injection">Dependency Injection</h4>
 Opulence uses a [dependency injection container](dependency-injection) to create controllers.  Taking advantage of this is simple:  type-hint any objects your controller needs in the controller's constructor.  Opulence will inject the appropriate objects into your controllers via your [bootstrappers](bootstrappers).
@@ -47,9 +47,10 @@ class UserBootstrapper extends Bootstrapper
 }
 ```
 
-<h5 id="controller">Controller</h5>
+##### Controller
 ```php
 namespace MyApp\HTTP\Controllers;
+use Opulence\HTTP\Responses\Response;
 use Opulence\ORM\Repositories\IRepo;
 use Opulence\Routing\Controller;
 
@@ -66,18 +67,23 @@ class UserList extends Controller
     
     public function showAll()
     {
+        // The view factory is automatically injected by the route dispatcher
+        $this->view = $this->viewFactory->create("UserList");
         $this->view->setVar("users", $this->users->getAll());
+        
+        // The view compiler is also automatically injected by the route dispatcher
+        return new Response($this->viewCompiler->compile($this->view)); 
     }
 }
 ```
 
-<h5 id="view">View</h5>
+##### UserList.fortune
 ```php
 <section class="user">
-    <?php foreach($users as $user): ?>
-    <h2>{{$user->getName()}}</h2>
-    Email: <a href="mailto:{{$user->getEmail()}}">{{$user->getEmail()}}</a>
-    <?php endforeach; ?>
+    <% foreach($users as $user) %>
+    <h2>{{ $user->getName() }}</h2>
+    Email: <a href="mailto:{{ $user->getEmail() }}">{{ $user->getEmail() }}</a>
+    <% endforeach %>
 </section>
 ```
 
