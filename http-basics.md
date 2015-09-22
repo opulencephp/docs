@@ -79,12 +79,11 @@ class UserList extends Controller
 
 ##### UserList.fortune
 ```
-<section class="user">
+<ul>
     <% foreach($users as $user) %>
-    <h2>{{ $user->getName() }}</h2>
-    Email: <a href="mailto:{{ $user->getEmail() }}">{{ $user->getEmail() }}</a>
+        <li><a href="mailto:{{ $user->getEmail() }}">{{ $user->getName() }}</a></li>
     <% endforeach %>
-</section>
+</ul>
 ```
 
 In this example, the bootstrapper will bind `IRepo` to `UserRepo` for the `UserList` controller.  The route dispatcher will then instantiate this controller with the help of the IoC container.  The container will scan `UserList`'s constructor, realize that it needs a `UserRepo` instance, and create the `UserList` with a `UserRepo` instance.
