@@ -244,7 +244,7 @@ Fortune will transpile this to:
 > **Note:** Fortune comments do not show up client-side; they only exist server-side.
 
 <h2 id="functions">Functions</h2>
-Fortune supports using functions in views.  They are a great way to reuse logic or formatting throughout your views.  You can use PHP functions, functions defined by Fortune, or your very own functions.  For example, `{{ trtoupper("Dave")}}` will output `DAVE`.
+Fortune supports using functions in views.  They are a great way to reuse logic or formatting throughout your views.  You can use PHP functions, functions defined by Fortune, or your very own functions.  For example, `{{ strtoupper("Dave") }}` will output `DAVE`.
 
 <h4 id="fortune-functions">Fortune Functions</h4>
 Fortune supplies some built-in functions in the view library:
