@@ -122,13 +122,20 @@ $request->getFiles()->get("foo");
 Opulence converts `$_FILES` data into an array of `Opulence\HTTP\Requests\UploadedFile` objects.  This provides an easy-to-use wrapper around PHP's built-in upload capabilities.  Each `UploadedFile` object has the following methods:
 
 ```php
-$uploadedFile->getActualMimeType(); // The actual mime type of the uploaded file (secure)
-$uploadedFile->getError(); // The error code for the uploaded file (UPLOAD_ERR_OK indicates no error)
-$uploadedFile->getTempExtension(); // The extension claimed by the uploaded file (not secure)
-$uploadedFile->getTempMimeType(); // The mime type claimed by the uploaded file (not secure)
-$uploadedFile->getTempName(); // The temporary name of the uploaded file
-$uploadedFile->hasErrors(); // Whether or not there were any errors when uploading the file
-$uploadedFile->move($targetDirectory, $name); // Moves the temporary file to the specified directory/name
+// The actual mime type of the uploaded file (secure)
+$uploadedFile->getActualMimeType();
+// The error code for the uploaded file (UPLOAD_ERR_OK indicates no error)
+$uploadedFile->getError();
+// The extension claimed by the uploaded file (not secure)
+$uploadedFile->getTempExtension();
+// The mime type claimed by the uploaded file (not secure)
+$uploadedFile->getTempMimeType();
+// The temporary name of the uploaded file
+$uploadedFile->getTempName();
+// Whether or not there were any errors when uploading the file
+$uploadedFile->hasErrors();
+// Moves the temporary file to the specified directory/name
+$uploadedFile->move($targetDirectory, $name);
 ```
 
 <h4 id="env-data">Env Data</h4>
