@@ -119,7 +119,7 @@ $request->getFiles()->get("foo");
 
 > **Note:** This is similar to the data in `$_FILES`.  `getFiles()` returns a `Parameters` object.
 
-Opulence converts `$_FILES` data into an array of `Opulence\HTTP\Requests\UploadedFile` objects.  This provides an easy-to-use wrapper around PHP's built-in upload capabilities.  Each `UploadedFile` object has the following methods:
+Opulence converts `$_FILES` data into an array of `Opulence\HTTP\Requests\UploadedFile` objects.  This provides an easy-to-use wrapper around PHP's built-in upload capabilities.  Each `UploadedFile` object extends `\SplFileInfo` and adds the following methods:
 
 ```php
 // The actual mime type of the uploaded file (secure)
