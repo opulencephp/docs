@@ -132,7 +132,7 @@ $uploadedFile->getTempExtension();
 $uploadedFile->getTempMimeType();
 // The temporary filename of the uploaded file
 $uploadedFile->getTempFilename();
-// Whether or not there were any errors when uploading the file
+// Whether or not the uploaded file has any errors besides UPLOAD_ERR_OK
 $uploadedFile->hasErrors();
 // Moves the temporary file to the specified directory/name
 $uploadedFile->move($targetDirectory, $name);
@@ -142,7 +142,6 @@ $uploadedFile->move($targetDirectory, $name);
 ```php
 $request->getEnv()->get("foo");
 ```
-
 
 > **Note:** This is similar to the data in `$_ENV`.  `getEnv()` returns a `Parameters` object.
 
