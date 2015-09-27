@@ -117,7 +117,7 @@ $request->getHeaders()->get("foo");
 $request->getFiles()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_FILES`.  `getFiles()` returns a `Parameters` object.
+> **Note:** This is similar to the data in `$_FILES`.  `getFiles()` returns a `Files` object.
 
 Opulence converts `$_FILES` data into an array of `Opulence\HTTP\Requests\UploadedFile` objects.  This provides an easy-to-use wrapper around PHP's built-in upload capabilities.  Each `UploadedFile` object extends `\SplFileInfo` and adds the following methods:
 
