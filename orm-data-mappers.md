@@ -220,7 +220,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     {
         if(!$this->redis->del("posts:{$post->getID()}"))
         {
-            throw new ORMException("Failed to delete post with ID {$post->getID()} from Redis");
+            throw new ORMException("Failed to delete post from Redis");
         }
 
         // Remove this post from the index of posts
@@ -230,7 +230,10 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     public function flush()
     {
         // Delete the index of posts as well as all posts
-        if($this->redis->del("posts") === false || !$this->redis->deleteKeyPatterns("posts:*"))
+        if(
+            $this->redis->del("posts") === false || 
+            !$this->redis->deleteKeyPatterns("posts:*")
+        )
         {
             throw new ORMException("Failed to flush posts from Redis");
         }
@@ -238,14 +241,14 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     
     public function getAll()
     {
-        // This will load all the Ids in the "posts" set and generate Post objects from them
+        // This will load all the Ids in the "posts" set and generate Post objects
         return $this->read("posts", self::VALUE_TYPE_SET);
     }
     
     // This is a custom get*() method defined in IPostDataMapper
     public function getByTitle($title)
     {
-        // This will load the Id in the "posts:titles:$title" key and generate a Post object from it
+        // This will load the Id in the "posts:titles:$title" key and generate a Post object
         return $this->read("posts:titles:$title", self::VALUE_TYPE_STRING);
     }
     
