@@ -27,7 +27,7 @@ $unitOfWork = new UnitOfWork(new EntityRegistry(), $connection);
 $dataMapper = new MyDataMapper();
 $users = new Repo("Opulence\\Users\\User", $dataMapper, $unitOfWork);
 
-// Let's say we know that there's a user with Id of 123 and username of "foo" in the repository
+// Let's say we know that there's a user with Id 123 and username "foo" in the repository
 $someUser = $users->getById(123);
 echo $someUser->getUsername(); // "foo"
 
@@ -42,7 +42,9 @@ echo $users->getById(123)->getUsername(); // "bar"
 ```
 
 <h2 id="entity-registry">Entity Registry</h2>
-Entities that are scheduled for insertion/deletion/update are managed by an `EntityRegistry`.  The `EntityRegistry` is also responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`:
+Entities that are scheduled for insertion/deletion/update are managed by an `EntityRegistry`.  The `EntityRegistry` is also responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`.
+
+Let's say that all you care about when checking if two users are identical is whether or not their usernames are identical:
 
 ```php
 use Opulence\ORM\EntityRegistry;
@@ -56,7 +58,6 @@ $className = $entityRegistry->getClassName($user);
 $entityRegistry->manageEntity($user);
 $user->setUsername("newUsername");
 
-// Let's pretend that all we care about in checking if two user objects are identical is comparing their usernames
 // Register a comparison function that takes two user objects and returns whether or not the usernames matched
 $entityRegistry->registerComparisonFunction($className, function($a, $b)
 {
@@ -72,13 +73,11 @@ $unitOfWork->commit();
 <h2 id="aggregate-roots">Aggregate Roots</h2>
 Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:
 ```php
-// Let's assume the unit of work has already been setup and that the user and password objects are created
 // Order here matters: aggregate roots should be added before their children
 $unitOfWork->scheduleForInsertion($user);
 $unitOfWork->scheduleForInsertion($password);
 
-// Pass in the aggregate root, the child, and the function that sets the aggregate root Id in the child
-// The first argument of the function you pass in should be the aggregate root, and the second should be the child
+// Pass in the aggregate root, the child, and the function that sets the aggregate root Id
 $unitOfWork->registerAggregateRootChild($user, $password, function($user, $password)
 {
     // This will be executed after the user is inserted but before the password is inserted
