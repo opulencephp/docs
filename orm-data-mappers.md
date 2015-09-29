@@ -198,11 +198,13 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     public function add(IEntity &$post)
     {
         // Store a hash of the post's data
-        if(!$this->redis->hMset("posts:" . $post->getID(), [
-            "id" => $post->getID(),
-            "title" => $post->getTitle(),
-            "author" => $post->getAuthor()
-        ]))
+        if(
+            !$this->redis->hMset("posts:" . $post->getID(), [
+                "id" => $post->getID(),
+                "title" => $post->getTitle(),
+                "author" => $post->getAuthor()
+            ])
+        )
         {
             throw new ORMException("Failed to add post to Redis");
         }
