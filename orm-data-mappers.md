@@ -198,20 +198,20 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     public function add(IEntity &$post)
     {
         // Store a hash of the post's data
-        if(
-            !$this->redis->hMset("posts:" . $post->getID(), [
-                "id" => $post->getID(),
-                "title" => $post->getTitle(),
-                "author" => $post->getAuthor()
-            ])
-        )
+        $hash = [
+            "id" => $post->getId(),
+            "title" => $post->getTitle(),
+            "author" => $post->getAuthor()
+        ];
+        
+        if(!$this->redis->hMset("posts:{$post->getId()}", $hash))
         {
             throw new ORMException("Failed to add post to Redis");
         }
 
         // Create an index of post Ids
         // This is useful for the getAll() method
-        $this->redis->sAdd("posts", $post->getID());
+        $this->redis->sAdd("posts", $post->getId());
         // Create an index of post titles
         // This is useful for the getByTitle() method
         $this->redis->set("posts:titles:{$post->getTitle()}", $post->getId());
@@ -220,13 +220,13 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     /** @var Post $post */
     public function delete(IEntity &$post)
     {
-        if(!$this->redis->del("posts:{$post->getID()}"))
+        if(!$this->redis->del("posts:{$post->getId()}"))
         {
             throw new ORMException("Failed to delete post from Redis");
         }
 
         // Remove this post from the index of posts
-        $this->redis->sRemove("posts", $post->getID());
+        $this->redis->sRemove("posts", $post->getId());
     }
     
     public function flush()
@@ -263,7 +263,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     
     protected function getEntityHashById($id)
     {
-        $hash = $this->redis->hGetAll("posts:{$id}");
+        $hash = $this->redis->hGetAll("posts:$id");
 
         if($hash == [])
         {
