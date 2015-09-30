@@ -21,7 +21,7 @@
   1. [What is It?](#csrf-what-is-it)
   2. [How to Defend Against It](#csrf-how-to-defend-against-it)
 
-<h2 id="Introduction">Introduction</h2>
+<h2 id="introduction">Introduction</h2>
 Building a secure application is extremely difficult.  Protecting your users from cross-site scripting, cross-site request forgeries, and session hijacking requires a lot of tools.  Fortunately, you don't have to be a security expert to take advantage of all the protection Opulence delivers out of the box.
 
 <h2 id="generating-random-strings">Generating Random Strings</h2>
