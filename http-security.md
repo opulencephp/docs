@@ -12,7 +12,7 @@
   1. [What is It?](#hashing-what-is-it)
   2. [How to Use It](#hashing-how-to-use-it)
 5. [Encryption](#encryption)
-  1. [What is It?](#encrpytion-what-is-it)
+  1. [What is It?](#encryption-what-is-it)
   2. [How to Use It](#encryption-how-to-use-it)
 6. [Cross-Site Scripting (CSS)](#cross-site-scripting)
   1. [What is It?](#css-what-is-it)
