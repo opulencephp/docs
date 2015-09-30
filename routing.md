@@ -360,7 +360,7 @@ $router->get("/users/{userId}/profile", "UserController@showProfile", ["name" =>
 Here's how to generate a URL to the "profile" route:
 
 ```php
-<a href="{{!route('profile', [123])!}}">View Profile</a>
+<a href="{{! route('profile', [123]) !}}">View Profile</a>
 ```
 
 This will compile to:
