@@ -17,15 +17,16 @@
   12. [Env Data](#env-data)
   13. [Getting the Path](#getting-the-path)
       1. [Checking the Path](#checking-the-path)
-  14. [Body](#body)
+  14. [Getting the Method](#getting-the-method)
+  15. [Body](#body)
       1. [JSON](#json)
       2. [Raw Body](#raw-body)
-  15. [AJAX](#ajax)
-  16. [Getting the IP Address](#getting-the-ip-address)
-  17. [Checking if HTTPS](#checking-if-https)
-  18. [Getting the Full URL](#getting-the-full-url)
-  19. [Getting the Previous URL](#getting-the-previous-url)
-  20. [Authentication Data](#authentication-data)
+  16. [AJAX](#ajax)
+  17. [Getting the IP Address](#getting-the-ip-address)
+  18. [Checking if HTTPS](#checking-if-https)
+  19. [Getting the Full URL](#getting-the-full-url)
+  20. [Getting the Previous URL](#getting-the-previous-url)
+  21. [Authentication Data](#authentication-data)
 3. [Responses](#responses)
   1. [Status Codes](#status-codes)
   2. [Headers](#headers)
@@ -159,6 +160,12 @@ $request->isPath("/docs/.*", true);
 ```
 
 > **Note:** Do not include regular expression delimiters in your regular expression.
+
+<h4 id="getting-the-method">Getting the Method</h4>
+To determine which HTTP method was used to make a request (eg "GET" or "POST"), use `getMethod()`:
+```php
+$request->getMethod();
+```
   
 <h4 id="body">Body</h4>
 The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
