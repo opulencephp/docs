@@ -32,7 +32,7 @@ To fix a bug, create a pull request on the latest stable branch with the fix and
 We always appreciate when you want to add a new feature to Opulence.  For minor, backwards-compatible features, create a pull request on the latest stable branch.  For major, possibly backwards-incompatible features, create a pull request on the master branch.
 
 <h2 id="security-vulnerabilities">Security Vulnerabilities</h2>
-Opulence takes security seriously.  If you find a security vulnerability, please email us at [bugs@opulencephp.com](bugs@opulencephp.com).
+Opulence takes security seriously.  If you find a security vulnerability, please email us at <a href="mailto:bugs@opulencephp.com">bugs@opulencephp.com</a>.
 
 <h2 id="coding-style">Coding Style</h2>
 Opulence uses PSR-4 autoloading and follows *most* PSR-2 standards **except**:
