@@ -31,6 +31,7 @@ Let's take a look at an example bootstrapper, controller, and view to demonstrat
 <h5 id="bootstrapper">Bootstrapper</h5>
 ```php
 namespace MyApp\Bootstrappers\ORM;
+
 use MyApp\HTTP\Controllers\UserList;
 use MyApp\Users\ORM\UserRepo;
 use Opulence\Applications\Bootstrappers\Bootstrapper;
@@ -50,6 +51,7 @@ class UserBootstrapper extends Bootstrapper
 ##### Controller
 ```php
 namespace MyApp\HTTP\Controllers;
+
 use Opulence\HTTP\Responses\Response;
 use Opulence\ORM\Repositories\IRepo;
 use Opulence\Routing\Controller;

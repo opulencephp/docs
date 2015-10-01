@@ -203,6 +203,7 @@ You can create your own style elements.  Elements are registered to `Opulence\Co
 
 ```php
 namespace MyApp\Bootstrappers\Console;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Console\Responses\Compilers\ICompiler;
 use Opulence\Console\Responses\Formatters\Elements\Colors;

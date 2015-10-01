@@ -108,6 +108,7 @@ To use sessions in your controllers, simply inject it into the controller's cons
 
 ```php
 namespace MyApp\HTTP\Controllers;
+
 use Opulence\Sessions\ISession;
 
 class MyController

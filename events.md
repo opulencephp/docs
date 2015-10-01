@@ -16,6 +16,7 @@ An event object holds data about the event, which can be used by any listeners h
 
 ```php
 namespace MyApp\Events;
+
 use MyApp\Users\User;
 use Opulence\Events\Event;
 
@@ -57,6 +58,7 @@ $listener = function(UserRegisteredEvent $event, $eventName, IDispatcher $dispat
 You can also use a class for your listener:
 ```php
 namespace MyApp\Events\Listeners;
+
 use MyApp\Events\UserRegisteredEvent;
 use MyApp\Users\User;
 use Opulence\Events\Dispatchers\IDispatcher;

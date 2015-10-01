@@ -32,6 +32,7 @@ However, if your repository implements any custom `get*()` methods, you'll have 
 
 ```php
 namespace MyApp\WordPress\ORM;
+
 use Opulence\ORM\Repositories\Repo;
 
 class PostRepo extends Repo

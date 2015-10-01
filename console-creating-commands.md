@@ -67,6 +67,7 @@ Let's define a simple command that greets a person and optionally shouts the gre
 
 ```php
 namespace MyApp\Console\Commands;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\ArgumentTypes;
@@ -123,6 +124,7 @@ It's possible to call a command from another command:
 
 ```php
 namespace MyApp\Console\Commands;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 

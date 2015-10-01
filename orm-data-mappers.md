@@ -30,6 +30,7 @@ You'll frequently find yourself wanting to query entities by some criteria besid
 
 ```php
 namespace MyApp\Posts\ORM\DataMappers;
+
 use Opulence\ORM\DataMappers\IDataMapper;
 
 interface IPostDataMapper extends IDataMapper
@@ -62,6 +63,7 @@ Let's take a look at an example of an SQL data mapper for WordPress posts:
 
 ```php
 namespace MyApp\WordPress\ORM\DataMappers;
+
 use MyApp\WordPress\Post;
 use PDO;
 use Opulence\Databases\IConnection;
@@ -187,6 +189,7 @@ Let's take a look at a PHPRedis data mapper example:
 
 ```php
 namespace MyApp\WordPress\ORM\DataMappers;
+
 use MyApp\WordPress\Post;
 use Opulence\ORM\DataMappers\PHPRedisDataMapper;
 use Opulence\ORM\IEntity;
@@ -320,6 +323,7 @@ Let's take a look at a cached SQL data mapper example that uses the cache and SQ
 
 ```php
 namespace MyApp\WordPress\ORM\DataMappers;
+
 use Opulence\Databases\ConnectionPool;
 use Opulence\ORM\DataMappers\RedisCachedSQLDataMapper;
 

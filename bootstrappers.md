@@ -27,6 +27,7 @@ Let's pretend you're developing an application that grabs WordPress posts from a
 
 ```php
 namespace MyApp\Bootstrappers\WordPress;
+
 use MyApp\WordPress\Posts;
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Databases\ConnectionPool;
@@ -58,6 +59,7 @@ It's not very efficient to create, register bindings, run, and shut down every b
 <h4 id="lazy-example">Example</h4>
 ```php
 namespace MyApp\Bootstrappers;
+
 use MyApp\ConcreteFoo;
 use MyApp\IFoo;
 use Opulence\Applications\Bootstrappers\Bootstrapper;

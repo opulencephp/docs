@@ -295,6 +295,7 @@ In the case that the router cannot find a route that matches the request, a 404 
 Then, just add a route to handle this:
 ```php
 namespace MyApp;
+
 use Opulence\HTTP\Responses\Response;
 use Opulence\HTTP\Responses\ResponseHeaders;
 use Opulence\Routing\Controller;
