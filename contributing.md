@@ -23,7 +23,7 @@
 Before you attempt to write a bug fix, first read the [documentation](/docs) to see if you're perhaps using Opulence incorrectly.
 
 <h3 id="reporting-bug">Reporting a Bug</h3>
-To report a bug, [create a new issue](https://github.com/opulencephp/Opulence/issues) with a descriptive title, steps to reproduce the bug (eg a failing PHPUnit test), and information about your environment.
+To report a bug, <a href="https://github.com/opulencephp/Opulence/issues" target="_blank">create a new issue</a> with a descriptive title, steps to reproduce the bug (eg a failing PHPUnit test), and information about your environment.
 
 <h3 id="fixing-bug">Fixing a Bug</h3>
 To fix a bug, create a pull request on the latest stable branch with the fix and relevant PHPUnit tests.
