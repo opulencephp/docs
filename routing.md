@@ -273,7 +273,13 @@ $router->group(["https" => true], function() use ($router)
 Groups support regular expressions for path variables:
 
 ```php
-$router->group(["path" => "/users/{userId}", "variables" => ["userId" => ["\d+"]], function() use ($router)
+$options = [
+    "path" => "/users/{userId}",
+    "variables" => [
+        "userId" => "\d+"
+    ]
+];
+$router->group($options, function() use ($router)
 {
     $router->get("/profile", "MyApp\\ProfileController@showProfilePage");
     $router->get("/posts", "MyApp\\PostController@showPostsPage");
@@ -342,13 +348,13 @@ If we specify a host in our route, an absolute URL is generated.  We can even de
 // Let's assume the URL generator is already instantiated
 // Let's add a route named "inbox"
 $options = [
-    "host" => "{country}.mail.example.com",
+    "host" => "{country}.mail.foo.com",
     "name" => "inbox"
 ];
 $router->get("/users/{userId}", "MyApp\\InboxController@showInbox", $options);
 // Any values passed in will first be used to define variables in the host
 // Any leftover values will define the values in the path
-echo $urlGenerator->createFromName("inbox", ["us", 724]); // "http://us.mail.example.com/users/724"
+echo $urlGenerator->createFromName("inbox", ["us", 2]); // "http://us.mail.foo.com/users/2"
 ```
 
 <h4 id="generating-urls-from-views">Generating URLs from Views</h4>

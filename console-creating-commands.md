@@ -85,7 +85,7 @@ class Greeting extends Command
                 "name", ArgumentTypes::REQUIRED, "The name to greet"
             ))
             ->addOption(new Option(
-                "yell", "y", OptionTypes::OPTIONAL_VALUE, "Whether or not to yell the greeting", "yes"
+                "yell", "y", OptionTypes::OPTIONAL_VALUE, "Yell the greeting?", "yes"
             ));
     }
     

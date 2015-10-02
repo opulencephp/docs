@@ -257,7 +257,7 @@ use DateTime;
 use Opulence\HTTP\Responses\Cookie;
 
 // This should look pretty familiar to PHP's setcookie() function
-$userIdCookie = new Cookie("userId", 12345, new DateTime("+1 week"), "/", ".example.com", true, true);
+$userIdCookie = new Cookie("id", 17, new DateTime("+1 week"), "/", ".foo.com", true, true);
 $response->getHeaders()->setCookie($userIdCookie);
 $response->send();
 ```
@@ -269,7 +269,7 @@ Deleting a cookie is easy:
 
 ```php
 // Let's delete the cookie we set in the example above
-$response->getHeaders()->deleteCookie("userId", "/", ".example.com", true, true);
+$response->getHeaders()->deleteCookie("id", "/", ".foo.com", true, true);
 $response->send();
 ```
 

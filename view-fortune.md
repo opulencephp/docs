@@ -352,7 +352,7 @@ class MyFunctions extends Bootstrapper
     public function run(ITranspiler $transpiler)
     {
         // Our function simply needs to have a printable return value
-        $transpiler->registerViewFunction("salutation", function($lastName, $isMale, $isMarried)
+        $transpiler->registerViewFunction("salutation", function($last, $isMale, $isMarried)
         {
             if($isMale)
             {
@@ -367,7 +367,7 @@ class MyFunctions extends Bootstrapper
                 $salutation = "Ms.";
             }
             
-            return $salutation . " " . $lastName;
+            return $salutation . " " . $last;
         });
     }
 }

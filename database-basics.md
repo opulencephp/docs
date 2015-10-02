@@ -35,7 +35,7 @@ $connectionPool = new SingleServerConnectionPool(
         "databasename", // The name of the database to use
         3306 // The port
     ),
-    [], // Any settings that help setup a driver connection, eg "unix_socket" for MySQL Unix sockets
+    [], // Any connection settings, eg "unix_socket" for MySQL Unix sockets
     [] // Any driver-specific connection settings, eg \PDO::ATTR_PERSISTENT => true
 );
 $readConnection = $connectionPool->getReadConnection();
@@ -75,7 +75,7 @@ $connectionPool = new SingleServerConnectionPool(
             3306 // The slave port
         )
     ],
-    [], // Any settings that help setup a driver connection, eg "unix_socket" for MySQL Unix sockets
+    [], // Any connection settings, eg "unix_socket" for MySQL Unix sockets
     [] // Any driver-specific connection settings, eg \PDO::ATTR_PERSISTENT => true
 );
 ```
