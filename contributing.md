@@ -9,6 +9,7 @@
 4. [Coding Style](#coding-style)
   1. [Curly Braces](#curly-braces)
   2. [Control Structure Spacing](#control-structure-spacing)
+  3. [PHPDoc](#phpdoc)
 5. [Naming Conventions](#naming-conventions)
   1. [Variables](#variables)
   2. [Functions/Methods](#functions-methods)
@@ -66,6 +67,45 @@ foreach($users as $user)
 }
 ```
 
+<h3 id="phpdoc">PHPDoc</h3>
+Use PHPDoc to document **all** class properties, methods, and functions.  Constructors only need to document the parameters.  Method/function PHPDoc must include one blank line between the description and the following tag.  Here's an example:
+
+```php
+class Book
+{
+    /** @var string The title of the book */
+    private $title;
+    
+    /**
+     * @param string $title The title of the book
+     */
+    public function __construct($title)
+    {
+        $this->setTitle($title);
+    }
+    
+    /**
+     * Gets the title of the book
+     *
+     * @return string The title of the book
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+    
+    /**
+     * Sets the title of the book
+     *
+     * @param string $title The title of the book
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+}
+```
+
 <h2 id="naming-conventions">Naming Conventions</h2>
 Inspired by <a href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670" target="_blank">Code Complete</a>, Opulence uses a straightforward approach to naming things.
 
@@ -74,8 +114,6 @@ All variable names:
 
 * Must be lower camel case, eg `$emailAddress`
 * Must NOT use Hungarian Notation
-
-Class properties must use standard PHPDoc.
 
 <h3 id="functions-methods">Functions/Methods</h3>
 All function/method names:
@@ -88,8 +126,6 @@ All function/method names:
   * Always think about how your function/method will be read aloud in an `if` statement.  `if(userIsValid())` reads better than `if(isUserValid())`.
 * Must use `getXXX()` and `setXXX()` for functions/methods that get and set properties, respectively
   * Don't name a method that returns a username `username()`.  Name it `getUsername()` so that its purpose is unambiguous.
-
-All functions/methods must use standard PHPDoc.
 
 <h3 id="constants">Constants</h3>
 All class constants' names:
