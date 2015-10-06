@@ -48,8 +48,7 @@ use MyApp\Events\UserRegisteredEvent;
 use MyApp\Users\User;
 use Opulence\Events\Dispatchers\IDispatcher;
 
-$listener = function(UserRegisteredEvent $event, $eventName, IDispatcher $dispatcher)
-{
+$listener = function (UserRegisteredEvent $event, $eventName, IDispatcher $dispatcher) {
     mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
 };
 ```
@@ -78,8 +77,7 @@ class RegistrationEmail
 There might be a case where your listener wants to prevent other listeners from being notified of an event.  In this case, your listener can call `Event::stopPropagation()`:
 
 ```php
-$listener = function(IEvent $event)
-{
+$listener = function (IEvent $event) {
     // Do stuff...
     
     $event->stopPropagation();

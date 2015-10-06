@@ -68,9 +68,9 @@ Directives perform view logic.  For example, they can be used to [extend another
 
 <h4 id="if-statements">If Statements</h4>
 ```
-<% if($user->isAdmin()) %>
+<% if ($user->isAdmin()) %>
     <a href="edit">Edit Post</a>
-<% elseif($user->canViewPosts()) %>
+<% elseif ($user->canViewPosts()) %>
     <a href="view">View Post</a>
 <% else %>
     You cannot view this post
@@ -79,23 +79,23 @@ Directives perform view logic.  For example, they can be used to [extend another
 
 <h4 id="loops">Loops</h4>
 ```
-<% for($i = 1;$i <= 5;$i++) %>
+<% for ($i = 1;$i <= 5;$i++) %>
     {{ $i }}
 <% endfor %>
 
-<% foreach($posts as $post) %>
+<% foreach ($posts as $post) %>
     <a href="posts/{{ $post->getId() }}">{{ $post->getTitle() }}</a>
 <% endforeach %>
 
 // If there are any posts, display them
 // Otherwise, display "There are no posts"
-<% forif($posts as $post) %>
+<% forif ($posts as $post) %>
     <a href="posts/{{ $post->getId() }}">{{ $post->getTitle() }}</a>
 <% forelse %>
     There are no posts
 <% endif %>
 
-<% while(true) %>
+<% while (true) %>
     Still looping
 <% endwhile %>
 ```
@@ -217,8 +217,7 @@ class MyDirectives extends Bootstrapper
 {
     public function run(ITranspiler $transpiler)
     {
-        $transpiler->registerDirectiveTranspiler("if", function($expression)
-        {
+        $transpiler->registerDirectiveTranspiler("if", function ($expression) {
             // The expression will contain the surrounding parentheses 
             return '<?php if' . $expression . ': ?>';
         });
@@ -226,7 +225,7 @@ class MyDirectives extends Bootstrapper
 }
 ```
 
-If in our template we have `<% if($user->isAdmin()) %>`, Fortune will transpile it to `<?php if($user->isAdmin()): ?>`.
+If in our template we have `<% if ($user->isAdmin()) %>`, Fortune will transpile it to `<?php if($user->isAdmin()): ?>`.
 
 <h2 id="comments">Comments</h2>
 When writing complex views, you can easily leave comments:
@@ -352,23 +351,20 @@ class MyFunctions extends Bootstrapper
     public function run(ITranspiler $transpiler)
     {
         // Our function simply needs to have a printable return value
-        $transpiler->registerViewFunction("salutation", function($last, $isMale, $isMarried)
-        {
-            if($isMale)
-            {
-                $salutation = "Mr.";
+        $transpiler->registerViewFunction(
+            "salutation", 
+            function ($last, $isMale, $isMarried) {
+                if ($isMale) {
+                    $salutation = "Mr.";
+                } elseif ($isMarried) {
+                    $salutation = "Mrs.";
+                } else {
+                    $salutation = "Ms.";
+                }
+                
+                return $salutation . " " . $last;
             }
-            elseif($isMarried)
-            {
-                $salutation = "Mrs.";
-            }
-            else
-            {
-                $salutation = "Ms.";
-            }
-            
-            return $salutation . " " . $last;
-        });
+        );
     }
 }
 ```
@@ -379,8 +375,7 @@ Compiling `Hello, {{ salutation("Young", false, true) }}` will give us `Hello, M
 You may call view functions in your PHP code by calling `Opulence\Views\Compilers\Fortune\ITranspiler::callViewFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `NAME_OF_PAGE | My Site`:
 
 ```php
-$transpiler->registerViewFunction("myPageTitle", function($title) use ($transpiler, $view)
-{
+$transpiler->registerViewFunction("myPageTitle", function ($title) use ($transpiler, $view) {
     // Take advantage of the built-in view function
     return $transpiler->callViewFunction("pageTitle", $view, $title . " | My Site");
 });

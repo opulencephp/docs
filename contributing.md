@@ -36,36 +36,7 @@ We always appreciate when you want to add a new feature to Opulence.  For minor,
 Opulence takes security seriously.  If you find a security vulnerability, please email us at <a href="mailto:bugs@opulencephp.com">bugs@opulencephp.com</a>.
 
 <h2 id="coding-style">Coding Style</h2>
-Opulence uses PSR-4 autoloading and follows *most* PSR-2 standards **except**:
-
-<h3 id="curly-braces">Curly Braces</h3>
-Curly braces must always go on their own separate line, even for control structures:
-
-```php
-if(true)
-{
-    // Do something
-}
-else
-{
-    // Do something
-}
-```
-
-<h3 id="control-structure-spacing">Control Structure Spacing</h3>
-There must be no spaces between the control structure keyword and the opening parenthesis:
-
-```php
-if($foo)
-{
-    // Do something
-}
-
-foreach($users as $user)
-{
-    // Do something
-}
-```
+Opulence follows PSR-1 and PSR-2 coding standards and uses PSR-4 autoloading.
 
 <h3 id="phpdoc">PHPDoc</h3>
 Use PHPDoc to document **all** class properties, methods, and functions.  Constructors only need to document the parameters.  Method/function PHPDoc must include one blank line between the description and the following tag.  Here's an example:
@@ -123,7 +94,7 @@ All function/method names:
   * If you are having trouble naming a method, that's probably a sign that it is doing too much and should be refactored
 * Must be lower camel case, eg `compileList()`
 * Must answer a question if returning a boolean variable, eg `hasAccess()` or `userIsValid()`
-  * Always think about how your function/method will be read aloud in an `if` statement.  `if(userIsValid())` reads better than `if(isUserValid())`.
+  * Always think about how your function/method will be read aloud in an `if` statement.  `if (userIsValid())` reads better than `if (isUserValid())`.
 * Must use `getXXX()` and `setXXX()` for functions/methods that get and set properties, respectively
   * Don't name a method that returns a username `username()`.  Name it `getUsername()` so that its purpose is unambiguous.
 

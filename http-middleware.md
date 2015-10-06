@@ -32,8 +32,7 @@ class Authentication implements IMiddleware
     // $next consists of the next middleware in the pipeline
     public function handle(Request $request, Closure $next)
     {
-        if(!$this->authenticator->isLoggedIn())
-        {
+        if (!$this->authenticator->isLoggedIn()) {
             return new RedirectResponse("/login");
         }
         

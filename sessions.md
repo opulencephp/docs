@@ -75,8 +75,7 @@ Let's say you're writing a form that can display any validation errors after sub
 ```php
 $session->flash("formErrors", ["Username is required", "Invalid email address"]);
 // ...redirect back to the form...
-foreach($session->get("formErrors") as $error)
-{
+foreach ($session->get("formErrors") as $error) {
     echo htmlentities($error);
 }
 ```

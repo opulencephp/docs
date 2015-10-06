@@ -93,8 +93,7 @@ class Greeting extends Command
     {
         $greeting = "Hello, " . $this->getArgumentValue("name");
         
-        if($this->getOptionValue("yell") == "yes")
-        {
+        if ($this->getOptionValue("yell") == "yes") {
             $greeting = strtoupper($greeting);
         }
         

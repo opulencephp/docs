@@ -82,7 +82,7 @@ class UserList extends Controller
 ##### UserList.fortune
 ```
 <ul>
-    <% foreach($users as $user) %>
+    <% foreach ($users as $user) %>
         <li><a href="mailto:{{ $user->getEmail() }}">{{ $user->getName() }}</a></li>
     <% endforeach %>
 </ul>

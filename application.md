@@ -32,8 +32,7 @@ Pre-start tasks are performed before the application is started.
 ```php
 use Opulence\Applications\Tasks\TaskTypes;
 
-$dispatcher->register(TaskTypes::PRE_START, function()
-{
+$dispatcher->register(TaskTypes::PRE_START, function () {
     error_log("Application issued start command at " . date("Y-m-d H:i:s"));
 });
 ```
@@ -41,8 +40,7 @@ $dispatcher->register(TaskTypes::PRE_START, function()
 <h4 id="start-task">Start Task</h4>
 If you'd like to perform a certain task after all the pre-start tasks have been completed, pass in a `Closure` to the `start()` method.  This is commonly used to instantiate a `Kernel` and handle a request.  If the task returns anything, then `start()` returns that value.  Otherwise, it returns null.
 ```php
-$application->start(function()
-{
+$application->start(function () {
     error_log("Application actually started at " . date("Y-m-d H:i:s"));
 });
 ```
@@ -54,8 +52,7 @@ Post-start tasks are performed after the application has started.
 ```php
 use Opulence\Applications\Tasks\TaskTypes;
 
-$dispatcher->register(TaskTypes::PRE_START, function()
-{
+$dispatcher->register(TaskTypes::PRE_START, function () {
     error_log("Application finished starting at " . date("Y-m-d H:i:s"));
 });
 ```
@@ -65,8 +62,7 @@ Pre-shutdown tasks are performed before the application shuts down.
 ```php
 use Opulence\Applications\Tasks\TaskTypes;
 
-$dispatcher->register(TaskTypes::PRE_SHUTDOWN, function()
-{
+$dispatcher->register(TaskTypes::PRE_SHUTDOWN, function () {
     error_log("Application issued shutdown command at " . date("Y-m-d H:i:s"));
 });
 ```
@@ -74,8 +70,7 @@ $dispatcher->register(TaskTypes::PRE_SHUTDOWN, function()
 <h4 id="shutdown-task">Shutdown Task</h4>
 If you'd like to perform a certain task after all the pre-shutdown tasks have been completed, pass in a `Closure` to the `shutdown()` method.  If the task returns anything, then `shutdown()` returns that value.  Otherwise, it returns null.
 ```php
-$application->shutdown(function()
-{
+$application->shutdown(function () {
     error_log("Application actually shut down at " . date("Y-m-d H:i:s"));
 });
 ```
@@ -87,8 +82,7 @@ Post-shutdown tasks are performed after the application has shut down.
 ```php
 use Opulence\Applications\Tasks\TaskTypes;
 
-$dispatcher->register(TaskTypes::POST_SHUTDOWN, function()
-{
+$dispatcher->register(TaskTypes::POST_SHUTDOWN, function () {
     error_log("Application finished shutting down at " . date("Y-m-d H:i:s"));
 });
 ```

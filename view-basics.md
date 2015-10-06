@@ -171,8 +171,7 @@ class ViewBuilderBootstrapper extends Bootstrapper
 {
     public function run(IViewFactory $factory)
     {
-        $factory->registerBuilder("Index", function()
-        {
+        $factory->registerBuilder("Index", function () {
             return new MyBuilder();
         });
     }

@@ -66,8 +66,7 @@ The post will be scheduled for deletion by the unit of work.
 ```php
 $posts = $repo->getAll();
 
-foreach($posts as $post)
-{
+foreach ($posts as $post) {
     echo $post->getTitle() . "<br />";
 }
 ```

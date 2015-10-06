@@ -27,14 +27,12 @@ use Opulence\Pipelines\Pipeline;
 
 $container = new Container();
 $stages = [
-    function($input, $next)
-    {
+    function ($input, $next) {
         $input .= "-pipe1";
         
         return $next($input);
     },
-    function($input, $next)
-    {
+    function ($input, $next) {
         $input .= "-pipe2";
         
         return $next($input);
@@ -121,22 +119,19 @@ use Opulence\Pipelines\Pipeline;
 
 $container = new Container();
 $stages = [
-    function($input, $next)
-    {
+    function ($input, $next) {
         $input .= "-pipe1";
         
         return $next($input);
     },
-    function($input, $next)
-    {
+    function ($input, $next) {
         $input .= "-pipe2";
         
         return $next($input);
     }
 ];
 $pipeline = new Pipeline($container, $stages);
-$callback = function($pipelineOutput)
-{
+$callback = function ($pipelineOutput) {
     return strtoupper($pipelineOutput);
 };
 echo $pipeline->send("foo", $callback);

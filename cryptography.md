@@ -57,12 +57,9 @@ You can change the underlying `OpenSSL` cipher using `setCipher()`.
 
 <h4 id="encrypting-data">Encrypting Data</h4>
 ```php
-try
-{
+try {
     $encryptedData = $encrypter->encrypt("foobar");
-}
-catch(EncryptionException $ex)
-{
+} catch (EncryptionException $ex) {
     // Handle the exception
 }
 ```
@@ -71,13 +68,10 @@ A **Message Authentication Code** (**MAC**) is created using the encrypted value
 
 <h4 id="decrypting-data">Decrypting Data</h4>
 ```php
-try
-{
+try {
     $encryptedData = $encrypter->encrypt("foobar");
     $decryptedData = $encrypter->decrypt($encryptedData);
-}
-catch(EncryptionException $ex)
-{
+} catch(EncryptionException $ex) {
     // Handle the exception
 }
 

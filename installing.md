@@ -18,8 +18,8 @@
 <h2 id="installing">Installing</h2>
 Opulence can be easily installed using Composer:
 
-```
-composer create-project opulence/project DESIRED_SERVER_PATH --prefer-dist
+```php
+composer create-project opulence/project --prefer-dist
 ```
 
 Be sure to [configure your server](#server-config) to finish the installation.  Load up your website in a browser, and you should see a basic website explaining on how to start customizing it.  That's it!  If it does not show up, make sure you've made `PATH_TO_OPULENCE/tmp` writable.
@@ -29,28 +29,26 @@ Be sure to [configure your server](#server-config) to finish the installation.  
 <h4 id="libraries">Libraries</h4>
 Opulence is broken into various libraries, each of which can be installed individually:
 
-```
-opulence/applications
-opulence/authentication
-opulence/cache
-opulence/console
-opulence/cryptography
-opulence/databases
-opulence/events
-opulence/files
-opulence/forms
-opulence/http
-opulence/ioc
-opulence/memcached
-opulence/orm
-opulence/pipelines
-opulence/querybuilders
-opulence/redis
-opulence/routing
-opulence/sessions
-opulence/users
-opulence/views
-```
+* opulence/applications
+* opulence/authentication
+* opulence/cache
+* opulence/console
+* opulence/cryptography
+* opulence/databases
+* opulence/events
+* opulence/files
+* opulence/forms
+* opulence/http
+* opulence/ioc
+* opulence/memcached
+* opulence/orm
+* opulence/pipelines
+* opulence/querybuilders
+* opulence/redis
+* opulence/routing
+* opulence/sessions
+* opulence/users
+* opulence/views
 
 <h2 id="server-config">Server Config</h2>
 * Opulence's `tmp` directory needs to be writable from PHP

@@ -92,8 +92,7 @@ $rows = [
     ["Chris", "Rock", "good"],
     ["Jim", "Gaffigan", "pale"]
 ];
-$paddingFormatter->format($rows, function($row)
-{
+$paddingFormatter->format($rows, function ($row) {
     return $row[0] . " - " . $row[1] . " - " . $row[2];
 });
 ```

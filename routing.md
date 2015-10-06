@@ -62,8 +62,7 @@ $dispatcher = new Dispatcher(new Container());
 $compiler = new Compiler([new PathMatcher(), new HostMatcher(), new SchemeMatcher()]);
 $parser = new Parser();
 $router = new Router($dispatcher, $compiler, $parser);
-$router->get("/foo", function()
-{
+$router->get("/foo", function () {
     return "Hello, world!";
 });
 ```
@@ -75,8 +74,7 @@ If you need any object like the `Request` to be passed into the closure, just ty
 ```php
 use Opulence\HTTP\Requests\Request;
 
-$router->get("/users/:id", function(Request $request, $id)
-{
+$router->get("/users/:id", function (Request $request, $id) {
     // $request will be the HTTP request
     // $id will be the path variable
 });
@@ -213,8 +211,7 @@ This will create a route named "awesome".
 <h2 id="route-grouping">Route Grouping</h2>
 One of the most important sayings in programming is "Don't repeat yourself" or "DRY".  In other words, don't copy-and-paste code because that leads to difficulties in maintaining/changing the code base in the future.  Let's say you have several routes that start with the same path.  Instead of having to write out the full path for each route, you can create a group:
 ```php
-$router->group(["path" => "/users/:userId"], function() use ($router)
-{
+$router->group(["path" => "/users/:userId"], function () use ($router) {
     $router->get("/profile", "MyApp\\UserController@showProfile");
     $router->delete("", "MyApp\\UserController@deleteUser");
 });
@@ -225,8 +222,7 @@ Now, a GET request to `/users/:userId/profile` will get a user's profile, and a 
 <h4 id="controller-namespaces">Controller Namespaces</h4>
 If all the controllers in a route group belong under a common namespace, you can specify the namespace in the group options:
 ```php
-$router->group(["controllerNamespace" => "MyApp\\Controllers"], function() use ($router)
-{
+$router->group(["controllerNamespace" => "MyApp\\Controllers"], function () use ($router) {
     $router->get("/users", "UserController@showAllUsers");
     $router->get("/posts", "PostController@showAllPosts");
 });
@@ -237,8 +233,7 @@ Now, a GET request to `/users` will route to `MyApp\Controllers\UserController::
 <h4 id="group-middleware">Group Middleware</h4>
 Route groups allow you to apply middleware to multiple routes:
 ```php
-$router->group(["middleware" => "MyApp\\Authenticate"], function() use ($router)
-{
+$router->group(["middleware" => "MyApp\\Authenticate"], function () use ($router) {
     $router->get("/users/:userId/profile", "MyApp\\UserController@showProfile");
     $router->get("/posts", "MyApp\\PostController@showPosts");
 });
@@ -250,11 +245,9 @@ The `Authenticate` middleware will be executed on any matched routes inside the 
 You can filter by host in router groups:
 
 ```php
-$router->group(["host" => "google.com"], function() use ($router)
-{
+$router->group(["host" => "google.com"], function () use ($router) {
     $router->get("/", "MyApp\\HomeController@showHomePage");
-    $router->group(["host" => "mail."], function() use ($router)
-    {
+    $router->group(["host" => "mail."], function () use ($router) {
         $router->get("/", "MyApp\\MailController@showInbox");
     });
 });
@@ -266,8 +259,7 @@ $router->group(["host" => "google.com"], function() use ($router)
 You can force all routes in a group to be HTTPS:
 
 ```php
-$router->group(["https" => true], function() use ($router)
-{
+$router->group(["https" => true], function () use ($router) {
     $router->get("/", "MyApp\\HomeController@showHomePage");
     $router->get("/books", "MyApp\\BookController@showBooksPage");
 });
@@ -285,8 +277,7 @@ $options = [
         "userId" => "\d+"
     ]
 ];
-$router->group($options, function() use ($router)
-{
+$router->group($options, function () use ($router) {
     $router->get("/profile", "MyApp\\ProfileController@showProfilePage");
     $router->get("/posts", "MyApp\\PostController@showPostsPage");
 });

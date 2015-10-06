@@ -148,8 +148,7 @@ echo $concreteInstance === $container->makeShared("IFoo"); // 1
 Opulence supports binding callbacks:
 
 ```php
-$container->bind("IFoo", function()
-{
+$container->bind("IFoo", function () {
     return new ConcreteFoo();
 });
 echo get_class($container->makeNew("IFoo")); // "ConcreteFoo" 
@@ -171,8 +170,7 @@ Now, `ConcreteFoo` is only bound to `IFoo` for the target class `A`.
 Callbacks can be used for targeted bindings, [similar to universal bindings](#universal-callback-bindings):
 
 ```php
-$container->bind("IFoo", function()
-{
+$container->bind("IFoo", function () {
     return new ConcreteFoo();
 }, "A");
 ```
@@ -314,8 +312,7 @@ You can use `call()` to automatically inject parameters into a `Closure`:
 
 ```php
 echo $container->call(
-    function(Foo $foo, $somePrimitive)
-    {
+    function (Foo $foo, $somePrimitive) {
         return get_class($foo) . ":" . $somePrimitive;
     },
     ["123"] // Pass in any primitive values

@@ -207,8 +207,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
             "author" => $post->getAuthor()
         ];
         
-        if(!$this->redis->hMset("posts:{$post->getId()}", $hash))
-        {
+        if (!$this->redis->hMset("posts:{$post->getId()}", $hash)) {
             throw new ORMException("Failed to add post to Redis");
         }
 
@@ -223,8 +222,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     /** @var Post $post */
     public function delete(IEntity &$post)
     {
-        if(!$this->redis->del("posts:{$post->getId()}"))
-        {
+        if (!$this->redis->del("posts:{$post->getId()}")) {
             throw new ORMException("Failed to delete post from Redis");
         }
 
@@ -235,11 +233,10 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     public function flush()
     {
         // Delete the index of posts as well as all posts
-        if(
+        if (
             $this->redis->del("posts") === false || 
             !$this->redis->deleteKeyPatterns("posts:*")
-        )
-        {
+        ) {
             throw new ORMException("Failed to flush posts from Redis");
         }
     }
@@ -268,8 +265,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     {
         $hash = $this->redis->hGetAll("posts:$id");
 
-        if($hash == [])
-        {
+        if ($hash == []) {
             // In the case that nothing was found, return null
             return null;
         }

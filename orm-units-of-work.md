@@ -59,8 +59,7 @@ $entityRegistry->manageEntity($user);
 $user->setUsername("newUsername");
 
 // Register a function that compares the usernames of two user objects
-$entityRegistry->registerComparisonFunction($className, function($userA, $userB)
-{
+$entityRegistry->registerComparisonFunction($className, function ($userA, $userB) {
     return $userA->getUsername() == $userB->getUsername();
 });
 
@@ -79,8 +78,7 @@ $unitOfWork->scheduleForInsertion($user);
 $unitOfWork->scheduleForInsertion($password);
 
 // Pass in the aggregate root, the child, and the function that sets the aggregate root Id
-$unitOfWork->registerAggregateRootChild($user, $password, function($user, $password)
-{
+$unitOfWork->registerAggregateRootChild($user, $password, function ($user, $password) {
     // This will be executed after the user is inserted but before the password is inserted
     $password->setUserId($user->getId());
 });
