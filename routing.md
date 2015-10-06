@@ -149,7 +149,7 @@ $router->get("/food/:foodName=all", "MyApp\\FoodController@showFood");
 
 If no food name was specified, "all" will be the default value.
 
-> **Note:** To give an optional variable a default value, structure the route variable like `\[:varName=value\]`.
+> **Note:** To give an optional variable a default value, structure the route variable like `[:varName=value]`.
 
 <h2 id="host-matching">Host Matching</h2>
 Routers can match on hosts as well as paths.  Want to match calls to a subdomain?  Easy:
