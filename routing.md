@@ -99,7 +99,7 @@ $router->any("MyApp\\MyController@myMethod");
 <h2 id="route-variables">Route Variables</h2>
 Let's say you want to grab a specific user's profile page.  You'll probably want to structure your URL like "/users/:userId/profile", where ":userId" is the Id of the user whose profile we want to view.  Using a `Router`, the data matched in ":userId" will be mapped to a parameter in your controller's method named "$userId".
 
-> **Note:** This also works for closure controllers.  All non-optional parameters in the controller method must have identically-named route variables.  In other words, if your method looks like `function showBook($authorName, $bookTitle = null)`, your path must have a "{authorName}" variable.  The routes `/authors/:authorName/books` and `/authors/:authorName/books/:bookTitle` would be valid, but `/authors` would not.
+> **Note:** This also works for closure controllers.  All non-optional parameters in the controller method must have identically-named route variables.  In other words, if your method looks like `function showBook($authorName, $bookTitle = null)`, your path must have an `:authorName` variable.  The routes `/authors/:authorName/books` and `/authors/:authorName/books/:bookTitle` would be valid, but `/authors` would not.
 
 Let's take a look at a full example:
 ```php
@@ -126,7 +126,7 @@ $options = [
         "userId" => "\d+" // The user Id variable must now be a number
     ]
 ];
-$router->get("/users/{userId}/profile", "MyApp\\UserController@showProfile", $options);
+$router->get("/users/:userId/profile", "MyApp\\UserController@showProfile", $options);
 ```
 
 <h4 id="optional-parts">Optional Parts</h4>
@@ -355,7 +355,7 @@ $options = [
     "host" => ":country.mail.foo.com",
     "name" => "inbox"
 ];
-$router->get("/users/{userId}", "MyApp\\InboxController@showInbox", $options);
+$router->get("/users/:userId", "MyApp\\InboxController@showInbox", $options);
 // Any values passed in will first be used to define variables in the host
 // Any leftover values will define the values in the path
 echo $urlGenerator->createFromName("inbox", ["us", 2]); // "http://us.mail.foo.com/users/2"
