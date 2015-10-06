@@ -37,13 +37,13 @@ Routes require a few pieces of information:
 * The action to perform on a match
 
 `Opulence\Routing\Router` supports various methods out of the gate:
-* `get()`
-* `post()`
 * `delete()`
-* `put()`
+* `get()`
 * `head()`
 * `options()`
 * `patch()`
+* `post()`
+* `put()`
 
 <h4 id="using-closures">Using Closures</h4>
 For very simple applications, it's probably easiest to use closures as your routes' controllers:
@@ -135,7 +135,9 @@ If parts of your route are optional, simply wrap them in `[]`:
 $router->get("/books[/authors]", "MyApp\\BookController@showBooks");
 ```
 
-This would match both `/books` and `/books/authors`.  You can even nest optional parts:
+This would match both `/books` and `/books/authors`.
+
+You can even nest optional parts:
 
 ```php
 $router->get("/archives[/:year[/:month[/:day]]]", "MyApp\\ArchiveController@showArchives");
@@ -149,7 +151,7 @@ $router->get("/food/:foodName=all", "MyApp\\FoodController@showFood");
 
 If no food name was specified, "all" will be the default value.
 
-> **Note:** To give an optional variable a default value, structure the route variable like "\[:varName=value\]".
+> **Note:** To give an optional variable a default value, structure the route variable like `\[:varName=value\]`.
 
 <h2 id="host-matching">Host Matching</h2>
 Routers can match on hosts as well as paths.  Want to match calls to a subdomain?  Easy:
@@ -358,7 +360,7 @@ $options = [
 $router->get("/users/:userId", "MyApp\\InboxController@showInbox", $options);
 // Any values passed in will first be used to define variables in the host
 // Any leftover values will define the values in the path
-echo $urlGenerator->createFromName("inbox", ["us", 2]); // "http://us.mail.foo.com/users/2"
+echo $urlGenerator->createFromName("inbox", "us", 2); // "http://us.mail.foo.com/users/2"
 ```
 
 <h4 id="generating-urls-from-views">Generating URLs from Views</h4>
@@ -371,7 +373,7 @@ $router->get("/users/:userId/profile", "UserController@showProfile", ["name" => 
 Here's how to generate a URL to the "profile" route:
 
 ```php
-<a href="{{! route('profile', [123]) !}}">View Profile</a>
+<a href="{{! route('profile', 123) !}}">View Profile</a>
 ```
 
 This will compile to:

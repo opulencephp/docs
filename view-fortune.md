@@ -292,7 +292,7 @@ If you're using the <a href="https://github.com/opulencephp/Project" target="_bl
   * Returns a URL that is created using the rules of the input route name
   * Accepts the following arguments:
     1. `string $routeName` - The name of the route whose URL we're creating
-    2. `array|mixed $args` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](routing#url-generators))
+    2. `...$args` - The variable-length arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](routing#url-generators))
 
 Since these functions output HTML, use them inside unsanitized tags.  Here's an example of how to use these functions:
 
