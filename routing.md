@@ -8,7 +8,7 @@
   3. [Multiple Methods](#multiple-methods)
 3. [Route Variables](#route-variables)
   1. [Regular Expressions](#regular-expressions)
-  2. [Optional Variables](#optional-variables)
+  2. [Optional Parts](#optional-parts)
   3. [Default Values](#default-values)
 4. [Host Matching](#host-matching)
 5. [Middleware](#middleware)
@@ -75,7 +75,7 @@ If you need any object like the `Request` to be passed into the closure, just ty
 ```php
 use Opulence\HTTP\Requests\Request;
 
-$router->get("/users/{id}", function(Request $request, $id)
+$router->get("/users/:id", function(Request $request, $id)
 {
     // $request will be the HTTP request
     // $id will be the path variable
@@ -97,9 +97,9 @@ $router->any("MyApp\\MyController@myMethod");
 ```
 
 <h2 id="route-variables">Route Variables</h2>
-Let's say you want to grab a specific user's profile page.  You'll probably want to structure your URL like "/users/{userId}/profile", where "{userId}" is the Id of the user whose profile we want to view.  Using a `Router`, the data matched in "{userId}" will be mapped to a parameter in your controller's method named "$userId".
+Let's say you want to grab a specific user's profile page.  You'll probably want to structure your URL like "/users/:userId/profile", where ":userId" is the Id of the user whose profile we want to view.  Using a `Router`, the data matched in ":userId" will be mapped to a parameter in your controller's method named "$userId".
 
-> **Note:** This also works for closure controllers.  All non-optional parameters in the controller method must have identically-named route variables.  In other words, if your method looks like `function showBook($authorName, $bookTitle = null)`, your path must have a "{authorName}" variable.  The routes `/authors/{authorName}/books` and `/authors/{authorName}/books/{bookTitle}` would be valid, but `/authors` would not.
+> **Note:** This also works for closure controllers.  All non-optional parameters in the controller method must have identically-named route variables.  In other words, if your method looks like `function showBook($authorName, $bookTitle = null)`, your path must have a "{authorName}" variable.  The routes `/authors/:authorName/books` and `/authors/:authorName/books/:bookTitle` would be valid, but `/authors` would not.
 
 Let's take a look at a full example:
 ```php
@@ -113,7 +113,7 @@ class UserController extends Controller
     }
 }
 
-$router->get("/users/{userId}/profile", "MyApp\\UserController@showProfile");
+$router->get("/users/:userId/profile", "MyApp\\UserController@showProfile");
 ```
 
 Calling the path `/users/23/profile` will return "Profile for user 23".
@@ -129,23 +129,27 @@ $options = [
 $router->get("/users/{userId}/profile", "MyApp\\UserController@showProfile", $options);
 ```
 
-<h4 id="optional-variables">Optional Variables</h4>
-If a certain variable is optional, simply append "?" to it:
+<h4 id="optional-parts">Optional Parts</h4>
+If parts of your route are optional, simply wrap them in `[]`:
 ```php
-$router->get("/books/{bookId?}", "MyApp\\BookController@showBook");
+$router->get("/books[/authors]", "MyApp\\BookController@showBooks");
 ```
 
-This would match both `/books/` and `/books/23`.
+This would match both `/books` and `/books/authors`.  You can even nest optional parts:
+
+```php
+$router->get("/archives[/:year[/:month[/:day]]]", "MyApp\\ArchiveController@showArchives");
+```
 
 <h4 id="default-values">Default Values</h4>
 Sometimes, you might want to have a default value for a route variable.  Doing so is simple:
 ```php
-$router->get("/food/{foodName=all}", "MyApp\\FoodController@showFood");
+$router->get("/food/:foodName=all", "MyApp\\FoodController@showFood");
 ```
 
 If no food name was specified, "all" will be the default value.
 
-> **Note:** To give an optional variable a default value, structure the route variable like "{varName?=value}".
+> **Note:** To give an optional variable a default value, structure the route variable like "\[:varName=value\]".
 
 <h2 id="host-matching">Host Matching</h2>
 Routers can match on hosts as well as paths.  Want to match calls to a subdomain?  Easy:
@@ -161,7 +165,7 @@ Just like with paths, you can create variables from components of your host.  In
 
 ```php
 $options = [
-    "host" => "{subdomain}.mysite.com" 
+    "host" => ":subdomain.mysite.com" 
 ];
 $router->get("/foo", "MyApp\\SomeController@doSomething", $options);
 ```
@@ -207,14 +211,14 @@ This will create a route named "awesome".
 <h2 id="route-grouping">Route Grouping</h2>
 One of the most important sayings in programming is "Don't repeat yourself" or "DRY".  In other words, don't copy-and-paste code because that leads to difficulties in maintaining/changing the code base in the future.  Let's say you have several routes that start with the same path.  Instead of having to write out the full path for each route, you can create a group:
 ```php
-$router->group(["path" => "/users/{userId}"], function() use ($router)
+$router->group(["path" => "/users/:userId"], function() use ($router)
 {
     $router->get("/profile", "MyApp\\UserController@showProfile");
     $router->delete("", "MyApp\\UserController@deleteUser");
 });
 ```
 
-Now, a GET request to `/users/{userId}/profile` will get a user's profile, and a DELETE request to `/users/{userId}` will delete a user.
+Now, a GET request to `/users/:userId/profile` will get a user's profile, and a DELETE request to `/users/:userId` will delete a user.
 
 <h4 id="controller-namespaces">Controller Namespaces</h4>
 If all the controllers in a route group belong under a common namespace, you can specify the namespace in the group options:
@@ -233,7 +237,7 @@ Route groups allow you to apply middleware to multiple routes:
 ```php
 $router->group(["middleware" => "MyApp\\Authenticate"], function() use ($router)
 {
-    $router->get("/users/{userId}/profile", "MyApp\\UserController@showProfile");
+    $router->get("/users/:userId/profile", "MyApp\\UserController@showProfile");
     $router->get("/posts", "MyApp\\PostController@showPosts");
 });
 ```
@@ -274,7 +278,7 @@ Groups support regular expressions for path variables:
 
 ```php
 $options = [
-    "path" => "/users/{userId}",
+    "path" => "/users/:userId",
     "variables" => [
         "userId" => "\d+"
     ]
@@ -337,7 +341,7 @@ use Opulence\Routing\URL\URLGenerator;
 // Let's assume the router and compiler are already instantiated
 $urlGenerator = new URLGenerator($router->getRoutes(), $compiler);
 // Let's add a route named "profile"
-$router->get("/users/{userId}", "MyApp\\ProfileController@showProfile", ["name" => "profile"]);
+$router->get("/users/:userId", "MyApp\\UserController@showProfile", ["name" => "profile"]);
 // Now we can generate a URL and pass in data to it
 echo $urlGenerator->createFromName("profile", 23); // "/users/23"
 ```
@@ -348,7 +352,7 @@ If we specify a host in our route, an absolute URL is generated.  We can even de
 // Let's assume the URL generator is already instantiated
 // Let's add a route named "inbox"
 $options = [
-    "host" => "{country}.mail.foo.com",
+    "host" => ":country.mail.foo.com",
     "name" => "inbox"
 ];
 $router->get("/users/{userId}", "MyApp\\InboxController@showInbox", $options);
@@ -361,7 +365,7 @@ echo $urlGenerator->createFromName("inbox", ["us", 2]); // "http://us.mail.foo.c
 URLs can also be generated from views using the `route()` view function.  Here's an example router config:
 
 ```php
-$router->get("/users/{userId}/profile", "UserController@showProfile", ["name" => "profile"]);
+$router->get("/users/:userId/profile", "UserController@showProfile", ["name" => "profile"]);
 ```
 
 Here's how to generate a URL to the "profile" route:
@@ -384,8 +388,8 @@ $options = [
         "foo" => ".*"
     ]
 ];
-$router->get("/{foo}", "MyApp\\MyController@myMethod", $options);
+$router->get("/:foo", "MyApp\\MyController@myMethod", $options);
 $router->get("/users", "MyApp\\MyController@myMethod");
 ```
 
-...The first route `/{foo}` would always match first because it was added first.  Add any "fall-through" routes after you've added the rest of your routes.
+...The first route `/:foo` would always match first because it was added first.  Add any "fall-through" routes after you've added the rest of your routes.
