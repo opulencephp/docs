@@ -67,6 +67,7 @@ class Book
      * Sets the title of the book
      *
      * @param string $title The title of the book
+     * @return $this For object chaining
      */
     public function setTitle($title)
     {

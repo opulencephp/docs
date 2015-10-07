@@ -13,6 +13,7 @@ HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  
 Opulence uses dependency injection for type-hinted objects in a `Middleware` constructor.  So, if you need any objects in your `handle()` method, just specify them in the constructor.  Let's take a look at an example:
 
 ```php
+namespace MyApp;
 use Closure;
 use MyApp\Authentication\Authenticator;
 use Opulence\HTTP\Middleware\IMiddleware;
@@ -39,11 +40,14 @@ class Authentication implements IMiddleware
         return $next($request);
     }
 }
+```
 
-// Add this middleware to a route
+Add this middleware to a route:
+
+```php
 $router->post("/users/posts", [
     "controller" => "MyApp\\UserController@createPost",
-    "middleware" => "MyApp\\Authenticate" // Could also be an array of middleware
+    "middleware" => "MyApp\\Authentication" // Could also be an array of middleware
 ]);
 ```
 

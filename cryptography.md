@@ -71,7 +71,7 @@ A **Message Authentication Code** (**MAC**) is created using the encrypted value
 try {
     $encryptedData = $encrypter->encrypt("foobar");
     $decryptedData = $encrypter->decrypt($encryptedData);
-} catch(EncryptionException $ex) {
+} catch (EncryptionException $ex) {
     // Handle the exception
 }
 
