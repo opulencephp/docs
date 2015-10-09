@@ -134,52 +134,27 @@ class MyController
 ```
  
 <h4 id="builders">Builders</h4>
-Your views will often need variables to be set whenever they're instantiated.  Ideally, this repetitive task should not be done in controllers.  Instead, it can be done by `ViewBuilders`.  A `ViewBuilder` is a class that sets up a `View` object after it has been created by the `ViewFactory`.  Register builders via `IViewFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  View builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  
+Your views will often need variables to be set whenever they're instantiated.  Ideally, this repetitive task should not be done in controllers.  Instead, you can use `IViewFactory::registerBuilder()` to register a view builder to be run every time a particular view is created.  The first parameter is the name of the view you're registering for.  The second parameter is a closure that accepts an `Opulence\Views\IView` object and returns a built `IView` object.
 
-> **Note:** Registering your builders is most easily done in a [`Bootstrapper`](bootstrappers).
-
-Let's take a look at an example:
-
-##### Index.fortune
-
-```
-{{$siteName}}
-```
-
-##### View Builder
 ```php
-use Opulence\Views\Factories\IViewBuilder;
-use Opulence\Views\IView;
-
-class MyBuilder implements IViewBuilder
+$factory->registerBuilder("Homepage", function($view)
 {
-    public function build(IView $view)
-    {
-        $view->setVar("siteName", "My Website");
-        
-        return $view;
-    }
-}
+    $view->setVar("title", "Welcome!");
+    
+    return $view;
+});
+
+echo $factory->create("Homepage")->getVar("title"); // "Welcome!"
 ```
 
-##### Bootstrapper
-```php
-use Opulence\Applications\Bootstrappers\Bootstrapper;
-use Opulence\Views\Factories\IViewFactory;
+You can also wrap the builder into any class that you'd like:
 
-class ViewBuilderBootstrapper extends Bootstrapper
+```php
+use MyApp\ProfileViewBuilder;
+
+$factory->registerBuilder("Profile", function($view)
 {
-    public function run(IViewFactory $factory)
-    {
-        $factory->registerBuilder("Index", function () {
-            return new MyBuilder();
-        });
-    }
-}
-```
+    return (new ProfileViewBuilder())->build($view);
+});
 
-Now, whenever we create the `Index` view, `$siteName` will be set to `My Website`.
-```php
-$view = $factory->create("Index");
-echo $view->getVar("siteName"); // "My Website"
-```
+> **Note** For convenience, Opulence provides the `Opulence\Views\Factories\IViewBuilder` interface for view builder classes.  It contains a single method `build()` where your building can take place.  However, you are not required to use `IViewBuilder`.  You can use any class you'd like.
