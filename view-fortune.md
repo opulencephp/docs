@@ -202,6 +202,14 @@ We created a part named "sidebar".  When the child gets compiled, the contents o
 </div>
 ```
 
+You can also define a part, end it, and show it by not passing anything into the `<% show %>` directive:
+
+```
+<% part("Nav") %>
+    <a href="/">Home</a>
+<% show %>
+```
+
 <h4 id="creating-directives">Creating Directives</h4>
 To create your own Fortune directives, simply register them to the Fortune transpiler using `registerDirectiveTranspiler()`.  The first argument is the name of the directive, and the second is a callback that returns transpiled PHP code.  The callback optionally accepts an expression, which can be used when transpiling to PHP.
 
