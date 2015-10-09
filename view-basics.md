@@ -147,6 +147,8 @@ $factory->registerBuilder("Homepage", function($view)
 echo $factory->create("Homepage")->getVar("title"); // "Welcome!"
 ```
 
+> **Note:** You can register as many builders as you'd like to a view.  They will be run in the order they're registered.
+
 You can also wrap the builder into any class that you'd like:
 
 ```php
@@ -156,5 +158,6 @@ $factory->registerBuilder("Profile", function($view)
 {
     return (new ProfileViewBuilder())->build($view);
 });
+```
 
 > **Note** For convenience, Opulence provides the `Opulence\Views\Factories\IViewBuilder` interface for view builder classes.  It contains a single method `build()` where your building can take place.  However, you are not required to use `IViewBuilder`.  You can use any class you'd like.
