@@ -137,8 +137,7 @@ class MyController
 Your views will often need variables to be set whenever they're instantiated.  Ideally, this repetitive task should not be done in controllers.  Instead, you can use `IViewFactory::registerBuilder()` to register a view builder to be run every time a particular view is created.  The first parameter is the name of the view you're registering for.  The second parameter is a closure that accepts an `Opulence\Views\IView` object and returns a built `IView` object.
 
 ```php
-$factory->registerBuilder("Homepage", function($view)
-{
+$factory->registerBuilder("Homepage", function ($view) {
     $view->setVar("title", "Welcome!");
     
     return $view;
@@ -154,8 +153,7 @@ You can also wrap the builder into any class that you'd like:
 ```php
 use MyApp\ProfileViewBuilder;
 
-$factory->registerBuilder("Profile", function($view)
-{
+$factory->registerBuilder("Profile", function ($view) {
     return (new ProfileViewBuilder())->build($view);
 });
 ```
