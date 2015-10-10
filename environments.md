@@ -5,7 +5,7 @@
 2. [Hosts](#hosts)
   1. [Host Name](#host-name)
   2. [Host Regular Expression](#host-regular-expression)
-3. [Environment Detector](#environment-detector)
+3. [Environment Resolver](#environment-resolver)
 4. [Environment Variables](#environment-variables)
 
 <h2 id="introduction">Introduction</h2>
@@ -34,19 +34,19 @@ $host = new HostRegex("^127\.0\.0\.\d+$");
 
 > **Note:** You do not need to add regular expression delimiters.  The "#" character is used as the default delimiter.
 
-<h2 id="environment-detector">Environment Detector</h2>
-The environment detector registers hosts with environments and attempts to find the correct host in the registry.  If no matching host is found, then `"production"` is returned.  `EnvironmentDetector::detect()` returns the name of the current environment.  We can use this value to set the name of the environment:
+<h2 id="environment-resolver">Environment Resolver</h2>
+The environment resolver registers hosts with environments and attempts to find the correct host in the registry.  If no matching host is found, then `"production"` is returned.  `EnvironmentResolver::resolve()` returns the name of the current environment.  We can use this value to set the name of the environment:
 
 ```php
 use Opulence\Applications\Environments\Environment;
-use Opulence\Applications\Environments\EnvironmentDetector;
 use Opulence\Applications\Environments\Hosts\HostName;
 use Opulence\Applications\Environments\Hosts\HostRegex;
+use Opulence\Applications\Environments\Resolvers\EnvironmentResolver;
 
-$detector = new EnvironmentDetector();
-$detector->registerHost("production", new HostName("192.168.1.1"));
-$detector->registerHost("testing", new HostRegex(^"127\.0\.0\.\d+$"));
-$environmentName = $detector->detect();
+$resolver = new EnvironmentResolver();
+$resolver->registerHost("production", new HostName("192.168.1.1"));
+$resolver->registerHost("testing", new HostRegex(^"127\.0\.0\.\d+$"));
+$environmentName = $resolver->resolve(gethostname());
 $environment = new Environment($environmentName);
 ```
 

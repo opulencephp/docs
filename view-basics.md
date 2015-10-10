@@ -10,8 +10,9 @@
   3. [Fortune Compiler](#fortune-compiler)
 4. [Factories](#factories)
   1. [Registering Resolvers](#registering-resolvers)
-  2. [Creating Views](#creating-views)
-  3. [Builders](#builders)
+  2. [View Readers](#view-readers)
+  3. [Creating Views](#creating-views)
+  4. [Builders](#builders)
   
 <h2 id="introduction">Introduction</h2>
 Views are the interfaces displayed to your users.  Opulence allows you to create your views using [native PHP](#php-compiler), the [Fortune compiler](#fortune-compiler) (Opulence's own view engine), or any view engine of your choice.
@@ -87,7 +88,7 @@ Factories simplify the way you create `View` objects from view files.
 The view factory allows you to create a view using nothing but the filename (no path or extension).  It does this using a file name resolver.  You register the path where all view files reside as well as the possible file extensions views may have.  Then, the resolver finds the raw view file, creates a `View` object from its contents, and returns it.
 
 ```php
-use Opulence\Views\Factories\FileViewNameResolver;
+use Opulence\Views\Factories\Resolvers\FileViewNameResolver;
 
 $resolver = new FileViewNameResolver();
 $resolver->registerPath("/var/www/html/views/some-directory");
@@ -101,6 +102,13 @@ $resolver->registerExtension("fortune", 1);
 ```
  
 > **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the `php` and `fortune` extensions are already registered to the resolver.
+
+<h4 id="view-readers">View Readers</h4>
+Opulence uses an `Opulence\Views\Factories\IO\IViewReader` to actually read raw views in factories.  By default, the `FileViewReader` is used to read views stored in the file system, but you can use any storage system you'd like.  Simply implement `IViewReader` and bind your reader to the IoC container:
+
+```php
+$container->bind(IViewReader::class, new MyViewReader());
+```
  
 <h4 id="creating-views">Creating Views</h4>
 The easiest way to create views is to pass a `ViewFactory` into the controller:
