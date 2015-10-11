@@ -5,11 +5,11 @@
 2. [Workflow](#workflow)
 
 <h2 id="introduction">Introduction</h2>
-Opulence uses a single point of entry for console applications.  When typing `php opulence` into the console, the `opulence` bash file is executed, which instantiates the application and handles the request.  Here's a breakdown of the workflow of a typical Opulence console application:
+Apex uses a single point of entry for console applications.  When typing `php apex` into the console, the `apex` bash file is executed, which instantiates the application and handles the request.  Here's a breakdown of the workflow of a typical Apex console application:
 
 <h2 id="workflow">Workflow</h2>
-1. User types `php opulence foo bar --baz=blah`
-2. `opulence` bash script loads `bootstrap/console/start.php`, which instantiates an `Application` object
+1. User types `php apex foo bar --baz=blah`
+2. `apex` bash script loads `bootstrap/console/start.php`, which instantiates an `Application` object
 3. Various configs are read, and [bootstrappers](bootstrappers) are registered using `BootstrapperIO`
 4. [Pre-start tasks](application#pre-start-tasks) are run
   1. Bootstrappers' bindings are registered by the bootstrapper `Dispatcher`

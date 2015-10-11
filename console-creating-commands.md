@@ -11,10 +11,10 @@
 5. [Calling From Code](#calling-from-code)
 
 <h2 id="introduction">Introduction</h2>
-Opulence's console library makes it easy to create powerful, custom commands.  From compiling Markdown files to resynchronzing cache with the database, commands simplify administrative components in your application.
+Apex makes it easy to create powerful, custom commands.  From compiling Markdown files to resynchronzing cache with the database, commands simplify administrative components in your application.
   
 <h2 id="arguments">Arguments</h2>
-Console commands can accept arguments from the user.  Arguments can be required, optional, and/or arrays.  You specify the type by bitwise OR-ing the different arguments types.  Array arguments allow a variable number of arguments to be passed in, like "php opulence foo arg1 arg2 arg3 ...".  The only catch is that array arguments must be the last argument defined for the command.
+Console commands can accept arguments from the user.  Arguments can be required, optional, and/or arrays.  You specify the type by bitwise OR-ing the different arguments types.  Array arguments allow a variable number of arguments to be passed in, like "php apex foo arg1 arg2 arg3 ...".  The only catch is that array arguments must be the last argument defined for the command.
 
 Let's take a look at an example argument:
 
@@ -105,7 +105,7 @@ class Greeting extends Command
 To call this command, run:
 
 ```
-php opulence greet Dave -y
+php apex greet Dave -y
 ```
 
 This will output:

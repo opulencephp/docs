@@ -102,7 +102,7 @@ server {
 By default, an Opulence project is named "Project".  To change it to something more fitting for your application, open up a console on your server, navigate to the directory Opulence was installed to, and run:
 
 ```
-php opulence app:rename Project NEW_NAME
+php apex app:rename Project NEW_NAME
 ```
 
 This will automatically update all the folders, namespaces, and Composer config to use the new name.

@@ -376,4 +376,4 @@ class PostDataMapper extends SQLDataMapper
 ```
 
 <h2 id="generating-data-mapper-classes">Generating Data Mapper Classes</h2>
-You can use the console to generate any type of built-in data mapper using `php opulence make:datamapper`, and then selecting from the menu.
+You can use the console to generate any type of built-in data mapper using `php apex make:datamapper`, and then selecting from the menu.

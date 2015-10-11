@@ -171,7 +171,7 @@ There are a few useful functions for customizing the look of tables:
   * Sets the vertical border character
 
 <h2 id="style-elements">Style Elements</h2>
-Opulence supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an **Abstract Syntax Tree**, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
+Apex supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an **Abstract Syntax Tree**, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
 
 ```
 <b>Hello!</b>
@@ -186,7 +186,7 @@ Opulence supports HTML-like style elements to perform basic output formatting li
 ..., which will output an underlined string where "Dave" is both bold AND underlined.
 
 <h4 id="built-in-elements">Built-In Elements</h4>
-The following elements come built-into Opulence:
+The following elements come built-into Apex:
 * &lt;success&gt;&lt;/success&gt;
 * &lt;info&gt;&lt;/info&gt;
 * &lt;question&gt;&lt;/question&gt;

@@ -15,22 +15,22 @@
   8. [views:flush](#viewsflush)
   
 <h2 id="introduction">Introduction</h2>
-Console applications are great for administrative tasks and code generation.  Opulence supports a robust console kernel with features like easy-to-create commands, question prompts, and HTML-like syntax for output styling.
+Console applications are great for administrative tasks and code generation.  Apex is the robust console kernel that comes bundled with Opulence.  With it, you can easily create your own console commands, display question prompts, and use HTML-like syntax for output styling.
 
 <h2 id="running-commands">Running Commands</h2>
-To run commands, type `php opulence COMMAND_NAME` from the directory that Opulence is installed in.
+To run commands, type `php apex COMMAND_NAME` from the directory that Opulence is installed in.
 
 <h2 id="getting-help">Getting Help</h2>
 To get help with any command, use the help command.  There are a few different ways to call it:
 
 ```
-php opulence help COMMAND_NAME
-php opulence COMMAND_NAME -h
-php opulence COMMAND_NAME --help
+php apex help COMMAND_NAME
+php apex COMMAND_NAME -h
+php apex COMMAND_NAME --help
 ```
 
 <h2 id="built-in-commands">Built-In Commands</h2>
-A good place to start is to run `php opulence` in the directory you installed Opulence.  This will list the commands registered to the console.  Out of the box, a few commands come bundled with Opulence:
+A good place to start is to run `php apex` in the directory you installed Opulence.  This will list the commands registered to the console.  Out of the box, a few commands come bundled with Apex:
 
 <h4 id="appenv">app:env</h4>
 Displays the current application environment name, eg "Production" or "Development".
@@ -42,7 +42,7 @@ When you install Opulence, the default namespace is "Project".  Use this command
 This provides a wrapper around Composer's `dump-autoload` command, and is useful when another command needs to dump the autoload after running.
 
 <h4 id="composerupdate">composer:update</h4>
-A common task is updating composer and dumping the autoload.  Instead of having to run these commands manually, just run `php opulence composer:update`.
+A common task is updating composer and dumping the autoload.  Instead of having to run these commands manually, just run `php apex composer:update`.
 
 <h4 id="encryptiongeneratekey">encryption:generatekey</h4>
 Good encryption requires a secret key.  Use this command to generate that key.  Calling this will update the key that appears in `configs/environment/.env.app.php`.  Passing a `--show` option will instead only show a new key, not update the config. 
@@ -57,7 +57,7 @@ Opulence has an internal cache for several of its components:
 If you add/remove/modify any of these components in your application, you **must** run this command to flush the internal cache.  Otherwise, your changes may not take effect.
 
 <h4 id="make">make:*</h4>
-To make creating new classes as simple as possible, Opulence supports several `make:*` commands to generate class files:
+To make creating new classes as simple as possible, Apex supports several `make:*` commands to generate class files:
 
 1. `make:command`
 2. `make:controller`
