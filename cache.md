@@ -39,49 +39,63 @@ $fileBridge = new FileBridge("/path/to/my/cache/files");
 ```
 
 <h2 id="memcached-bridge">Memcached Bridge</h2>
-`Opulence\Cache\Memcached` acts as a simple wrapper around Memcached.  You can either use an instance of `Memcached` or `Opulence\Memcached\OpulenceMemcached`.
+`Opulence\Cache\Memcached` acts as a simple wrapper around Memcached.
 
 ```php
+use Memcached as Client;
 use Opulence\Cache\MemcachedBridge;
-use Opulence\Memcached\OpulenceMemcached;
-use Opulence\Memcached\Server;
+use Opulence\Memcached\Memcached;
 use Opulence\Memcached\TypeMapper;
 
-$memcached = new OpulenceMemcached(new TypeMapper());
-$memcached->addServer(new Server("localhost", 11211));
+$client = new Client();
+$client->addServer("localhost", 11211);
+$memcached = new Memcached($client, new TypeMapper());
 $memcachedBridge = new MemcachedBridge($memcached);
+```
+
+If you would like to use a Memcached client besides the "default" one, specify it:
+
+```php
+$memcachedBridge = new MemcachedBridge($memcached, "some-other-server");
 ```
 
 You can add a prefix to all your keys to prevent naming collisions with other applications using your Memcached server:
 
 ```php
-$memcachedBridge = new MemcachedBridge($memcached, "myapp:");
+$memcachedBridge = new MemcachedBridge($memcached, "default", "myapp:");
 ```
 
 If you need the underlying Memcached instance to do anything beyond what the bridge does, you may call `getMemcached()`.
 
-> **Note:** [Read more information](nosql#memcached) about Opulence's Memcached extension.
+> **Note:** [Read more information](memcached) about Opulence's Memcached extension.
 
 <h2 id="redis-bridge">Redis Bridge</h2>
-`Opulence\Cache\Redis` is a simple bridge to Redis.  You can either use an instance of `Redis` or `Opulence\Redis\OpulencePHPRedis`.
+`Opulence\Cache\Redis` is a simple bridge to Redis.
 
 ```php
 use Opulence\Cache\RedisBridge;
-use Opulence\Redis\OpulencePHPRedis;
-use Opulence\Redis\Server;
+use Opulence\Redis\Redis;
 use Opulence\Redis\TypeMapper;
+use Redis as Client;
 
-$server = new Server("localhost");
-$redis = new OpulencePHPRedis($server, new TypeMapper());
+$client = new Client();
+$client->connect("localhost", 6379);
+$redis = new Redis($client, new TypeMapper());
 $redisBridge = new RedisBridge($redis);
+```
+
+If you would like to use a Redis client besides the "default" one, specify it:
+
+```php
+$redisBridge = new RedisBridge($redis, "some-other-server");
 ```
 
 You can add a prefix to all your keys to prevent naming collisions with other applications using your Redis server:
 
 ```php
-$redisBridge = new RedisBridge($redis, "myapp:");
+$redisBridge = new RedisBridge($redis, "default", "myapp:");
 ```
 
 If you need the underlying Redis instance to do anything beyond what the bridge does, you may call `getRedis()`.
 
-> **Note:** [Read more information](nosql#redis) about Opulence's Redis extension.
+> **Note:** [Read more information](redis) about Opulence's Redis extension.
