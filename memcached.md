@@ -18,7 +18,7 @@ Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic k
 Opulence lets you choose whichever Memcached library you'd like.  The built-in library `\Memcached` is the most popular.
 
 <h2 id="creating-memcached-connection">Creating a Memcached Connection</h2>
-`Opulence\Memcached\Memcached` accepts either a single client or a list of clients as well as a `TypeMapper` to help you convert to and from Memcached types.  Opulence uses magic methods to pass on method calls to the underlying Memcached client(s).
+`Opulence\Memcached\Memcached` acts as a convenient wrapper around Memcached.  It accepts either a single client or a list of clients as well as a `TypeMapper` to help you convert to and from Memcached types.  Opulence uses magic methods to pass on method calls to the underlying Memcached client(s).
 
 <h4 id="single-client">Single Client</h4>
 ```php
@@ -54,7 +54,6 @@ $defaultClient = new Client();
 $defaultClient->addServer("127.0.0.1", 11211);
 $backupClient = new Client();
 $backupClient->addServer("127.0.0.2", 11211);
-
 $clients = [
     "default" => $defaultClient,
     "backup" => $backupClient

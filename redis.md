@@ -23,7 +23,7 @@ Opulence lets you choose whichever Redis library you'd like.  The following are 
   * PHP library that does not require you to re-compile PHP
 
 <h2 id="creating-redis-connection">Creating a Redis Connection</h2>
-`Opulence\Redis\Redis` accepts either a single client or a list of clients as well as a `TypeMapper` to help you convert to and from Redis types.  Opulence uses magic methods to pass on method calls to the underlying Redis client(s).
+`Opulence\Redis\Redis` acts as a convenient wrapper around Redis.  It accepts either a single client or a list of clients as well as a `TypeMapper` to help you convert to and from Redis types.  Opulence uses magic methods to pass on method calls to the underlying Redis client(s).
 
 <h4 id="single-client">Single Client</h4>
 ```php
@@ -59,7 +59,6 @@ $defaultClient = new Client();
 $defaultClient->connect("127.0.0.1", 6379);
 $backupClient = new Client();
 $backupClient->connect("127.0.0.2", 6379);
-
 $clients = [
     "default" => $defaultClient,
     "backup" => $backupClient
