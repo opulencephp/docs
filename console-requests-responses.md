@@ -11,6 +11,7 @@
 4. [Style Elements](#style-elements)
   1. [Built-In Elements](#built-in-elements)
   2. [Custom Elements](#custom-elements)
+  3. [Overriding Built-In Elements](#overriding-built-in-elements)
 
 <h2 id="prompts">Prompts</h2>
 Prompts are great for asking users for input beyond what is accepted by arguments.  For example, you might want to confirm with a user before doing an administrative task, or you might ask her to select from a list of possible choices.  Prompts accept `Opulence\Console\Prompts\Question\IQuestion` objects.
@@ -198,25 +199,35 @@ The following elements come built-into Apex:
 * &lt;u&gt;&lt;/u&gt;
 
 <h4 id="custom-elements">Custom Elements</h4>
-You can create your own style elements.  Elements are registered to `Opulence\Console\Responses\Compilers\Compiler`.  To register a custom element, use a bootstrapper:
+You can create your own style elements.  Elements are registered to `Opulence\Console\Responses\Compilers\ICompiler`.  To register a custom element, use a bootstrapper:
 
 ```php
 namespace MyApp\Bootstrappers\Console;
 
 use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Console\Responses\Compilers\Elements\Colors;
+use Opulence\Console\Responses\Compilers\Elements\Style;
+use Opulence\Console\Responses\Compilers\Elements\TextStyles;
 use Opulence\Console\Responses\Compilers\ICompiler;
-use Opulence\Console\Responses\Formatters\Elements\Colors;
-use Opulence\Console\Responses\Formatters\Elements\Element;
-use Opulence\Console\Responses\Formatters\Elements\Style;
-use Opulence\Console\Responses\Formatters\Elements\TextStyles;
 
 class CustomElements extends Bootstrapper
 {
     public function run(ICompiler $compiler)
     {
-        $compiler->getElements()->add(
-            new Element("foo", new Style(Colors::BLACK, Colors::YELLOW, [TextStyles::BOLD]))
+        $compiler->registerElement(
+            "foo",
+             new Style(Colors::BLACK, Colors::YELLOW, [TextStyles::BOLD])
         );
     }
 }
+```
+
+<h4 id="overriding-built-in-elements">Overriding Built-In Elements</h4>
+To override a built-in element, just re-register it:
+
+```php
+$compiler->registerElement(
+    "success", 
+    new Style(Colors::GREEN, Colors::BLACK)
+);
 ```

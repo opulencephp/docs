@@ -117,10 +117,10 @@ $router->get("/users/:userId/profile", "MyApp\\UserController@showProfile");
 Calling the path `/users/23/profile` will return "Profile for user 23".
 
 <h4 id="regular-expressions">Regular Expressions</h4>
-If you'd like to enforce certain rules for a route variable, you may do so in the options array.  Simply add a "variables" entry with variable names-to-regular-expression mappings:
+If you'd like to enforce certain rules for a route variable, you may do so in the options array.  Simply add a "vars" entry with variable names-to-regular-expression mappings:
 ```php
 $options = [
-    "variables" => [
+    "vars" => [
         "userId" => "\d+" // The user Id variable must now be a number
     ]
 ];
@@ -273,7 +273,7 @@ Groups support regular expressions for path variables:
 ```php
 $options = [
     "path" => "/users/:userId",
-    "variables" => [
+    "vars" => [
         "userId" => "\d+"
     ]
 ];
@@ -377,7 +377,7 @@ This will compile to:
 Routes are matched based on the order they were added to the router.  So, if you did the following:
 ```php
 $options = [
-    "variables" => [
+    "vars" => [
         "foo" => ".*"
     ]
 ];

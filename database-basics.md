@@ -5,6 +5,7 @@
   1. [Connection Pools](#connection-pools)
 2. [Single-Server Connection Pool](#single-server-connection-pool)
 3. [Master-Slave Connection Pool](#master-slave-connection-pool)
+  1. [Slave Server Selection Stratgies](#slave-server-selection-strategies)
 4. [Read/Write Connections](#readwrite-connections)
 5. [How to Query and Fetch Results](#how-to-query-and-fetch-results)
 6. [Binding Values](#binding-values)
@@ -22,9 +23,9 @@ Connection pools help you manage your database connections by doing all the dirt
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
 ```php
+use Opulence\Databases\ConnectionPools\SingleServerConnectionPool;
 use Opulence\Databases\PDO\MySQL\Driver;
 use Opulence\Databases\Server;
-use Opulence\Databases\SingleServerConnectionPool;
 
 $connectionPool = new SingleServerConnectionPool(
     new Driver(), // The driver to use
@@ -52,11 +53,11 @@ $name = $row["name"];
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  Instead of taking a single server in their constructors, they take a master server and an array of slave servers.
 
 ```php
+use Opulence\Databases\ConnectionPools\MasterSlaveConnectionPool;
 use Opulence\Databases\PDO\PostgreSQL\Driver;
 use Opulence\Databases\Server;
-use Opulence\Databases\SingleServerConnectionPool;
 
-$connectionPool = new SingleServerConnectionPool(
+$connectionPool = new MasterSlaveConnectionPool(
     new Driver(), // The driver to use
     new Server(
         "127.0.0.1", // The master host
@@ -79,6 +80,25 @@ $connectionPool = new SingleServerConnectionPool(
     [] // Any driver-specific connection settings, eg \PDO::ATTR_PERSISTENT => true
 );
 ```
+
+<h4 id="slave-server-selection-strategies">Slave Server Selection Strategies</h4>
+In most master-slave setups, you select a slave to connect by picking a random slave.  However, you can create your own strategy to pick slaves by implementing `Opulence\Databases\ConnectionPools\Strategies\ServerSelection\IServerSelectionStrategy`.  Then, pass it into the `MasterSlaveConnectionPool` constructor:
+
+```php
+$connectionPool = new MasterSlaveConnectionPool(
+    $driver,
+    $masterServer,
+    [
+        $slaveServer1,
+        $slaveServer2
+    ],
+    [],
+    [],
+    new MyStrategy()
+);
+```
+
+> **Note:** If no selection strategy is specified, `Opulence\Databases\ConnectionPools\Strategies\ServerSelection\RandomServerSelectionStrategy` is used.
 
 <h2 id="readwrite-connections">Read/Write Connections</h2>
 To read from the database, simply use the connection returned by `$connectionPool->getReadConnection()`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.

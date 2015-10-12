@@ -105,8 +105,8 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
     {
         $sql = "SELECT id, content, title, author FROM posts";
         
-        // The last parameter says that we are not expecting a single result
-        return $this->read($sql, [], false);
+        // The last parameter says that we want a list of entities
+        return $this->read($sql, [], self::VALUE_TYPE_ARRAY);
     }
     
     public function getById($id)
@@ -116,8 +116,9 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
             "id" => [$id, PDO::PARAM_INT]
         ];
         
-        // The last parameter says that we are expecting a single result
-        return $this->read($sql, $parameters, true);
+        // The second-to-last parameter says that we want a single entity
+        // The last parameter says that we expect one and only one entity
+        return $this->read($sql, $parameters, self::VALUE_TYPE_ENTITY, true);
     }
     
     // This is a custom get*() method defined in IPostDataMapper
@@ -128,8 +129,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
             "title" => $title
         ];
         
-        // The last parameter says that we are expecting a single result
-        return $this->read($sql, $parameters, true);
+        return $this->read($sql, $parameters, self::VALUE_TYPE_ENTITY);
     }
     
     /** @var Post $post */

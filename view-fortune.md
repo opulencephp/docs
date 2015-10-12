@@ -436,14 +436,13 @@ Because delimiters are set for each view, you can have one view with one set of 
 To improve the speed of view compilers, views are cached using a class that implements `Opulence\Views\Caching\ICache` (`Opulence\Views\Caching\Cache` comes built-in to Opulence).  You can specify how long a view should live in cache using `setLifetime()`.  If you do not want views to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for views, just implement `ICache` and pass it into your `View` class.
 
 <h4 id="garbage-collection">Garbage Collection</h4>
-Occasionally, you should clear out old cached view files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
+Occasionally, you should clear out old cached view files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `FileCache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
  
 ```php
-use Opulence\Files\FileSystem;
-use Opulence\Views\Caching\Cache;
+use Opulence\Views\Caching\FileCache;
 
 // Make 123 out of every 1,000 view compilations trigger garbage collection
-$cache = new Cache(new FileSystem(), "/tmp", 123, 1000);
+$cache = new FileCache("/tmp", 123, 1000);
 ```
 Or use `setGCChance()`:
 ```php
