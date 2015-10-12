@@ -32,7 +32,7 @@ Pre-start tasks are performed before the application is started.
 ```php
 use Opulence\Applications\Tasks\TaskTypes;
 
-$dispatcher->register(TaskTypes::PRE_START, function () {
+$dispatcher->registerTask(TaskTypes::PRE_START, function () {
     error_log("Application issued start command at " . date("Y-m-d H:i:s"));
 });
 ```
@@ -52,7 +52,7 @@ Post-start tasks are performed after the application has started.
 ```php
 use Opulence\Applications\Tasks\TaskTypes;
 
-$dispatcher->register(TaskTypes::PRE_START, function () {
+$dispatcher->registerTask(TaskTypes::PRE_START, function () {
     error_log("Application finished starting at " . date("Y-m-d H:i:s"));
 });
 ```
@@ -62,7 +62,7 @@ Pre-shutdown tasks are performed before the application shuts down.
 ```php
 use Opulence\Applications\Tasks\TaskTypes;
 
-$dispatcher->register(TaskTypes::PRE_SHUTDOWN, function () {
+$dispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () {
     error_log("Application issued shutdown command at " . date("Y-m-d H:i:s"));
 });
 ```
@@ -82,7 +82,7 @@ Post-shutdown tasks are performed after the application has shut down.
 ```php
 use Opulence\Applications\Tasks\TaskTypes;
 
-$dispatcher->register(TaskTypes::POST_SHUTDOWN, function () {
+$dispatcher->registerTask(TaskTypes::POST_SHUTDOWN, function () {
     error_log("Application finished shutting down at " . date("Y-m-d H:i:s"));
 });
 ```
