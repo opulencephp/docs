@@ -37,7 +37,6 @@ Opulence is broken into various libraries, each of which can be installed indivi
 * opulence/databases
 * opulence/events
 * opulence/files
-* opulence/forms
 * opulence/http
 * opulence/ioc
 * opulence/memcached
