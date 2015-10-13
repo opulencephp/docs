@@ -51,12 +51,12 @@ For very simple applications, it's probably easiest to use closures as your rout
 ```php
 use Opulence\IoC\Container;
 use Opulence\Routing\Dispatchers\Dispatcher;
+use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
-use Opulence\Routing\Router;
 
 $dispatcher = new Dispatcher(new Container());
 $compiler = new Compiler([new PathMatcher(), new HostMatcher(), new SchemeMatcher()]);
