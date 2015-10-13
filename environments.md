@@ -45,7 +45,7 @@ use Opulence\Applications\Environments\Resolvers\EnvironmentResolver;
 
 $resolver = new EnvironmentResolver();
 $resolver->registerHost("production", new HostName("192.168.1.1"));
-$resolver->registerHost("testing", new HostRegex(^"127\.0\.0\.\d+$"));
+$resolver->registerHost("testing", new HostRegex("^127\.0\.0\.\d+$"));
 $environmentName = $resolver->resolve(gethostname());
 $environment = new Environment($environmentName);
 ```
