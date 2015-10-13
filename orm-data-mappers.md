@@ -320,7 +320,7 @@ Let's take a look at a cached SQL data mapper example that uses the cache and SQ
 ```php
 namespace MyApp\WordPress\ORM\DataMappers;
 
-use Opulence\Databases\ConnectionPool;
+use Opulence\Databases\ConnectionPools\ConnectionPool;
 use Opulence\ORM\DataMappers\RedisCachedSQLDataMapper;
 
 class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper implements IPostDataMapper
