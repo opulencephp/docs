@@ -41,7 +41,7 @@ $typeMapper = new TypeMapper(new MySQLProvider());
 You can also use `setProvider()`.  Alternatively, all methods accept a provider in the last parameter:
 
 ```php
-$typeMapper->toSQLTimestampWithTimeZone(new \DateTime(), new MySQLProvider());
+$typeMapper->toSQLTimestampWithTimeZone(new DateTime(), new MySQLProvider());
 ```
 
 > **Note:** For all of the following examples, the `PostgreSQLProvider` is used.  However, you can use any provider you'd like in your application.

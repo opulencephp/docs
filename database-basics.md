@@ -82,7 +82,7 @@ $connectionPool = new MasterSlaveConnectionPool(
 ```
 
 <h4 id="slave-server-selection-strategies">Slave Server Selection Strategies</h4>
-In most master-slave setups, you select a slave to connect by picking a random slave.  However, you can create your own strategy to pick slaves by implementing `Opulence\Databases\ConnectionPools\Strategies\ServerSelection\IServerSelectionStrategy`.  Then, pass it into the `MasterSlaveConnectionPool` constructor:
+In most master-slave setups, you select a slave to connect by picking a random slave.  However, you can create your own strategy to pick slaves by implementing `IServerSelectionStrategy`.  Then, pass it into the `MasterSlaveConnectionPool` constructor:
 
 ```php
 $connectionPool = new MasterSlaveConnectionPool(
@@ -98,7 +98,7 @@ $connectionPool = new MasterSlaveConnectionPool(
 );
 ```
 
-> **Note:** If no selection strategy is specified, `Opulence\Databases\ConnectionPools\Strategies\ServerSelection\RandomServerSelectionStrategy` is used.
+> **Note:** If no selection strategy is specified, `RandomServerSelectionStrategy` is used.
 
 <h2 id="readwrite-connections">Read/Write Connections</h2>
 To read from the database, simply use the connection returned by `$connectionPool->getReadConnection()`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.

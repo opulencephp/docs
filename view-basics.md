@@ -114,6 +114,7 @@ $container->bind(IViewReader::class, new MyViewReader());
 The easiest way to create views is to pass a `ViewFactory` into the controller:
 
 ```php
+use DateTime;
 use Opulence\HTTP\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
@@ -134,7 +135,7 @@ class MyController
         // The view factory will search for a file named "Home" in the registered paths
         // with any of the registered extensions
         $view = $this->viewFactory->create("Home");
-        $view->setVar("now", new \DateTime());
+        $view->setVar("now", new DateTime());
         
         return new Response($this->compiler->compile($view));
     }
