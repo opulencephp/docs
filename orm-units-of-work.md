@@ -6,6 +6,7 @@
 3. [Entity Registry](#entity-registry)
 4. [Comparing Entities](#comparing-entities)
 5. [Entity Ids](#entity-ids)
+  1. [Reducing Boilerplate Code](#reducing-boilerplate-code)
 6. [Aggregate Roots](#aggregate-roots)
 
 <h2 id="introduction">Introduction</h2>
@@ -122,6 +123,9 @@ $entityRegistry->registerIdAccessors(Foo::class, $getter, $setter);
 ```
 
 > **Note:**  You must always register Id getters, but Id setters are optional.
+
+<h3 id="reducing-boilerplate-code">Reducing Boilerplate Code</h3>
+Opulence's flexibility comes at the price of a little bit of boilerplate code on your end to register Id accessors.  However, if you want to get rid of the boilerplate code, you can optionally implement `Opulence\ORM\IEntity`, which has two methods:  `getId()` and `setId($id)`.  Classes that implement `IEntity` automatically have their Id accessors registered.
 
 <h2 id="aggregate-roots">Aggregate Roots</h2>
 Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:
