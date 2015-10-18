@@ -69,12 +69,11 @@ use PDO;
 use Opulence\Databases\IConnection;
 use Opulence\ORM\DataMappers\SQLDataMapper;
 use Opulence\ORM\Ids\IntSequenceIdGenerator;
-use Opulence\ORM\IEntity;
 
 class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
 {
     /** @var Post $post */
-    public function add(IEntity &$post)
+    public function add(&$post)
     {
         $writeConnection = $this->connectionPool->getWriteConnection();
         $statement = $writeConnection->prepare(
@@ -89,7 +88,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
     }
     
     /** @var Post $post */
-    public function delete(IEntity &$post)
+    public function delete(&$post)
     {
         $writeConnection = $this->connectionPool->getWriteConnection();
         $statement = $writeConnection->prepare(
@@ -133,7 +132,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
     }
     
     /** @var Post $post */
-    public function update(IEntity &$post)
+    public function update(&$post)
     {
         $writeConnection = $this->connectionPool->getWriteConnection();
         $statement = $writeConnection->prepare(
@@ -192,13 +191,12 @@ namespace MyApp\WordPress\ORM\DataMappers;
 
 use MyApp\WordPress\Post;
 use Opulence\ORM\DataMappers\PHPRedisDataMapper;
-use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 
 class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
 {
     /** @var Post $post */
-    public function add(IEntity &$post)
+    public function add(&$post)
     {
         // Store a hash of the post's data
         $hash = [
@@ -220,7 +218,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     }
     
     /** @var Post $post */
-    public function delete(IEntity &$post)
+    public function delete(&$post)
     {
         if (!$this->redis->del("posts:{$post->getId()}")) {
             throw new ORMException("Failed to delete post from Redis");
@@ -255,7 +253,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     }
     
     /** @var Post $post */
-    public function update(IEntity &$post)
+    public function update(&$post)
     {
         // In this case, an update will do the same thing as an addition
         $this->add($post);
