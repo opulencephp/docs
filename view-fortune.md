@@ -123,6 +123,14 @@ This will compile to:
 </div>
 ```
 
+If you need to pass variables to included views, you may do so as a second parameter in the `include` directive:
+
+```
+<% foreach($posts as $post) %>
+    <% include("Post", compact("post")) %>
+<% endforeach %>
+```
+
 <h4 id="extending-views">Extending Views</h4>
 Most views extend some sort of master view.  To make your life easy, Fortune builds support for this functionality into its views.
 
