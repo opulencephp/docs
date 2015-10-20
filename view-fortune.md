@@ -26,7 +26,7 @@
   1. [Garbage Collection](#garbage-collection)
 
 <h2 id="introduction">Introduction</h2>
-Fortune is the view engine that comes built into Opulence.  It simplifies adding dynamic content to web pages.  You can inject data into your pages, extend other views, prevent XSS attacks, and even extend the compiler.  To get started using Fortune, simply create files with the extensions "fortune" or "fortune.php", eg `Master.fortune` or `Master.fortune.php`.  Opulence will detect that the file is a Fortune template and will use the Fortune compiler.
+Fortune is the view engine that comes built into Opulence.  It simplifies adding dynamic content to web pages.  You can inject data into your pages, extend other views, prevent XSS attacks, and even extend the compiler.  To get started using Fortune, simply create files with the extensions `fortune` or `fortune.php`, eg `Master.fortune` or `Master.fortune.php`.  Opulence will detect that the file is a Fortune template and will use the Fortune compiler.
 
 
 <h4 id="how-it-works">How It Works</h4>
@@ -103,12 +103,12 @@ Directives perform view logic.  For example, they can be used to [extend another
 <h4 id="including-views">Including Views</h4>
 Including another view (like PHP's `include`) is an easy way to not repeat yourself.  Here's an example of how to include a view:
 
-##### Included.fortune
+##### Included.fortune.php
 ```
 Hello, world!
 ```
 
-##### Master.fortune
+##### Master.fortune.php
 ```
 <div id="important-message">
     <% include("Included") %>
@@ -134,18 +134,18 @@ If you need to pass variables to included views, you may do so as a second param
 <h4 id="extending-views">Extending Views</h4>
 Most views extend some sort of master view.  To make your life easy, Fortune builds support for this functionality into its views.
 
-##### Master.fortune
+##### Master.fortune.php
 ```
 Hello, world!
 ```
 
-##### Child.fortune
+##### Child.fortune.php
 ```
 <% extends("Master") %>
 Hello, Dave!
 ```
 
-When the child view gets compiled, the `Master.fortune` view is automatically created by an `Opulence\Views\Factories\IViewFactory` and inserted into the view to produce the following output:
+When the child view gets compiled, the `Master.fortune.php` view is automatically created by an `Opulence\Views\Factories\IViewFactory` and inserted into the view to produce the following output:
 
 ```
 Hello, world!
@@ -157,14 +157,14 @@ Hello, Dave!
 <h5 id="parents">Parents</h5>
 Sometimes, you'll want to add to a parent view's part.  To do so, use the `<% parent %>` directive:
 
-##### Master.fortune
+##### Master.fortune.php
 ```
 <% part("greeting") %>
     Hello
 <% endpart %>
 ```
 
-##### Child.fortune
+##### Child.fortune.php
 ```
 <% extends("Master") %>
 <% part("greeting") %>
@@ -181,14 +181,14 @@ Hello, world!
 <h4 id="parts">Parts</h4>
 Another common case is a master view that is leaving a child view to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child view.  Use the `<% show("NAME_OF_PART") %>` directive:
 
-##### Master.fortune
+##### Master.fortune.php
 ```
 <div id="sidebar">
     <% show("sidebar") %>
 </div>
 ```
 
-##### Child.fortune
+##### Child.fortune.php
 ```
 <% extends("Master") %>
 <% part("sidebar") %>
@@ -311,7 +311,7 @@ If you're using the <a href="https://github.com/opulencephp/Project" target="_bl
 
 Since these functions output HTML, use them inside unsanitized tags.  Here's an example of how to use these functions:
 
-##### View.fortune
+##### View.fortune.php
 ```
 <!DOCTYPE html>
 <html>
@@ -441,7 +441,7 @@ $view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ["((", "))"]);
 Because delimiters are set for each view, you can have one view with one set of delimiters and another view with other delimiters.  This is useful if only one or a couple of views' delimiters conflict with JavaScript framework delimiters.
 
 <h2 id="caching">Caching</h2>
-To improve the speed of view compilers, views are cached using a class that implements `Opulence\Views\Caching\ICache` (`Opulence\Views\Caching\Cache` comes built-in to Opulence).  You can specify how long a view should live in cache using `setLifetime()`.  If you do not want views to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for views, just implement `ICache` and pass it into your `View` class.
+To improve the speed of view compilers, views are cached using a class that implements `Opulence\Views\Caching\ICache` (`Opulence\Views\Caching\FileCache` comes built-in to Opulence).  You can specify how long a view should live in cache using `setLifetime()`.  If you do not want views to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for views, just implement `ICache` and pass it into your `View` class.
 
 <h4 id="garbage-collection">Garbage Collection</h4>
 Occasionally, you should clear out old cached view files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `FileCache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:

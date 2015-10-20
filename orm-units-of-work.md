@@ -122,6 +122,8 @@ $setter = function ($entity, $id) {
 $entityRegistry->registerIdAccessors(Foo::class, $getter, $setter);
 ```
 
+`registerIdAccessors()` also accepts an array of class names.
+
 > **Note:**  You must always register Id getters, but Id setters are optional.
 
 <h3 id="reducing-boilerplate-code">Reducing Boilerplate Code</h3>
