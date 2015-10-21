@@ -88,7 +88,7 @@ Factories simplify the way you create `View` objects from view files.
 The view factory allows you to create a view using nothing but the filename (no path or extension).  It does this using a file name resolver.  You register the path where all view files reside as well as the possible file extensions views may have.  Then, the resolver finds the raw view file, creates a `View` object from its contents, and returns it.
 
 ```php
-use Opulence\Views\Factories\Resolvers\FileViewNameResolver;
+use Opulence\Views\Factories\IO\FileViewNameResolver;
 
 $resolver = new FileViewNameResolver();
 $resolver->registerPath("/var/www/html/views/some-directory");
