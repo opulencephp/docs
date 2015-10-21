@@ -119,7 +119,7 @@ $setter = function ($entity, $id) {
     $entity->setId($id);
 };
 
-$entityRegistry->registerIdAccessors(Foo::class, $getter, $setter);
+$idAccessorRegistry->registerIdAccessors(Foo::class, $getter, $setter);
 ```
 
 `registerIdAccessors()` also accepts an array of class names.
