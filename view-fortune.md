@@ -280,6 +280,10 @@ Fortune supplies some built-in functions in the view library:
   * Accepts the following arguments:
     1. `string $name` - The name of the http-equiv attribute, eg "refresh"
     2. `mixed $value` - The value of the attribute
+* `httpMethodInput()`
+  * Returns HTML used to spoof HTTP request methods besides `POST` and `GET`
+  * Accepts the following arguments:
+    1. `string $httpMethod` - The HTTP request method to spoof, eg "DELETE"
 * `metaDescription()`
   * Returns HTML used to display a meta description
   * Accepts the following arguments:

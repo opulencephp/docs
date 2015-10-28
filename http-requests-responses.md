@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Requests](#requests)
-  1. [Parameters](#parameters)
+  1. [Collections](#collections)
   2. [Query String Data](#query-string-data)
   3. [Post Data](#post-data)
   4. [Request Data](#request-data)
@@ -42,8 +42,8 @@ Opulence makes interacting with HTTP requests and responses easy.  Tasks like ch
 <h2 id="requests">Requests</h2>
 Opulence has a wrapper around an HTTP request in the `Opulence\HTTP\Requests\Request` class.
 
-<h4 id="parameters">Parameters</h4>
-Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `Opulence\HTTP\Parameters` objects, which have the following methods:
+<h4 id="collections">Collections</h4>
+Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `Opulence\HTTP\Collection` objects, which have the following methods:
 
 * `get($key)`
 * `has($key)`
@@ -55,14 +55,14 @@ Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `Opulence\HTT
 $request->getQuery()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_GET`.  `getQuery()` returns a `Parameters` object.
+> **Note:** This is similar to the data in `$_GET`.  `getQuery()` returns a `Collection` object.
 
 <h4 id="post-data">Post Data</h4>
 ```php
 $request->getPost()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_POST`.  `getPost()` returns a `Parameters` object.
+> **Note:** This is similar to the data in `$_POST`.  `getPost()` returns a `Collection` object.
 
 <h4 id="request-data">Request Data</h4>
 ```php
@@ -76,42 +76,42 @@ $request->getInput("foo");
 $request->getPut()->get("foo");
 ```
 
-> **Note:** This is only populated with `x-www-form-urlencoded` content type.  `getPut()` returns a `Parameters` object.
+> **Note:** This is only populated with `x-www-form-urlencoded` content type.  `getPut()` returns a `Collection` object.
 
 <h4 id="patch-data">Patch Data</h4>
 ```php
 $request->getPatch()->get("foo");
 ```
 
-> **Note:** This is only populated with `x-www-form-urlencoded` content type.  `getPatch()` returns a `Parameters` object.
+> **Note:** This is only populated with `x-www-form-urlencoded` content type.  `getPatch()` returns a `Collection` object.
 
 <h4 id="delete-data">Delete Data</h4>
 ```php
 $request->getDelete()->get("foo");
 ```
 
-> **Note:** This is only populated with `x-www-form-urlencoded` content type.  `getDelete()` returns a `Parameters` object.
+> **Note:** This is only populated with `x-www-form-urlencoded` content type.  `getDelete()` returns a `Collection` object.
 
 <h4 id="cookies">Cookies</h4>
 ```php
 $request->getCookies()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_COOKIE`.  `getCookies()` returns a `Parameters` object.
+> **Note:** This is similar to the data in `$_COOKIE`.  `getCookies()` returns a `Collection` object.
 
 <h4 id="server-data">Server Data</h4>
 ```php
 $request->getServer()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_SERVER`.  `getServer()` returns a `Parameters` object.
+> **Note:** This is similar to the data in `$_SERVER`.  `getServer()` returns a `Collection` object.
 
 <h4 id="header-data">Header Data</h4>
 ```php
 $request->getHeaders()->get("foo");
 ```
 
-> **Note:** These are the $\_SERVER values whose names with with "HTTP\_".  `getHeaders()` returns a `Parameters` object.
+> **Note:** These are the $\_SERVER values whose names with with "HTTP\_".  `getHeaders()` returns a `Collection` object.  Their names are case-insensitive per RFC 2616.
 
 <h4 id="file-data">File Data</h4>
 ```php
@@ -144,7 +144,7 @@ $uploadedFile->move($targetDirectory, $name);
 $request->getEnv()->get("foo");
 ```
 
-> **Note:** This is similar to the data in `$_ENV`.  `getEnv()` returns a `Parameters` object.
+> **Note:** This is similar to the data in `$_ENV`.  `getEnv()` returns a `Collection` object.
 
 <h4 id="getting-the-path">Getting the Path</h4>
 ```php
@@ -165,6 +165,25 @@ $request->isPath("/docs/.*", true);
 To determine which HTTP method was used to make a request (eg "GET" or "POST"), use `getMethod()`:
 ```php
 $request->getMethod();
+```
+
+<h5 id="spoofing-http-methods">Spoofing HTTP Methods</h5>
+HTML forms only permit `GET` and `POST` HTTP methods.  You can spoof other methods by including a hidden input named "_method" whose value is the method you'd like to spoof:  
+
+```php
+<form method="POST">
+    <input type="hidden" name="_method" value="DELETE">
+    ...
+</form>
+```
+
+If you are using Fortune for your views, you may use the `httpMethodInput()` [view function](view-fortune#functions):
+
+```php
+<form method="POST">
+    {{! httpMethodInput("DELETE") !}}
+    ...
+</form>
 ```
   
 <h4 id="body">Body</h4>
