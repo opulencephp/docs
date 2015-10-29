@@ -38,7 +38,7 @@ class UserRegisteredEvent extends Event
 We'll use this event in the examples below.
 
 <h2 id="listeners">Listeners</h2>
-A **listener** is what handles an event.  Listeners must be callables.  They are passed the `Event` object, the name of the event fired, and the event `Dispatcher`.  Let's take a look at some example listeners for our `UserRegisteredEvent`:
+A **listener** is what handles an event.  Listeners must be callables.  They are passed the `IEvent` object, the name of the event fired, and the event `Dispatcher`.  Let's take a look at some example listeners for our `UserRegisteredEvent`:
 
 <h5 id="listener-closure">Listener Closure</h5>
 You can use a closure for your listener:
@@ -73,7 +73,7 @@ class RegistrationEmail
 > **Note:** Listener methods can be named whatever you'd like.
 
 <h4 id="stopping-propagation">Stopping Propagation</h4>
-There might be a case where your listener wants to prevent other listeners from being notified of an event.  In this case, your listener can call `Event::stopPropagation()`:
+There might be a case where your listener wants to prevent other listeners from being notified of an event.  In this case, your listener can call `IEvent::stopPropagation()`:
 
 ```php
 $listener = function(IEvent $event)
