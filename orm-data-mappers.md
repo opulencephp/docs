@@ -65,10 +65,10 @@ Let's take a look at an example of an SQL data mapper for WordPress posts:
 namespace MyApp\WordPress\ORM\DataMappers;
 
 use MyApp\WordPress\Post;
-use PDO;
 use Opulence\Databases\IConnection;
 use Opulence\ORM\DataMappers\SQLDataMapper;
 use Opulence\ORM\Ids\IntSequenceIdGenerator;
+use PDO;
 
 class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
 {
