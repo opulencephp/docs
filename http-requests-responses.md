@@ -185,6 +185,8 @@ If you are using Fortune for your views, you may use the `httpMethodInput()` [vi
     ...
 </form>
 ```
+
+You can also use the `X-HTTP-METHOD-OVERRIDE` header to set the HTTP method.
   
 <h4 id="body">Body</h4>
 The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
