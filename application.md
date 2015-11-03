@@ -17,12 +17,12 @@ An Opulence application is started up through the `Application` class.  You can 
 <h2 id="kernels">Kernels</h2>
 A kernel is something that takes input, performs processing on it, and returns output.  In Opulence, there are two kernels:
 
-1. `Opulence\Framework\HTTP\Kernel`
-  * [Read about HTTP applications' workflows](http-workflow)
+1. `Opulence\Framework\Http\Kernel`
+  * [Read about Http applications' workflows](http-workflow)
 2. `Opulence\Framework\Console\Kernel`
   * [Read about console applications' workflows](console-workflow)
 
-Having these two kernels allows Opulence to function as both a traditional HTTP web application and a console application.
+Having these two kernels allows Opulence to function as both a traditional Http web application and a console application.
 
 <h2 id="tasks">Tasks</h2>
 To start and shutdown an application, simply call the `start()` and `shutdown()` methods, respectively, on the application object.  If you'd like to do some tasks before or after startup, you may do so with the `Opulence\Applications\Tasks\Dispatchers\Dispatcher`, which is injected into the `Application` object.  Tasks are handy places to do any setting up that your application requires or any housekeeping after start/shutdown.

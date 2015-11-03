@@ -107,7 +107,7 @@ Jim    - Gaffigan - pale
 
 There are a few useful functions for customizing the padding formatter:
 
-* `setEOLChar()`
+* `setEolChar()`
   * Sets the end-of-line character
 * `setPadAfter()`
   * Sets whether to pad before or after strings
@@ -160,7 +160,7 @@ There are a few useful functions for customizing the look of tables:
 
 * `setCellPaddingString()`
   * Sets the cell padding string
-* `setEOLChar()`
+* `setEolChar()`
   * Sets the end-of-line character
 * `setHorizontalBorderChar()`
   * Sets the horizontal border character

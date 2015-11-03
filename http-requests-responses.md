@@ -1,4 +1,4 @@
-# HTTP Requests/Responses
+# Http Requests/Responses
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -23,7 +23,7 @@
       2. [Raw Body](#raw-body)
   16. [AJAX](#ajax)
   17. [Getting the IP Address](#getting-the-ip-address)
-  18. [Checking if HTTPS](#checking-if-https)
+  18. [Checking if Https](#checking-if-https)
   19. [Getting the Full URL](#getting-the-full-url)
   20. [Getting the Previous URL](#getting-the-previous-url)
   21. [Authentication Data](#authentication-data)
@@ -37,13 +37,13 @@
   5. [Redirect Responses](#redirect-responses)
 
 <h2 id="introduction">Introduction</h2>
-Opulence makes interacting with HTTP requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the HTTP tools PHP gives you by default.  Use Opulence's tools, and stop worry about stuff like this.
+Opulence makes interacting with Http requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the Http tools PHP gives you by default.  Use Opulence's tools, and stop worry about stuff like this.
   
 <h2 id="requests">Requests</h2>
-Opulence has a wrapper around an HTTP request in the `Opulence\HTTP\Requests\Request` class.
+Opulence has a wrapper around an Http request in the `Opulence\Http\Requests\Request` class.
 
 <h4 id="collections">Collections</h4>
-Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `Opulence\HTTP\Collection` objects, which have the following methods:
+Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `Opulence\Http\Collection` objects, which have the following methods:
 
 * `get($key)`
 * `has($key)`
@@ -120,7 +120,7 @@ $request->getFiles()->get("foo");
 
 > **Note:** This is similar to the data in `$_FILES`.  `getFiles()` returns a `Files` object.
 
-Opulence converts `$_FILES` data into an array of `Opulence\HTTP\Requests\UploadedFile` objects.  This provides an easy-to-use wrapper around PHP's built-in upload capabilities.  Each `UploadedFile` object extends `\SplFileInfo` and adds the following methods:
+Opulence converts `$_FILES` data into an array of `Opulence\Http\Requests\UploadedFile` objects.  This provides an easy-to-use wrapper around PHP's built-in upload capabilities.  Each `UploadedFile` object extends `\SplFileInfo` and adds the following methods:
 
 ```php
 // The error code for the uploaded file (UPLOAD_ERR_OK indicates no error)
@@ -162,13 +162,13 @@ $request->isPath("/docs/.*", true);
 > **Note:** Do not include regular expression delimiters in your regular expression.
 
 <h4 id="getting-the-method">Getting the Method</h4>
-To determine which HTTP method was used to make a request (eg "GET" or "POST"), use `getMethod()`:
+To determine which Http method was used to make a request (eg "GET" or "POST"), use `getMethod()`:
 ```php
 $request->getMethod();
 ```
 
-<h5 id="spoofing-http-methods">Spoofing HTTP Methods</h5>
-HTML forms only permit `GET` and `POST` HTTP methods.  You can spoof other methods by including a hidden input named "_method" whose value is the method you'd like to spoof:  
+<h5 id="spoofing-http-methods">Spoofing Http Methods</h5>
+HTML forms only permit `GET` and `POST` Http methods.  You can spoof other methods by including a hidden input named "_method" whose value is the method you'd like to spoof:
 
 ```php
 <form method="POST">
@@ -186,7 +186,7 @@ If you are using Fortune for your views, you may use the `httpMethodInput()` [vi
 </form>
 ```
 
-You can also use the `X-HTTP-METHOD-OVERRIDE` header to set the HTTP method.
+You can also use the `X-HTTP-METHOD-OVERRIDE` header to set the Http method.
   
 <h4 id="body">Body</h4>
 The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
@@ -195,13 +195,13 @@ The body of a request comes from the `php://input` stream.  It can be used to gr
 Opulence can accept JSON as input, which makes it easy to start developing REST applications:
 
 ```php
-$request->getJSONBody();
+$request->getJsonBody();
 ```
 
 You can check if a request is JSON:
 
 ```php
-$request->isJSON();
+$request->isJson();
 ```
 
 <h5 id="raw-body">Raw Body</h5>
@@ -215,7 +215,7 @@ $request->getRawBody();
 To determine if a request was made by AJAX, call:
 
 ```php
-$request->isAJAX();
+$request->isAjax();
 ```
 
 <h4 id="getting-the-ip-address">Getting the IP Address</h4>
@@ -223,19 +223,19 @@ $request->isAJAX();
 $request->getIPAddress();
 ```
 
-<h4 id="checking-if-https">Checking if HTTPS</h4>
+<h4 id="checking-if-https">Checking if Https</h4>
 ```php
 $request->isSecure();
 ```
 
 <h4 id="getting-the-full-url">Getting the Full URL</h4>
 ```php
-$request->getFullURL();
+$request->getFullUrl();
 ```
 
 <h4 id="getting-the-previous-url">Getting the Previous URL</h4>
 ```php
-$request->getPreviousURL();
+$request->getPreviousUrl();
 ```
 > **Note:** This only works when using the session middleware.
 
@@ -245,14 +245,14 @@ $phpAuthUser = $request->getUser();
 $phpAuthPassword = $request->getPassword();
 ```
 <h2 id="responses">Responses</h2>
-Opulence also wraps an HTTP response into the `Opulence\HTTP\Responses\Response` class.  You can set the content, HTTP status code, headers, and cookies in a response.  Opulence also supports JSON responses and redirects.
+Opulence also wraps an Http response into the `Opulence\Http\Responses\Response` class.  You can set the content, Http status code, headers, and cookies in a response.  Opulence also supports JSON responses and redirects.
 
 <h4 id="status-codes">Status Codes</h4>
-By default, a status code of 200 (HTTP OK) is returned.  A full list of codes is available in `Opulence\HTTP\Responses\ResponseHeaders`.  For example, here's how to set an "Unauthorized" status code:
+By default, a status code of 200 (Http OK) is returned.  A full list of codes is available in `Opulence\Http\Responses\ResponseHeaders`.  For example, here's how to set an "Unauthorized" status code:
 
 ```php
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
 
 $response = new Response("Permission denied", ResponseHeaders::HTTP_UNAUTHORIZED);
 $response->send();
@@ -262,8 +262,8 @@ $response->send();
 You can specify any headers you'd like in your response.  To do something like set a "Content-Type" header to an octet stream, do the following:
 
 ```php
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
 
 $response = new Response("Foo");
 $response->getHeaders()->set("Content-Type", ResponseHeaders::CONTENT_TYPE_OCTET_STREAM);
@@ -271,11 +271,11 @@ $response->getHeaders()->set("Content-Type", ResponseHeaders::CONTENT_TYPE_OCTET
 
 <h4 id="cookies">Cookies</h4>
 <h5 id="setting-cookies">Setting Cookies</h5>
-Cookies are meant to help you remember information about a user, such as authentication credentials or site preferences.  Opulence wraps a cookie into the `Opulence\HTTP\Responses\Cookie` class.  To create a cookie, first create a `Cookie` object.  Then, add it to the `Response` object's headers so that it will be sent to the user.
+Cookies are meant to help you remember information about a user, such as authentication credentials or site preferences.  Opulence wraps a cookie into the `Opulence\Http\Responses\Cookie` class.  To create a cookie, first create a `Cookie` object.  Then, add it to the `Response` object's headers so that it will be sent to the user.
 
 ```php
 use DateTime;
-use Opulence\HTTP\Responses\Cookie;
+use Opulence\Http\Responses\Cookie;
 
 // This should look pretty familiar to PHP's setcookie() function
 $userIdCookie = new Cookie("id", 17, new DateTime("+1 week"), "/", ".foo.com", true, true);
@@ -295,13 +295,13 @@ $response->send();
 ```
 
 <h4 id="json-responses">JSON Responses</h4>
-JSON responses are great for API calls.  Opulence supports JSON responses in the `Opulence\HTTP\Responses\JSONResponse` class.  It accepts either an `array` or `ArrayObject` as its content.
+JSON responses are great for API calls.  Opulence supports JSON responses in the `Opulence\Http\Responses\JsonResponse` class.  It accepts either an `array` or `ArrayObject` as its content.
 
 ```php
-use Opulence\HTTP\Responses\JSONResponse;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Http\Responses\JsonResponse;
+use Opulence\Http\Responses\ResponseHeaders;
 
-$response = new JSONResponse(["message" => "Hello, world!"], ResponseHeaders::HTTP_OK);
+$response = new JsonResponse(["message" => "Hello, world!"], ResponseHeaders::HTTP_OK);
 $response->send();
 ```
 
@@ -312,11 +312,11 @@ This will yield the following JSON:
 ```
 
 <h4 id="redirect-responses">Redirect Responses</h4>
-You'll often finding yourself wanting to redirect a user after things like logging in or out or after filling out a form.  Use an `Opulence\HTTP\Responses\RedirectResponse`:
+You'll often finding yourself wanting to redirect a user after things like logging in or out or after filling out a form.  Use an `Opulence\Http\Responses\RedirectResponse`:
 
 ```php
-use Opulence\HTTP\Responses\RedirectResponse;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Http\Responses\RedirectResponse;
+use Opulence\Http\Responses\ResponseHeaders;
 
 $response = new RedirectResponse("http://www.example.com/login", ResponseHeaders::HTTP_FOUND);
 $response->send();

@@ -12,13 +12,13 @@
   3. [Default Values](#default-values)
 4. [Host Matching](#host-matching)
 5. [Middleware](#middleware)
-6. [HTTPS](#https)
+6. [Https](#https)
 7. [Named Routes](#named-routes)
 8. [Route Grouping](#route-grouping)
   1. [Controller Namespaces](#controller-namespaces)
   2. [Group Middleware](#group-middleware)
   3. [Group Hosts](#group-hosts)
-  4. [Group HTTPS](#group-https)
+  4. [Group Https](#group-https)
   5. [Group Variable Regular Expressions](#group-variable-regular-expressions)
 9. [URL Generators](#url-generators)
   1. [Generating URLs from Code](#generating-urls-from-code)
@@ -33,7 +33,7 @@ So, you've made some page views, and you've written some models.  Now, you need 
 <h2 id="basic-usage">Basic Usage</h2>
 Routes require a few pieces of information:
 * The path the route is valid for
-* The HTTP method (eg "GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", or "HEAD") the route is valid for
+* The Http method (eg "GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", or "HEAD") the route is valid for
 * The action to perform on a match
 
 `Opulence\Routing\Router` supports various methods out of the gate:
@@ -49,7 +49,7 @@ Routes require a few pieces of information:
 For very simple applications, it's probably easiest to use closures as your routes' controllers:
 
 ```php
-use Opulence\IoC\Container;
+use Opulence\Ioc\Container;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\Compiler;
@@ -67,15 +67,15 @@ $router->get("/foo", function () {
 });
 ```
 
-> **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the router is already bound to the IoC container.
+> **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the router is already bound to the Ioc container.
 
 If you need any object like the `Request` to be passed into the closure, just type-hint it:
 
 ```php
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Requests\Request;
 
 $router->get("/users/:id", function (Request $request, $id) {
-    // $request will be the HTTP request
+    // $request will be the Http request
     // $id will be the path variable
 });
 ```
@@ -184,8 +184,8 @@ $router->get("/books", "MyApp\\MyController@myMethod", $options);
 
 Whenever a request matches this route, `MyApp\MyMiddleware` will be run.
 
-<h2 id="https">HTTPS</h2>
-Some routes should only match on an HTTPS connection.  To do this, set the `https` flag to true in the options:
+<h2 id="https">Https</h2>
+Some routes should only match on an Https connection.  To do this, set the `https` flag to true in the options:
 
 ```php
 $options = [
@@ -194,7 +194,7 @@ $options = [
 $router->get("/users", "MyApp\\MyController@myMethod", $options);
 ```
 
-HTTPS requests to `/users` will match, but non SSL connections will return a 404 response.
+Https requests to `/users` will match, but non SSL connections will return a 404 response.
 
 <h2 id="named-routes">Named Routes</h2>
 Routes can be given a name, which makes them identifiable.  This is especially useful for things like [generating URLs for a route](#generating-urls-from-code).  To name a route, pass a `"name" => "THE_NAME"` into the route options:
@@ -255,8 +255,8 @@ $router->group(["host" => "google.com"], function () use ($router) {
 
 > **Note:** When specifying hosts in nested router groups, the inner groups' hosts are prepended to the outer groups' hosts.  This means the inner-most route in the example above will have a host of "mail.google.com".
 
-<h4 id="group-https">Group HTTPS</h4>
-You can force all routes in a group to be HTTPS:
+<h4 id="group-https">Group Https</h4>
+You can force all routes in a group to be Https:
 
 ```php
 $router->group(["https" => true], function () use ($router) {
@@ -265,7 +265,7 @@ $router->group(["https" => true], function () use ($router) {
 });
 ```
 
-> **Note:** If the an outer group marks the routes HTTPS but an inner one doesn't, the inner group gets ignored.  The outer-most group with an HTTPS definition is the only one that counts.
+> **Note:** If the an outer group marks the routes Https but an inner one doesn't, the inner group gets ignored.  The outer-most group with an Https definition is the only one that counts.
 
 <h4 id="group-variable-regular-expressions">Group Variable Regular Expressions</h4>
 Groups support regular expressions for path variables:
@@ -293,19 +293,19 @@ Routes must be parsed to generate the regular expressions used to match the host
 > **Note:** If you're in your production environment, you must run `php apex framework:flushcache` every time you add/modify/delete a route in `configs/http/routes.php`.
 
 <h2 id="missing-routes">Missing Routes</h2>
-In the case that the router cannot find a route that matches the request, a 404 response will be returned.  Register your controller name and method name in the case of a missing route using `Router::setMissedRouteController()` (the default method is `showHTTPError()`).  If your controller extends `Opulence\Routing\Controller`, you can simply override `showHTTPError()` to display the appropriate missing response.
+In the case that the router cannot find a route that matches the request, a 404 response will be returned.  Register your controller name and method name in the case of a missing route using `Router::setMissedRouteController()` (the default method is `showHttpError()`).  If your controller extends `Opulence\Routing\Controller`, you can simply override `showHttpError()` to display the appropriate missing response.
 
 Then, just add a route to handle this:
 ```php
 namespace MyApp;
 
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Controller;
 
 class MyController extends Controller
 {
-    public function showHTTPError($statusCode)
+    public function showHttpError($statusCode)
     {
         switch($statusCode)
         {
@@ -323,16 +323,16 @@ $router->route($request); // Returns a 404 response with "My custom 404 page"
 ```
 
 <h2 id="url-generators">URL Generators</h2>
-A cool feature is the ability to generate URLs from named routes using `Opulence\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
+A cool feature is the ability to generate URLs from named routes using `Opulence\Routing\Url\UrlGenerator`.  If your route has variables in the domain or path, you just pass them in `UrlGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
 
-> **Note:** If you do not define all the non-optional variables in the host or domain, a `URLException` will be thrown.
+> **Note:** If you do not define all the non-optional variables in the host or domain, a `UrlException` will be thrown.
 
 <h4 id="generating-urls-from-code">Generating URLs from Code</h4>
 ```php
-use Opulence\Routing\URL\URLGenerator;
+use Opulence\Routing\Url\UrlGenerator;
 
 // Let's assume the router and compiler are already instantiated
-$urlGenerator = new URLGenerator($router->getRoutes(), $compiler);
+$urlGenerator = new UrlGenerator($router->getRoutes(), $compiler);
 // Let's add a route named "profile"
 $router->get("/users/:userId", "MyApp\\UserController@showProfile", ["name" => "profile"]);
 // Now we can generate a URL and pass in data to it

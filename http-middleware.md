@@ -1,4 +1,4 @@
-# HTTP Middleware
+# Http Middleware
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -8,7 +8,7 @@
 5. [Route Middleware](#route-middleware)
   
 <h2 id="introduction">Introduction</h2>
-HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).  
+Http middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).
 
 Opulence uses dependency injection for type-hinted objects in a `Middleware` constructor.  So, if you need any objects in your `handle()` method, just specify them in the constructor.  Let's take a look at an example:
 
@@ -16,9 +16,9 @@ Opulence uses dependency injection for type-hinted objects in a `Middleware` con
 namespace MyApp;
 use Closure;
 use MyApp\Authentication\Authenticator;
-use Opulence\HTTP\Middleware\IMiddleware;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\RedirectResponse;
+use Opulence\Http\Middleware\IMiddleware;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\RedirectResponse;
 
 class Authentication implements IMiddleware
 {
@@ -62,8 +62,8 @@ To manipulate the request before it gets to the controller, make changes to it b
 
 ```php
 use Closure;
-use Opulence\HTTP\Middleware\IMiddleware;
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Middleware\IMiddleware;
+use Opulence\Http\Requests\Request;
 
 class RequestManipulator implements IMiddleware
 {
@@ -83,9 +83,9 @@ To manipulate the response after the controller has done its work, do the follow
 ```php
 use Closure;
 use DateTime;
-use Opulence\HTTP\Middleware\IMiddleware;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Cookie;
+use Opulence\Http\Middleware\IMiddleware;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Cookie;
 
 class ResponseManipulator implements IMiddleware
 {

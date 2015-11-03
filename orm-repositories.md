@@ -14,26 +14,26 @@
 **Repositories** are simply collections of entities.  They provide methods for adding, deleting, and retrieving entities, but they leave the actual data retrieval to [**data mappers**](orm-data-mappers).  These data mappers can interact with an SQL database, cache, some other form of storage, or a mixture of storage mechanisms.  By utilizing a [**unit of work**](orm-units-of-work), writes to the data mappers are scheduled and only executed when calling `$unitOfWork->commit()`.  This gives you the ability to wrap multiple repositories' writes into a single, "all-or-nothing" transaction.
 
 <h2 id="basic-usage">Basic Usage</h2>
-If your repository will not implement any methods outside of `Opulence\ORM\Repositories\Repo`, you don't even have to create your own repository class.  Just use `Opulence\ORM\Repositories\Repo`:
+If your repository will not implement any methods outside of `Opulence\Orm\Repositories\Repo`, you don't even have to create your own repository class.  Just use `Opulence\Orm\Repositories\Repo`:
 
 ```php
-use MyApp\WordPress\ORM\DataMappers\PostSQLDataMapper;
+use MyApp\WordPress\Orm\DataMappers\PostSqlDataMapper;
 use MyApp\WordPress\Post;
-use Opulence\ORM\Repositories\Repo;
-use Opulence\ORM\UnitOfWork;
+use Opulence\Orm\Repositories\Repo;
+use Opulence\Orm\UnitOfWork;
 
 // Assume we have a data mapper class already written
-$dataMapper = new PostSQLDataMapper();
+$dataMapper = new PostSqlDataMapper();
 $unitOfWork = new UnitOfWork();
 $repo = new Repo(Post::class, $dataMapper, $unitOfWork); 
 ```
 
-However, if your repository implements any custom `get*()` methods, you'll have to extend `Opulence\ORM\Repositories\Repo`.  Let's take a look at a repository that supports a `getByTitle()` method:
+However, if your repository implements any custom `get*()` methods, you'll have to extend `Opulence\Orm\Repositories\Repo`.  Let's take a look at a repository that supports a `getByTitle()` method:
 
 ```php
-namespace MyApp\WordPress\ORM;
+namespace MyApp\WordPress\Orm;
 
-use Opulence\ORM\Repositories\Repo;
+use Opulence\Orm\Repositories\Repo;
 
 class PostRepo extends Repo
 {
@@ -81,18 +81,18 @@ echo $post->getTitle();
 
 All entities returned by the repository are automatically registered to the unit of work's [entity registry](orm-units-of-work#entity-registry), effectively turning it into a cache.  The repository first looks for the entity in the registry and returns it if it's already registered.  Otherwise, the data mapper is called and the entity is registered for future queries.
 
-> **Note:** If no entity is found, an `Opulence\ORM\ORMException` will be thrown.
+> **Note:** If no entity is found, an `Opulence\Orm\OrmException` will be thrown.
 
 <h2 id="commit">Committing Changes</h2>
 As you can see, there are is no `save()` method in repositories.  To actually save any writes made by the repository, you must call `commit()` on the unit of work passed into the repository's constructor:
 
 ```php
-use MyApp\WordPress\ORM\DataMappers\PostSQLDataMapper;
+use MyApp\WordPress\Orm\DataMappers\PostSqlDataMapper;
 use MyApp\WordPress\Post;
-use Opulence\ORM\Repositories\Repo;
-use Opulence\ORM\UnitOfWork;
+use Opulence\Orm\Repositories\Repo;
+use Opulence\Orm\UnitOfWork;
 
-$dataMapper = new PostSQLDataMapper();
+$dataMapper = new PostSqlDataMapper();
 $unitOfWork = new UnitOfWork();
 $repo = new Repo(Post::class, $dataMapper, $unitOfWork); 
 $postToDelete = $repo->getById(123);

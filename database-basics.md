@@ -24,7 +24,7 @@ Single-server connection pools are useful for single-database server stacks, eg 
 
 ```php
 use Opulence\Databases\ConnectionPools\SingleServerConnectionPool;
-use Opulence\Databases\PDO\MySQL\Driver;
+use Opulence\Databases\Pdo\MySql\Driver;
 use Opulence\Databases\Server;
 
 $connectionPool = new SingleServerConnectionPool(
@@ -54,7 +54,7 @@ Master-slave connection pools are useful for setups that include a master and at
 
 ```php
 use Opulence\Databases\ConnectionPools\MasterSlaveConnectionPool;
-use Opulence\Databases\PDO\PostgreSQL\Driver;
+use Opulence\Databases\Pdo\PostgreSql\Driver;
 use Opulence\Databases\Server;
 
 $connectionPool = new MasterSlaveConnectionPool(
@@ -124,7 +124,7 @@ The issue here is what's called **SQL injection**.  What would happen if a malic
 
 See the issue there?  The malicious user just tricked your application into returning the email address for every user.  This is where **prepared statements** and binding comes in handy.  Instead of just concatenating your value into the query, `PDO` will automatically escape the data before using it in the query.
 
-> **Note:** For data binding to work properly, it is imperative that you include the type of the parameter being bound, eg `PDO::PARAM_INT` or `PDO::PARAM_BOOL`.
+> **Note:** For data binding to work properly, it is imperative that you include the type of the parameter being bound, eg `\PDO::PARAM_INT` or `\PDO::PARAM_BOOL`.
 
 <h4 id="binding-named-placeholders">Binding Named Placeholders</h4>
 It's convenient to name placeholders that you'll bind to in a query so that you can reference them by name:
@@ -151,7 +151,7 @@ $statement->execute();
 
 ```php
 $statement->bindValues([
-    // By default, values are interpreted as type PDO::PARAM_STR
+    // By default, values are interpreted as type \PDO::PARAM_STR
     "name" => "Dave",
     // To bind a non-string type to a value, use an array
     // The first item is the value, and the second is the parameter type

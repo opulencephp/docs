@@ -16,24 +16,24 @@ Opulence's directory structure was inspired by the best of ideas from frameworks
 <h2 id="app">app</h2>
 This is where your project's core code goes.  If it's a PHP class, it belongs in here.  The subdirectories under `app` are:
 
-* `bootstrappers`
-  * `console`
+* `Bootstrappers`
+  * `Console`
       * Console bootstrappers are here
-  * `http`
-      * HTTP bootstrappers are here
-* `console`
-  * `commands`
+  * `Http`
+      * Http bootstrappers are here
+* `Console`
+  * `Commands`
       * Console commands are here
-* `events`
+* `Events`
   * Events are here
-  * `listeners`
+  * `Listeners`
       * Event listeners are here
-* `http`
-  * `controllers`
-      * HTTP controllers are here
-  * `middleware`
-      * HTTP middleware are here
-  * `views`
+* `Http`
+  * `Controllers`
+      * Http controllers are here
+  * `Middleware`
+      * Http middleware are here
+  * `Views`
       * View builders are here
 
 <h2 id="bootstrap">bootstrap</h2>

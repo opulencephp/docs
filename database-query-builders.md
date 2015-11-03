@@ -19,12 +19,12 @@ Sometimes you need to programmatically generate SQL queries.  Rather than concat
 Let's look at a simple `SELECT` query:
 
 ```php
-use Opulence\QueryBuilders\PostgreSQL\QueryBuilder;
+use Opulence\QueryBuilders\PostgreSql\QueryBuilder;
 
 $query = (new QueryBuilder)->select("id", "name", "email")
     ->from("users")
     ->where("datejoined < NOW()");
-echo $query->getSQL();
+echo $query->getSql();
 ```
 
 This will output:
@@ -81,7 +81,7 @@ $query = (new QueryBuilder)->select("count(*)")
     ->where("username = :username")
     ->orWhere("id = :id")
     ->addNamedPlaceholderValues([
-        // Non-array values are assumed to be of type PDO::PARAM_STR
+        // Non-array values are assumed to be of type \PDO::PARAM_STR
         "username" => "dave_y",
         // In array values, the first item is the value, and the second is the parameter type
         "id" => [24, \PDO::PARAM_INT]
@@ -90,7 +90,7 @@ $query = (new QueryBuilder)->select("count(*)")
 
 Similarly, `addUnnamedPlaceholderValue()` and `addUnnamedPlaceholderValues()` can be used to add unnamed placeholder values.
 
-> **Note:** You cannot mix named with unnamed placeholders.  Also, if no type is specified for a bound value, it's assumed to be PDO::PARAM_STR.
+> **Note:** You cannot mix named with unnamed placeholders.  Also, if no type is specified for a bound value, it's assumed to be \PDO::PARAM_STR.
 
 <h2 id="select-queries">Select Queries</h2>
 Select queries use a variable argument list to specify the columns to select:
@@ -98,7 +98,7 @@ Select queries use a variable argument list to specify the columns to select:
 ```php
 $query = (new QueryBuilder)->select("title", "author")
     ->from("books");
-echo $query->getSQL();
+echo $query->getSql();
 ```
 
 This will output:
@@ -116,7 +116,7 @@ $query = (new QueryBuilder)->insert("users", [
     "email" => "foo@bar.com",
     "age" => [24, \PDO::PARAM_INT]
 ]);
-echo $query->getSQL();
+echo $query->getSql();
 ```
 
 This will output:
@@ -147,7 +147,7 @@ $query = (new QueryBuilder)->update("users", "u", [
     ])
     ->where("id = ?")
     ->addUnnamedPlaceholderValue(1234, \PDO::PARAM_INT);
-echo $query->getSQL();
+echo $query->getSql();
 ```
 
 This will output:
@@ -174,7 +174,7 @@ Delete queries accept a table name:
 ```php
 $query = (new QueryBuilder)->delete("users")
     ->where("id = :id");
-echo $query->getSQL();
+echo $query->getSql();
 ```
 
 This will output:
@@ -193,10 +193,10 @@ $query = (new QueryBuilder)->select("author")
     ->addNamedPlaceholderValue("title", "Code Complete");
 ```
 
-Simply call `getSQL()` and `getParameters()` to use this in `PDO` or in [Opulence's PDO wrapper](database-basics):
+Simply call `getSql()` and `getParameters()` to use this in `PDO` or in [Opulence's PDO wrapper](database-basics):
 
 ```php
-$statement = $connection->prepare($query->getSQL());
+$statement = $connection->prepare($query->getSql());
 $statement->bindValues($query->getParameters());
 $statement->execute();
 ```
@@ -205,12 +205,12 @@ $statement->execute();
 MySQL and PostgreSQL have their own query builders, which implement features that are unique to each database.  For example, the MySQL query builder supports a *LIMIT* clause:
 
 ```php
-use Opulence\QueryBuilders\MySQL\QueryBuilder;
+use Opulence\QueryBuilders\MySql\QueryBuilder;
 
 $query = (new QueryBuilder)->delete("users")
     ->where("name = 'Dave'")
     ->limit(1);    
-echo $query->getSQL();
+echo $query->getSql();
 ```
 
 This will output:
@@ -222,14 +222,14 @@ DELETE FROM users WHERE name = 'Dave' LIMIT 1
 Similarly, PostgreSQL's `UPDATE` and `INSERT` query builders support a *RETURNING* clause:
 
 ```php
-use Opulence\QueryBuilders\PostgreSQL\QueryBuilder;
+use Opulence\QueryBuilders\PostgreSql\QueryBuilder;
 
 $query = (new QueryBuilder)->update("users", "", [
         "status" => [0, \PDO::PARAM_INT]
     ])
     ->returning("id")
     ->addReturning("name");
-echo $query->getSQL();
+echo $query->getSql();
 ```
 
 This will output:
@@ -249,12 +249,12 @@ The following values are bound to the query:
 Here's an example of an `INSERT` statement with a *RETURNING* clause:
 
 ```php
-use Opulence\QueryBuilders\PostgreSQL\QueryBuilder;
+use Opulence\QueryBuilders\PostgreSql\QueryBuilder;
 
 $query = (new QueryBuilder)->insert("users", "", ["name" => "David"])
     ->returning("id")
     ->addReturning("name");
-echo $query->getSQL();
+echo $query->getSql();
 ```
 
 This will output:

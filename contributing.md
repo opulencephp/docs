@@ -94,6 +94,8 @@ All function/method names:
   * Your method name should describe exactly what it does, nothing more, and nothing less
   * If you are having trouble naming a method, that's probably a sign that it is doing too much and should be refactored
 * Must be lower camel case, eg `compileList()`
+  * Acronyms in function/method names &lte; 2 characters long, capitalize each character, eg `startIO()`
+  * "Id" is an abbreviation (not an acronym) for "Identifier", so it should be capitalized `Id`
 * Must answer a question if returning a boolean variable, eg `hasAccess()` or `userIsValid()`
   * Always think about how your function/method will be read aloud in an `if` statement.  `if (userIsValid())` reads better than `if (isUserValid())`.
 * Must use `getXXX()` and `setXXX()` for functions/methods that get and set properties, respectively
@@ -108,6 +110,7 @@ All class constants' names:
 All namespaces:
 
 * Must be Pascal case, eg `Opulence\QueryBuilders`
+  * For namespace acronyms &lte; 2 characters long, capitalize each character, eg `IO`
 
 <h3 id="classes">Classes</h3>
 All class names:
@@ -116,6 +119,7 @@ All class names:
   * Your class name should describe exactly what it does, nothing more, and nothing less
   * If you are having trouble naming a class, that's probably a sign that it is doing too much and should be refactored
 * Must be Pascal case, eg `ListCompiler`
+  * For class name acronyms &lte; 2 characters long, capitalize each character, eg `IO`
   * Class filenames should simply be the class name with `.php` appended, eg `ListCompiler.php`
   
 Class properties should appear before any methods.  The following is the preferred ordering of class properties and methods:

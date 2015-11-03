@@ -8,7 +8,7 @@
 4. [Specifying a Callback](#specifying-a-callback)
 
 <h2 id="introduction">Introduction</h2>
-In computer science, a pipeline refers to a series of stages where each stage's input is the previous one's output.  It can be used to implement a decorator, which adds functionality to an object from an outside object.  In Opulence, this is especially useful for [HTTP middleware](http-middleware).  Pipelines can accept a list of:
+In computer science, a pipeline refers to a series of stages where each stage's input is the previous one's output.  It can be used to implement a decorator, which adds functionality to an object from an outside object.  In Opulence, this is especially useful for [Http middleware](http-middleware).  Pipelines can accept a list of:
  
 * `Closures`
 * Objects and a method to run on them
@@ -22,7 +22,7 @@ In computer science, a pipeline refers to a series of stages where each stage's 
 `Closure` stages must accept the input as their first parameter and the next pipe in the pipeline as the second parameter.  Let's take a look at a simple example:
 
 ```php
-use Opulence\IoC\Container;
+use Opulence\Ioc\Container;
 use Opulence\Pipelines\Pipeline;
 
 $container = new Container();
@@ -55,7 +55,7 @@ foo-pipe1-pipe2
 
 ```php
 use Closure;
-use Opulence\IoC\Container;
+use Opulence\Ioc\Container;
 use Opulence\Pipelines\Pipeline;
 
 interface IMyPipe
@@ -97,7 +97,7 @@ foo-pipeA-pipeB
 ```
 
 <h4 id="using-classes">Using Classes</h4>
-Pipe class names are also supported.  They will automatically be resolved using the IoC container:
+Pipe class names are also supported.  They will automatically be resolved using the Ioc container:
  
 ```php
 $stages = ["PipeA", "PipeB"];
@@ -114,7 +114,7 @@ foo-pipeA-pipeB
 To run a callback at the very end of the pipeline, pass in a `Closure` that accepts the pipeline's output as a parameter:
 
 ```php
-use Opulence\IoC\Container;
+use Opulence\Ioc\Container;
 use Opulence\Pipelines\Pipeline;
 
 $container = new Container();

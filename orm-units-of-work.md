@@ -20,10 +20,10 @@
 <h2 id="example">Example</h2>
  Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
-use MyApp\ORM\DataMappers\MyDataMapper;
-use Opulence\ORM\EntityRegistry;
-use Opulence\ORM\Repositories\Repo;
-use Opulence\ORM\UnitOfWork;
+use MyApp\Orm\DataMappers\MyDataMapper;
+use Opulence\Orm\EntityRegistry;
+use Opulence\Orm\Repositories\Repo;
+use Opulence\Orm\UnitOfWork;
 
 // Assume $connection was set previously
 $unitOfWork = new UnitOfWork(new EntityRegistry(), $connection);
@@ -45,18 +45,18 @@ echo $users->getById(123)->getUsername(); // "bar"
 ```
 
 <h2 id="entity-registry">Entity Registry</h2>
-Entities that are scheduled for insertion/deletion/update are managed by an `Opulence\ORM\EntityRegistry`.
+Entities that are scheduled for insertion/deletion/update are managed by an `Opulence\Orm\EntityRegistry`.
 
 <h2 id="comparing-entities">Comparing Entities</h2>
-`Opulence\ORM\ChangeTracking\ChangeTracker` is responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparator()`.
+`Opulence\Orm\ChangeTracking\ChangeTracker` is responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparator()`.
 
 Let's say that all you care about when checking if two users are identical is whether or not their usernames are identical:
 
 ```php
-use Opulence\ORM\ChangeTracking\ChangeTracker;
-use Opulence\ORM\EntityRegistry;
-use Opulence\ORM\Ids\IdAccessorRegistry;
-use Opulence\ORM\UnitOfWork;
+use Opulence\Orm\ChangeTracking\ChangeTracker;
+use Opulence\Orm\EntityRegistry;
+use Opulence\Orm\Ids\IdAccessorRegistry;
+use Opulence\Orm\UnitOfWork;
 
 // Assume $connection was set previously
 // Also assume the user object was already instantiated
@@ -86,12 +86,12 @@ $unitOfWork->commit();
 > **Note:** PHP's `clone` feature performs a shallow clone.  In other words, it only clones the object, but not any objects contained in that object.  If your object contains another object and you'd like to take advantage of automatic change tracking, you must write a `__clone()` method for that class to clone any objects it contains.  Otherwise, the automatic change tracking will not pick up on changes made to the objects contained in other objects.
 
 <h2 id="entity-ids">Entity Ids</h2>
-Opulence lets you use plain-old PHP objects with the ORM, which means Opulence doesn't know which methods to call to get and set the unique identifiers in your classes.  So, you must let Opulence know using the `Opulence\ORM\Ids\IdAccessorRegistry`:
+Opulence lets you use plain-old PHP objects with the ORM, which means Opulence doesn't know which methods to call to get and set the unique identifiers in your classes.  So, you must let Opulence know using the `Opulence\Orm\Ids\IdAccessorRegistry`:
 
 ```php
-use Opulence\ORM\ChangeTracking\ChangeTracker;
-use Opulence\ORM\EntityRegistry;
-use Opulence\ORM\Ids\IdAccessorRegistry;
+use Opulence\Orm\ChangeTracking\ChangeTracker;
+use Opulence\Orm\EntityRegistry;
+use Opulence\Orm\Ids\IdAccessorRegistry;
 
 class Foo
 {
@@ -127,7 +127,7 @@ $idAccessorRegistry->registerIdAccessors(Foo::class, $getter, $setter);
 > **Note:**  You must always register Id getters, but Id setters are optional.
 
 <h3 id="reducing-boilerplate-code">Reducing Boilerplate Code</h3>
-Opulence's flexibility comes at the price of a little bit of boilerplate code on your end to register Id accessors.  However, if you want to get rid of the boilerplate code, you can optionally implement `Opulence\ORM\IEntity`, which has two methods:  `getId()` and `setId($id)`.  Classes that implement `IEntity` automatically have their Id accessors registered.
+Opulence's flexibility comes at the price of a little bit of boilerplate code on your end to register Id accessors.  However, if you want to get rid of the boilerplate code, you can optionally implement `Opulence\Orm\IEntity`, which has two methods:  `getId()` and `setId($id)`.  Classes that implement `IEntity` automatically have their Id accessors registered.
 
 <h2 id="aggregate-roots">Aggregate Roots</h2>
 Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:

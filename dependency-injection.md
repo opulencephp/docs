@@ -116,7 +116,7 @@ class A
 
 If we always want to pass in an instance of `ConcreteFoo` when there's a dependency on `IFoo`, we can bind the two:
 ```php
-use Opulence\IoC\Container;
+use Opulence\Ioc\Container;
 
 $container = new Container();
 $container->bind("IFoo", "ConcreteFoo");

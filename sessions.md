@@ -19,7 +19,7 @@
 8. [Configuring](#configuring)
 
 <h2 id="introduction">Introduction</h2>
-HTTP is a stateless protocol.  What that means is that each request has no memory of previous requests.  If you've ever used the web, though, you've probably noticed that websites are able to remember information across requests.  For example, a "shopping cart" on an e-commerce website remembers what items you've added to your cart.  How'd they do that?  **Sessions**.
+Http is a stateless protocol.  What that means is that each request has no memory of previous requests.  If you've ever used the web, though, you've probably noticed that websites are able to remember information across requests.  For example, a "shopping cart" on an e-commerce website remembers what items you've added to your cart.  How'd they do that?  **Sessions**.
 
 > **Note:** Although similar in concept, Opulence's sessions do not use PHP's built-in `$_SESSION` functionality because it is awful.
 
@@ -96,9 +96,9 @@ $session->regenerateId();
   * Stores session data to some form of [cache](cache), eg Memcached or Redis
 
 <h2 id="middleware">Middleware</h2>
-The best place to read and write session data with the `handler` is in middleware.  Opulence comes with a class middleware baked-in:  `Opulence\Framework\HTTP\Middleware\Session`.  
+The best place to read and write session data with the `handler` is in middleware.  Opulence comes with a class middleware baked-in:  `Opulence\Framework\Http\Middleware\Session`.
 
-> **Note:** This middleware is an abstract class.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can simply use the middleware `Project\HTTP\Middleware\Session` to finish extending it.  Otherwise, you can roll your own session middleware.
+> **Note:** This middleware is an abstract class.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can simply use the middleware `Project\Http\Middleware\Session` to finish extending it.  Otherwise, you can roll your own session middleware.
 
 Typically in middleware, your `handler` will read from session storage using data passed in through the request.  After the request has been handled and a response generated, the session data is written back to storage via the `handler`.
 
@@ -106,7 +106,7 @@ Typically in middleware, your `handler` will read from session storage using dat
 To use sessions in your controllers, simply inject it into the controller's constructor along with a type hint:
 
 ```php
-namespace MyApp\HTTP\Controllers;
+namespace MyApp\Http\Controllers;
 
 use Opulence\Sessions\ISession;
 

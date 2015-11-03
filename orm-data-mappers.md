@@ -18,7 +18,7 @@
 **Data mappers** act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.
 
 <h2 id="i-data-mapper">IDataMapper</h2>
-All data mappers must implement `Opulence\ORM\DataMappers\IDataMapper`, which includes the following methods:
+All data mappers must implement `Opulence\Orm\DataMappers\IDataMapper`, which includes the following methods:
 * `add()`
 * `delete()`
 * `getAll()`
@@ -29,9 +29,9 @@ All data mappers must implement `Opulence\ORM\DataMappers\IDataMapper`, which in
 You'll frequently find yourself wanting to query entities by some criteria besides Id.  For example, you might want to look up posts by title using a `getByTitle()` method.  Let's create an interface with this method:
 
 ```php
-namespace MyApp\Posts\ORM\DataMappers;
+namespace MyApp\Posts\Orm\DataMappers;
 
-use Opulence\ORM\DataMappers\IDataMapper;
+use Opulence\Orm\DataMappers\IDataMapper;
 
 interface IPostDataMapper extends IDataMapper
 {
@@ -42,11 +42,11 @@ interface IPostDataMapper extends IDataMapper
 We'll implement this interface in the examples below.
 
 <h2 id="sql-data-mappers">SQL Data Mappers</h2>
-SQL data mappers use an SQL database for storage and querying.  They must implement the `Opulence\ORM\DataMappers\ISQLDataMapper` (`SQLDataMapper` comes built-in).  An SQL data mapper implements all the methods from `IDataMapper` as well as `getIdGenerator()`, which returns the instance of the Id generator used by the data mapper.
+SQL data mappers use an SQL database for storage and querying.  They must implement the `Opulence\Orm\DataMappers\ISqlDataMapper` (`SqlDataMapper` comes built-in).  An SQL data mapper implements all the methods from `IDataMapper` as well as `getIdGenerator()`, which returns the instance of the Id generator used by the data mapper.
 
-> **Note:** Id generators are in the `Opulence\ORM\Ids` namespace.
+> **Note:** Id generators are in the `Opulence\Orm\Ids` namespace.
 
-`SQLDataMapper` comes with a few extra methods built-in:
+`SqlDataMapper` comes with a few extra methods built-in:
 
 * `loadEntity()`
   * Accepts a row of data from an SQL query and converts it into an instance of the object maintained by the data mapper
@@ -62,15 +62,15 @@ SQL data mappers use an SQL database for storage and querying.  They must implem
 Let's take a look at an example of an SQL data mapper for WordPress posts:
 
 ```php
-namespace MyApp\WordPress\ORM\DataMappers;
+namespace MyApp\WordPress\Orm\DataMappers;
 
 use MyApp\WordPress\Post;
 use Opulence\Databases\IConnection;
-use Opulence\ORM\DataMappers\SQLDataMapper;
-use Opulence\ORM\Ids\IntSequenceIdGenerator;
+use Opulence\Orm\DataMappers\SqlDataMapper;
+use Opulence\Orm\Ids\IntSequenceIdGenerator;
 use PDO;
 
-class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
+class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
 {
     /** @var Post $post */
     public function add(&$post)
@@ -95,7 +95,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
             "DELETE FROM posts WHERE id = :id"
         );
         $statement->bindValues([
-            "id" => [$post->getId(), PDO::PARAM_INT]
+            "id" => [$post->getId(), \PDO::PARAM_INT]
         ]);
         $statement->execute();
     }
@@ -112,7 +112,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
     {
         $sql = "SELECT id, content, title, author FROM posts WHERE id = :id";
         $parameters = [
-            "id" => [$id, PDO::PARAM_INT]
+            "id" => [$id, \PDO::PARAM_INT]
         ];
         
         // The second-to-last parameter says that we want a single entity
@@ -167,7 +167,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
 > **Note:** The unit of work automatically handles setting the Id on the entity after the `add()` method is run as well as resetting it in case the transaction is rolled back.
 
 <h2 id="cache-data-mappers">Cache Data Mappers</h2>
-Cache data mappers use some form of cache (eg Redis or Memcached) for storage.  They must implement the `Opulence\ORM\DataMappers\ICacheDataMapper` (`PHPRedisDataMapper` and `PredisDataMapper` come built-in).  A cache data mapper implements all the methods from `IDataMapper` as well as `flush()`, which flushes from cache all instances managed by the data mapper.
+Cache data mappers use some form of cache (eg Redis or Memcached) for storage.  They must implement the `Opulence\Orm\DataMappers\ICacheDataMapper` (`PhpRedisDataMapper` and `PredisDataMapper` come built-in).  A cache data mapper implements all the methods from `IDataMapper` as well as `flush()`, which flushes from cache all instances managed by the data mapper.
 
 <h4 id="redis-data-mappers">Redis Data Mappers</h4>
 Redis data mappers implement the following methods:
@@ -184,16 +184,16 @@ Redis data mappers implement the following methods:
   * Reads an entity or list of entities from an Id or list of Ids stored in a set or sorted set
   
 <h4 id="cache-example">Example</h4>
-Let's take a look at a PHPRedis data mapper example:
+Let's take a look at a PhpRedis data mapper example:
 
 ```php
-namespace MyApp\WordPress\ORM\DataMappers;
+namespace MyApp\WordPress\Orm\DataMappers;
 
 use MyApp\WordPress\Post;
-use Opulence\ORM\DataMappers\PHPRedisDataMapper;
-use Opulence\ORM\ORMException;
+use Opulence\Orm\DataMappers\PhpRedisDataMapper;
+use Opulence\Orm\OrmException;
 
-class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
+class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
 {
     /** @var Post $post */
     public function add(&$post)
@@ -206,7 +206,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
         ];
         
         if (!$this->redis->hMset("posts:{$post->getId()}", $hash)) {
-            throw new ORMException("Failed to add post to Redis");
+            throw new OrmException("Failed to add post to Redis");
         }
 
         // Create an index of post Ids
@@ -221,7 +221,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
     public function delete(&$post)
     {
         if (!$this->redis->del("posts:{$post->getId()}")) {
-            throw new ORMException("Failed to delete post from Redis");
+            throw new OrmException("Failed to delete post from Redis");
         }
 
         // Remove this post from the index of posts
@@ -235,7 +235,7 @@ class PostRedisDataMapper extends PHPRedisDataMapper implements IPostDataMapper
             $this->redis->del("posts") === false || 
             !$this->redis->deleteKeyPatterns("posts:*")
         ) {
-            throw new ORMException("Failed to flush posts from Redis");
+            throw new OrmException("Failed to flush posts from Redis");
         }
     }
     
@@ -287,7 +287,7 @@ Cached SQL data mappers use an SQL database with a cache layer on top.  This red
 
 > **Note:** The cache and SQL data mappers MUST implement the same interface for all `get*()` methods.  This allows the cached SQL data mapper to try and call a method from the cache data mapper, and if it fails, call it from the SQL data mapper.  If one of your data mappers does not return data for a particular method, just return `null` if the method returns a single entity, otherwise an empty array if it returns a list of entities.
 
-Cached SQL data mappers must implement `Opulence\ORM\DataMappers\ICachedSQLDataMapper` (`CachedSQLDataMapper` comes built-in).  `RedisCachedSQLDataMapper` and `MemcachedCachedSQLDataMapper` both extend `CachedSQLDataMapper` and provide functionality to simplify interactions with Redis and Memcached, respectively.
+Cached SQL data mappers must implement `Opulence\Orm\DataMappers\ICachedSqlDataMapper` (`CachedSqlDataMapper` comes built-in).  `RedisCachedSqlDataMapper` and `MemcachedCachedSqlDataMapper` both extend `CachedSqlDataMapper` and provide functionality to simplify interactions with Redis and Memcached, respectively.
 
 They come with the following methods built-in:
 
@@ -308,7 +308,7 @@ They come with the following methods built-in:
   * Returns a list of the entities that were not in sync in the same format as `getUnsyncedEntities()`
 * `setCacheDataMapper()`
   * Sets the instance of the sub-cache data mapper using the input cache instance
-* `setSQLDataMapper()`
+* `setSqlDataMapper()`
   * Sets the instance of the sub-SQL data mapper using the input connection pool instance
   
   
@@ -316,12 +316,12 @@ They come with the following methods built-in:
 Let's take a look at a cached SQL data mapper example that uses the cache and SQL data mappers from the previous examples:
 
 ```php
-namespace MyApp\WordPress\ORM\DataMappers;
+namespace MyApp\WordPress\Orm\DataMappers;
 
 use Opulence\Databases\ConnectionPools\ConnectionPool;
-use Opulence\ORM\DataMappers\RedisCachedSQLDataMapper;
+use Opulence\Orm\DataMappers\RedisCachedSqlDataMapper;
 
-class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper implements IPostDataMapper
+class PostCachedSqlDataMapper extends RedisCachedSqlDataMapper implements IPostDataMapper
 {
     public function getByTitle($title)
     {
@@ -333,9 +333,9 @@ class PostCachedSQLDataMapper extends RedisCachedSQLDataMapper implements IPostD
         $this->cacheDataMapper = new PostCacheDataMapper($cache);
     }
 
-    protected function setSQLDataMapper(ConnectionPool $connectionPool)
+    protected function setSqlDataMapper(ConnectionPool $connectionPool)
     {
-        $this->sqlDataMapper = new PostSQLDataMapper($connectionPool);
+        $this->sqlDataMapper = new PostSqlDataMapper($connectionPool);
     }
 }
 ```
@@ -346,11 +346,11 @@ Our `getByTitle()` method calls `$this->read()`, which automatically handles rea
 Instead of just containing the author's name, let's say your `Post` object contains an `Author` object.  Whenever you query a `Post` object from the data mapper, you'll also need to query the `Author` object.  The easiest way to do this is to inject the author repository into the post data mapper:
 
 ```php
-use MyApp\WordPress\ORM\AuthorRepo;
+use MyApp\WordPress\Orm\AuthorRepo;
 use MyApp\WordPress\Post;
 use Opulence\Databases\IConnection;
 
-class PostDataMapper extends SQLDataMapper
+class PostDataMapper extends SqlDataMapper
 {
     private $authorRepo;
     

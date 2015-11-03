@@ -104,7 +104,7 @@ $resolver->registerExtension("fortune", 1);
 > **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the `php`, `fortune`, and `fortune.php` extensions are already registered to the resolver.
 
 <h4 id="view-readers">View Readers</h4>
-Opulence uses an `Opulence\Views\Factories\IO\IViewReader` to actually read raw views in factories.  By default, the `FileViewReader` is used to read views stored in the file system, but you can use any storage system you'd like.  Simply implement `IViewReader` and bind your reader to the IoC container:
+Opulence uses an `Opulence\Views\Factories\IO\IViewReader` to actually read raw views in factories.  By default, the `FileViewReader` is used to read views stored in the file system, but you can use any storage system you'd like.  Simply implement `IViewReader` and bind your reader to the Ioc container:
 
 ```php
 $container->bind(IViewReader::class, new MyViewReader());
@@ -115,7 +115,7 @@ The easiest way to create views is to pass a `ViewFactory` into the controller:
 
 ```php
 use DateTime;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
 

@@ -85,4 +85,4 @@ Opulence automatically generates and compares the tokens using middleware.  To i
 <meta name="csrf-token" content="{{ csrfToken() }}">
 ```
 
-To give you CSRF protection in JavaScript, Opulence sets the `XSRF-TOKEN` cookie, which some frameworks use to automatically set the `X-XSRF-TOKEN` HTTP header in requests.
+To give you CSRF protection in JavaScript, Opulence sets the `XSRF-TOKEN` cookie, which some frameworks use to automatically set the `X-XSRF-TOKEN` Http header in requests.

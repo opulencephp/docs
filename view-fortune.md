@@ -281,9 +281,9 @@ Fortune supplies some built-in functions in the view library:
     1. `string $name` - The name of the http-equiv attribute, eg "refresh"
     2. `mixed $value` - The value of the attribute
 * `httpMethodInput()`
-  * Returns HTML used to spoof HTTP request methods besides `POST` and `GET`
+  * Returns HTML used to spoof Http request methods besides `POST` and `GET`
   * Accepts the following arguments:
-    1. `string $httpMethod` - The HTTP request method to spoof, eg "DELETE"
+    1. `string $httpMethod` - The Http request method to spoof, eg "DELETE"
 * `metaDescription()`
   * Returns HTML used to display a meta description
   * Accepts the following arguments:
@@ -311,7 +311,7 @@ If you're using the <a href="https://github.com/opulencephp/Project" target="_bl
   * Returns a URL that is created using the rules of the input route name
   * Accepts the following arguments:
     1. `string $routeName` - The name of the route whose URL we're creating
-    2. `...$args` - The variable-length arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](routing#url-generators))
+    2. `...$args` - The variable-length arguments to pass into the `UrlGenerator` to fill any host or path variables in the route ([learn more about the `UrlGenerator`](routing#url-generators))
 
 Since these functions output HTML, use them inside unsanitized tags.  Here's an example of how to use these functions:
 
