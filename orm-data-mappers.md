@@ -96,7 +96,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
             "DELETE FROM posts WHERE id = :id"
         );
         $statement->bindValues([
-            "id" => [$post->getId(), PDO::PARAM_INT]
+            "id" => [$post->getId(), \PDO::PARAM_INT]
         ]);
         $statement->execute();
     }
@@ -113,7 +113,7 @@ class PostSQLDataMapper extends SQLDataMapper implements IPostDataMapper
     {
         $sql = "SELECT id, content, title, author FROM posts WHERE id = :id";
         $parameters = [
-            "id" => [$id, PDO::PARAM_INT]
+            "id" => [$id, \PDO::PARAM_INT]
         ];
         
         // The second-to-last parameter says that we want a single entity

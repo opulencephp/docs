@@ -81,7 +81,7 @@ $query = (new QueryBuilder)->select("count(*)")
     ->where("username = :username")
     ->orWhere("id = :id")
     ->addNamedPlaceholderValues([
-        // Non-array values are assumed to be of type PDO::PARAM_STR
+        // Non-array values are assumed to be of type \PDO::PARAM_STR
         "username" => "dave_y",
         // In array values, the first item is the value, and the second is the parameter type
         "id" => [24, \PDO::PARAM_INT]
@@ -90,7 +90,7 @@ $query = (new QueryBuilder)->select("count(*)")
 
 Similarly, `addUnnamedPlaceholderValue()` and `addUnnamedPlaceholderValues()` can be used to add unnamed placeholder values.
 
-> **Note:** You cannot mix named with unnamed placeholders.  Also, if no type is specified for a bound value, it's assumed to be PDO::PARAM_STR.
+> **Note:** You cannot mix named with unnamed placeholders.  Also, if no type is specified for a bound value, it's assumed to be \PDO::PARAM_STR.
 
 <h2 id="select-queries">Select Queries</h2>
 Select queries use a variable argument list to specify the columns to select:
