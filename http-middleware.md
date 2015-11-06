@@ -1,4 +1,4 @@
-# Http Middleware
+# HTTP Middleware
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -8,7 +8,7 @@
 5. [Route Middleware](#route-middleware)
   
 <h2 id="introduction">Introduction</h2>
-Http middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).
+HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).
 
 Opulence uses dependency injection for type-hinted objects in a `Middleware` constructor.  So, if you need any objects in your `handle()` method, just specify them in the constructor.  Let's take a look at an example:
 

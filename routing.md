@@ -12,13 +12,13 @@
   3. [Default Values](#default-values)
 4. [Host Matching](#host-matching)
 5. [Middleware](#middleware)
-6. [Https](#https)
+6. [HTTPS](#https)
 7. [Named Routes](#named-routes)
 8. [Route Grouping](#route-grouping)
   1. [Controller Namespaces](#controller-namespaces)
   2. [Group Middleware](#group-middleware)
   3. [Group Hosts](#group-hosts)
-  4. [Group Https](#group-https)
+  4. [Group HTTPS](#group-https)
   5. [Group Variable Regular Expressions](#group-variable-regular-expressions)
 9. [URL Generators](#url-generators)
   1. [Generating URLs from Code](#generating-urls-from-code)
@@ -33,7 +33,7 @@ So, you've made some page views, and you've written some models.  Now, you need 
 <h2 id="basic-usage">Basic Usage</h2>
 Routes require a few pieces of information:
 * The path the route is valid for
-* The Http method (eg "GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", or "HEAD") the route is valid for
+* The HTTP method (eg "GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", or "HEAD") the route is valid for
 * The action to perform on a match
 
 `Opulence\Routing\Router` supports various methods out of the gate:
@@ -75,7 +75,7 @@ If you need any object like the `Request` to be passed into the closure, just ty
 use Opulence\Http\Requests\Request;
 
 $router->get("/users/:id", function (Request $request, $id) {
-    // $request will be the Http request
+    // $request will be the HTTP request
     // $id will be the path variable
 });
 ```
@@ -184,8 +184,8 @@ $router->get("/books", "MyApp\\MyController@myMethod", $options);
 
 Whenever a request matches this route, `MyApp\MyMiddleware` will be run.
 
-<h2 id="https">Https</h2>
-Some routes should only match on an Https connection.  To do this, set the `https` flag to true in the options:
+<h2 id="https">HTTPS</h2>
+Some routes should only match on an HTTPS connection.  To do this, set the `https` flag to true in the options:
 
 ```php
 $options = [
@@ -194,7 +194,7 @@ $options = [
 $router->get("/users", "MyApp\\MyController@myMethod", $options);
 ```
 
-Https requests to `/users` will match, but non SSL connections will return a 404 response.
+HTTPS requests to `/users` will match, but non SSL connections will return a 404 response.
 
 <h2 id="named-routes">Named Routes</h2>
 Routes can be given a name, which makes them identifiable.  This is especially useful for things like [generating URLs for a route](#generating-urls-from-code).  To name a route, pass a `"name" => "THE_NAME"` into the route options:
@@ -255,8 +255,8 @@ $router->group(["host" => "google.com"], function () use ($router) {
 
 > **Note:** When specifying hosts in nested router groups, the inner groups' hosts are prepended to the outer groups' hosts.  This means the inner-most route in the example above will have a host of "mail.google.com".
 
-<h4 id="group-https">Group Https</h4>
-You can force all routes in a group to be Https:
+<h4 id="group-https">Group HTTPS</h4>
+You can force all routes in a group to be HTTPS:
 
 ```php
 $router->group(["https" => true], function () use ($router) {
@@ -265,7 +265,7 @@ $router->group(["https" => true], function () use ($router) {
 });
 ```
 
-> **Note:** If the an outer group marks the routes Https but an inner one doesn't, the inner group gets ignored.  The outer-most group with an Https definition is the only one that counts.
+> **Note:** If the an outer group marks the routes HTTPS but an inner one doesn't, the inner group gets ignored.  The outer-most group with an HTTPS definition is the only one that counts.
 
 <h4 id="group-variable-regular-expressions">Group Variable Regular Expressions</h4>
 Groups support regular expressions for path variables:

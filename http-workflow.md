@@ -1,11 +1,11 @@
-# Http Application Workflow
+# HTTP Application Workflow
 
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Workflow](#workflow)
 
 <h2 id="introduction">Introduction</h2>
-Opulence uses a single point of entry for all pages.  In other words, all Http requests get redirected through `index.php`, which instantiates the application and handles the request.  Here's a breakdown of the workflow of a typical Opulence Http application:
+Opulence uses a single point of entry for all pages.  In other words, all HTTP requests get redirected through `index.php`, which instantiates the application and handles the request.  Here's a breakdown of the workflow of a typical Opulence HTTP application:
 
 <h2 id="workflow">Workflow</h2>
 1. User requests http://www.example.com/users/23/profile
@@ -16,7 +16,7 @@ Opulence uses a single point of entry for all pages.  In other words, all Http r
   1. Bootstrappers' bindings are registered by the bootstrapper `Dispatcher`
   2. Bootstrappers are run by the bootstrapper `Dispatcher`
 6. The application is [started](application#start-task)
-7. An Http `Kernel` is instantiated, which converts the [Http request](http-requests-responses#requests) into a [response](http-requests-responses#responses)
+7. An HTTP `Kernel` is instantiated, which converts the [HTTP request](http-requests-responses#requests) into a [response](http-requests-responses#responses)
   * The path "/users/23/profile" is detected by the request
 8. All global [middleware](http-middleware) are run
 9. The [`Router`](routing) finds a route that matches the request

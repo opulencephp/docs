@@ -19,7 +19,7 @@
 8. [Configuring](#configuring)
 
 <h2 id="introduction">Introduction</h2>
-Http is a stateless protocol.  What that means is that each request has no memory of previous requests.  If you've ever used the web, though, you've probably noticed that websites are able to remember information across requests.  For example, a "shopping cart" on an e-commerce website remembers what items you've added to your cart.  How'd they do that?  **Sessions**.
+HTTP is a stateless protocol.  What that means is that each request has no memory of previous requests.  If you've ever used the web, though, you've probably noticed that websites are able to remember information across requests.  For example, a "shopping cart" on an e-commerce website remembers what items you've added to your cart.  How'd they do that?  **Sessions**.
 
 > **Note:** Although similar in concept, Opulence's sessions do not use PHP's built-in `$_SESSION` functionality because it is awful.
 

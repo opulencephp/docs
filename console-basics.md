@@ -68,4 +68,4 @@ To make creating new classes as simple as possible, Apex supports several `make:
 They all accept a single argument: the name of the class to generate.  If you input a fully-qualified class name, then that namespace and class name will be used.  Otherwise, the default namespace will be used (eg controllers are under `Project\Http\Controllers`).
 
 <h4 id="viewsflush">views:flush</h4>
-If you also use Opulence's Http kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.
+If you also use Opulence's HTTP kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.

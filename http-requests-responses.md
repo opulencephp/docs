@@ -1,4 +1,4 @@
-# Http Requests/Responses
+# HTTP Requests/Responses
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -23,7 +23,7 @@
       2. [Raw Body](#raw-body)
   16. [AJAX](#ajax)
   17. [Getting the IP Address](#getting-the-ip-address)
-  18. [Checking if Https](#checking-if-https)
+  18. [Checking if HTTPS](#checking-if-https)
   19. [Getting the Full URL](#getting-the-full-url)
   20. [Getting the Previous URL](#getting-the-previous-url)
   21. [Authentication Data](#authentication-data)
@@ -37,10 +37,10 @@
   5. [Redirect Responses](#redirect-responses)
 
 <h2 id="introduction">Introduction</h2>
-Opulence makes interacting with Http requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the Http tools PHP gives you by default.  Use Opulence's tools, and stop worry about stuff like this.
+Opulence makes interacting with HTTP requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the HTTP tools PHP gives you by default.  Use Opulence's tools, and stop worry about stuff like this.
   
 <h2 id="requests">Requests</h2>
-Opulence has a wrapper around an Http request in the `Opulence\Http\Requests\Request` class.
+Opulence has a wrapper around an HTTP request in the `Opulence\Http\Requests\Request` class.
 
 <h4 id="collections">Collections</h4>
 Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `Opulence\Http\Collection` objects, which have the following methods:
@@ -162,13 +162,13 @@ $request->isPath("/docs/.*", true);
 > **Note:** Do not include regular expression delimiters in your regular expression.
 
 <h4 id="getting-the-method">Getting the Method</h4>
-To determine which Http method was used to make a request (eg "GET" or "POST"), use `getMethod()`:
+To determine which HTTP method was used to make a request (eg "GET" or "POST"), use `getMethod()`:
 ```php
 $request->getMethod();
 ```
 
-<h5 id="spoofing-http-methods">Spoofing Http Methods</h5>
-HTML forms only permit `GET` and `POST` Http methods.  You can spoof other methods by including a hidden input named "_method" whose value is the method you'd like to spoof:
+<h5 id="spoofing-http-methods">Spoofing HTTP Methods</h5>
+HTML forms only permit `GET` and `POST` HTTP methods.  You can spoof other methods by including a hidden input named "_method" whose value is the method you'd like to spoof:
 
 ```php
 <form method="POST">
@@ -186,7 +186,7 @@ If you are using Fortune for your views, you may use the `httpMethodInput()` [vi
 </form>
 ```
 
-You can also use the `X-HTTP-METHOD-OVERRIDE` header to set the Http method.
+You can also use the `X-HTTP-METHOD-OVERRIDE` header to set the HTTP method.
   
 <h4 id="body">Body</h4>
 The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
@@ -223,7 +223,7 @@ $request->isAjax();
 $request->getIPAddress();
 ```
 
-<h4 id="checking-if-https">Checking if Https</h4>
+<h4 id="checking-if-https">Checking if HTTPS</h4>
 ```php
 $request->isSecure();
 ```
@@ -245,10 +245,10 @@ $phpAuthUser = $request->getUser();
 $phpAuthPassword = $request->getPassword();
 ```
 <h2 id="responses">Responses</h2>
-Opulence also wraps an Http response into the `Opulence\Http\Responses\Response` class.  You can set the content, Http status code, headers, and cookies in a response.  Opulence also supports JSON responses and redirects.
+Opulence also wraps an HTTP response into the `Opulence\Http\Responses\Response` class.  You can set the content, HTTP status code, headers, and cookies in a response.  Opulence also supports JSON responses and redirects.
 
 <h4 id="status-codes">Status Codes</h4>
-By default, a status code of 200 (Http OK) is returned.  A full list of codes is available in `Opulence\Http\Responses\ResponseHeaders`.  For example, here's how to set an "Unauthorized" status code:
+By default, a status code of 200 (HTTP OK) is returned.  A full list of codes is available in `Opulence\Http\Responses\ResponseHeaders`.  For example, here's how to set an "Unauthorized" status code:
 
 ```php
 use Opulence\Http\Responses\Response;

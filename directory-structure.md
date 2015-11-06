@@ -20,7 +20,7 @@ This is where your project's core code goes.  If it's a PHP class, it belongs in
   * `Console`
       * Console bootstrappers are here
   * `Http`
-      * Http bootstrappers are here
+      * HTTP bootstrappers are here
 * `Console`
   * `Commands`
       * Console commands are here
@@ -30,9 +30,9 @@ This is where your project's core code goes.  If it's a PHP class, it belongs in
       * Event listeners are here
 * `Http`
   * `Controllers`
-      * Http controllers are here
+      * HTTP controllers are here
   * `Middleware`
-      * Http middleware are here
+      * HTTP middleware are here
   * `Views`
       * View builders are here
 

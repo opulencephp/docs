@@ -1,4 +1,4 @@
-# Http Basics
+# HTTP Basics
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -9,7 +9,7 @@
   2. [Responses](#responses)
 
 <h2 id="introduction">Introduction</h2>
-Http (website) applications are the most common types of applications created with Opulence.  They make it easy to handle Http requests, perform business logic, render views, and send Http responses back to the user.  Opulence uses a powerful, yet simple way of building your Http applications - MVC (Model, View, and Controller).
+HTTP (website) applications are the most common types of applications created with Opulence.  They make it easy to handle HTTP requests, perform business logic, render views, and send HTTP responses back to the user.  Opulence uses a powerful, yet simple way of building your HTTP applications - MVC (Model, View, and Controller).
 MVC is a programming architecture that separates your models from your views from your controllers.  This allows you to swap any component of your application without affecting the rest.  For example, you might decide to give your website a facelift.  Doing so should really only affect the views in your application.  By strictly following the MVC architecture, you can redesign your website without having to worry much at all about the backend.
 
 <h2 id="models">Models</h2>
@@ -19,7 +19,7 @@ Models store data and the business logic behind your application.  Think of them
 Views comprise the user interface portion of your application.  They should be relatively independent of your models to allow proper abstraction.  Opulence has a built-in [template engine](view-basics), although you are free to use any template engine you'd like.
 
 <h2 id="controllers">Controllers</h2>
-Controllers act as the go-between for models and views in an application.  When a model is updated, the controller updates the view.  Similarly, when a view is updated, the controller updates the models.  In Opulence, controllers can either be plain-old PHP classes, or they can extend `Opulence\Routing\Controller`, which automatically injects the Http request, the view factory, and the view compiler.
+Controllers act as the go-between for models and views in an application.  When a model is updated, the controller updates the view.  Similarly, when a view is updated, the controller updates the models.  In Opulence, controllers can either be plain-old PHP classes, or they can extend `Opulence\Routing\Controller`, which automatically injects the HTTP request, the view factory, and the view compiler.
 
 <h4 id="dependency-injection">Dependency Injection</h4>
 Opulence uses a [dependency injection container](dependency-injection) to create controllers.  Taking advantage of this is simple:  type-hint any objects your controller needs in the controller's constructor.  Opulence will inject the appropriate objects into your controllers via your [bootstrappers](bootstrappers).
