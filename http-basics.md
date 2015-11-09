@@ -34,7 +34,7 @@ namespace MyApp\Bootstrappers\Orm;
 
 use MyApp\Http\Controllers\UserList;
 use MyApp\Users\Orm\UserRepo;
-use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Orm\Repositories\IRepo;
 

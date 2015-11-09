@@ -204,7 +204,7 @@ You can create your own style elements.  Elements are registered to `Opulence\Co
 ```php
 namespace MyApp\Bootstrappers\Console;
 
-use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Console\Responses\Compilers\Elements\Colors;
 use Opulence\Console\Responses\Compilers\Elements\Style;
 use Opulence\Console\Responses\Compilers\Elements\TextStyles;
