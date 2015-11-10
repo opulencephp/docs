@@ -107,7 +107,7 @@ This will return false after comparing 5 characters and will take a little longe
 "bbbba" == "bbbbb";
 ```
 
-Because of this comparison timing vulnerability, it's important to compare the entire length of the user input against the known value, even if you know they're not equal from the first character.  Opulence has a wrapper function around **Symfony's** excellent safe string comparison function:
+Because of this comparison timing vulnerability, it's important to compare the entire length of the user input against the known value, even if you know they're not equal from the first character.
 
 ```php
 echo $stringUtility->isEqual("aaaaa", "bbbbb"); // 0
