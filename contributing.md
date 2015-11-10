@@ -28,7 +28,7 @@ To report a bug, <a href="https://github.com/opulencephp/Opulence/issues" target
 To fix a bug, create a pull request on the latest stable branch with the fix and relevant PHPUnit tests.
 
 <h2 id="features">Features</h2>
-We always appreciate when you want to add a new feature to Opulence.  For minor, backwards-compatible features, create a pull request on the latest stable branch.  For major, possibly backwards-incompatible features, create a pull request on the master branch.
+We always appreciate when you want to add a new feature to Opulence.  For minor, backwards-compatible features, create a pull request on the latest stable branch.  For major, possibly backwards-incompatible features, create a pull request on the `develop` branch.
 
 <h2 id="security-vulnerabilities">Security Vulnerabilities</h2>
 Opulence takes security seriously.  If you find a security vulnerability, please email us at <a href="mailto:bugs@opulencephp.com">bugs@opulencephp.com</a>.
