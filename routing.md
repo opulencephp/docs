@@ -283,7 +283,7 @@ $router->group($options, function () use ($router) {
 });
 ```
 
-Going to `/users/foo/profile` or `users/foo/posts` will not match because the Id was not numeric.
+Going to `/users/foo/profile` or `/users/foo/posts` will not match because the Id was not numeric.
 
 > **Note:** If a route has a variable regular expression specified, it takes precedence over group regular expressions.
 
