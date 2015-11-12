@@ -23,8 +23,8 @@ Connection pools help you manage your database connections by doing all the dirt
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
 ```php
+use Opulence\Databases\Adapters\Pdo\MySql\Driver;
 use Opulence\Databases\ConnectionPools\SingleServerConnectionPool;
-use Opulence\Databases\Pdo\MySql\Driver;
 use Opulence\Databases\Server;
 
 $connectionPool = new SingleServerConnectionPool(
@@ -53,8 +53,8 @@ $name = $row["name"];
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  Instead of taking a single server in their constructors, they take a master server and an array of slave servers.
 
 ```php
+use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver;
 use Opulence\Databases\ConnectionPools\MasterSlaveConnectionPool;
-use Opulence\Databases\Pdo\PostgreSql\Driver;
 use Opulence\Databases\Server;
 
 $connectionPool = new MasterSlaveConnectionPool(
@@ -106,7 +106,7 @@ To read from the database, simply use the connection returned by `$connectionPoo
 <h2 id="how-to-query-and-fetch-results">How to Query and Fetch Results</h2>
 Opulence uses the exact same methods as `PDO` to query and fetch results.  To learn how to query using `PDO`, try the <a href="http://php.net/manual/en/book.pdo.php" target="_blank">official PHP documentation</a>.
 
-Opulence's `PDO` wrappers make it easy to connect to the database without having to remember things like how to format the DSN.  Opulence's wrappers also support [type mappers](database-type-mappers) for easy conversion between a database vendor's data types and PHP data types.  They even provide support for nested database transactions.
+Opulence's `PDO` wrappers make it easy to connect to the database without having to remember things like how to format the DSN.  Opulence also provides [type mappers](database-type-mappers) for easy conversion between a database vendor's data types and PHP data types.  They even provide support for nested database transactions.
 
 <h2 id="binding-values">Binding Values</h2>
 Most database queries use a dynamic variable to filter results.  The unsafe method would be to put it directly in the string:

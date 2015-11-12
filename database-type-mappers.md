@@ -38,6 +38,16 @@ use Opulence\Databases\Providers\TypeMapper;
 $typeMapper = new TypeMapper(new MySqlProvider());
 ```
 
+Opulence provides a factory to create type mappers from providers:
+
+```php
+use Opulence\Databases\Providers\Factories\TypeMapperFactory;
+
+$factory = new TypeMapperFactory();
+// Let's assume $connection is an instance of Opulence\Databses\IConnection
+$typeMapper = $factory->create($connection->getDatabaseProvider());
+```
+
 You can also use `setProvider()`.  Alternatively, all methods accept a provider in the last parameter:
 
 ```php
