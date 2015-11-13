@@ -18,18 +18,17 @@ Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic k
 Opulence lets you choose whichever Memcached library you'd like.  The built-in library `\Memcached` is the most popular.
 
 <h2 id="creating-memcached-connection">Creating a Memcached Connection</h2>
-`Opulence\Memcached\Memcached` acts as a convenient wrapper around Memcached.  It accepts either a single client or a list of clients as well as a `TypeMapper` to help you convert to and from Memcached types.  Opulence uses magic methods to pass on method calls to the underlying Memcached client(s).
+`Opulence\Memcached\Memcached` acts as a convenient wrapper around Memcached.  It accepts either a single client or a list of clients.  Opulence uses magic methods to pass on method calls to the underlying Memcached client(s).
 
 <h4 id="single-client">Single Client</h4>
 ```php
 use Memcached as Client;
 use Opulence\Memcached\Memcached;
-use Opulence\Memcached\TypeMapper;
 
 // Create our connection
 $client = new Client();
 $client->addServer("localhost", 11211);
-$memcached = new Memcached($client, new TypeMapper());
+$memcached = new Memcached($client);
 
 // Try it out
 $memcached->set("foo", "bar");
@@ -48,7 +47,6 @@ If you pass in multiple clients, one of them MUST be named `default`.
 ```php
 use Memcached as Client;
 use Opulence\Memcached\Memcached;
-use Opulence\Memcached\TypeMapper;
 
 $defaultClient = new Client();
 $defaultClient->addServer("127.0.0.1", 11211);
@@ -58,7 +56,7 @@ $clients = [
     "default" => $defaultClient,
     "backup" => $backupClient
 ];
-$memcached = new Memcached($clients, new TypeMapper());
+$memcached = new Memcached($clients);
 ```
 
 You can get a particular client instance:
@@ -75,12 +73,11 @@ $memcached->getClient("backup");
 ```php
 use Memcached as Client;
 use Opulence\Memcached\Memcached;
-use Opulence\Memcached\TypeMapper;
 
 $client = new Client();
 $client->addServer("127.0.0.1", 11211);
 $client->addServer("127.0.0.2", 11211);
-$memcached = new Memcached($client, new TypeMapper());
+$memcached = new Memcached($client);
 ```
 
 You can get the client instance:
@@ -90,9 +87,14 @@ $memcached->getClient();
 ```
 
 <h2 id="type-mappers">Type Mappers</h2>
-`Opulence\Memcached\TypeMapper` helps you translate to and from Memcached data types.  For example, you cannot store a `DateTime` object in Memcached, so you need to convert to a Unix timestamp when storing it.  Conversely, when you read from Memcached, you can use a type mapper to convert the Unix timestamp back into a `DateTime` object.
+`Opulence\Memcached\Types\TypeMapper` helps you translate to and from Memcached data types.  For example, you cannot store a `DateTime` object in Memcached, so you need to convert to a Unix timestamp when storing it.  Conversely, when you read from Memcached, you can use a type mapper to convert the Unix timestamp back into a `DateTime` object.
+You can also use a factory to create type mappers:
 
-You can get the type mapper object using `Opulence\Memcached\Memcached::getTypeMapper()`.
+```php
+use Opulence\Memcached\Types\Factories\TypeMapperFactory;
+
+$typeMapper = (new TypeMapperFactory)->create();
+```
 
 <h4 id="booleans">Booleans</h4>
 

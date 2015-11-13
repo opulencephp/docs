@@ -23,18 +23,17 @@ Opulence lets you choose whichever Redis library you'd like.  The following are 
   * PHP library that does not require you to re-compile PHP
 
 <h2 id="creating-redis-connection">Creating a Redis Connection</h2>
-`Opulence\Redis\Redis` acts as a convenient wrapper around Redis.  It accepts either a single client or a list of clients as well as a `TypeMapper` to help you convert to and from Redis types.  Opulence uses magic methods to pass on method calls to the underlying Redis client(s).
+`Opulence\Redis\Redis` acts as a convenient wrapper around Redis.  It accepts either a single client or a list of clients.  Opulence uses magic methods to pass on method calls to the underlying Redis client(s).
 
 <h4 id="single-client">Single Client</h4>
 ```php
 use Opulence\Redis\Redis;
-use Opulence\Redis\TypeMapper;
 use Redis as Client;
 
 // Create our connection
 $client = new Client();
 $client->connect("localhost", 6379);
-$redis = new Redis($client, new TypeMapper());
+$redis = new Redis($client);
 
 // Try it out
 $redis->set("foo", "bar");
@@ -52,7 +51,6 @@ If you pass in multiple clients, one of them MUST be named `default`.
 
 ```php
 use Opulence\Redis\Redis;
-use Opulence\Redis\TypeMapper;
 use Redis as Client;
 
 $defaultClient = new Client();
@@ -63,7 +61,7 @@ $clients = [
     "default" => $defaultClient,
     "backup" => $backupClient
 ];
-$redis = new Redis($clients, new TypeMapper());
+$redis = new Redis($clients);
 ```
 
 You can get a particular client instance:
@@ -79,7 +77,6 @@ Redis 3.0 added the ability to automatically shard your Redis database across a 
 
 ```php
 use Opulence\Redis\Redis;
-use Opulence\Redis\TypeMapper;
 use Predis\Client;
 
 $client = new Client(
@@ -91,7 +88,7 @@ $client = new Client(
         "cluster" => "redis"
     ]
 );
-$redis = new Redis($client, new TypeMapper());
+$redis = new Redis($client);
 ```
 
 You can get the client instance:
@@ -101,9 +98,15 @@ $redis->getClient();
 ```
 
 <h2 id="type-mappers">Type Mappers</h2>
-`Opulence\Redis\TypeMapper` helps you translate to and from Redis data types.  For example, you cannot store a `DateTime` object in Redis, so you need to convert to a Unix timestamp when storing it.  Conversely, when you read from Redis, you can use a type mapper to convert the Unix timestamp back into a `DateTime` object.
+`Opulence\Redis\Types\TypeMapper` helps you translate to and from Redis data types.  For example, you cannot store a `DateTime` object in Redis, so you need to convert to a Unix timestamp when storing it.  Conversely, when you read from Redis, you can use a type mapper to convert the Unix timestamp back into a `DateTime` object.
 
-You can get the type mapper object using `Opulence\Redis\Redis::getTypeMapper()`.
+You can also use a factory to create type mappers:
+
+```php
+use Opulence\Redis\Types\Factories\TypeMapperFactory;
+
+$typeMapper = (new TypeMapperFactory)->create();
+```
 
 <h4 id="booleans">Booleans</h4>
 

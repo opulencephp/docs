@@ -36,7 +36,7 @@ A good place to start is to run `php apex` in the directory you installed Opulen
 Displays the current application environment name, eg "Production" or "Development".
 
 <h4 id="apprename">app:rename</h4>
-When you install Opulence, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under "app", and the composer.json PSR-4 settings.
+When you install Opulence, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under `src`, and the composer.json PSR-4 settings.
 
 <h4 id="composerdumpautoload">composer:dump-autoload</h4>
 This provides a wrapper around Composer's `dump-autoload` command, and is useful when another command needs to dump the autoload after running.

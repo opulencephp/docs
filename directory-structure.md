@@ -2,19 +2,31 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [app](#app)
-3. [bootstrap](#bootstrap)
-4. [configs](#configs)
-5. [public](#public)
-6. [resources](#resources)
+2. [bootstrap](#bootstrap)
+3. [configs](#configs)
+4. [public](#public)
+5. [resources](#resources)
+6. [src](#src)
 7. [tests](#tests)
 8. [tmp](#tmp)
 
 <h2 id="introduction">Introduction</h2>
-Opulence's directory structure was inspired by the best of ideas from frameworks like Laravel and Aura.  The directories logically separate files based on their purpose.  However, you are not chained to this structure.  If you do decide to customize it, make sure you update the PSR-4 settings in `composer.json` as well as the relevant paths in `configs/paths.php`.  
+Opulence's directory structure was inspired by the best of ideas from frameworks like Laravel and Aura.  The directories logically separate files based on their purpose.  However, you are not chained to this structure.  If you do decide to customize it, make sure you update the PSR-4 settings in `composer.json` as well as the relevant paths in `configs/paths.php`.
 
-<h2 id="app">app</h2>
-This is where your project's core code goes.  If it's a PHP class, it belongs in here.  The subdirectories under `app` are:
+<h2 id="bootstrap">bootstrap</h2>
+This contains the code that actually boots up your application.  It's probably best not to touch the contents unless you are sure you know what you are doing.
+
+<h2 id="configs">configs</h2>
+All configuration files for your application should go here.  Console-specific configs are in the `console` subdirectory, and web-specific configs are in the `http` subdirectory.  The `environment` subdirectory holds .env.*.php files to setup your server with environment variables.
+
+<h2 id="public">public</h2>
+Like the name implies, this is the directory that is publicly-accessible.  Assets like CSS, JavaScript, and images should go under the `assets` subdirectory.
+
+<h2 id="resources">resources</h2>
+This is where your views and other non-publicly-accessible files go.  For example, SCSS files and un-minified JavaScript files belong here.
+
+<h2 id="src">src</h2>
+This is where your project's core code goes.  If it's a PHP class, it belongs in here.  The subdirectories under `src` are:
 
 * `Bootstrappers`
   * `Console`
@@ -35,18 +47,6 @@ This is where your project's core code goes.  If it's a PHP class, it belongs in
       * HTTP middleware are here
   * `Views`
       * View builders are here
-
-<h2 id="bootstrap">bootstrap</h2>
-This contains the code that actually boots up your application.  It's probably best not to touch the contents unless you are sure you know what you are doing.
-
-<h2 id="configs">configs</h2>
-All configuration files for your application should go here.  Console-specific configs are in the `console` subdirectory, and web-specific configs are in the `http` subdirectory.  The `environment` subdirectory holds .env.*.php files to setup your server with environment variables.
-
-<h2 id="public">public</h2>
-Like the name implies, this is the directory that is publicly-accessible.  Assets like CSS, JavaScript, and images should go under the `assets` subdirectory.
-
-<h2 id="resources">resources</h2>
-This is where your views and other non-publicly-accessible files go.  For example, SCSS files and un-minified JavaScript files belong here.
  
 <h2 id="tests">tests</h2>
 Put your unit tests in this directory.

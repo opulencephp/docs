@@ -33,7 +33,7 @@ Type mappers need a provider, eg MySQL or PostgreSQL, to do the conversions.  Yo
 
 ```php
 use Opulence\Databases\Providers\MySqlProvider;
-use Opulence\Databases\Providers\TypeMapper;
+use Opulence\Databases\Providers\Types\TypeMapper;
 
 $typeMapper = new TypeMapper(new MySqlProvider());
 ```
@@ -41,14 +41,14 @@ $typeMapper = new TypeMapper(new MySqlProvider());
 Opulence provides a factory to create type mappers from providers:
 
 ```php
-use Opulence\Databases\Providers\Factories\TypeMapperFactory;
+use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
 
 $factory = new TypeMapperFactory();
-// Let's assume $connection is an instance of Opulence\Databses\IConnection
+// Let's assume $connection is an instance of Opulence\Databases\IConnection
 $typeMapper = $factory->create($connection->getDatabaseProvider());
 ```
 
-You can also use `setProvider()`.  Alternatively, all methods accept a provider in the last parameter:
+All methods accept a provider in the last parameter:
 
 ```php
 $typeMapper->toSqlTimestampWithTimeZone(new DateTime(), new MySqlProvider());
