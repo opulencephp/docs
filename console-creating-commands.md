@@ -51,8 +51,8 @@ Like arguments, option types can be specified by bitwise OR-ing types together. 
 use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 
-$type = OptionTypes::REQUIRED_VALUE;
-$option = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "The foo option");
+$type = OptionTypes::IS_ARRAY | OptionTypes::REQUIRED_VALUE;
+$option = new Option("foo", "f", $types, "The foo option");
 ```
 
 <h2 id="creating-commands">Creating Commands</h2>
