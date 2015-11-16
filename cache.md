@@ -39,7 +39,7 @@ $fileBridge = new FileBridge("/path/to/my/cache/files");
 ```
 
 <h2 id="memcached-bridge">Memcached Bridge</h2>
-`RDev\Cache\Memcached` acts as a simple wrapper around Memcached.  You can either use an instance of `Memcached` or `RDev\Memcached\RDevMemcached`.
+`RDev\Cache\MemcachedBridge` acts as a simple wrapper around Memcached.  You can either use an instance of `Memcached` or `RDev\Memcached\RDevMemcached`.
 
 ```php
 use RDev\Cache\MemcachedBridge;
@@ -63,7 +63,7 @@ If you need the underlying Memcached instance to do anything beyond what the bri
 > **Note:** [Read more information](nosql#memcached) about RDev's Memcached extension.
 
 <h2 id="redis-bridge">Redis Bridge</h2>
-`RDev\Cache\Redis` is a simple bridge to Redis.  You can either use an instance of `Redis` or `RDev\Redis\RDevPHPRedis`.
+`RDev\Cache\Redis`Bridge is a simple bridge to Redis.  You can either use an instance of `Redis` or `RDev\Redis\RDevPHPRedis`.
 
 ```php
 use RDev\Cache\RedisBridge;
