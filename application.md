@@ -25,7 +25,7 @@ A kernel is something that takes input, performs processing on it, and returns o
 Having these two kernels allows Opulence to function as both a traditional HTTP web application and a console application.
 
 <h2 id="tasks">Tasks</h2>
-To start and shutdown an application, simply call the `start()` and `shutdown()` methods, respectively, on the application object.  If you'd like to do some tasks before or after startup, you may do so with the `Opulence\Applications\Tasks\Dispatchers\Dispatcher`, which is injected into the `Application` object.  Tasks are handy places to do any setting up that your application requires or any housekeeping after start/shutdown.
+To start and shutdown an application, simply call the `start()` and `shutDown()` methods, respectively, on the application object.  If you'd like to do some tasks before or after startup, you may do so with the `Opulence\Applications\Tasks\Dispatchers\Dispatcher`, which is injected into the `Application` object.  Tasks are handy places to do any setting up that your application requires or any housekeeping after start/shutdown.
 
 <h4 id="pre-start-tasks">Pre-Start Tasks</h4>
 Pre-start tasks are performed before the application is started.
@@ -68,14 +68,14 @@ $dispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () {
 ```
 
 <h4 id="shutdown-task">Shutdown Task</h4>
-If you'd like to perform a certain task after all the pre-shutdown tasks have been completed, pass in a `Closure` to the `shutdown()` method.  If the task returns anything, then `shutdown()` returns that value.  Otherwise, it returns null.
+If you'd like to perform a certain task after all the pre-shutdown tasks have been completed, pass in a `Closure` to the `shutDown()` method.  If the task returns anything, then `shutDown()` returns that value.  Otherwise, it returns null.
 ```php
-$application->shutdown(function () {
+$application->shutDown(function () {
     error_log("Application actually shut down at " . date("Y-m-d H:i:s"));
 });
 ```
 
-> **Note:** Passing a `Closure` to `shutdown()` is optional. 
+> **Note:** Passing a `Closure` to `shutDown()` is optional. 
 
 <h4 id="post-shutdown-tasks">Post-Shutdown Tasks</h4>
 Post-shutdown tasks are performed after the application has shut down.
