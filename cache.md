@@ -39,17 +39,16 @@ $fileBridge = new FileBridge("/path/to/my/cache/files");
 ```
 
 <h2 id="memcached-bridge">Memcached Bridge</h2>
-`Opulence\Cache\Memcached` acts as a simple wrapper around Memcached.
+`Opulence\Cache\MemcachedBridge` acts as a simple wrapper around Memcached.
 
 ```php
 use Memcached as Client;
 use Opulence\Cache\MemcachedBridge;
 use Opulence\Memcached\Memcached;
-use Opulence\Memcached\TypeMapper;
 
 $client = new Client();
 $client->addServer("localhost", 11211);
-$memcached = new Memcached($client, new TypeMapper());
+$memcached = new Memcached($client);
 $memcachedBridge = new MemcachedBridge($memcached);
 ```
 
@@ -70,17 +69,16 @@ If you need the underlying Memcached instance to do anything beyond what the bri
 > **Note:** [Read more information](memcached) about Opulence's Memcached extension.
 
 <h2 id="redis-bridge">Redis Bridge</h2>
-`Opulence\Cache\Redis` is a simple bridge to Redis.
+`Opulence\Cache\RedisBridge` is a simple bridge to Redis.
 
 ```php
 use Opulence\Cache\RedisBridge;
 use Opulence\Redis\Redis;
-use Opulence\Redis\TypeMapper;
 use Redis as Client;
 
 $client = new Client();
 $client->connect("localhost", 6379);
-$redis = new Redis($client, new TypeMapper());
+$redis = new Redis($client);
 $redisBridge = new RedisBridge($redis);
 ```
 
