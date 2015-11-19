@@ -36,6 +36,7 @@ Opulence is broken into various libraries, each of which can be installed indivi
 * opulence/console
 * opulence/cryptography
 * opulence/databases
+* opulence/debug
 * opulence/events
 * opulence/files
 * opulence/http
