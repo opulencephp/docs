@@ -19,7 +19,7 @@
 Opulence can be easily installed using Composer:
 
 ```php
-composer create-project opulence/project --prefer-dist
+composer create-project opulence/project --prefer-dist --stability=dev
 ```
 
 Be sure to [configure your server](#server-config) to finish the installation.  Load up your website in a browser, and you should see a basic website explaining on how to start customizing it.  That's it!  If it does not show up, make sure you've made `PATH_TO_OPULENCE/tmp` writable.
