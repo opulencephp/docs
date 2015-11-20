@@ -64,7 +64,7 @@ Two variables will be injected into your Fortune template:
 2. `$__inDevelopmentEnvironment`
   * Whether or not we are in the development environment
 
-<h2 id="error-handlers">Error Handlers</h3>
+<h2 id="error-handlers">Error Handlers</h2>
 The error handler handles any errors PHP might throw, such as `E_PARSE` or `E_ERROR`.  It even handles fatal errors.  Error handlers have two methods:
 
 1. `handle()`
