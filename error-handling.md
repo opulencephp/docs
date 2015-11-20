@@ -6,11 +6,10 @@
   1. [Logging](#logging)
 3. [Exception Renderers](#exception-renderers)
   1. [HTTP Responses](#http-responses)
-  2. [Console Responses](#console-responses)
 4. [Error Handlers](#error-handlers)
 
 <h2 id="introduction">Introduction</h2>
-If you've ever written a PHP page and had some sort of error or unhandled exception, you've probably seen a blank white page in your browser.  Obviously, this is not useful for end users, nor is it helpful for developers when trying to track down the problem.  Opulence's `Debug` library makes it possible to handle errors and exceptions and create useful console/HTTP responses from them.
+If you've ever written a PHP page and had some sort of error or unhandled exception, you've probably seen a blank white page in your browser.  Obviously, this is not useful for end users, nor is it helpful for developers when trying to track down the problem.  Opulence's `Debug` library makes it possible to handle errors and exceptions and create useful HTTP responses from them.
  
 <h2 id="exception-handlers">Exception Handlers</h2>
 The exception handler is your last line of defense for unhandled exceptions.  Opulence provides `Opulence\Debug\Exceptions\Handlers\ExceptionHandler` as an exception handler. It has two methods:
@@ -64,9 +63,6 @@ Two variables will be injected into your Fortune template:
   * The exception object being rendered
 2. `$__inDevelopmentEnvironment`
   * Whether or not we are in the development environment
-
-<h3 id="console-responses">Console Responses</h3>
-To render a console response for any exceptions thrown by [Apex](console-basic), use `Opulence\Console\Debug\Exceptions\Handlers\ExceptionRenderer`.
 
 <h2 id="error-handlers">Error Handlers</h3>
 The error handler handles any errors PHP might throw, such as `E_PARSE` or `E_ERROR`.  It even handles fatal errors.  Error handlers have two methods:
