@@ -19,7 +19,7 @@ A kernel is something that takes input, performs processing on it, and returns o
 
 1. `Opulence\Framework\Http\Kernel`
   * [Read about HTTP applications' workflows](http-workflow)
-2. `Opulence\Framework\Console\Kernel`
+2. `Opulence\Console\Kernel`
   * [Read about console applications' workflows](console-workflow)
 
 Having these two kernels allows Opulence to function as both a traditional HTTP web application and a console application.

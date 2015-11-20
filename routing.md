@@ -288,39 +288,12 @@ Going to `/users/foo/profile` or `/users/foo/posts` will not match because the I
 > **Note:** If a route has a variable regular expression specified, it takes precedence over group regular expressions.
 
 <h2 id="caching">Caching</h2>
-Routes must be parsed to generate the regular expressions used to match the host and path.  This parsing takes a noticeable amount of time with a moderate number of routes.  To make the parsing faster, Opulence caches the parsed routes.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can enable or disable cache by editing `configs/http/routing.php`.
+Routes must be parsed to generate the regular expressions used to match the host and path.  This parsing takes a noticeable amount of time with a moderate number of routes.  To make the parsing faster, Opulence caches the parsed routes.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can enable or disable cache by editing `config/http/routing.php`.
 
-> **Note:** If you're in your production environment, you must run `php apex framework:flushcache` every time you add/modify/delete a route in `configs/http/routes.php`.
+> **Note:** If you're in your production environment, you must run `php apex framework:flushcache` every time you add/modify/delete a route in `config/http/routes.php`.
 
 <h2 id="missing-routes">Missing Routes</h2>
-In the case that the router cannot find a route that matches the request, a 404 response will be returned.  Register your controller name and method name in the case of a missing route using `Router::setMissedRouteController()` (the default method is `showHttpError()`).  If your controller extends `Opulence\Routing\Controller`, you can simply override `showHttpError()` to display the appropriate missing response.
-
-Then, just add a route to handle this:
-```php
-namespace MyApp;
-
-use Opulence\Http\Responses\Response;
-use Opulence\Http\Responses\ResponseHeaders;
-use Opulence\Routing\Controller;
-
-class MyController extends Controller
-{
-    public function showHttpError($statusCode)
-    {
-        switch($statusCode)
-        {
-            case ResponseHeaders::HTTP_NOT_FOUND:
-                return new Response("My custom 404 page", $statusCode);
-            default:
-                return new Response("Something went wrong", $statusCode);
-        }
-    }
-}
-
-$router->setMissedRouteController("MyApp\\MyController");
-// Assume $request points to a request object with a path that isn't covered in the router
-$router->route($request); // Returns a 404 response with "My custom 404 page"
-```
+In the case that the router cannot find a route that matches the request, an `Opulence\Http\HttpException` will be thrown with a 404 status code.
 
 <h2 id="url-generators">URL Generators</h2>
 A cool feature is the ability to generate URLs from named routes using `Opulence\Routing\Url\UrlGenerator`.  If your route has variables in the domain or path, you just pass them in `UrlGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.

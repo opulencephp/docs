@@ -103,7 +103,7 @@ class ResponseManipulator implements IMiddleware
 ```
 
 <h2 id="global-middleware">Global Middleware</h2>
-Global middleware is middleware that is run on every route.  To add middleware to the list of global middleware, add the fully-qualified middleware class' name to the array in `configs/http/middleware.php`.
+Global middleware is middleware that is run on every route.  To add middleware to the list of global middleware, add the fully-qualified middleware class' name to the array in `config/http/middleware.php`.
 
 <h2 id="route-middleware">Route Middleware</h2>
 To learn how to register middleware with routes, read the [routing tutorial](routing#middleware).  You can also learn how to [add middleware to route groups](routing#group-middleware) there.

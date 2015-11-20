@@ -53,7 +53,7 @@ $environment = new Environment($environmentName);
 <h2 id="environment-variables">Environment Variables</h2>
 Variables that are specifically tied to the environment the application is running on are called **environment variables**.  Setting an environment variable using Opulence is as easy as `$environment->setVar("foo", "bar")`.  To get the environment variable, you can either call `$environment->getVar("foo")` or use PHP's native `getenv("foo")`.
 
-To make configuring your environment variables as easy as possible, Opulence supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "configs/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
+To make configuring your environment variables as easy as possible, Opulence supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "config/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
  
 ##### .env.example.php
 ```php

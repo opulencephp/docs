@@ -116,7 +116,7 @@ HELLO, DAVE
 
 > **Note:** You MUST at least define a name for each command.
 
-To register this command with our application, simply add its fully-qualified name to the array in "configs/console/commands.php".
+To register this command with our application, simply add its fully-qualified name to the array in `config/console/commands.php`.
 
 <h2 id="calling-from-code">Calling From Code</h2>
 It's possible to call a command from another command:

@@ -45,7 +45,7 @@ This provides a wrapper around Composer's `dump-autoload` command, and is useful
 A common task is updating composer and dumping the autoload.  Instead of having to run these commands manually, just run `php apex composer:update`.
 
 <h4 id="encryptiongeneratekey">encryption:generatekey</h4>
-Good encryption requires a secret key.  Use this command to generate that key.  Calling this will update the key that appears in `configs/environment/.env.app.php`.  Passing a `--show` option will instead only show a new key, not update the config. 
+Good encryption requires a secret key.  Use this command to generate that key.  Calling this will update the key that appears in `config/environment/.env.app.php`.  Passing a `--show` option will instead only show a new key, not update the config. 
 
 <h4 id="frameworkflushcache">framework:flushcache</h4>
 Opulence has an internal cache for several of its components:

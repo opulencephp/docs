@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [bootstrap](#bootstrap)
-3. [configs](#configs)
+3. [config](#config)
 4. [public](#public)
 5. [resources](#resources)
 6. [src](#src)
@@ -11,12 +11,12 @@
 8. [tmp](#tmp)
 
 <h2 id="introduction">Introduction</h2>
-Opulence's directory structure was inspired by the best of ideas from frameworks like Laravel and Aura.  The directories logically separate files based on their purpose.  However, you are not chained to this structure.  If you do decide to customize it, make sure you update the PSR-4 settings in `composer.json` as well as the relevant paths in `configs/paths.php`.
+Opulence's directory structure was inspired by the best of ideas from frameworks like Laravel and Aura.  The directories logically separate files based on their purpose.  However, you are not chained to this structure.  If you do decide to customize it, make sure you update the PSR-4 settings in `composer.json` as well as the relevant paths in `config/paths.php`.
 
 <h2 id="bootstrap">bootstrap</h2>
 This contains the code that actually boots up your application.  It's probably best not to touch the contents unless you are sure you know what you are doing.
 
-<h2 id="configs">configs</h2>
+<h2 id="config">config</h2>
 All configuration files for your application should go here.  Console-specific configs are in the `console` subdirectory, and web-specific configs are in the `http` subdirectory.  The `environment` subdirectory holds .env.*.php files to setup your server with environment variables.
 
 <h2 id="public">public</h2>
