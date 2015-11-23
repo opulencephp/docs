@@ -4,10 +4,12 @@
 1. [Introduction](#introduction)
 2. [Exception Handlers](#exception-handlers)
   1. [Logging](#logging)
-      1. [Specifying Classes to Not Log](#specifying-classes-to-not-log)
+      1. [Specifying Exceptions to Not Log](#specifying-exceptions-to-not-log)
 3. [Exception Renderers](#exception-renderers)
   1. [HTTP Responses](#http-responses)
 4. [Error Handlers](#error-handlers)
+  1. [Specifying Errors to Log](#specifying-exceptions-to-log)
+  2. [Specifying Errors to Throw](#specifying-exceptions-to-throw)
 
 <h2 id="introduction">Introduction</h2>
 If you've ever written a PHP page and had some sort of error or unhandled exception, you've probably seen a blank white page in your browser.  Obviously, this is not useful for end users, nor is it helpful for developers when trying to track down the problem.  Opulence's `Debug` library makes it possible to handle errors and exceptions and create useful HTTP responses from them.
@@ -38,7 +40,7 @@ $exceptionHandler = new ExceptionHandler($logger, $renderer);
 $exceptionHandler->register();
 ```
 
-<h5 id="specifying-classes-to-not-log">Specifying Classes to Not Log</h5>
+<h5 id="specifying-exceptions-to-not-log">Specifying Exceptions to Not Log</h5>
 `ExceptionHandler` accepts an array of classes to not log when handled:
 
 ```php
@@ -80,3 +82,39 @@ The error handler handles any errors PHP might throw, such as `E_PARSE` or `E_ER
   * Registers the handler with PHP
 
 `Opulence\Debug\Errors\Handlers\ErrorHandler` is the default error handler.
+
+<h3 id="specifying-errors-to-log">Specifying Errors to Log</h3>
+By default, errors are not logged, although they might be if they're thrown as exceptions.  To actually log certain levels of errors, pass in the bitwise value indicating the levels to log:
+
+```php
+use Monolog\Handler\ErrorLogHandler;
+use Monolog\Logger;
+use Opulence\Debug\Errors\Handlers\ErrorHandler;
+
+$logger = new Logger("app");
+$logger->pushHandler(new ErrorLogHandler());
+// Assume the exception handler has already been set
+$errorHandler = new ErrorHandler(
+    $logger,
+    $exceptionHandler,
+    E_PARSE | E_ERROR
+);
+```
+
+Now, `E_PARSE` and `E_ERROR` error levels will be logged.
+
+<h3 id="specifying-errors-to-throw">Specifying Errors to Throw</h3>
+Errors can be re-thrown as an `\ErrorException`.  This allows them to be handled by the `ExceptionHandler`.  To specify which levels of errors to re-throw as exceptions, pass in the bitwise value indicating the levels to throw:
+
+```php
+$errorHandler = new ErrorHandler(
+    $logger,
+    $exceptionHandler,
+    null,
+    E_ALL & ~E_NOTICE
+);
+```
+
+Now, all errors except `E_NOTICE` will be thrown as exceptions.
+
+> **Note:** All errors besides `E_DEPRECATED` and `E_USER_DEPRECATED` are thrown as an `\ErrorException`.
