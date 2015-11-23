@@ -4,6 +4,7 @@
 1. [Introduction](#introduction)
 2. [Exception Handlers](#exception-handlers)
   1. [Logging](#logging)
+      1. [Specifying Classes to Not Log](#specifying-classes-to-not-log)
 3. [Exception Renderers](#exception-renderers)
   1. [HTTP Responses](#http-responses)
 4. [Error Handlers](#error-handlers)
@@ -16,34 +17,38 @@ The exception handler is your last line of defense for unhandled exceptions.  Op
  
 * `handle()`
   * Handles the `Exception` (or `Throwable` in PHP 7)
-  * Useful for logging the error and rendering a response
+  * Useful for logging the exception and rendering a response
 * `register()`
   * Registers the handler with PHP
   
 <h3 id="logging">Logging</h3>
 `ExceptionHandler` accepts a PSR-3 logger to actually log any errors.  We recommend the excellent <a href="https://github.com/Seldaek/monolog" target="_blank" title="Monolog">Monolog</a> logger.
 
-You might not want to log all exceptions (such as `HttpException`).  In this case, you can specify which exceptions to not log in the last parameter of the constructor:
-
 ```php
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use MyApp\Debug\MyExceptionRenderer;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
-use Opulence\Http\HttpException;
 
 $logger = new Logger("app");
 $logger->pushHandler(new ErrorLogHandler());
 $renderer = new MyExceptionRenderer();
-$exceptionHandler = new ExceptionHandler($logger, $renderer, [HttpException::class]);
+$exceptionHandler = new ExceptionHandler($logger, $renderer);
 // Make sure to actually register this handler with PHP
 $exceptionHandler->register();
+```
+
+<h5 id="specifying-classes-to-not-log">Specifying Classes to Not Log</h5>
+`ExceptionHandler` accepts an array of classes to not log when handled:
+
+```php
+$exceptionHandler = new ExceptionHandler($logger, $renderer, [HttpException::class]);
 ```
 
 Now, whenever an unhandled `HttpException` occurs, it will be handled by the `ExceptionHandler`, but not logged.  All other exceptions will be logged by `$logger`.
 
 <h2 id="exception-renderers">Exception Renderers</h2>
-When an exception is handled, you probably want to render some sort of output explaining what happened.  Depending on the environment you're in, you may even want to include technical details to help track down the issue.  This is where exception renderers come in handy.  They must implement `Opulence\Debug\Exceptions\Handlers\IErrorRenderer`, which has a single method `render($ex)`.
+When an exception is handled, you probably want to render some sort of output explaining what happened.  Depending on the environment you're in, you may even want to include technical details to help track down the issue.  This is where exception renderers come in handy.  They must implement `Opulence\Debug\Exceptions\Handlers\IExceptionRenderer`, which has a single method `render()`.  This accepts the `Exception` or `Throwable` and renders some sort of response with it.
 
 <h3 id="http-responses">HTTP Responses</h3>
 To compile an HTTP response from an exception, you have two choices:
@@ -69,7 +74,9 @@ The error handler handles any errors PHP might throw, such as `E_PARSE` or `E_ER
 
 1. `handle()`
   * Converts the error into an exception, which is handled by the exception handler
-2. `register()`
+2. `handleShutdown()`
+  * Handles any errors after script execution finishes
+3. `register()`
   * Registers the handler with PHP
 
 `Opulence\Debug\Errors\Handlers\ErrorHandler` is the default error handler.
