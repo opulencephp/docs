@@ -12,13 +12,13 @@
 Sometimes, you might want to change the way your application behaves depending on whether or not it's running on a production, staging, testing, or development machine.  A common example is a database connection - each environment might have different server credentials.  By detecting the environment, you can load the appropriate data.
 
 <h2 id="hosts">Hosts</h2>
-Opulence uses host classes to help the application determine which environment it's running in.  Hosts implement `Opulence\Applications\Environments\Hosts\IHost`.
+Opulence uses host classes to help the application determine which environment it's running in.  Hosts implement `Opulence\Environments\Hosts\IHost`.
 
 <h3 id="host-name">Host Name</h3>
 If you're adding a rule for a single, specific host, use `HostName`:
 
 ```php
-use Opulence\Applications\Environments\Hosts\HostName;
+use Opulence\Environments\Hosts\HostName;
 
 $host = new HostName("127.0.0.1");
 ```
@@ -27,7 +27,7 @@ $host = new HostName("127.0.0.1");
 You can use a regular expression to match hosts by using `HostRegex`:
 
 ```php
-use Opulence\Applications\Environments\Hosts\HostRegex;
+use Opulence\Environments\Hosts\HostRegex;
 
 $host = new HostRegex("^127\.0\.0\.\d+$");
 ```
@@ -38,10 +38,10 @@ $host = new HostRegex("^127\.0\.0\.\d+$");
 The environment resolver registers hosts with environments and attempts to find the correct host in the registry.  If no matching host is found, then `"production"` is returned.  `EnvironmentResolver::resolve()` returns the name of the current environment.  We can use this value to set the name of the environment:
 
 ```php
-use Opulence\Applications\Environments\Environment;
-use Opulence\Applications\Environments\Hosts\HostName;
-use Opulence\Applications\Environments\Hosts\HostRegex;
-use Opulence\Applications\Environments\Resolvers\EnvironmentResolver;
+use Opulence\Environments\Environment;
+use Opulence\Environments\Hosts\HostName;
+use Opulence\Environments\Hosts\HostRegex;
+use Opulence\Environments\Resolvers\EnvironmentResolver;
 
 $resolver = new EnvironmentResolver();
 $resolver->registerHost("production", new HostName("192.168.1.1"));
