@@ -307,6 +307,10 @@ If you're using the <a href="https://github.com/opulencephp/Project" target="_bl
   * Returns a hidden input containing the CSRF token
 * `csrfToken()`
   * Returns the current CSRF token
+* `currentRouteIs()`
+  * Returns whether or not the current route is the input route
+  * Accepts the following arguments:
+    1. `string $routeName` - The name of the route to check
 * `route()`
   * Returns a URL that is created using the rules of the input route name
   * Accepts the following arguments:

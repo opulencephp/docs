@@ -296,13 +296,13 @@ Routes must be parsed to generate the regular expressions used to match the host
 In the case that the router cannot find a route that matches the request, an `Opulence\Http\HttpException` will be thrown with a 404 status code.
 
 <h2 id="url-generators">URL Generators</h2>
-A cool feature is the ability to generate URLs from named routes using `Opulence\Routing\Url\UrlGenerator`.  If your route has variables in the domain or path, you just pass them in `UrlGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
+A cool feature is the ability to generate URLs from named routes using `Opulence\Routing\Urls\UrlGenerator`.  If your route has variables in the domain or path, you just pass them in `UrlGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
 
 > **Note:** If you do not define all the non-optional variables in the host or domain, a `UrlException` will be thrown.
 
 <h4 id="generating-urls-from-code">Generating URLs from Code</h4>
 ```php
-use Opulence\Routing\Url\UrlGenerator;
+use Opulence\Routing\Urls\UrlGenerator;
 
 // Let's assume the router and compiler are already instantiated
 $urlGenerator = new UrlGenerator($router->getRoutes(), $compiler);

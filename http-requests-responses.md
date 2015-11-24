@@ -25,6 +25,7 @@
   17. [Getting the IP Address](#getting-the-ip-address)
   18. [Checking if HTTPS](#checking-if-https)
   19. [Getting the Full URL](#getting-the-full-url)
+      1. [Checking the Full URL](#checking-the-full-url)
   20. [Getting the Previous URL](#getting-the-previous-url)
   21. [Authentication Data](#authentication-data)
 3. [Responses](#responses)
@@ -232,6 +233,16 @@ $request->isSecure();
 ```php
 $request->getFullUrl();
 ```
+
+<h5 id="checking-the-full-url">Checking the Full URL</h5>
+Opulence allows you to check if a certain URL is the current URL using `$request->isUrl(URL_TO_MATCH)`.  It also allows you to use a regular expression for more complex matching:
+
+```php
+// The second parameter lets the request know that we're using a regular expression
+$request->isUrl("http://mysite\.com/posts/.*", true);
+```
+
+> **Note:** Do not include regular expression delimiters in your regular expression.
 
 <h4 id="getting-the-previous-url">Getting the Previous URL</h4>
 ```php
