@@ -10,6 +10,7 @@
   1. [If Statements](#if-statements)
   2. [Loops](#loops)
   3. [Including Views](#including-views)
+      1. [Variable Scope](#variable-scope)
   4. [Extending Views](#extending-views)
       1. [Parents](#parents)
   5. [Parts](#parts)
@@ -123,7 +124,8 @@ This will compile to:
 </div>
 ```
 
-If you need to pass variables to included views, you may do so as a second parameter in the `include` directive:
+<h5 id="variable-scope">Variable Scope</h5>
+Included views' variables have their own scope, meaning they're not available outside of the included view.  If you need to pass variables to the included view, you may do so in the second parameter of the `include` directive:
 
 ```
 <% foreach($posts as $post) %>
