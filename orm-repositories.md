@@ -14,7 +14,7 @@
 **Repositories** are simply collections of entities.  They provide methods for adding, deleting, and retrieving entities, but they leave the actual data retrieval to [**data mappers**](orm-data-mappers).  These data mappers can interact with an SQL database, cache, some other form of storage, or a mixture of storage mechanisms.  By utilizing a [**unit of work**](orm-units-of-work), writes to the data mappers are scheduled and only executed when calling `$unitOfWork->commit()`.  This gives you the ability to wrap multiple repositories' writes into a single, "all-or-nothing" transaction.
 
 <h2 id="basic-usage">Basic Usage</h2>
-If your repository will not implement any methods outside of `Opulence\Orm\Repositories\Repo`, you don't even have to create your own repository class.  Just use `Opulence\Orm\Repositories\Repo`:
+If your repository will not implement any methods outside of `Opulence\Orm\Repositories\Repository`, you don't even have to create your own repository class.  Just use `Opulence\Orm\Repositories\Repo`:
 
 ```php
 use MyApp\WordPress\Post;
@@ -23,7 +23,7 @@ use MyApp\WordPress\Post;
 $repo = new Repo(Post::class, $dataMapper, $unitOfWork); 
 ```
 
-However, if your repository implements any custom `get*()` methods, you'll have to extend `Opulence\Orm\Repositories\Repo`.  Let's take a look at a repository that supports a `getByTitle()` method:
+However, if your repository implements any custom `get*()` methods, you'll have to extend `Opulence\Orm\Repositories\Repository`.  Let's take a look at a repository that supports a `getByTitle()` method:
 
 ```php
 namespace MyApp\WordPress\Orm;

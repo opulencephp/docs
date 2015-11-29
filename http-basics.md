@@ -88,7 +88,7 @@ class UserList extends Controller
 </ul>
 ```
 
-In this example, the bootstrapper will bind `IRepo` to `UserRepo` for the `UserList` controller.  The route dispatcher will then instantiate this controller with the help of the Ioc container.  The container will scan `UserList`'s constructor, realize that it needs a `UserRepo` instance, and create the `UserList` with a `UserRepo` instance.
+In this example, the bootstrapper will bind `IRepository` to `UserRepo` for the `UserList` controller.  The route dispatcher will then instantiate this controller with the help of the Ioc container.  The container will scan `UserList`'s constructor, realize that it needs a `UserRepo` instance, and create the `UserList` with a `UserRepo` instance.
 
 For more information about routing, [read the documentation](routing).
 
