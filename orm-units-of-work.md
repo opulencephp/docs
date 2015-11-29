@@ -125,7 +125,7 @@ $unitOfWork->commit();
 <h2 id="entity-ids">Entity Ids</h2>
 
 <h3 id="id-accessors">Id Accessors</h3>
-Opulence lets you use plain-old PHP objects with the ORM, which means Opulence doesn't know which methods to call to get and set the unique identifiers in your classes.  So, you must let Opulence know using the `Opulence\Orm\Ids\IdAccessorRegistry`:
+Opulence lets you use plain-old PHP objects with the ORM, which means Opulence doesn't know which methods to call to get and set the unique identifiers in your classes.  So, you must let Opulence know using the `Opulence\Orm\Ids\Accessors\IdAccessorRegistry`:
 
 ```php
 use Opulence\Orm\ChangeTracking\ChangeTracker;
