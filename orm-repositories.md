@@ -22,9 +22,7 @@ use MyApp\WordPress\Post;
 use Opulence\Orm\Repositories\Repo;
 use Opulence\Orm\UnitOfWork;
 
-// Assume we have a data mapper class already written
-$dataMapper = new PostSqlDataMapper();
-$unitOfWork = new UnitOfWork();
+// Assume $dataMapper and $unitOfWork are already instantiated
 $repo = new Repo(Post::class, $dataMapper, $unitOfWork); 
 ```
 
@@ -93,7 +91,7 @@ use Opulence\Orm\Repositories\Repo;
 use Opulence\Orm\UnitOfWork;
 
 $dataMapper = new PostSqlDataMapper();
-$unitOfWork = new UnitOfWork();
+// Assume $unitOfWork is already instantiated
 $repo = new Repo(Post::class, $dataMapper, $unitOfWork); 
 $postToDelete = $repo->getById(123);
 $repo->delete($postToDelete);
