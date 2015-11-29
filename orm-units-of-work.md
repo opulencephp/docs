@@ -7,7 +7,9 @@
   1. [Aggregate Roots](#aggregate-roots)
 4. [Comparing Entities](#comparing-entities)
 5. [Entity Ids](#entity-ids)
-  1. [Reducing Boilerplate Code](#reducing-boilerplate-code)
+  1. [Id Accessors](#id-accessors)
+      1. [Reducing Boilerplate Code](#reducing-boilerplate-code)
+  2. [Id Generators](#id-generators)
 
 <h2 id="introduction">Introduction</h2>
 **Units of work** act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the data mappers.  The benefits of using units of work include:
@@ -21,12 +23,25 @@
  Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
 use MyApp\Orm\DataMappers\MyDataMapper;
+use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\EntityRegistry;
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
+use Opulence\Orm\Ids\Generators\IdGeneratorRegistry;
 use Opulence\Orm\Repositories\Repo;
 use Opulence\Orm\UnitOfWork;
 
+$idAccessorRegistry = new IdAccessorRegistry();
+$idGeneratorRegistry = new IdGeneratorRegistry();
+$changeTracker = new ChangeTracker();
+$entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
 // Assume $connection was set previously
-$unitOfWork = new UnitOfWork(new EntityRegistry(), $connection);
+$unitOfWork = new UnitOfWork(
+    $entityRegistry,
+    $idAccessorRegistry,
+    $idGeneratorRegistry,
+    $changeTracker,
+    $connection
+);
 $dataMapper = new MyDataMapper();
 $users = new Repo("Opulence\\Users\\User", $dataMapper, $unitOfWork);
 
@@ -75,16 +90,19 @@ Let's say that all you care about when checking if two users are identical is wh
 use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\EntityRegistry;
 use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
+use Opulence\Orm\Ids\Generators\IdGeneratorRegistry;
 use Opulence\Orm\UnitOfWork;
 
 // Assume $connection was set previously
 // Also assume the user object was already instantiated
 $idAccessorRegistry = new IdAccessorRegistry();
+$idGeneratorRegistry = new IdGeneratorRegistry();
 $changeTracker = new ChangeTracker();
 $entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
 $unitOfWork = new UnitOfWork(
     $entityRegistry, 
     $idAccessorRegistry,
+    $idGeneratorRegistry,
     $changeTracker,
     $connection
 );
@@ -105,6 +123,8 @@ $unitOfWork->commit();
 > **Note:** PHP's `clone` feature performs a shallow clone.  In other words, it only clones the object, but not any objects contained in that object.  If your object contains another object and you'd like to take advantage of automatic change tracking, you must write a `__clone()` method for that class to clone any objects it contains.  Otherwise, the automatic change tracking will not pick up on changes made to the objects contained in other objects.
 
 <h2 id="entity-ids">Entity Ids</h2>
+
+<h3 id="id-accessors">Id Accessors</h3>
 Opulence lets you use plain-old PHP objects with the ORM, which means Opulence doesn't know which methods to call to get and set the unique identifiers in your classes.  So, you must let Opulence know using the `Opulence\Orm\Ids\IdAccessorRegistry`:
 
 ```php
@@ -143,7 +163,38 @@ $idAccessorRegistry->registerIdAccessors(Foo::class, $getter, $setter);
 
 `registerIdAccessors()` also accepts an array of class names.
 
+To use the accessor registry in your unit of work, pass it into the unit of work constructor.
+
 > **Note:**  You must always register Id getters, but Id setters are optional.
 
-<h3 id="reducing-boilerplate-code">Reducing Boilerplate Code</h3>
+<h5 id="reducing-boilerplate-code">Reducing Boilerplate Code</h5>
 Opulence's flexibility comes at the price of a little bit of boilerplate code on your end to register Id accessors.  However, if you want to get rid of the boilerplate code, you can optionally implement `Opulence\Orm\IEntity`, which has two methods:  `getId()` and `setId($id)`.  Classes that implement `IEntity` automatically have their Id accessors registered.
+
+<h3 id="id-generators">Id Generators</h3>
+Opulence can automatically generate Ids for entities managed by the unit of work.  A common way of setting Ids is using sequences from your database.  In this case, you can use:
+
+* `Opulence\Orm\Ids\Generators\BigIntSequenceGenerator`
+* `Opulence\Orm\Ids\Generators\IntSequenceGenerator`
+
+All Id generators in Opulence implement `Opulence\Orm\Ids\Generators\IIdGenerator`, which has two methods:
+
+* `generate()`
+  * Generates a new Id for the input entity
+* `isPostInsert()`
+  * Whether or not this generator should be run before or after the unit of work executes its inserts
+  
+To let the unit of work know which Id generator to use with your classes, register them to `Opulence\Orm\Ids\Generators\IdGeneratorRegistry`:
+
+```php
+use MyApp\User;
+use Opulence\Orm\Ids\Generators\IdGeneratorRegistry;
+use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
+
+$idGeneratorRegistry = new IdGeneratorRegistry();
+$idGeneratorRegistry->registerIdGenerator(
+    User::class,
+    new IntSequenceIdGenerator("user_id_seq")
+);
+```
+
+Then, pass `$idGeneratorRegistry` into the unit of work constructor, and you're set.
