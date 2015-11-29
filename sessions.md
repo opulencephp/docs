@@ -123,7 +123,7 @@ class MyController
 ```
 
 <h2 id="id-generators">Id Generators</h2>
-If your session has just started or if its data has been invalidated, a new session Id will need to be generated.  These Ids must be cryptographically secure to prevent session hijacking.  If you're using `Opulence\Sessions\Session`, you can either pass in your own Id generator (must implement `Opulence\Sessions\Ids\IIdGenerator`) or use the default `Opulence\Sessions\Ids\IdGenerator`.
+If your session has just started or if its data has been invalidated, a new session Id will need to be generated.  These Ids must be cryptographically secure to prevent session hijacking.  If you're using `Opulence\Sessions\Session`, you can either pass in your own Id generator (must implement `Opulence\Sessions\Ids\Generators\IIdGenerator`) or use the default `Opulence\Sessions\Ids\Generators\IdGenerator`.
 
 > **Note:** It's recommended you use Opulence's `IdGenerator` unless you know what you're doing.
 

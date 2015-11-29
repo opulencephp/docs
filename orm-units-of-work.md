@@ -4,10 +4,10 @@
 1. [Introduction](#introduction)
 2. [Example](#example)
 3. [Entity Registry](#entity-registry)
+  1. [Aggregate Roots](#aggregate-roots)
 4. [Comparing Entities](#comparing-entities)
 5. [Entity Ids](#entity-ids)
   1. [Reducing Boilerplate Code](#reducing-boilerplate-code)
-6. [Aggregate Roots](#aggregate-roots)
 
 <h2 id="introduction">Introduction</h2>
 **Units of work** act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the data mappers.  The benefits of using units of work include:
@@ -47,6 +47,25 @@ echo $users->getById(123)->getUsername(); // "bar"
 <h2 id="entity-registry">Entity Registry</h2>
 Entities that are scheduled for insertion/deletion/update are managed by an `Opulence\Orm\EntityRegistry`.
 
+<h3 id="aggregate-roots">Aggregate Roots</h3>
+Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:
+```php
+// Order here matters: aggregate roots should be added before their children
+$unitOfWork->scheduleForInsertion($user);
+$unitOfWork->scheduleForInsertion($password);
+
+// Pass in the aggregate root, the child, and the function that sets the aggregate root Id
+$entityRegistry->registerAggregateRootChild($user, $password, function ($user, $password) {
+    // This will be executed after the user is inserted but before the password is inserted
+    $password->setUserId($user->getId());
+});
+
+$unitOfWork->commit();
+echo $password->getUserId() == $user->getId(); // 1
+```
+
+> **Note:** Aggregate root functions are executed for entities scheduled for insertion and update.
+
 <h2 id="comparing-entities">Comparing Entities</h2>
 `Opulence\Orm\ChangeTracking\ChangeTracker` is responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparator()`.
 
@@ -55,7 +74,7 @@ Let's say that all you care about when checking if two users are identical is wh
 ```php
 use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\EntityRegistry;
-use Opulence\Orm\Ids\IdAccessorRegistry;
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\UnitOfWork;
 
 // Assume $connection was set previously
@@ -91,7 +110,7 @@ Opulence lets you use plain-old PHP objects with the ORM, which means Opulence d
 ```php
 use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\EntityRegistry;
-use Opulence\Orm\Ids\IdAccessorRegistry;
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 
 class Foo
 {
@@ -128,22 +147,3 @@ $idAccessorRegistry->registerIdAccessors(Foo::class, $getter, $setter);
 
 <h3 id="reducing-boilerplate-code">Reducing Boilerplate Code</h3>
 Opulence's flexibility comes at the price of a little bit of boilerplate code on your end to register Id accessors.  However, if you want to get rid of the boilerplate code, you can optionally implement `Opulence\Orm\IEntity`, which has two methods:  `getId()` and `setId($id)`.  Classes that implement `IEntity` automatically have their Id accessors registered.
-
-<h2 id="aggregate-roots">Aggregate Roots</h2>
-Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:
-```php
-// Order here matters: aggregate roots should be added before their children
-$unitOfWork->scheduleForInsertion($user);
-$unitOfWork->scheduleForInsertion($password);
-
-// Pass in the aggregate root, the child, and the function that sets the aggregate root Id
-$unitOfWork->registerAggregateRootChild($user, $password, function ($user, $password) {
-    // This will be executed after the user is inserted but before the password is inserted
-    $password->setUserId($user->getId());
-});
-
-$unitOfWork->commit();
-echo $password->getUserId() == $user->getId(); // 1
-```
-
-> **Note:** Aggregate root functions are executed for entities scheduled for insertion and update.

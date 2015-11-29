@@ -42,9 +42,7 @@ interface IPostDataMapper extends IDataMapper
 We'll implement this interface in the examples below.
 
 <h2 id="sql-data-mappers">SQL Data Mappers</h2>
-SQL data mappers use an SQL database for storage and querying.  They must implement the `Opulence\Orm\DataMappers\ISqlDataMapper` (`SqlDataMapper` comes built-in).  An SQL data mapper implements all the methods from `IDataMapper` as well as `getIdGenerator()`, which returns the instance of the Id generator used by the data mapper.
-
-> **Note:** Id generators are in the `Opulence\Orm\Ids` namespace.
+SQL data mappers use an SQL database for storage and querying.  `Opulence\Orm\DataMappers\SqlDataMapper` comes built-in.
 
 `SqlDataMapper` comes with a few extra methods built-in:
 
@@ -54,9 +52,6 @@ SQL data mappers use an SQL database for storage and querying.  They must implem
 * `read()`
   * Executes the input query and parameters and loads the data into objects using the `loadEntity()` method
   * Useful for get*() methods
-* `setIdGenerator()`
-  * Sets the Id generator used by the data mapper
-  * You must implement this for each SQL data mapper
 
 <h4 id="sql-example">Example</h4>
 Let's take a look at an example of an SQL data mapper for WordPress posts:
@@ -65,9 +60,7 @@ Let's take a look at an example of an SQL data mapper for WordPress posts:
 namespace MyApp\WordPress\Orm\DataMappers;
 
 use MyApp\WordPress\Post;
-use Opulence\Databases\IConnection;
 use Opulence\Orm\DataMappers\SqlDataMapper;
-use Opulence\Orm\Ids\IntSequenceIdGenerator;
 use PDO;
 
 class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
@@ -75,8 +68,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     /** @var Post $post */
     public function add(&$post)
     {
-        $writeConnection = $this->connectionPool->getWriteConnection();
-        $statement = $writeConnection->prepare(
+        $statement = $this->writeConnection->prepare(
             "INSERT INTO posts (content, title, author) VALUES (:content, :title, :author)"
         );
         $statement->bindValues([
@@ -90,8 +82,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     /** @var Post $post */
     public function delete(&$post)
     {
-        $writeConnection = $this->connectionPool->getWriteConnection();
-        $statement = $writeConnection->prepare(
+        $statement = $this->writeConnection->prepare(
             "DELETE FROM posts WHERE id = :id"
         );
         $statement->bindValues([
@@ -134,8 +125,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     /** @var Post $post */
     public function update(&$post)
     {
-        $writeConnection = $this->connectionPool->getWriteConnection();
-        $statement = $writeConnection->prepare(
+        $statement = $this->writeConnection->prepare(
             "UPDATE posts SET content = :content, title = :title, author = :author"
         );
         $statement->bindValues([
@@ -146,7 +136,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
         $statement->execute();
     }
     
-    protected function loadEntity(array $hash, IConnection $connection)
+    protected function loadEntity(array $hash)
     {
         // $hash contains the column values from a single row in the results
         return new Post(
@@ -154,12 +144,6 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
             $hash["title"],
             $hash["author"]
         );
-    }
-    
-    protected function setIdGenerator()
-    {
-        // This Id generator accepts the name of the Id sequence
-        $this->idGenerator = new IntSequenceIdGenerator("posts_id_seq");
     }
 }
 ```
@@ -309,7 +293,7 @@ They come with the following methods built-in:
 * `setCacheDataMapper()`
   * Sets the instance of the sub-cache data mapper using the input cache instance
 * `setSqlDataMapper()`
-  * Sets the instance of the sub-SQL data mapper using the input connection pool instance
+  * Sets the instance of the sub-SQL data mapper using the input connection instances
   
   
 <h4 id="cached-sql-example">Example</h4>
@@ -318,7 +302,7 @@ Let's take a look at a cached SQL data mapper example that uses the cache and SQ
 ```php
 namespace MyApp\WordPress\Orm\DataMappers;
 
-use Opulence\Databases\ConnectionPools\ConnectionPool;
+use Opulence\Databases\IConnection;
 use Opulence\Orm\DataMappers\RedisCachedSqlDataMapper;
 
 class PostCachedSqlDataMapper extends RedisCachedSqlDataMapper implements IPostDataMapper
@@ -333,9 +317,9 @@ class PostCachedSqlDataMapper extends RedisCachedSqlDataMapper implements IPostD
         $this->cacheDataMapper = new PostCacheDataMapper($cache);
     }
 
-    protected function setSqlDataMapper(ConnectionPool $connectionPool)
+    protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection)
     {
-        $this->sqlDataMapper = new PostSqlDataMapper($connectionPool);
+        $this->sqlDataMapper = new PostSqlDataMapper($readConnection, $writeConnection);
     }
 }
 ```
@@ -348,18 +332,22 @@ Instead of just containing the author's name, let's say your `Post` object conta
 ```php
 use MyApp\WordPress\Orm\AuthorRepo;
 use MyApp\WordPress\Post;
-use Opulence\Databases\IConnection;
 
 class PostDataMapper extends SqlDataMapper
 {
     private $authorRepo;
     
-    public function __construct(AuthorRepo $authorRepo)
-    {
+    public function __construct(
+        IConnection $readConnection, 
+        IConnection $writeConnection,
+         AuthorRepo $authorRepo
+    ) {
+        parent::__construct($readConnection, $writeConnection);
+    
         $this->authorRepo = $authorRepo;
     }
     
-    protected function loadEntity(array $hash, IConnection $connection)
+    protected function loadEntity(array $hash)
     {
         // Grab the author
         $author = $this->authorRepo->getById($hash["author_id"]);
