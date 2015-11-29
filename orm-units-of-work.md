@@ -27,7 +27,7 @@ use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\EntityRegistry;
 use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\Ids\Generators\IdGeneratorRegistry;
-use Opulence\Orm\Repositories\Repo;
+use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\UnitOfWork;
 
 $idAccessorRegistry = new IdAccessorRegistry();
@@ -63,14 +63,14 @@ echo $users->getById(123)->getUsername(); // "bar"
 Entities that are scheduled for insertion/deletion/update are managed by an `Opulence\Orm\EntityRegistry`.
 
 <h3 id="aggregate-roots">Aggregate Roots</h3>
-Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:
+Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootCallback()`:
 ```php
 // Order here matters: aggregate roots should be added before their children
 $unitOfWork->scheduleForInsertion($user);
 $unitOfWork->scheduleForInsertion($password);
 
 // Pass in the aggregate root, the child, and the function that sets the aggregate root Id
-$entityRegistry->registerAggregateRootChild($user, $password, function ($user, $password) {
+$entityRegistry->registerAggregateRootCallback($user, $password, function ($user, $password) {
     // This will be executed after the user is inserted but before the password is inserted
     $password->setUserId($user->getId());
 });
@@ -79,7 +79,7 @@ $unitOfWork->commit();
 echo $password->getUserId() == $user->getId(); // 1
 ```
 
-> **Note:** Aggregate root functions are executed for entities scheduled for insertion and update.
+> **Note:** Aggregate root callbacks are executed for entities scheduled for insertion and update.
 
 <h2 id="comparing-entities">Comparing Entities</h2>
 `Opulence\Orm\ChangeTracking\ChangeTracker` is responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparator()`.
@@ -167,6 +167,25 @@ To use the accessor registry in your unit of work, pass it into the unit of work
 
 > **Note:**  You must always register Id getters, but Id setters are optional.
 
+> **Note:**  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can set your Id accessors in `Project\Bootstrappers\Orm\UnitOfWorkBootstrapper::registerIdAccessors()`.
+
+If you don't have getter/setter methods for your Id, you can use reflection to get/set it using `registerReflectionIdAccessors()`:
+
+```php
+namespace MyApp\Orm;
+
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
+
+class User
+{
+    private $id = -1;
+}
+
+$idAccessorRegistry = new IdAccessorRegistry();
+// The second parameter is the name of the Id property in the User class
+$idAccessorRegistry->registerReflectionIdAccessors(User::class, "id");
+```
+
 <h5 id="reducing-boilerplate-code">Reducing Boilerplate Code</h5>
 Opulence's flexibility comes at the price of a little bit of boilerplate code on your end to register Id accessors.  However, if you want to get rid of the boilerplate code, you can optionally implement `Opulence\Orm\IEntity`, which has two methods:  `getId()` and `setId($id)`.  Classes that implement `IEntity` automatically have their Id accessors registered.
 
@@ -198,3 +217,5 @@ $idGeneratorRegistry->registerIdGenerator(
 ```
 
 Then, pass `$idGeneratorRegistry` into the unit of work constructor, and you're set.
+
+> **Note:**  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can set your Id generators in `Project\Bootstrappers\Orm\UnitOfWorkBootstrapper::registerIdGenerators()`.

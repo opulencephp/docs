@@ -36,14 +36,14 @@ use MyApp\Http\Controllers\UserList;
 use MyApp\Users\Orm\UserRepo;
 use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
-use Opulence\Orm\Repositories\IRepo;
+use Opulence\Orm\Repositories\IRepository;
 
 class UserBootstrapper extends Bootstrapper
 {
     public function registerBindings(IContainer $container)
     {
         // Bind the user repository to the UserList controller
-        $container->bind(IRepo::class, UserRepo::class, UserList::class);
+        $container->bind(IRepository::class, UserRepo::class, UserList::class);
     }
 }
 ```
@@ -53,7 +53,7 @@ class UserBootstrapper extends Bootstrapper
 namespace MyApp\Http\Controllers;
 
 use Opulence\Http\Responses\Response;
-use Opulence\Orm\Repositories\IRepo;
+use Opulence\Orm\Repositories\IRepository;
 use Opulence\Routing\Controller;
 
 class UserList extends Controller
@@ -62,7 +62,7 @@ class UserList extends Controller
     
     // UserBootstrapper bound UserRepo to this controller
     // So, that's what will be injected here
-    public function __construct(IRepo $users)
+    public function __construct(IRepository $users)
     {
         $this->users = $users;
     }

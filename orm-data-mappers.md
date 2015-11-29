@@ -340,7 +340,7 @@ class PostDataMapper extends SqlDataMapper
     public function __construct(
         IConnection $readConnection, 
         IConnection $writeConnection,
-         AuthorRepo $authorRepo
+        AuthorRepo $authorRepo
     ) {
         parent::__construct($readConnection, $writeConnection);
     

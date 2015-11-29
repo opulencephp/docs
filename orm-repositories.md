@@ -17,10 +17,7 @@
 If your repository will not implement any methods outside of `Opulence\Orm\Repositories\Repo`, you don't even have to create your own repository class.  Just use `Opulence\Orm\Repositories\Repo`:
 
 ```php
-use MyApp\WordPress\Orm\DataMappers\PostSqlDataMapper;
 use MyApp\WordPress\Post;
-use Opulence\Orm\Repositories\Repo;
-use Opulence\Orm\UnitOfWork;
 
 // Assume $dataMapper and $unitOfWork are already instantiated
 $repo = new Repo(Post::class, $dataMapper, $unitOfWork); 
@@ -31,7 +28,7 @@ However, if your repository implements any custom `get*()` methods, you'll have 
 ```php
 namespace MyApp\WordPress\Orm;
 
-use Opulence\Orm\Repositories\Repo;
+use Opulence\Orm\Repositories\Repository;
 
 class PostRepo extends Repo
 {
@@ -87,7 +84,7 @@ As you can see, there are is no `save()` method in repositories.  To actually sa
 ```php
 use MyApp\WordPress\Orm\DataMappers\PostSqlDataMapper;
 use MyApp\WordPress\Post;
-use Opulence\Orm\Repositories\Repo;
+use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\UnitOfWork;
 
 $dataMapper = new PostSqlDataMapper();
