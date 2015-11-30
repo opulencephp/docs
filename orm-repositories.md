@@ -20,7 +20,7 @@ If your repository will not implement any methods outside of `Opulence\Orm\Repos
 use MyApp\WordPress\Post;
 
 // Assume $dataMapper and $unitOfWork are already instantiated
-$repo = new Repo(Post::class, $dataMapper, $unitOfWork); 
+$repo = new Repository(Post::class, $dataMapper, $unitOfWork); 
 ```
 
 However, if your repository implements any custom `get*()` methods, you'll have to extend `Opulence\Orm\Repositories\Repository`.  Let's take a look at a repository that supports a `getByTitle()` method:
@@ -79,7 +79,7 @@ All entities returned by the repository are automatically registered to the unit
 > **Note:** If no entity is found, an `Opulence\Orm\OrmException` will be thrown.
 
 <h2 id="commit">Committing Changes</h2>
-As you can see, there are is no `save()` method in repositories.  To actually save any writes made by the repository, you must call `commit()` on the unit of work passed into the repository's constructor:
+As you can see, there is no `save()` method in repositories.  To actually save any writes made by the repository, you must call `commit()` on the unit of work passed into the repository's constructor:
 
 ```php
 use MyApp\WordPress\Orm\DataMappers\PostSqlDataMapper;
@@ -89,13 +89,13 @@ use Opulence\Orm\UnitOfWork;
 
 $dataMapper = new PostSqlDataMapper();
 // Assume $unitOfWork is already instantiated
-$repo = new Repo(Post::class, $dataMapper, $unitOfWork); 
+$repo = new Repository(Post::class, $dataMapper, $unitOfWork); 
 $postToDelete = $repo->getById(123);
 $repo->delete($postToDelete);
 $unitOfWork->commit();
 ```
 
-Whenever you call `Repo::add()` or `Repo::delete()`, the entity is scheduled to be written by the data mappers back to storage.  Calling `$unitOfWork->commit()` actually writes all the scheduled entities to storage.
+Whenever you call `Repository::add()` or `Repository::delete()`, the entity is scheduled to be written by the data mappers back to storage.  Calling `$unitOfWork->commit()` actually writes all the scheduled entities to storage.
 
 <h2 id="update">Updating Entities</h2>
 Updates are automatically tracked by the [entity registry](orm-units-of-work#entity-registry).  For example, let's say we change a post's title:

@@ -43,7 +43,7 @@ $unitOfWork = new UnitOfWork(
     $connection
 );
 $dataMapper = new MyDataMapper();
-$users = new Repo("Opulence\\Users\\User", $dataMapper, $unitOfWork);
+$users = new Repository("Opulence\\Users\\User", $dataMapper, $unitOfWork);
 
 // Let's say we know that there's a user with Id 123 and username "foo" in the repository
 $someUser = $users->getById(123);
