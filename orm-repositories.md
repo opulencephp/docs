@@ -30,7 +30,7 @@ namespace MyApp\WordPress\Orm;
 
 use Opulence\Orm\Repositories\Repository;
 
-class PostRepo extends Repo
+class PostRepo extends Repository
 {
     public function getByTitle($title)
     {
