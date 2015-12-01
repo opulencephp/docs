@@ -217,12 +217,12 @@ If your constructor depends on some primitive values, you can set them in both t
 class B
 {
     private $foo;
-    private $additionalMessage;
+    private $message;
 
-    public function __construct(IFoo $foo, $additionalMessage)
+    public function __construct(IFoo $foo, $message)
     {
         $this->foo = $foo;
-        $this->additionalMessage = $additionalMessage;
+        $this->message = $message;
     }
 
     public function getFoo()
@@ -230,16 +230,16 @@ class B
         return $this->foo;
     }
 
-    public function sayAdditionalMessage()
+    public function sayMessage()
     {
-        echo $this->additionalMessage;
+        echo $this->message;
     }
 }
 
 $container->bind("IFoo", "ConcreteFoo");
 $b = $container->makeNew("B", null, ["I love containers!"]);
 echo get_class($b->getFoo()); // "ConcreteFoo"
-$b->sayAdditionalMessage(); // "I love containers!"
+$b->sayMessage(); // "I love containers!"
 ```
 
 Only the primitive values should be passed in the array.  They must appear in the same order as the constructor.
@@ -250,7 +250,7 @@ Sometimes a class needs setter methods to pass in dependencies.  This is possibl
 class C
 {
     private $foo;
-    private $additionalMessage;
+    private $message;
 
     public function __construct()
     {
@@ -262,20 +262,20 @@ class C
         return $this->foo;
     }
 
-    public function sayAdditionalMessage()
-    {
-        echo $this->additionalMessage;
-    }
-
     public function setFoo(IFoo $foo)
     {
         $this->foo = $foo;
     }
 
-    public function setFooAndAdditionalMessage(IFoo $foo, $additionalMessage)
+    public function setFooAndMessage(IFoo $foo, $message)
     {
         $this->foo = $foo;
-        $this->additionalMessage = $additionalMessage;
+        $this->message = $message;
+    }
+
+    public function sayMessage()
+    {
+        echo $this->message;
     }
 }
 
@@ -287,9 +287,9 @@ echo get_class($c->getFoo()); // "ConcreteFoo"
 If your setter requires primitive values, you can pass them in, too:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
-$c = $container->makeNew("C", null, [], ["setFooAndAdditionalMessage" => ["I love setters!"]]);
+$c = $container->makeNew("C", null, [], ["setFooAndMessage" => ["Hello!"]]);
 echo get_class($c->getFoo()); // "ConcreteFoo"
-$c->sayAdditionalMessage(); // "I love setters!"
+$c->sayMessage(); // "Hello!"
 ```
 
 <h2 id="calling-methods">Calling Methods</h2>
