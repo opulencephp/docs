@@ -21,10 +21,10 @@
 <h2 id="bugs">Bugs</h2>
 Before you attempt to write a bug fix, first read the [documentation](/docs) to see if you're perhaps using Opulence incorrectly.
 
-<h3 id="reporting-bug">Reporting a Bug</h3>
+<h4 id="reporting-bug">Reporting a Bug</h4>
 To report a bug, <a href="https://github.com/opulencephp/Opulence/issues" target="_blank">create a new issue</a> with a descriptive title, steps to reproduce the bug (eg a failing PHPUnit test), and information about your environment.
 
-<h3 id="fixing-bug">Fixing a Bug</h3>
+<h4 id="fixing-bug">Fixing a Bug</h4>
 To fix a bug, create a pull request on the latest stable branch with the fix and relevant PHPUnit tests.
 
 <h2 id="features">Features</h2>
@@ -36,7 +36,7 @@ Opulence takes security seriously.  If you find a security vulnerability, please
 <h2 id="coding-style">Coding Style</h2>
 Opulence follows PSR-1 and PSR-2 coding standards and uses PSR-4 autoloading.
 
-<h3 id="phpdoc">PHPDoc</h3>
+<h4 id="phpdoc">PHPDoc</h4>
 Use PHPDoc to document **all** class properties, methods, and functions.  Constructors only need to document the parameters.  Method/function PHPDoc must include one blank line between the description and the following tag.  Here's an example:
 
 ```php
@@ -81,13 +81,13 @@ class Book
 <h2 id="naming-conventions">Naming Conventions</h2>
 Inspired by <a href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670" target="_blank">Code Complete</a>, Opulence uses a straightforward approach to naming things.
 
-<h3 id="variables">Variables</h3>
+<h4 id="variables">Variables</h4>
 All variable names:
 
 * Must be lower camel case, eg `$emailAddress`
 * Must NOT use Hungarian Notation
 
-<h3 id="functions-methods">Functions/Methods</h3>
+<h4 id="functions-methods">Functions/Methods</h4>
 All function/method names:
 
 * Must be succinct
@@ -101,18 +101,18 @@ All function/method names:
 * Must use `getXXX()` and `setXXX()` for functions/methods that get and set properties, respectively
   * Don't name a method that returns a username `username()`.  Name it `getUsername()` so that its purpose is unambiguous.
 
-<h3 id="constants">Constants</h3>
+<h4 id="constants">Constants</h4>
 All class constants' names:
 
 * Must be upper snake case, eg `TYPE_SUBSCRIBER`
 
-<h3 id="namespaces">Namespaces</h3>
+<h4 id="namespaces">Namespaces</h4>
 All namespaces:
 
 * Must be Pascal case, eg `Opulence\QueryBuilders`
   * For namespace acronyms &le; 2 characters long, capitalize each character, eg `IO`
 
-<h3 id="classes">Classes</h3>
+<h4 id="classes">Classes</h4>
 All class names:
 
 * Must be succinct
@@ -146,18 +146,18 @@ Class properties should appear before any methods.  The following is the preferr
 
 > **Note:** Methods of the same visibility should be ordered alphabetically.
 
-<h3 id="abstract-classes">Abstract Classes</h3>
+<h4 id="abstract-classes">Abstract Classes</h4>
 All abstract class names:
 
 * Must be Pascal case, eg `ConnectionPool`
 * Must NOT use `Abstract`, `Base`, or any other word in the name that implies it is an abstract class
   
-<h3 id="interfaces">Interfaces</h3>
+<h4 id="interfaces">Interfaces</h4>
 All interface names:
 
 * Must be preceded by an `I`, eg `IUser`
 
-<h3 id="traits">Traits</h3>
+<h4 id="traits">Traits</h4>
 All trait names:
 
 * Must be preceded by a `T`, eg `TListValidator`

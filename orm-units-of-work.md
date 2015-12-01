@@ -62,7 +62,7 @@ echo $users->getById(123)->getUsername(); // "bar"
 <h2 id="entity-registry">Entity Registry</h2>
 Entities that are scheduled for insertion/deletion/update are managed by an `Opulence\Orm\EntityRegistry`.
 
-<h3 id="aggregate-roots">Aggregate Roots</h3>
+<h4 id="aggregate-roots">Aggregate Roots</h4>
 Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootCallback()`:
 ```php
 // Order here matters: aggregate roots should be added before their children
@@ -124,7 +124,7 @@ $unitOfWork->commit();
 
 <h2 id="entity-ids">Entity Ids</h2>
 
-<h3 id="id-accessors">Id Accessors</h3>
+<h4 id="id-accessors">Id Accessors</h4>
 Opulence lets you use plain-old PHP objects with the ORM, which means Opulence doesn't know which methods to call to get and set the unique identifiers in your classes.  So, you must let Opulence know using the `Opulence\Orm\Ids\Accessors\IdAccessorRegistry`:
 
 ```php
@@ -189,7 +189,7 @@ $idAccessorRegistry->registerReflectionIdAccessors(User::class, "id");
 <h5 id="reducing-boilerplate-code">Reducing Boilerplate Code</h5>
 Opulence's flexibility comes at the price of a little bit of boilerplate code on your end to register Id accessors.  However, if you want to get rid of the boilerplate code, you can optionally implement `Opulence\Orm\IEntity`, which has two methods:  `getId()` and `setId($id)`.  Classes that implement `IEntity` automatically have their Id accessors registered.
 
-<h3 id="id-generators">Id Generators</h3>
+<h4 id="id-generators">Id Generators</h4>
 Opulence can automatically generate Ids for entities managed by the unit of work.  A common way of setting Ids is using sequences from your database.  In this case, you can use:
 
 * `Opulence\Orm\Ids\Generators\BigIntSequenceGenerator`

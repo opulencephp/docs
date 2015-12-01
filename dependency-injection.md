@@ -184,6 +184,14 @@ $a2 = $container->makeNew("A");
 echo $a1 === $a2; // 0
 ```
 
+If you want to create a new instance of a class with a targeted binding, you can pass the target into the second parameter:
+
+```php
+$container->bind("IFoo", "ConcreteFoo", "Target");
+$instance = $container->makeNew("IFoo", "Target");
+echo get_class($instance); // "ConcreteFoo"
+```
+
 <h2 id="creating-shared-instances">Creating Shared Instances</h2>
 Shared instances are just that - shared.  No matter how many times you make a shared instance, you'll always get the same instance.  This concept is similar to the **Singleton** design pattern, but with the added benefit of being able to bind different concrete implementations at runtime.  To create a shared instance of a class with all of its dependencies injected, you can call `makeShared()`:
 ```php
@@ -191,6 +199,14 @@ $container->bind("IFoo", "ConcreteFoo");
 $a1 = $container->makeShared("A");
 $a2 = $container->makeShared("A");
 echo $a1 === $a2; // 1
+```
+
+If you want to create a shared instance of a class with a targeted binding, you can pass the target into the second parameter:
+
+```php
+$container->bind("IFoo", "ConcreteFoo", "Target");
+$instance = $container->makeShared("IFoo", "Target");
+echo get_class($instance); // "ConcreteFoo"
 ```
 
 <h2 id="passing-constructor-primitives">Passing Constructor Primitives</h2>
@@ -219,7 +235,7 @@ class B
 }
 
 $container->bind("IFoo", "ConcreteFoo");
-$b = $container->makeNew("B", ["I love containers!"]);
+$b = $container->makeNew("B", null, ["I love containers!"]);
 echo get_class($b->getFoo()); // "ConcreteFoo"
 $b->sayAdditionalMessage(); // "I love containers!"
 ```
@@ -262,14 +278,14 @@ class C
 }
 
 $container->bind("IFoo", "ConcreteFoo");
-$c = $container->makeNew("C", [], ["setFoo" => []]);
+$c = $container->makeNew("C", null, [], ["setFoo" => []]);
 echo get_class($c->getFoo()); // "ConcreteFoo"
 ```
 
 If your setter requires primitive values, you can pass them in, too:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
-$c = $container->makeNew("C", [], ["setFooAndAdditionalMessage" => ["I love setters!"]]);
+$c = $container->makeNew("C", null, [], ["setFooAndAdditionalMessage" => ["I love setters!"]]);
 echo get_class($c->getFoo()); // "ConcreteFoo"
 $c->sayAdditionalMessage(); // "I love setters!"
 ```
@@ -307,7 +323,7 @@ echo get_class($c->getFoo()); // "ConcreteFoo"
 echo $instance->getBar(); // "Primitive was set"
 ```
 
-<h3 id="calling-closure">Calling a Closure</h3>
+<h4 id="calling-closure">Calling a Closure</h4>
 You can use `call()` to automatically inject parameters into a `Closure`:
 
 ```php

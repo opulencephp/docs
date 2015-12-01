@@ -14,7 +14,7 @@ Sometimes, you might want to change the way your application behaves depending o
 <h2 id="hosts">Hosts</h2>
 Opulence uses host classes to help the application determine which environment it's running in.  Hosts implement `Opulence\Environments\Hosts\IHost`.
 
-<h3 id="host-name">Host Name</h3>
+<h4 id="host-name">Host Name</h4>
 If you're adding a rule for a single, specific host, use `HostName`:
 
 ```php
@@ -23,7 +23,7 @@ use Opulence\Environments\Hosts\HostName;
 $host = new HostName("127.0.0.1");
 ```
 
-<h3 id="host-regular-expression">Host Regular Expression</h3>
+<h4 id="host-regular-expression">Host Regular Expression</h4>
 You can use a regular expression to match hosts by using `HostRegex`:
 
 ```php

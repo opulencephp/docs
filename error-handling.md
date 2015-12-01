@@ -23,7 +23,7 @@ The exception handler is your last line of defense for unhandled exceptions.  Op
 * `register()`
   * Registers the handler with PHP
   
-<h3 id="logging">Logging</h3>
+<h4 id="logging">Logging</h4>
 `ExceptionHandler` accepts a PSR-3 logger to actually log any errors.  We recommend the excellent <a href="https://github.com/Seldaek/monolog" target="_blank" title="Monolog">Monolog</a> logger.
 
 ```php
@@ -52,7 +52,7 @@ Now, whenever an unhandled `HttpException` occurs, it will be handled by the `Ex
 <h2 id="exception-renderers">Exception Renderers</h2>
 When an exception is handled, you probably want to render some sort of output explaining what happened.  Depending on the environment you're in, you may even want to include technical details to help track down the issue.  This is where exception renderers come in handy.  They must implement `Opulence\Debug\Exceptions\Handlers\IExceptionRenderer`, which has a single method `render()`.  This accepts the `Exception` or `Throwable` and renders some sort of response with it.
 
-<h3 id="http-responses">HTTP Responses</h3>
+<h4 id="http-responses">HTTP Responses</h4>
 To compile an HTTP response from an exception, you have two choices:
 
 1. `Opulence\Debug\Exceptions\Handlers\Http\ExceptionRenderer`
@@ -83,7 +83,7 @@ The error handler handles any errors PHP might throw, such as `E_PARSE` or `E_ER
 
 `Opulence\Debug\Errors\Handlers\ErrorHandler` is the default error handler.
 
-<h3 id="specifying-errors-to-log">Specifying Errors to Log</h3>
+<h4 id="specifying-errors-to-log">Specifying Errors to Log</h4>
 By default, errors are not logged, although they might be if they're thrown as exceptions.  To actually log certain levels of errors, pass in the bitwise value indicating the levels to log:
 
 ```php
@@ -103,7 +103,7 @@ $errorHandler = new ErrorHandler(
 
 Now, `E_PARSE` and `E_ERROR` error levels will be logged.
 
-<h3 id="specifying-errors-to-throw">Specifying Errors to Throw</h3>
+<h4 id="specifying-errors-to-throw">Specifying Errors to Throw</h4>
 Errors can be re-thrown as an `\ErrorException`.  This allows them to be handled by the `ExceptionHandler`.  To specify which levels of errors to re-throw as exceptions, pass in the bitwise value indicating the levels to throw:
 
 ```php

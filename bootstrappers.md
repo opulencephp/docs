@@ -7,7 +7,8 @@
 4. [Running Bootstrappers](#running-bootstrappers)
 5. [Shutting Down Bootstrappers](#bootstrapper-shutdown)
 6. [Lazy Bootstrappers](#lazy-bootstrappers)
-  1. [Caching](#bootstrapper-caching)
+  1. [Targeted Bindings](#targeted-bindings)
+  2. [Caching](#bootstrapper-caching)
 
 <h2 id="introduction">Introduction</h2>
 Most applications need to do some configuration before starting.  For example, they might need to setup a database connection, configure which view engine to use, or assign the authentication scheme to use.  Because Opulence uses [dependency injection](dependency-injection) heavily, it's important that you set your bindings in the Ioc container.  Bootstrappers are the place to do this.
@@ -85,7 +86,7 @@ It's not very efficient to create, register bindings, run, and shut down every b
 namespace MyApp\Bootstrappers;
 
 use MyApp\IPostRepo;
-use MyApp\PostRepo
+use MyApp\PostRepo;
 use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
@@ -103,6 +104,60 @@ class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
     }
 }
 ```
+
+<h4 id="targeted-bindings">Targeted Bindings</h4>
+If you take advantage of [targeted bindings](dependency-injection#targeted-bindings) in your lazy bootstrapper, you must say so in `getBindings()`.  You do this by denoting targeted bindings as an array in the format `[BoundClass => TargetClass]`.  Let's say your repository class looks like this:
+
+```php
+namespace MyApp;
+
+use Opulence\Orm\DataMappers\IDataMapper;
+
+class PostRepo implements IPostRepo
+{
+    private $dataMapper;
+    
+    public function __construct(IDataMapper $dataMapper)
+    {
+        $this->dataMapper = $dataMapper;
+    }
+}
+```
+
+Let's suppose you always want your dependency injection container to inject an instance of `MyApp\MyDataMapper` into `PostRepo`.  Here's a bootstrapper that accomplishes this:
+
+```php
+namespace MyApp\Bootstrappers;
+
+use MyApp\IPostRepo;
+use MyApp\MyDataMapper;
+use MyApp\PostRepo;
+use Opulence\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\IContainer;
+use Opulence\Orm\DataMappers\IDataMapper;
+
+class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
+{
+    public function getBindings()
+    {
+        return [
+            // This is a universal binding
+            IPostRepo::class            
+            // This is a targeted binding
+            [IDataMapper::class => PostRepo::class]
+        ];
+    }
+    
+    public function registerBindings(IContainer $container)
+    {
+        $container->bind(IPostRepo::class, new PostRepo());
+        $container->bind(IDataMapper::class, MyDataMapper::class, PostRepo::class);
+    }
+}
+```
+
+Having `[IDataMapper::class => PostRepo::class]` in `getBindings()` lets the bootstrapper know that `IDataMapper` is bound for `PostRepo`.  When the bootstrapper's bindings are registered, `MyDataMapper` will be bound to `IDataMapper` whenever `PostRepo` is instantiated by the dependency injection container.
 
 <h4 id="bootstrapper-caching">Caching</h4>
 Opulence automatically caches data about its lazy and eager (ie not lazy) bootstrappers.  This way, it doesn't have to instantiate each bootstrapper to determine which kind it is.  It also remembers which classes are bound by which bootstrappers.  If you add/remove/modify any bootstrappers, you must run [`php apex framework:flushcache`](console-basics#frameworkflushcache) command in the console to flush this cache.
