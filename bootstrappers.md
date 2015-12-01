@@ -157,7 +157,7 @@ class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 }
 ```
 
-Having `[IDataMapper::class => PostRepo::class]` in `getBindings()` lets the bootstrapper know that `IDataMapper` is bound for `PostRepo`.  When the bootstrapper's bindings are registered, `MyDataMapper` will be bound to `IDataMapper` whenever `PostRepo` is instantiated by the dependency injection container.
+Having `[IDataMapper::class => PostRepo::class]` in `getBindings()` lets the bootstrapper know that `IDataMapper` is bound for `PostRepo`.  When the bootstrapper's bindings are registered, `IDataMapper` will be bound to `MyDataMapper` whenever `PostRepo` is instantiated by the dependency injection container.
 
 <h4 id="bootstrapper-caching">Caching</h4>
 Opulence automatically caches data about its lazy and eager (ie not lazy) bootstrappers.  This way, it doesn't have to instantiate each bootstrapper to determine which kind it is.  It also remembers which classes are bound by which bootstrappers.  If you add/remove/modify any bootstrappers, you must run [`php apex framework:flushcache`](console-basics#frameworkflushcache) command in the console to flush this cache.

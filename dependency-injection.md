@@ -83,6 +83,8 @@ Hopefully, you can see that injecting dependencies is a simple, yet powerful fea
 <h2 id="basic-usage">Basic Usage</h2>
 The **container** looks at type hints in methods to determine the type of dependency a class relies on.  The container even lets you specify values for primitive types, eg strings and numbers.
 
+> **Note:**  Classes that accept only concrete classes in their constructors do not need to be bound to the container; they can be instantiated automatically.  A class should only be bound to the container if it depends on an interface, abstract class, or primitive.
+
 Let's take a look at a class `A` that has a dependency on `IFoo`:
 ```php
 interface IFoo
