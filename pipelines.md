@@ -97,7 +97,7 @@ foo-pipeA-pipeB
 ```
 
 <h4 id="using-classes">Using Classes</h4>
-Pipe class names are also supported.  They will automatically be resolved using the Ioc container:
+Pipe class names are also supported.  They will automatically be resolved using the IoC container:
  
 ```php
 $stages = ["PipeA", "PipeB"];

@@ -67,7 +67,7 @@ $router->get("/foo", function () {
 });
 ```
 
-> **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the router is already bound to the Ioc container.
+> **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the router is already bound to the IoC container.
 
 If you need any object like the `Request` to be passed into the closure, just type-hint it:
 

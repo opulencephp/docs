@@ -11,9 +11,9 @@
   2. [Caching](#bootstrapper-caching)
 
 <h2 id="introduction">Introduction</h2>
-Most applications need to do some configuration before starting.  For example, they might need to setup a database connection, configure which view engine to use, or assign the authentication scheme to use.  Because Opulence uses [dependency injection](dependency-injection) heavily, it's important that you set your bindings in the Ioc container.  Bootstrappers are the place to do this.
+Most applications need to do some configuration before starting.  For example, they might need to setup a database connection, configure which view engine to use, or assign the authentication scheme to use.  Because Opulence uses [dependency injection](dependency-injection) heavily, it's important that you set your bindings in the IoC container.  Bootstrappers are the place to do this.
   
-Bootstrappers are loaded before the request is handled.  Typically, they register bindings to the Ioc container, but they can also perform any necessary logic once all of the bindings are registered or before the application is shut down.  Bootstrappers extend `Opulence\Bootstrappers\Bootstrapper`.  They accept `Paths` and `Environment` objects in their constructors, which can be useful for something like binding a particular database instance based on the current environment.
+Bootstrappers are loaded before the request is handled.  Typically, they register bindings to the IoC container, but they can also perform any necessary logic once all of the bindings are registered or before the application is shut down.  Bootstrappers extend `Opulence\Bootstrappers\Bootstrapper`.  They accept `Paths` and `Environment` objects in their constructors, which can be useful for something like binding a particular database instance based on the current environment.
 
 <h2 id="initializing-bootstrappers">Initializing Bootstrappers</h2>
 Your application might need some initialization done before anything else is.  For example, you might need to register PHP error handlers or run some `ini_set()` functions.  Use `Bootstrapper::initialize()` to do this.  The initialization process is done before anything else.
@@ -31,7 +31,7 @@ class MyBootstrapper extends Bootstrapper
 ```
 
 <h2 id="registering-bindings">Registering Bindings</h2>
-Before you can start using your application, your Ioc container needs some bindings to be registered.  This is where `Bootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the Ioc container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
+Before you can start using your application, your IoC container needs some bindings to be registered.  This is where `Bootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the IoC container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
 
 ```php
 use MyApp\UserRepo;
@@ -80,7 +80,7 @@ class MyBootstrapper extends Bootstrapper
 ```
 
 <h2 id="lazy-bootstrappers">Lazy Bootstrappers</h2>
-It's not very efficient to create, register bindings, run, and shut down every bootstrapper in your application when they're not all needed.  Sometimes, you may only like a bootstrapper to be registered/run/shut down if its bindings are required.  This is the purpose of **lazy bootstrappers**.  In Opulence, you can designate a bootstrapper to be lazy-loaded by making it implement `Opulence\Bootstrappers\ILazyBootstrapper`, which requires a `getBindings()` method to be defined.  This method should return a list of all classes/interfaces bound to the Ioc container by that bootstrapper.  Let's take a look at an example:
+It's not very efficient to create, register bindings, run, and shut down every bootstrapper in your application when they're not all needed.  Sometimes, you may only like a bootstrapper to be registered/run/shut down if its bindings are required.  This is the purpose of **lazy bootstrappers**.  In Opulence, you can designate a bootstrapper to be lazy-loaded by making it implement `Opulence\Bootstrappers\ILazyBootstrapper`, which requires a `getBindings()` method to be defined.  This method should return a list of all classes/interfaces bound to the IoC container by that bootstrapper.  Let's take a look at an example:
 
 ```php
 namespace MyApp\Bootstrappers;
@@ -106,7 +106,7 @@ class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 ```
 
 <h4 id="targeted-bindings">Targeted Bindings</h4>
-If you take advantage of [targeted bindings](dependency-injection#targeted-bindings) in your lazy bootstrapper, you must say so in `getBindings()`.  You do this by denoting targeted bindings as an array in the format `[BoundClass => TargetClass]`.  Let's say your repository class looks like this:
+If you take advantage of [targeted bindings](dependency-injection#targeted-bindings) in your lazy bootstrapper, you must indicate so in `getBindings()` by denoting targeted bindings in the format `[BoundClass => TargetClass]`.  Let's say your repository class looks like this:
 
 ```php
 namespace MyApp;
@@ -157,7 +157,7 @@ class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 }
 ```
 
-Having `[IDataMapper::class => PostRepo::class]` in `getBindings()` lets the bootstrapper know that `IDataMapper` is bound for `PostRepo`.  When the bootstrapper's bindings are registered, `IDataMapper` will be bound to `MyDataMapper` whenever `PostRepo` is instantiated by the dependency injection container.
+`[IDataMapper::class => PostRepo::class]` in `getBindings()` lets the bootstrapper know that `IDataMapper` is bound for `PostRepo`.  When the bootstrapper's bindings are registered, `IDataMapper` will be bound to `MyDataMapper` whenever `PostRepo` is instantiated by the dependency injection container.
 
 <h4 id="bootstrapper-caching">Caching</h4>
 Opulence automatically caches data about its lazy and eager (ie not lazy) bootstrappers.  This way, it doesn't have to instantiate each bootstrapper to determine which kind it is.  It also remembers which classes are bound by which bootstrappers.  If you add/remove/modify any bootstrappers, you must run [`php apex framework:flushcache`](console-basics#frameworkflushcache) command in the console to flush this cache.

@@ -11,7 +11,7 @@ Opulence uses a single point of entry for all pages.  In other words, all HTTP r
 1. User requests http://www.example.com/users/23/profile
 2. Your virtual host redirects the request through http://www.example.com/index.php
 3. `bootstrap/http/start.php` is loaded, which instantiates an `Application` object
-4. Various configs are read, and [bootstrappers](bootstrappers) are registered using `BootstrapperIO`
+4. Various configs are read, and [bootstrappers](bootstrappers) are registered
 5. [Pre-start tasks](application#pre-start-tasks) are run
   1. Bootstrappers' bindings are registered by the bootstrapper `Dispatcher`
   2. Bootstrappers are run by the bootstrapper `Dispatcher`
