@@ -5,7 +5,7 @@
   1. [Connection Pools](#connection-pools)
 2. [Single-Server Connection Pool](#single-server-connection-pool)
 3. [Master-Slave Connection Pool](#master-slave-connection-pool)
-  1. [Slave Server Selection Stratgies](#slave-server-selection-strategies)
+  1. [Slave Server Selection Strategies](#slave-server-selection-strategies)
 4. [Read/Write Connections](#readwrite-connections)
 5. [How to Query and Fetch Results](#how-to-query-and-fetch-results)
 6. [Binding Values](#binding-values)
@@ -172,5 +172,4 @@ $statement->bindValues([
 
 <h2 id="configuration">Configuration</h2>
 <h4 id="drivers">SQL Drivers</h4>
-
-Opulence supports PostgreSQL and MySQL. When creating a new project using Composer, PostgreSQL is enabled by default. To switch, simply change the driver namespace in `/src/YOUR_PROJECT/Bootstrappers/SqlBootstrapper.php` from: `use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver` to: `use Opulence\Databases\Adapters\Pdo\MySql\Driver;`
+Opulence supports a variety of drivers.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the PostgreSQL driver is enabled by default in `src/Project/Bootstrappers/Databases/SqlBootstrapper.php`.  To use a different driver, simply change `use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver;` to the driver you'd like.
