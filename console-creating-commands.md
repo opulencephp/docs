@@ -8,6 +8,9 @@
   2. [Long Names](#long-names)
   2. [Array Options](#array-options)
 4. [Creating Commands](#creating-commands)
+  1. [Dependencies](#dependencies)
+  2. [Example](#example)
+  3. [Registering Your Command](#registering-your-command)
 5. [Calling From Code](#calling-from-code)
 
 <h2 id="introduction">Introduction</h2>
@@ -63,6 +66,13 @@ You can create your own commands and register them to the application.  You do t
 2. `doExecute()`
   * Actually executes the command and writes any output to the input `Response` object
   
+<h4 id="dependencies">Dependencies</h4>
+If your command requires some dependencies in its constructor, the IoC container will resolve them and inject them into the constructor.
+
+> **Note:** If you define your own constructor in your command class, you MUST call `parent::construct()` from within it.
+
+<h4 id="example">Example</h4>
+  
 Let's define a simple command that greets a person and optionally shouts the greeting:
 
 ```php
@@ -115,6 +125,8 @@ HELLO, DAVE
 ```
 
 > **Note:** You MUST at least define a name for each command.
+
+<h4 id="registering-your-command">Registering Your Command</h4>
 
 To register this command with our application, simply add its fully-qualified name to the array in `config/console/commands.php`.
 
