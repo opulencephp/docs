@@ -12,6 +12,8 @@
   1. [Binding Named Placeholders](#binding-named-placeholders)
   2. [Binding Unnamed Placeholders](#binding-unnamed-placeholders)
   3. [Binding Multiple Values](#binding-multiple-values)
+7. [Configuration](#configuration)
+  1. [SQL Drivers](#drivers)
 
 <h2 id="introduction">Introduction</h2>
 Relational databases store information about data and how it's related to other data.  Opulence provides classes and methods for connecting to relational databases and querying them for data.  It does this by extending `PDO` and `PDOStatement` to give users a familiar interface to work with.  <a href="http://php.net/manual/en/book.pdo.php" target="_blank">PDO</a> is a powerful wrapper for database interactions, and comes with built-in tools to prevent SQL injection. 
@@ -167,3 +169,8 @@ $statement->bindValues([
     [727, \PDO::PARAM_INT]
 ]);
 ```
+
+<h2 id="configuration">Configuration</h2>
+<h4 id="drivers">SQL Drivers</h4>
+
+Opulence supports PostgreSQL and MySQL. When creating a new project using Composer, PostgreSQL is enabled by default. To switch, simply change the driver namespace in `/src/YOUR_PROJECT/Bootstrappers/SqlBootstrapper.php` from: `use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver` to: `use Opulence\Databases\Adapters\Pdo\MySql\Driver;`
