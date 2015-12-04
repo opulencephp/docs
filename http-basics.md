@@ -16,7 +16,7 @@ MVC is a programming architecture that separates your models from your views fro
 Models store data and the business logic behind your application.  Think of them as the heart of your application.  Your models can be plain-old PHP objects in Opulence.
 
 <h2 id="views">Views</h2>
-Views comprise the user interface portion of your application.  They should be relatively independent of your models to allow proper abstraction.  Opulence has a built-in [template engine](view-basics), although you are free to use any template engine you'd like.
+Views comprise the user interface portion of your application.  They should be relatively independent of your models to allow proper abstraction.  Opulence has a built-in [template engine](view-fortune), although you are free to use any template engine you'd like.
 
 <h2 id="controllers">Controllers</h2>
 Controllers act as the go-between for models and views in an application.  When a model is updated, the controller updates the view.  Similarly, when a view is updated, the controller updates the models.  In Opulence, controllers can either be plain-old PHP classes, or they can extend `Opulence\Routing\Controller`, which automatically injects the HTTP request, the view factory, and the view compiler.
@@ -79,7 +79,7 @@ class UserList extends Controller
 }
 ```
 
-##### UserList.fortune
+##### UserList.fortune.php
 ```
 <ul>
     <% foreach ($users as $user) %>
