@@ -97,7 +97,7 @@ The following methods can be used to pass data to your request:
 
 * `withCookies($cookies)`
   * Sets the cookies in the request
-* `withEnv($env)`
+* `withEnvironmentVars($env)`
   * Sets the environment vars in the request
 * `withFiles($files)`
   * Sets the files in the request
