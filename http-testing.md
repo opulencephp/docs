@@ -7,7 +7,7 @@
   2. [JSON](#json)
   3. [with() Methods](#with-methods)
   4. [Mock Requests](#mock-requests)
-3. [Assertions]($assertions)
+3. [Assertions](#assertions)
   1. [assertRedirectsTo()](#assert-redirects-to)
   2. [assertResponseContentEquals()](#assert-response-content-equals)
   3. [assertResponseCookieValueEquals()](#assert-response-cookie-value-equals)
