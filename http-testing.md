@@ -17,10 +17,10 @@
   7. [assertResponseIsInternalServerError()](#assert-response-is-internal-server-error)
   8. [assertResponseIsNotFound()](#assert-response-is-not-found)
   9. [assertResponseIsOK()](#assert-response-is-ok)
-  10. [assertResponseJsonContains()](#assert-response-json-contains)
-  11. [assertResponseJsonEquals()](#assert-response-json-equals)
-  12. [assertResponseStatusCodeEquals()](#assert-response-status-code-equals)
-  13. [assertResponseIsUnauthorized()](#assert-response-is-unauthorized)
+  10. [assertResponseIsUnauthorized()](#assert-response-is-unauthorized)
+  11. [assertResponseJsonContains()](#assert-response-json-contains)
+  12. [assertResponseJsonEquals()](#assert-response-json-equals)
+  13. [assertResponseStatusCodeEquals()](#assert-response-status-code-equals)
   14. [assertViewHasTag()](#assert-view-has-tag)
   15. [assertViewHasVar()](#assert-view-has-var)
   16. [assertViewTagEquals()](#assert-view-tag-equals)
@@ -230,6 +230,17 @@ public function testHomepage()
 }
 ```
 
+<h4 id="assert-response-is-unauthorized">assertResponseIsUnauthorized()</h4>
+Asserts that a response is not authorized:
+
+```php
+public function testUserListPageWhenNotLoggedIn()
+{
+    $this->get("/users");
+    $this->assertResponseIsUnauthorized();
+}
+```
+
 <h4 id="assert-response-json-contains">assertResponseJsonContains()</h4>
 Asserts that a JSON response contains the key/value pairs anywhere in the response.  This does not require strict equality like `assertResponseJsonEquals()`.
 
@@ -260,17 +271,6 @@ public function testPaymentRequiredOnSubscriptionPage()
 {
     $this->get("/subscribers/reports");
     $this->assertResponseStatusCodeEquals(ResponseHeaders::HTTP_PAYMENT_REQUIRED);
-}
-```
-
-<h4 id="assert-response-is-unauthorized">assertResponseIsUnauthorized()</h4>
-Asserts that a response is not authorized:
-
-```php
-public function testUserListPageWhenNotLoggedIn()
-{
-    $this->get("/users");
-    $this->assertResponseIsUnauthorized();
 }
 ```
 
