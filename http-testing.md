@@ -229,6 +229,17 @@ public function testHomepage()
 }
 ```
 
+<h4 id="assert-response-json-contains">assertResponseJsonContains()</h4>
+Asserts that a JSON response contains the key/value pairs anywhere in the response.  This does not require strict equality like `assertResponseJsonEquals()`.
+
+```php
+public function testJsonResponse()
+{
+    $this->get("/user/123")
+        ->assertResponseJsonContains(["name" => "Dave"]);
+}
+```
+
 <h4 id="assert-response-json-equals">assertResponseJsonEquals()</h4>
 Asserts that a JSON response matches an input array when decoded:
 
