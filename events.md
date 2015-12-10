@@ -6,7 +6,7 @@
 3. [Listeners](#listeners)
   1. [Stopping Propagation](#stopping-propagation)
 4. [Dispatchers](#dispatchers)
-5. [Config](#config)
+5. [Configuration](#configuration)
 
 <h2 id="introduction">Introduction</h2>
 There might be times in your application that you need to immediately notify certain components that an event took place.  For example, if you have "hooks" that execute before and after an action, you will need a way for components to subscribe to those hooks.  This is a great use case of events in Opulence.  An event **dispatcher** holds a list of **listeners** for each type of event.  Whenever an event is fired, the dispatcher notifies all the listeners.
@@ -110,7 +110,7 @@ $dispatcher->dispatch("user.registered", new UserRegisteredEvent($user));
 
 The dispatcher will loop through and call all listeners registered for the `user.registered` event.  In this case, `RegistrationEmail::handle()` will be called, and the user will receive a welcome email.
 
-<h2 id="config">Config</h2>
+<h2 id="configuration">Configuration</h2>
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you'll see a config array in `config/events.php`.  The array accepts event names to an array of listeners.  A listener can be any one of the following:
 
 * A `callable`, eg a `Closure` or an array whose first item is the listener object and whose second item is the name of the method to call in that listener
