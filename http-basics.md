@@ -7,6 +7,7 @@
 4. [Controllers](#controllers)
   1. [Dependency Injection](#dependency-injection)
   2. [Responses](#responses)
+5. [Maintenance Mode](#maintenance-mode)
 
 <h2 id="introduction">Introduction</h2>
 HTTP (website) applications are the most common types of applications created with Opulence.  They make it easy to handle HTTP requests, perform business logic, render views, and send HTTP responses back to the user.  Opulence uses a powerful, yet simple way of building your HTTP applications - MVC (Model, View, and Controller).
@@ -94,3 +95,6 @@ For more information about routing, [read the documentation](routing).
 
 <h4 id="responses">Responses</h4>
 Controller methods should return an instance of the [`Opulence\Http\Responses\Response`](http-requests-responses) class.  If a response is not returned, whatever was returned will be wrapped up into a `200` response object.
+
+<h2 id="maintenance-mode">Maintenance Mode</h2>
+Sometimes, your application will need to go down for scheduled maintenance.  To put your application into maintenance mode, run `php apex app:down`.  To take it out of maintenance mode, run `php apex app:up`.

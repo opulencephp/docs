@@ -3,13 +3,13 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [call()](#call)
-3. [assertOutputEquals()](#assert-output-equals)
-4. [assertStatusCodeEquals()](#assert-status-code-equals)
-5. [assertStatusCodeIsError()](#assert-status-code-is-error)
-6. [assertStatusCodeIsFatal()](#assert-status-code-is-fatal)
-7. [assertStatusCodeIsOK()](#assert-status-code-is-ok)
-8. [assertStatusCodeIsWarning()](#assert-status-code-is-warning)
-9. [getOutput()](#get-output)
+3. [Response Assertions](#response-assertions)
+  1. [isError()](#assert-status-code-is-error)
+  2. [isFatal()](#assert-status-code-is-fatal)
+  3. [isOK()](#assert-status-code-is-ok)
+  4. [isWarning()](#assert-status-code-is-warning)
+  5. [outputEquals()](#assert-output-equals)
+  6. [statusCodeEquals()](#assert-status-code-equals)
 
 <h2 id="introduction">Introduction</h2>
 Opulence comes with the ability to integration test your console commands using `Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase`.  With it, you can test the output of your commands, simulate responses to prompt questions, and check the status code of the kernel.  Simply extend `ApplicationTestCase` in your test classes, and you'll inherit the following methods to help test your console application:
@@ -39,79 +39,77 @@ public function testConfirmation()
 
 > **Note:**  This must be called before any assertions in this class.
 
-<h2 id="assert-output-equals">assertOutputEquals()</h2>
-Asserts that the output of the last command equals an expected value:
+<h2 id="response-assertions">Response Assertions</h2>
+You can run various assertions on the response returned by the `Kernel`.  To do so, simply use `$this->assertResponse`.
 
-```php
-public function testOutputIsCorrect()
-{
-    $this->call("hello");
-    $this->assertOutputEquals("Hello, world");
-}
-```
-
-<h2 id="assert-status-code-equals">assertStatusCodeEquals()</h2>
-Asserts that the status code of the last command equals an expected value:
-
-```php
-public function testStatusCode()
-{
-    $this->call("hello");
-    $this->assertStatusCodeEquals(StatusCodes::WARNING);
-}
-```
-
-<h2 id="assert-status-code-is-error">assertStatusCodeIsError()</h2>
+<h4 id="assert-status-code-is-error">isError()</h4>
 Asserts that the status code of the last command is an error:
 
 ```php
 public function testStatusCode()
 {
-    $this->call("errorcommand");
-    $this->assertStatusCodeIsError();
+    $this->call("errorcommand")
+        ->assertResponse
+        ->isError();
 }
 ```
 
-<h2 id="assert-status-code-is-fatal">assertStatusCodeIsFatal()</h2>
+<h4 id="assert-status-code-is-fatal">iIsFatal()</h4>
 Asserts that the status code of the last command is fatal:
 
 ```php
 public function testStatusCode()
 {
-    $this->call("badcommand");
-    $this->assertStatusCodeIsFatal();
+    $this->call("badcommand")
+        ->assertResponse
+        ->isFatal();
 }
 ```
 
-<h2 id="assert-status-code-is-ok">assertStatusCodeIsOK()</h2>
+<h4 id="assert-status-code-is-ok">isOK()</h4>
 Asserts that the status code of the last command is OK:
 
 ```php
 public function testStatusCode()
 {
-    $this->call("goodcommand");
-    $this->assertStatusCodeIsOK();
+    $this->call("goodcommand")
+        ->assertResponse
+        ->isOK();
 }
 ```
 
-<h2 id="assert-status-code-is-warning">assertStatusCodeIsWarning()</h2>
+<h4 id="assert-status-code-is-warning">isWarning()</h4>
 Asserts that the status code of the last command is a warning:
 
 ```php
 public function testStatusCode()
 {
-    $this->call("warningcommand");
-    $this->assertStatusCodeIsWarning();
+    $this->call("warningcommand")
+        ->assertResponse
+        ->isWarning();
 }
 ```
 
-<h2 id="get-output">getOutput()</h2>
-Gets the output from the last command:
+<h4 id="assert-output-equals">outputEquals()</h4>
+Asserts that the output of the last command equals an expected value:
 
 ```php
-public function testOutput()
+public function testOutputIsCorrect()
 {
-    $this->call("hello");
-    $this->assertNotEquals("Goodbye, world", $this->getOutput());
+    $this->call("hello")
+        ->assertResponse
+        ->outputEquals("Hello, world");
+}
+```
+
+<h4 id="assert-status-code-equals">statusCodeEquals()</h4>
+Asserts that the status code of the last command equals an expected value:
+
+```php
+public function testStatusCode()
+{
+    $this->call("hello")
+        ->assertResponse
+        ->statusCodeEquals(StatusCodes::WARNING);
 }
 ```

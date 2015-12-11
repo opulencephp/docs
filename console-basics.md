@@ -32,11 +32,17 @@ php apex COMMAND_NAME --help
 <h2 id="built-in-commands">Built-In Commands</h2>
 A good place to start is to run `php apex` in the directory you installed Opulence.  This will list the commands registered to the console.  Out of the box, a few commands come bundled with Apex:
 
+<h4 id="appdown">app:down</h4>
+Creates a file that lets the `Opulence\Framework\Http\Middleware\CheckMaintenanceMode` middleware know to thrown a 503 `HttpException`, which renders a "Down for maintenance" response.
+
 <h4 id="appenv">app:env</h4>
 Displays the current application environment name, eg "Production" or "Development".
 
 <h4 id="apprename">app:rename</h4>
 When you install Opulence, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under `src`, and the composer.json PSR-4 settings.
+
+<h4 id="appdown">app:up</h4>
+Deletes the file that forces the application into maintenance mode.
 
 <h4 id="composerdumpautoload">composer:dump-autoload</h4>
 This provides a wrapper around Composer's `dump-autoload` command, and is useful when another command needs to dump the autoload after running.

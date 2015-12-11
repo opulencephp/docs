@@ -7,24 +7,24 @@
   2. [JSON](#json)
   3. [with() Methods](#with-methods)
   4. [Mock Requests](#mock-requests)
-3. [Assertions](#assertions)
-  1. [assertRedirectsTo()](#assert-redirects-to)
-  2. [assertResponseContentEquals()](#assert-response-content-equals)
-  3. [assertResponseCookieValueEquals()](#assert-response-cookie-value-equals)
-  4. [assertResponseHasCookie()](#assert-response-has-cookie)
-  5. [assertResponseHasHeader()](#assert-response-has-header)
-  6. [assertResponseHeaderEquals()](#assert-response-header-equals)
-  7. [assertResponseIsInternalServerError()](#assert-response-is-internal-server-error)
-  8. [assertResponseIsNotFound()](#assert-response-is-not-found)
-  9. [assertResponseIsOK()](#assert-response-is-ok)
-  10. [assertResponseIsUnauthorized()](#assert-response-is-unauthorized)
-  11. [assertResponseJsonContains()](#assert-response-json-contains)
-  12. [assertResponseJsonEquals()](#assert-response-json-equals)
-  13. [assertResponseStatusCodeEquals()](#assert-response-status-code-equals)
-  14. [assertViewHasTag()](#assert-view-has-tag)
-  15. [assertViewHasVar()](#assert-view-has-var)
-  16. [assertViewTagEquals()](#assert-view-tag-equals)
-  17. [assertViewVarEquals()](#assert-view-var-equals)
+3. [Response Assertions](#response-assertions)
+  1. [contentEquals()](#assert-response-content-equals)
+  2. [cookieValueEquals()](#assert-response-cookie-value-equals)
+  3. [hasCookie()](#assert-response-has-cookie)
+  4. [hasHeader()](#assert-response-has-header)
+  5. [headerEquals()](#assert-response-header-equals)
+  6. [isInternalServerError()](#assert-response-is-internal-server-error)
+  7. [isNotFound()](#assert-response-is-not-found)
+  8. [isOK()](#assert-response-is-ok)
+  9. [isUnauthorized()](#assert-response-is-unauthorized)
+  10. [jsonContains()](#assert-response-json-contains)
+  11. [jsonContainsKey()](#assert-response-json-contains)
+  12. [jsonEquals()](#assert-response-json-equals)
+  13. [redirectsTo()](#assert-redirects-to)
+  14. [statusCodeEquals()](#assert-response-status-code-equals)
+4. [View Assertions](#view-assertions)
+  1. [hasVar()](#assert-view-has-var)
+  2. [varEquals()](#assert-view-var-equals)
 4. [Middleware](#middleware)
   1. [Disabling All Middleware](#disabling-all-middleware)
   2. [Disabling Specific Middleware](#disabling-specific-middleware)
@@ -48,17 +48,6 @@ public function testPostingSomeData()
 }
 ```
 
-Calling `go()` is strictly optional.  If you don't want to bother and want to get straight to the assertions, you can rewrite it as:
-
-```php
-public function testPostingSomeData()
-{
-    $this->post("/foo")
-        ->withParameters(["bar" => "baz"])
-        ->assertResponseContentEquals("Nice POST request");
-}
-```
-
 The following methods create an `Opulence\Framework\Testing\Http\RequestBuilder`, which is useful for creating your requests:
 
 * `delete()`
@@ -77,7 +66,9 @@ public function testWithParameters()
 {
     $this->get("/login")
         ->withParameters(["ref" => "http://google.com"])
-        ->assertRedirectsTo("http://google.com");
+        ->go()
+        ->assertResponse
+        ->redirectsTo("http://google.com");
 }
 ```
 
@@ -89,7 +80,9 @@ public function testJsonRequest()
 {
     $this->post("/api/auth")
         ->withJson(["username" => "foo", "password" => "bar"])
-        ->assertResponseJsonEquals(["error" => "Invalid username/password"]);
+        ->go()
+        ->assertResponse
+        ->jsonEquals(["error" => "Invalid username/password"]);
 }
 ```
 
@@ -123,204 +116,226 @@ public function testPostingSomeData()
 {
     $request = new Request(["name" => "Dave"], [], [], [], [], []);
     $this->route($request);
-    $this->assertResponseContentEquals("Hello, Dave");
+    $this->assertResponse
+        ->contentEquals("Hello, Dave");
 }
 ```
 
 > **Note:**  If you're not using a `RequestBuilder`, you must call `route()` before any assertions defined in `ApplicationTestCase`.
 
-<h2 id="assertions">Assertions</h2>
+<h2 id="response-assertions">Response Assertions</h2>
+You can run various assertions on the response returned by the `Kernel`.  To do so, simply use `$this->assertResponse`.
 
-<h2 id="assert-redirects-to">assertRedirectsTo()</h2>
-Asserts that the response is a redirect to a particular URL:
-
-```php
-public function testMyRedirect()
-{
-    $this->get("/myaccount");
-    $this->assertRedirectsTo("/login");
-}
-```
-
-<h4 id="assert-response-content-equals">assertResponseContentEquals()</h4>
+<h4 id="assert-response-content-equals">contentEquals()</h4>
 Asserts that the response's content matches an expected value:
 
 ```php
 public function testContent()
 {
-    $this->get("/404");
-    $this->assertResponseContentEquals("Page not found");
+    $this->get("/404")
+        ->go()
+        ->assertResponse
+        ->contentEquals("Page not found");
 }
 ```
 
-<h4 id="assert-response-cookie-value-equals">assertResponseCookieValueEquals()</h4>
+<h4 id="assert-response-cookie-value-equals">cookieValueEquals()</h4>
 Asserts that a response cookie matches an expected value:
 
 ```php
 public function testCheckingVisitedCookie()
 {
-    $this->get("/home");
-    $this->assertResponseCookieValueEquals("visited", "1");
+    $this->get("/home")
+        ->go()
+        ->assertResponse
+        ->cookieValueEquals("visited", "1");
 }
 ```
 
-<h4 id="assert-response-has-cookie">assertResponseHasCookie()</h4>
+<h4 id="assert-response-has-cookie">hasCookie()</h4>
 Asserts that a response has a cookie with a particular name:
 
 ```php
 public function testCheckingVisitedCookie()
 {
-    $this->get("/home");
-    $this->assertResponseHasCookie("visited");
+    $this->get("/home")
+        ->go()
+        ->assertResponse
+        ->hasCookie("visited");
 }
 ```
 
-<h4 id="assert-response-has-header">assertResponseHasHeader()</h4>
+<h4 id="assert-response-has-header">hasHeader()</h4>
 Asserts that a response has a header with a particular name:
 
 ```php
 public function testCheckingCacheControl()
 {
-    $this->get("/profile");
-    $this->assertResponseHasHeader("cache-control");
+    $this->get("/profile")
+        ->go()
+        ->assertResponse
+        ->hasHeader("cache-control");
 }
 ```
 
-<h4 id="assert-response-header-equals">assertResponseHeaderEquals()</h4>
+<h4 id="assert-response-header-equals">headerEquals()</h4>
 Asserts that a response header matches an expected value:
 
 ```php
 public function testCheckingCacheControl()
 {
-    $this->get("/profile");
-    $this->assertResponseHeaderEquals("cache-control", "no-cache, must-revalidate");
+    $this->get("/profile")
+        ->go()
+        ->assertResponse
+        ->headerEquals("cache-control", "no-cache, must-revalidate");
 }
 ```
 
-<h4 id="assert-response-is-internal-server-error">assertResponseIsInternalServerError()</h4>
+<h4 id="assert-response-is-internal-server-error">isInternalServerError()</h4>
 Asserts that a response is an internal server error:
 
 ```php
 public function testBadRequest()
 {
-    $this->get("/500");
-    $this->assertResponseIsInternalServerError();
+    $this->get("/500")
+        ->go()
+        ->assertResponse
+        ->isInternalServerError();
 }
 ```
 
-<h4 id="assert-response-is-not-found">assertResponseIsNotFound()</h4>
+<h4 id="assert-response-is-not-found">isNotFound()</h4>
 Asserts that a response is not found:
 
 ```php
 public function test404()
 {
-    $this->get("/404");
-    $this->assertResponseIsNotFound();
+    $this->get("/404")
+        ->go()
+        ->assertResponse
+        ->isNotFound();
 }
 ```
 
-<h4 id="assert-response-is-ok">assertResponseIsOK()</h4>
+<h4 id="assert-response-is-ok">isOK()</h4>
 Asserts that a response is OK:
 
 ```php
 public function testHomepage()
 {
-    $this->get("/");
-    $this->assertResponseIsOK();
+    $this->get("/")
+        ->go()
+        ->assertResponse
+        ->isOK();
 }
 ```
 
-<h4 id="assert-response-is-unauthorized">assertResponseIsUnauthorized()</h4>
+<h4 id="assert-response-is-unauthorized">isUnauthorized()</h4>
 Asserts that a response is not authorized:
 
 ```php
 public function testUserListPageWhenNotLoggedIn()
 {
-    $this->get("/users");
-    $this->assertResponseIsUnauthorized();
+    $this->get("/users")
+        ->go()
+        ->assertResponse
+        ->isUnauthorized();
 }
 ```
 
-<h4 id="assert-response-json-contains">assertResponseJsonContains()</h4>
-Asserts that a JSON response contains the key/value pairs anywhere in the response.  This does not require strict equality like `assertResponseJsonEquals()`.
+<h4 id="assert-response-json-contains">jsonContains()</h4>
+Asserts that a JSON response contains the key/value pairs anywhere in the response.  This does not require strict equality like `jsonEquals()`.
 
 ```php
 public function testJsonResponse()
 {
     $this->get("/user/123")
-        ->assertResponseJsonContains(["name" => "Dave"]);
+        ->go()
+        ->assertResponse
+        ->jsonContains(["name" => "Dave"]);
 }
 ```
 
-<h4 id="assert-response-json-equals">assertResponseJsonEquals()</h4>
+<h4 id="assert-response-json-contains-key">jsonContainsKey()</h4>
+Asserts that a JSON response contains the key anywhere in the response.
+
+```php
+public function testJsonResponse()
+{
+    $this->get("/user/123")
+        ->go()
+        ->assertResponse
+        ->jsonContainsKey("name");
+}
+```
+
+<h4 id="assert-response-json-equals">jsonEquals()</h4>
 Asserts that a JSON response matches an input array when decoded:
 
 ```php
 public function testJsonResponse()
 {
     $this->get("/api/auth")
-        ->assertResponseJsonEquals(["foo" => "bar"]);
+        ->go()
+        ->assertResponse
+        ->jsonEquals(["foo" => "bar"]);
 }
 ```
 
-<h4 id="assert-response-status-code-equals">assertResponseStatusCodeEquals()</h4>
+<h2 id="assert-redirects-to">redirectsTo()</h2>
+Asserts that the response is a redirect to a particular URL:
+
+```php
+public function testMyRedirect()
+{
+    $this->get("/myaccount")
+        ->go()
+        ->assertResponse
+        ->redirectsTo("/login");
+}
+```
+
+<h4 id="assert-response-status-code-equals">statusCodeEquals()</h4>
 Asserts that a response's status code equals a particular value:
 
 ```php
 public function testPaymentRequiredOnSubscriptionPage()
 {
-    $this->get("/subscribers/reports");
-    $this->assertResponseStatusCodeEquals(ResponseHeaders::HTTP_PAYMENT_REQUIRED);
+    $this->get("/subscribers/reports")
+        ->go()
+        ->assertResponse
+        ->statusCodeEquals(ResponseHeaders::HTTP_PAYMENT_REQUIRED);
 }
 ```
 
-<h4 id="assert-view-has-tag">assertViewHasTag()</h4>
-Asserts that the view generated by the controller has a particular tag:
+<h2 id="view-assertions">View Assertions</h2>
+If your controller extends `Opulence\Routing\Controller`, you can test the [view](view-basics) used in the response.
 
-```php
-public function testTitleIsSet()
-{
-    $this->get("/home");
-    $this->assertViewHasTag("title");
-}
-```
-
-> **Note:** This is only available if your controller extends `Opulence\Routing\Controller`.
-
-<h4 id="assert-view-has-var">assertViewHasVar()</h4>
+<h4 id="assert-view-has-var">hasVar()</h4>
 Asserts that the view generated by the controller has a particular variable:
 
 ```php
 public function testCSSVariableIsSet()
 {
-    $this->get("/home");
-    $this->assertViewHasVar("css");
+    $this->get("/home")
+        ->go()
+        ->assertView
+        ->hasVar("css");
 }
 ```
 
 > **Note:** This is only available if your controller extends `Opulence\Routing\Controller`.
 
-<h4 id="assert-view-tag-equals">assertViewTagEquals()</h4>
-Asserts that the view generated by the controller has a particular tag with an expected value:
-
-```php
-public function testTitleIsSet()
-{
-    $this->get("/home");
-    $this->assertViewTagEquals("title", "Home");
-}
-```
-
-> **Note:** This is only available if your controller extends `Opulence\Routing\Controller`.
-
-<h4 id="assert-view-var-equals">assertViewVarEquals()</h4>
+<h4 id="assert-view-var-equals">varEquals()</h4>
 Asserts that the view generated by the controller has a particular variable with an expected value:
 
 ```php
 public function testCSSVariableIsSet()
 {
-    $this->get("/home");
-    $this->assertViewVarEquals("css", ["assets/css/style.css"]);
+    $this->get("/home")
+        ->go()
+        ->assertView
+        ->varEquals("css", ["assets/css/style.css"]);
 }
 ```
 
