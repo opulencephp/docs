@@ -283,7 +283,7 @@ public function testJsonResponse()
 }
 ```
 
-<h2 id="assert-redirects-to">redirectsTo()</h2>
+<h4 id="assert-redirects-to">redirectsTo()</h4>
 Asserts that the response is a redirect to a particular URL:
 
 ```php
