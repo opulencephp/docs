@@ -54,7 +54,7 @@ public function testStatusCode()
 }
 ```
 
-<h4 id="assert-status-code-is-fatal">iIsFatal()</h4>
+<h4 id="assert-status-code-is-fatal">isFatal()</h4>
 Asserts that the status code of the last command is fatal:
 
 ```php
