@@ -2,7 +2,9 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [call()](#call)
+2. [Testing Commands](#testing-commands)
+  1. [Prompt Answers](#prompt-answers)
+  2. [with() Methods](#with-methods)
 3. [Response Assertions](#response-assertions)
   1. [isError()](#assert-status-code-is-error)
   2. [isFatal()](#assert-status-code-is-fatal)
@@ -16,30 +18,65 @@ Opulence comes with the ability to integration test your console commands using 
 
 > **Note:** If you need to define a `setUp()` or `tearDown()` method in your test, make sure to call `parent::setUp()` or `parent::tearDown()`.
 
-<h2 id="call">call()</h2>
-Allows you to simulate a call to a console command.  It accepts:
+<h2 id="testing-commands">Testing Commands</h2>
+There are two ways to test a command:
 
-* The command name
-* The array of argument values
-* The array of option values
-* The answer or array of answers to use in any prompts
-* Whether or not to style the output
+1. Call `$this->execute()` and pass in the command name, argument values, option values, prompt answers, and whether or not to style the output
+2. Call `$this->command()`, which returns a `CommandBuilder` to build up your command
 
-Let's say that our command has a `Confirmation` question that we want to try testing with `true` and `false` responses:
+For example, the following two tests will test identical things:
+
+```php
+public function testUsingExecute()
+{
+    $this->execute("app:rename", ["Project", "MyApp"], [], true)
+        ->assertResponse
+        ->outputEquals("<success>Updated name successfully</success>");
+}
+
+public function testUsingCommand()
+{
+    $this->command("app:rename")
+        ->withArguments(["Project", "MyApp"])
+        ->withAnswers(true)
+        ->execute()
+        ->assertResponse
+        ->outputEquals("<success>Updated name successfully</success>");
+}
+```
+
+<h4 id="prompt-answers">Prompt Answers</h4>  
+Let's say that our command has a `Confirmation` question that we want to try testing with `true` and `false` answers.  Simply pass the answers and test the output of each:
 
 ```php
 public function testConfirmation()
 {
-    $this->call("app:rename", ["Project", "MyApp"], [], true)
+    $this->command("app:rename")
+        ->withArguments(["Project", "MyApp"])
+        ->withAnswers(true)
+        ->execute()
         ->assertResponse
-        ->outputEquals("Updated name successfully");
-    $this->call("app:rename", ["Project", "MyApp"], [], false)
+        ->outputEquals("<success>Updated name successfully</success>");
+    $this->command("app:rename")
+        ->withArguments(["Project", "MyApp"])
+        ->withAnswers(false)
+        ->execute()
         ->assertResponse
-        ->outputEquals("Aborted");
+        ->outputEquals("");
 }
 ```
 
-> **Note:**  This must be called before any assertions in this class.
+<h4 id="with-methods">with() Methods</h4>
+The following methods can be used to pass data to your command:
+
+* `withArguments($arguments)`
+  * Passes the argument or array of arguments to the command
+* `withAnswers($answers)`
+  * Passes the prompt answers or array of prompt answers to the command
+* `withOptions($options)`
+  * Passes the options or array of options to the command
+* `withStyle($isStyled)`
+  * Sets whether or not the response should be styled
 
 <h2 id="response-assertions">Response Assertions</h2>
 You can run various assertions on the response returned by the `Kernel`.  To do so, simply use `$this->assertResponse`.
@@ -50,7 +87,7 @@ Asserts that the status code of the last command is an error:
 ```php
 public function testStatusCode()
 {
-    $this->call("errorcommand")
+    $this->execute("errorcommand")
         ->assertResponse
         ->isError();
 }
@@ -62,7 +99,7 @@ Asserts that the status code of the last command is fatal:
 ```php
 public function testStatusCode()
 {
-    $this->call("badcommand")
+    $this->execute("badcommand")
         ->assertResponse
         ->isFatal();
 }
@@ -74,7 +111,7 @@ Asserts that the status code of the last command is OK:
 ```php
 public function testStatusCode()
 {
-    $this->call("goodcommand")
+    $this->execute("goodcommand")
         ->assertResponse
         ->isOK();
 }
@@ -86,7 +123,7 @@ Asserts that the status code of the last command is a warning:
 ```php
 public function testStatusCode()
 {
-    $this->call("warningcommand")
+    $this->execute("warningcommand")
         ->assertResponse
         ->isWarning();
 }
@@ -98,7 +135,7 @@ Asserts that the output of the last command equals an expected value:
 ```php
 public function testOutputIsCorrect()
 {
-    $this->call("hello")
+    $this->execute("hello")
         ->assertResponse
         ->outputEquals("Hello, world");
 }
@@ -110,7 +147,7 @@ Asserts that the status code of the last command equals an expected value:
 ```php
 public function testStatusCode()
 {
-    $this->call("hello")
+    $this->execute("hello")
         ->assertResponse
         ->statusCodeEquals(StatusCodes::WARNING);
 }
