@@ -31,7 +31,7 @@
   3. [Enabling Specific Middleware](#enabling-specific-middleware)
 
 <h2 id="introduction">Introduction</h2>
-Opulence gives you a powerful integration testing tool to simulate routes and test the responses and views created by controllers.  The tool is the `Opulence\Framework\Testing\PhpUnit\Http\IntegrationTestCase` class, which extends PHPUnit's `PHPUnit_Framework_TestCase`.  By extending `ApplicationTestCase`, you'll inherit many methods to help test your application.
+Opulence gives you a powerful integration testing tool to simulate routes and test the responses and views created by controllers.  The tool is the `Opulence\Framework\Testing\PhpUnit\Http\IntegrationTestCase` class, which extends PHPUnit's `PHPUnit_Framework_TestCase`.  By extending `IntegrationTestCase`, you'll inherit many methods to help test your application.
 
 > **Note:** If you need to define a `setUp()` or `tearDown()` method in your test, make sure to call `parent::setUp()` or `parent::tearDown()`.
 

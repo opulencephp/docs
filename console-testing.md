@@ -14,7 +14,7 @@
   6. [statusCodeEquals()](#assert-status-code-equals)
 
 <h2 id="introduction">Introduction</h2>
-Opulence comes with the ability to integration test your console commands using `Opulence\Framework\Testing\PhpUnit\Console\IntegrationTestCase`.  With it, you can test the output of your commands, simulate responses to prompt questions, and check the status code of the kernel.  Simply extend `ApplicationTestCase` in your test classes, and you'll inherit the following methods to help test your console application:
+Opulence comes with the ability to integration test your console commands using `Opulence\Framework\Testing\PhpUnit\Console\IntegrationTestCase`.  With it, you can test the output of your commands, simulate responses to prompt questions, and check the status code of the kernel.  Simply extend `IntegrationTestCase` in your test classes, and you'll inherit the following methods to help test your console application:
 
 > **Note:** If you need to define a `setUp()` or `tearDown()` method in your test, make sure to call `parent::setUp()` or `parent::tearDown()`.
 
