@@ -31,7 +31,7 @@
   3. [Enabling Specific Middleware](#enabling-specific-middleware)
 
 <h2 id="introduction">Introduction</h2>
-Opulence gives you a powerful integration testing tool to simulate routes and test the responses and views created by controllers.  The tool is the `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase` class, which extends PHPUnit's `PHPUnit_Framework_TestCase`.  By extending `ApplicationTestCase`, you'll inherit many methods to help test your application.
+Opulence gives you a powerful integration testing tool to simulate routes and test the responses and views created by controllers.  The tool is the `Opulence\Framework\Testing\PhpUnit\Http\IntegrationTestCase` class, which extends PHPUnit's `PHPUnit_Framework_TestCase`.  By extending `ApplicationTestCase`, you'll inherit many methods to help test your application.
 
 > **Note:** If you need to define a `setUp()` or `tearDown()` method in your test, make sure to call `parent::setUp()` or `parent::tearDown()`.
 
@@ -110,7 +110,7 @@ The following methods can be used to pass data to your request:
   * Sets the server vars in the request
 
 <h4 id="mock-requests">Mock Requests</h4>
-If you want fine-grained control over your tests, you can pass in a `Request` object to `ApplicationTestCase::route()`:
+If you want fine-grained control over your tests, you can pass in a `Request` object to `IntegrationTestCase::route()`:
 
 ```php
 public function testPostingSomeData()
@@ -122,7 +122,7 @@ public function testPostingSomeData()
 }
 ```
 
-> **Note:**  If you're not using a `RequestBuilder`, you must call `route()` before any assertions defined in `ApplicationTestCase`.
+> **Note:**  If you're not using a `RequestBuilder`, you must call `route()` before any assertions defined in `IntegrationTestCase`.
 
 <h2 id="response-assertions">Response Assertions</h2>
 You can run various assertions on the response returned by the `Kernel`.  To do so, simply use `$this->assertResponse`.
