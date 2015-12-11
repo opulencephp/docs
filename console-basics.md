@@ -43,7 +43,7 @@ Displays the current application environment name, eg "Production" or "Developme
 <h4 id="apprename">app:rename</h4>
 When you install Opulence, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under `src`, and the composer.json PSR-4 settings.
 
-<h4 id="appdown">app:up</h4>
+<h4 id="appup">app:up</h4>
 Deletes the file that forces the application into maintenance mode.
 
 <h4 id="composerdumpautoload">composer:dump-autoload</h4>
