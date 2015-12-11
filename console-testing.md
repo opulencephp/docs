@@ -30,10 +30,12 @@ Let's say that our command has a `Confirmation` question that we want to try tes
 ```php
 public function testConfirmation()
 {
-    $this->call("app:rename", ["Project", "MyApp"], [], true);
-    $this->assertOutputEquals("Updated name successfully");
-    $this->call("app:rename", ["Project", "MyApp"], [], false);
-    $this->assertOutputEquals("Aborted");
+    $this->call("app:rename", ["Project", "MyApp"], [], true)
+        ->assertResponse
+        ->outputEquals("Updated name successfully");
+    $this->call("app:rename", ["Project", "MyApp"], [], false)
+        ->assertResponse
+        ->outputEquals("Aborted");
 }
 ```
 

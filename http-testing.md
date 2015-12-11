@@ -44,7 +44,8 @@ public function testPostingSomeData()
     $this->post("/foo")
         ->withParameters(["bar" => "baz"])
         ->go()
-        ->assertResponseContentEquals("Nice POST request");
+        ->assertResponse
+        ->contentEquals("Nice POST request");
 }
 ```
 
@@ -73,7 +74,7 @@ public function testWithParameters()
 ```
 
 <h4 id="json">JSON</h4>
-To simulate passing JSON data to a route, use `withJson()`.  To assert that a JSON response matches an array, use `assertResponseJsonEquals()`:
+To simulate passing JSON data to a route, use `withJson()`.  To assert that a JSON response matches an array, use `jsonEquals()`:
 
 ```php
 public function testJsonRequest()
