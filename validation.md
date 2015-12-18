@@ -292,7 +292,7 @@ $validator->isValid($_POST);
 <h4 id="error-message-configuration">Error Message Configuration</h4>
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you will find some default error message templates in `config/resources/lang/en/validation.php`.  You are free to edit them as you'd like.
 
-The `Project\Bootstrappers\Validation\ValidatorBootstrapper` binds the validator factory to `Opulence\Validation\Factories\IValidatorFactory`.  If you'd like to use validators in your controllers or console commands, simply inject `IValidatorFactory` via the controller and command constructors, respectively:
+The skeleton project comes with `Project\Bootstrappers\Validation\ValidatorBootstrapper`, which sets your default error message templates and registers your custom rules.  It also binds the validator factory to the IoC container.  If you'd like to use validators in your controllers or console commands, simply inject `IValidatorFactory` via the controller and command constructors, respectively:
 
 <h4 id="validation-in-controller">Controller Example</h4>
 ```php
