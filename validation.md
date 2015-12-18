@@ -63,7 +63,9 @@ if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
 }
 ```
 
-Opulence's validation library is not tied to any other libraries, meaning you are free to use it without inheriting a ton of dependencies.
+If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, all of the components are setup and bound to the IoC container for you.
+
+Opulence's validation library is framework-agnostic, making it easy to use with both Opulence and other frameworks.
 
 <h2 id="rules">Rules</h2>
 Whenever you call `Opulence\Validation\Validator::field()`, a `Rules` object will be created.  It contains a bunch of [built-in rules](#built-in-rules) as well as methods to get any errors for the field.
