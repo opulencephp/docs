@@ -363,8 +363,12 @@ The following rules are built into Opulence:
   * Checks if the value matches another field's value
 * `in(array $array)`
   * Checks if the value is in the array
+* `integer()`
+  * Checks if the value is an integer
 * `notIn(array $array)`
   * Checks if the value is not in the array
+* `numeric()`
+  * Checks if the value is numeric
 * `regex($regex)`
   * Checks if the value matches a regular expression
   * Your regex must include delimiters, eg `/[a-z]/`
