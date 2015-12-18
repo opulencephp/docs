@@ -121,7 +121,7 @@ $validator->field("name")
 ```
 
 <h4 id="halting-validation">Halting Validation</h4>
-Sometimes, you may want to stop validating a field after the first failure.  Simply pass `true` into the second parameter in `Validator::isValid()`:
+Sometimes, you may want to stop validating a field after the first failure.  Simply pass `true` to the second parameter in `Validator::isValid()`:
 
 ```php
 $validator->field("email")
@@ -133,7 +133,17 @@ $validator->isValid(["email" => null], true);
 In this example, because the "email" field was null, it fails the "required" rule.  This means the "email" rule will never be run.
 
 <h2 id="error-messages">Error Messages</h2>
-Calling `Validator::getErrors()` after `Validator::isValid()` will return an `Opulence\Validation\Rules\Errors\ErrorCollection` with any error messages.  To grab all errors, use `$validator->getErrors()->getAll()`.  To get a specific field's error message, use `$validator->getErrors()->get("FIELD_NAME")`.
+Calling `Validator::getErrors()` after `Validator::isValid()` will return an `Opulence\Validation\Rules\Errors\ErrorCollection` with any error messages from validation.
+
+To grab all errors, use:
+```php
+$validator->getErrors()->getAll();
+```
+
+To get a specific field's error message, use:
+```php
+$validator->getErrors()->get("FIELD_NAME");
+```
 
 Error message templates are bound to a slug in the `Opulence\Validation\Rules\Errors\ErrorTemplateRegistry`:
 
@@ -150,15 +160,15 @@ $errorTemplateRegistry->registerErrorTemplatesFromConfig([
 All "required" rules that fail will now have the first error message.  Specifying `email.required` makes all "required" rules for the "email" field have the second error message.  `:field` will automatically be populated with the name of the field that failed.
 
 <h4 id="error-message-placeholders">Error Message Placeholders</h4>
-If your rule needs to specify placeholder values in your error messages, it should also implement `IRuleWithErrorPlaceholders`.  In the `getErrorPlaceholders()` method, you can return a keyed array with the placeholder-name => placeholder-value mappings.
+You can specify placeholders in your error messages using `:NAME_OF_PLACEHOLDER`.  If your rule needs to specify placeholder values, it should also implement `IRuleWithErrorPlaceholders`.  In the `getErrorPlaceholders()` method, you can return a keyed array with the placeholder-name => placeholder-value mappings.
  
-Let's take a look at an example of a rule that checks if an input date falls on a particular day (numbered 0-6).
+Let's take a look at an example of a rule that checks if an input date falls on a particular day (numbered 0-6):
 
 ```php
 namespace MyApp\Validation\Rules;
 
 use DateTime;
-use Opulence\Validation\Rules\IRule;
+use Opulence\Validation\Rules\IRuleWithArgs;
 use Opulence\Validation\Rules\IRuleWithErrorPlaceholders;
 
 class DayRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
@@ -167,8 +177,7 @@ class DayRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 
     public function getErrorPlaceholders()
     {
-        $dayName = DateTime::createFromFormat("!N", $this->comparisonDay)
-            ->format("l");
+        $dayName = DateTime::createFromFormat("!N", $this->comparisonDay)->format("l");
         
         return ["day" => $dayName];
     }
@@ -180,9 +189,7 @@ class DayRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     
     public function passes($value, array $allValues = [])
     {
-        $date = DateTime::createFromFormat("!N", $value);
-        
-        return $date->format("N") == $this->comparisonDay;
+        return (new DateTime($value))->format("N") == $this->comparisonDay;
     }
     
     public function setArgs(array $args)
@@ -192,7 +199,7 @@ class DayRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 }
 ```
 
-In our `ErrorTemplateRegistry`, we can then bind an error message to the rule:
+We can then bind an error message to the rule:
 
 ```php
 $errorTemplateRegistry->registerGlobalErrorTemplate("day", "Selected day must be a :day");
