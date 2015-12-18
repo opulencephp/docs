@@ -14,12 +14,15 @@
 5. [Built-In Rules](#built-in-rules)
   
 <h2 id="introduction">Introduction</h2>
-Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify that a value is an email?  Easy:
+Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify a password matches the confirmation password?  Easy:
 
 ```php
-$validator->field("user-email")
-    ->email();
-echo $validator->isValid(["user-email" => "foo@bar.com"]); // 1
+$validator->field("password")
+    ->equalsField("confirm-password");
+$validator->isValid([
+    "password" => "1337", 
+    "confirm-password" => "1337"
+]);
 ```
 
 Opulence's validation library is not tied to any other libraries, meaning you are free to use it without inheriting a ton of dependencies.
