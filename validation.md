@@ -10,11 +10,11 @@
   3. [Halting Validation](#halting-validation)
 3. [Error messages](#error-messages)
   1. [Error Message Placeholders](#error-message-placeholders)
-4. [Skeleton Project Examples](#skeleton-project-examples)
+4. [Validating Form Input](#validating-form-input)
+5. [Skeleton Project Examples](#skeleton-project-examples)
   1. [Error Message Configuration](#error-message-configuration)
   2. [Controller Example](#validation-in-controller)
   3. [Console Command Example](#validation-in-console-command)
-5. [Validating Form Input](#validating-form-input)
 6. [Built-In Rules](#built-in-rules)
   
 <h2 id="introduction">Introduction</h2>
@@ -250,6 +250,30 @@ $errorTemplateRegistry->registerGlobalErrorTemplate("day", "Selected day must be
 
 Now, whenever our rule fails, the nicely-formatted day name will appear in the error message, eg "Selected day must be a Monday".
 
+<h2 id="validating-form-input">Validating Form Input</h2>
+First, set up your rules for your fields:
+
+```php
+$validator->field("first-name")
+    ->required();
+$validator->field("last-name")
+    ->required();
+```
+
+Then, if you're using Opulence's [HTTP request wrapper](http-requests-responses), call:
+
+```php
+$validator->isValid($request->getPost()->getAll());
+```
+
+> **Note:** You can also pass in `$request->getQuery()->getAll()`.
+
+If you aren't using Opulence's HTTP request wrapper, you can pass any of the PHP super globals to the validator:
+
+```php
+$validator->isValid($_POST);
+```
+
 <h2 id="skeleton-project-examples">Skeleton Project Examples</h2>
 
 <h4 id="error-message-configuration">Error Message Configuration</h4>
@@ -306,15 +330,6 @@ class MyCommand extends command
     }
 }
 ```
-
-<h2 id="validating-form-input">Validating Form Input</h2>
-If you're using Opulence's [HTTP request wrapper](http-requests-responses), you can easily validate form input.  Simply define the rules for all the fields, and then call:
-
-```php
-$validator->isValid($request->getPost()->getAll());
-```
-
-> **Note:** You can also use `$request->getQuery()->getAll()`.
  
 <h2 id="built-in-rules">Built-In Rules</h2>
 
