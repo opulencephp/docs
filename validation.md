@@ -86,7 +86,7 @@ $validator->field("to")
 Sometimes, you may only want to apply a rule if certain conditions are met.  To specify a condition, call `condition()` on the `Rules` object.  It accepts a `callable` with two parameters:
 
 1. The value of the field
-2. A list of all fields being validated.  
+2. A list of all fields being validated  
 
 The `callable` should return `true` if the condition has been met, otherwise `false`.  Any rule added after `condition()` will only be run if the condition is met.  If you'd like to end the list of conditional rules and add a non-conditional rule, call `endCondition()` before adding the non-conditional rule.
 
