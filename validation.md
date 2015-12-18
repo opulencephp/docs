@@ -63,7 +63,7 @@ if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
 }
 ```
 
-> **Note:** If you're using the [skeleton project](#skeleton-project-examples), all of the components are setup and bound to the IoC container for you.
+> **Note:** If you're using the [skeleton project](#skeleton-project-examples), all of the components are created and bound to the IoC container for you.
 
 Opulence's validation library is framework-agnostic, making it easy to use with both Opulence and other frameworks.
 
