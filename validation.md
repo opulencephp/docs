@@ -361,5 +361,12 @@ The following rules are built into Opulence:
   * Checks if the value matches the expected value
 * `equalsField($otherField)`
   * Checks if the value matches another field's value
+* `in(array $array)`
+  * Checks if the value is in the array
+* `notIn(array $array)`
+  * Checks if the value is not in the array
+* `regex($regex)`
+  * Checks if the value matches a regular expression
+  * Your regex must include delimiters, eg `/[a-z]/`
 * `required()`
-  * Checks if the value is not empty nor null
+  * Checks if the value is not empty, null, an empty array, or an empty `Countable`
