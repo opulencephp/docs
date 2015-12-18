@@ -10,7 +10,10 @@
   3. [Halting Validation](#halting-validation)
 3. [Error messages](#error-messages)
   1. [Error Message Placeholders](#error-message-placeholders)
-  2. [Skeleton Project Configuration](#skeleton-project-configuration)
+4. [Skeleton Project Examples](#skeleton-project-examples)
+  1. [Error Message Configuration](#error-message-configuration)
+  2. [Controller Example](#validation-in-controller)
+  3. [Console Command Example](#validation-in-console-command)
 4. [Validating Form Input](#validating-form-input)
 5. [Built-In Rules](#built-in-rules)
   
@@ -50,8 +53,8 @@ $validator->field("password")
 if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
     echo "<ul>";
 
-    foreach($validator->getErrors()->getAll() as $field => $fieldErrors) {
-        foreach($fieldErrors as $error) {
+    foreach ($validator->getErrors()->getAll() as $field => $fieldErrors) {
+        foreach ($fieldErrors as $error) {
             echo "<li>$error</li>";
         }
     }
@@ -245,12 +248,14 @@ $errorTemplateRegistry->registerGlobalErrorTemplate("day", "Selected day must be
 
 Now, whenever our rule fails, the nicely-formatted day name will appear in the error message, eg "Selected day must be a Monday".
 
-<h4 id="skeleton-project-configuration">Skeleton Project Configuration</h4>
+<h2 id="skeleton-project-examples">Skeleton Project Examples</h2>
+
+<h4 id="error-message-configuration">Error Message Configuration</h4>
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you will find some default error message templates in `config/resources/lang/en/validation.php`.  You are free to edit them as you'd like.
 
 The `Project\Bootstrappers\Validation\ValidatorBootstrapper` binds the validator to `Opulence\Validation\IValidator`.  If you'd like to use the validator in your controllers or console commands, simply inject them via the controller and command constructors, respectively:
 
-<h5 id="validation-in-controller">Controller Example</h5>
+<h4 id="validation-in-controller">Controller Example</h4>
 ```php
 use Opulence\Validation\IValidator;
 
@@ -270,7 +275,7 @@ class MyController
 }
 ```
 
-<h5 id="validation-in-command">Console Command Example</h5>
+<h4 id="validation-in-console-command">Console Command Example</h4>
 ```php
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
