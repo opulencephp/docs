@@ -41,7 +41,7 @@ $validator = new Validator($rulesFactory, $ruleExtensionRegistry);
 // Specify some error message templates
 $errorTemplateRegistry->registerErrorTemplatesFromConfig([
     "required" => "The :field input is required",
-    "equals_field" => "The :field input must match the :other input"
+    "equalsField" => "The :field input must match the :other input"
 ]);
 
 // Set up our rules
@@ -99,7 +99,7 @@ Since "contact-type" was "email", the condition was met, and the "email" rule wa
 Each rule in `Rules` implements `Opulence\Validation\Rules\IRule`, which provides two methods:
 
 * `getSlug()`
-  * Gets the snake-case short name for the rule, eg `equals_field` (must only contain alphanumeric characters and underscores)
+  * Gets the short name for the rule, eg `equalsField` (must only contain alphanumeric characters and underscores)
   * Used to bind error messages to rules
 * `passes($value, array $allValues)`
   * Returns `true` if the rule passes, otherwise `false`
@@ -123,7 +123,7 @@ class NotInArrayRule implements IRuleWithArgs
     
     public function getSlug()
     {
-        return "not_in_array";
+        return "notInArray";
     }
     
     public function passes($value, array $allValues = [])
@@ -148,7 +148,7 @@ To use the extension, simply call `$validator->field("FIELD_NAME")->{slug}()`:
 
 ```php
 $validator->field("some-array")
-    ->not_in_array(["not", "allowed"]);
+    ->notInArray(["not", "allowed"]);
 ```
 
 <h5 id="using-callables">Using Callables</h5>
@@ -158,9 +158,9 @@ When registering a `callable`, you must give it a slug:
 $rule = function ($value, array $allValues = []) {
     return $value == "Dave";
 };
-$validator->registerRule($rule, "cool_name");
+$validator->registerRule($rule, "coolName");
 $validator->field("name")
-    ->cool_name();
+    ->coolName();
 ```
 
 <h4 id="halting-validation">Halting Validation</h4>
