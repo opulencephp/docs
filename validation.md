@@ -10,6 +10,7 @@
   3. [Halting Validation](#halting-validation)
 3. [Error messages](#error-messages)
   1. [Error Message Placeholders](#error-message-placeholders)
+  2. [Skeleton Project Configuration](#skeleton-project-configuration)
 4. [Validating Form Input](#validating-form-input)
 5. [Built-In Rules](#built-in-rules)
   
@@ -17,13 +18,51 @@
 Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify a password is set and matches the confirmation password?  Easy:
 
 ```php
+use Opulence\Validation\Rules\Errors\Compilers\Compiler;
+use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
+use Opulence\Validation\Rules\Factories\RulesFactory;
+use Opulence\Validation\Rules\RuleExtensionRegistry;
+use Opulence\Validation\Validator;
+
+// Create our components
+$ruleExtensionRegistry = new RuleExtensionRegistry();
+$errorTemplateRegistry = new ErrorTemplateRegistry();
+$errorTemplateCompiler = new Compiler();
+$rulesFactory = new RulesFactory(
+    $ruleExtensionRegistry,
+    $errorTemplateRegistry,
+    $errorTemplateCompiler
+);
+$validator = new Validator($rulesFactory, $ruleExtensionRegistry);
+
+// Specify some error message templates
+$errorTemplateRegistry->registerErrorTemplatesFromConfig([
+    "required" => "The :field input is required",
+    "equals_field" => "The :field input must match the :other input"
+]);
+
+// Setup our rules
 $validator->field("password")
     ->required()
     ->equalsField("confirm-password");
-$validator->isValid([
+    
+// Do some validation
+if (!$validator->isValid([
     "password" => "1337", 
-    "confirm-password" => "1337"
-]);
+    "confirm-password" => "asdf"
+]) {
+    echo "<ul>";
+
+    foreach($validator->getErrors()->getAll() as $field => $errors)
+    {
+        foreach($errors as $error)
+        {
+            echo "<li>$error</li>";
+        }
+    }
+    
+    echo "</ul>";
+}
 ```
 
 Opulence's validation library is not tied to any other libraries, meaning you are free to use it without inheriting a ton of dependencies.
@@ -210,6 +249,9 @@ $errorTemplateRegistry->registerGlobalErrorTemplate("day", "Selected day must be
 ```
 
 Now, whenever our rule fails, the nicely-formatted day name will appear in the error message, eg "Selected day must be a Monday".
+
+<h4 id="skeleton-project-configuration">Skeleton Project Configuration</h4>
+If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you will find some default error message templates in `config/resources/lang/en/validation.php`.  You are free to edit them as you'd like.
 
 <h2 id="validating-form-input">Validating Form Input</h2>
 If you're using Opulence's [HTTP request wrapper](http-requests-responses), you can easily validate form input.  Simply define the rules for all the fields, and then call:
