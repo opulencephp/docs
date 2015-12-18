@@ -50,10 +50,8 @@ $validator->field("password")
 if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
     echo "<ul>";
 
-    foreach($validator->getErrors()->getAll() as $field => $fieldErrors)
-    {
-        foreach($fieldErrors as $error)
-        {
+    foreach($validator->getErrors()->getAll() as $field => $fieldErrors) {
+        foreach($fieldErrors as $error) {
             echo "<li>$error</li>";
         }
     }
@@ -249,6 +247,58 @@ Now, whenever our rule fails, the nicely-formatted day name will appear in the e
 
 <h4 id="skeleton-project-configuration">Skeleton Project Configuration</h4>
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you will find some default error message templates in `config/resources/lang/en/validation.php`.  You are free to edit them as you'd like.
+
+The `Project\Bootstrappers\Validation\ValidatorBootstrapper` binds the validator to `Opulence\Validation\IValidator`.  If you'd like to use the validator in your controllers or console commands, simply inject them via the controller and command constructors, respectively:
+
+<h5 id="validation-in-controller">Controller Example</h5>
+```php
+use Opulence\Validation\IValidator;
+
+class MyController
+{
+    private $validator = null;
+    
+    public function __construct(IValidator $validator)
+    {
+        $this->validator = $validator;
+    }
+    
+    public function login()
+    {
+        // You can now use $this->validator to validate input
+    }
+}
+```
+
+<h5 id="validation-in-command">Console Command Example</h5>
+```php
+use Opulence\Console\Commands\Command;
+use Opulence\Console\Responses\IResponse;
+use Opulence\Validation\IValidator;
+
+class MyCommand extends command
+{
+    private $validator = null;
+    
+    public function __construct(IValidator $validator)
+    {
+        parent::__construct();
+    
+        $this->validator = $validator;
+    }
+    
+    protected function define()
+    {
+        $this->setName("my:command")
+            ->setDescription("My command that uses validation");
+    }
+    
+    protected function doExecute(IResponse $response)
+    {
+        // You can now use $this->validator to validate input
+    }
+}
+```
 
 <h2 id="validating-form-input">Validating Form Input</h2>
 If you're using Opulence's [HTTP request wrapper](http-requests-responses), you can easily validate form input.  Simply define the rules for all the fields, and then call:
