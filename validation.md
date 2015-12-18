@@ -14,8 +14,8 @@
   1. [Error Message Configuration](#error-message-configuration)
   2. [Controller Example](#validation-in-controller)
   3. [Console Command Example](#validation-in-console-command)
-4. [Validating Form Input](#validating-form-input)
-5. [Built-In Rules](#built-in-rules)
+5. [Validating Form Input](#validating-form-input)
+6. [Built-In Rules](#built-in-rules)
   
 <h2 id="introduction">Introduction</h2>
 Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify a password is set and matches the confirmation password?  Easy:
