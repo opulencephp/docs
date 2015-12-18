@@ -10,7 +10,8 @@
   3. [Halting Validation](#halting-validation)
 3. [Error messages](#error-messages)
   1. [Error Message Placeholders](#error-message-placeholders)
-4. [Built-In Rules](#built-in-rules)
+4. [Validating Form Input](#validating-form-input)
+5. [Built-In Rules](#built-in-rules)
   
 <h2 id="introduction">Introduction</h2>
 Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify that a value is an email?  Easy:
@@ -21,13 +22,18 @@ $validator->field("user-email")
 echo $validator->isValid(["user-email" => "foo@bar.com"]); // 1
 ```
 
-Opulence's validation library is not tied to another other library, meaning you are free to use it without inheriting a ton of dependencies.
+Opulence's validation library is not tied to any other libraries, meaning you are free to use it without inheriting a ton of dependencies.
 
 <h2 id="rules">Rules</h2>
 Whenever you call `Opulence\Validation\Validator::field()`, a `Rules` object will be created.  It contains a bunch of [built-in rules](#built-in-rules) as well as methods to get any errors for the field.
 
 <h4 id="conditional-rules">Conditional Rules</h4>
-Sometimes, you may only want to apply a rule if certain conditions are met.  To specify a condition, call `condition()` on the `Rules` object.  It accepts a `callable` with two parameters:  the value of the field and a list of all fields being validated.  It should return `true` if the condition has been met, otherwise `false`.  Any rule added to `Rules` after `condition()` will be considered conditional.  If you'd like to end the list of conditional rules and add a non-conditional rule, call `endCondition()` before adding the non-conditional rule.
+Sometimes, you may only want to apply a rule if certain conditions are met.  To specify a condition, call `condition()` on the `Rules` object.  It accepts a `callable` with two parameters:
+
+1. The value of the field
+2. A list of all fields being validated.  
+
+The `callable` should return `true` if the condition has been met, otherwise `false`.  Any rule added after `condition()` will only be run if the condition is met.  If you'd like to end the list of conditional rules and add a non-conditional rule, call `endCondition()` before adding the non-conditional rule.
 
 <h5 id="conditional-rules-example">Example</h5>
 Let's say there are two inputs:  a dropdown specifying what type of contact information we're providing, and a text box with the actual contact information.  If the contact type is "email", we want to force the contact information to be a valid email:
@@ -44,13 +50,14 @@ $validator->isValid([
 ]);
 ```
 
+Since "contact-type" was "email", the condition was met, and the "email" rule was run.
+
 <h4 id="extending-rules">Extending Rules</h4>
 Each rule in `Rules` implements `Opulence\Validation\Rules\IRule`, which provides two methods:
 
 * `getSlug()`
-  * Gets the snake-case short name for the rule, eg `equals_field`
-  * Must only contain alphanumeric characters and underscores
-  * Used to associate error message templates with rules
+  * Gets the snake-case short name for the rule, eg `equals_field` (must only contain alphanumeric characters and underscores)
+  * Used to bind error messages to rules
 * `passes($value, array $allValues)`
   * Returns `true` if the rule passes, otherwise `false`
   
@@ -192,6 +199,15 @@ $errorTemplateRegistry->registerGlobalErrorTemplate("day", "Selected day must be
 ```
 
 Now, whenever our rule fails, the nicely-formatted day name will appear in the error message, eg "Selected day must be a Monday".
+
+<h2 id="validating-form-input">Validating Form Input</h2>
+If you're using Opulence's [HTTP request wrapper](http-requests-responses), you can easily validate form input.  Simply define the rules for all the fields, and then call:
+
+```php
+$validator->isValid($request->getPost()->getAll());
+```
+
+> **Note:** You can also use `$request->getQuery()->getAll()`.
  
 <h2 id="built-in-rules">Built-In Rules</h2>
 
