@@ -41,21 +41,18 @@ $errorTemplateRegistry->registerErrorTemplatesFromConfig([
     "equals_field" => "The :field input must match the :other input"
 ]);
 
-// Setup our rules
+// Set up our rules
 $validator->field("password")
     ->required()
     ->equalsField("confirm-password");
     
 // Do some validation
-if (!$validator->isValid([
-    "password" => "1337", 
-    "confirm-password" => "asdf"
-]) {
+if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
     echo "<ul>";
 
-    foreach($validator->getErrors()->getAll() as $field => $errors)
+    foreach($validator->getErrors()->getAll() as $field => $fieldErrors)
     {
-        foreach($errors as $error)
+        foreach($fieldErrors as $error)
         {
             echo "<li>$error</li>";
         }
