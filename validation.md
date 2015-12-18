@@ -116,11 +116,12 @@ Each rule in `Rules` implements `Opulence\Validation\Rules\IRule`, which provide
   * Used to bind error messages to rules
 * `passes($value, array $allValues)`
   * Returns `true` if the rule passes, otherwise `false`
-  
+
 If you'd like to add a custom rule, you can use `Validator::registerRule()`.  It accepts either:
  
 * A rule object implementing `IRule`
 * A `callable` with parameters for the field value and an array of all field values
+
 
 <h5 id="using-objects">Using Objects</h5>
 If your rule needs to accept extra arguments, such as a value to compare to, implement `IRuleWithArgs`:
