@@ -36,7 +36,7 @@ $rulesFactory = new RulesFactory(
     $errorTemplateRegistry,
     $errorTemplateCompiler
 );
-$validator = new Validator($rulesFactory, $ruleExtensionRegistry);
+$validator = new Validator($rulesFactory);
 ```
 
 <h5>Specify Some Error Message Templates</h5>
@@ -69,7 +69,7 @@ if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
 }
 ```
 
-> **Note:** If you're using the [skeleton project](#skeleton-project-examples), all of the components are created and bound to the IoC container for you.
+> **Note:** To make it easier to create validators, if you're using the [skeleton project](#skeleton-project-examples), an `Opulence\Validation\Factories\IValidatorFactory` is created and bound to the IoC container for you.
 
 Opulence's validation library is framework-agnostic, making it easy to use with both Opulence and other frameworks.
 
@@ -117,7 +117,7 @@ Each rule in `Rules` implements `Opulence\Validation\Rules\IRule`, which provide
 * `passes($value, array $allValues)`
   * Returns `true` if the rule passes, otherwise `false`
 
-If you'd like to add a custom rule, you can use `Validator::registerRule()`.  It accepts either:
+If you'd like to add a custom rule, you can use `RuleExtensionRegistry::registerRule()`.  It accepts either:
  
 * A rule object implementing `IRule`
 * A `callable` with parameters for the field value and an array of all field values
@@ -154,7 +154,7 @@ class NotInArrayRule implements IRuleWithArgs
 You can now register this rule:
 
 ```php
-$validator->registerRule(new NotInArrayRule);
+$ruleExtensionRegistry->registerRule(new NotInArrayRule);
 ```
 
 To use the extension, simply call `$validator->field("FIELD_NAME")->{slug}()`:
@@ -171,7 +171,7 @@ When registering a `callable`, you must give it a slug:
 $rule = function ($value, array $allValues = []) {
     return $value == "Dave";
 };
-$validator->registerRule($rule, "coolName");
+$ruleExtensionRegistry->registerRule($rule, "coolName");
 $validator->field("name")
     ->coolName();
 ```
@@ -292,24 +292,25 @@ $validator->isValid($_POST);
 <h4 id="error-message-configuration">Error Message Configuration</h4>
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you will find some default error message templates in `config/resources/lang/en/validation.php`.  You are free to edit them as you'd like.
 
-The `Project\Bootstrappers\Validation\ValidatorBootstrapper` binds the validator to `Opulence\Validation\IValidator`.  If you'd like to use the validator in your controllers or console commands, simply inject them via the controller and command constructors, respectively:
+The `Project\Bootstrappers\Validation\ValidatorBootstrapper` binds the validator factory to `Opulence\Validation\Factories\IValidatorFactory`.  If you'd like to use validators in your controllers or console commands, simply inject `IValidatorFactory` via the controller and command constructors, respectively:
 
 <h4 id="validation-in-controller">Controller Example</h4>
 ```php
-use Opulence\Validation\IValidator;
+use Opulence\Validation\Factories\IValidatorFactory;
 
 class MyController
 {
-    private $validator = null;
+    private $validatorFactory = null;
     
-    public function __construct(IValidator $validator)
+    public function __construct(IValidatorFactory $validatorFactory)
     {
-        $this->validator = $validator;
+        $this->validatorFactory = $validatorFactory;
     }
     
     public function login()
     {
-        // You can now use $this->validator to validate input
+        $validator = $this->validatorFactory->createValidator();
+        // You can now use $validator to validate input
     }
 }
 ```
@@ -318,17 +319,17 @@ class MyController
 ```php
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
-use Opulence\Validation\IValidator;
+use Opulence\Validation\Factories\IValidatorFactory;
 
 class MyCommand extends command
 {
-    private $validator = null;
+    private $validatorFactory = null;
     
-    public function __construct(IValidator $validator)
+    public function __construct(IValidatorFactory $validatorFactory)
     {
         parent::__construct();
     
-        $this->validator = $validator;
+        $this->validatorFactory = $validatorFactory;
     }
     
     protected function define()
@@ -339,7 +340,8 @@ class MyCommand extends command
     
     protected function doExecute(IResponse $response)
     {
-        // You can now use $this->validator to validate input
+        $validator = $this->validatorFactory->createValidator();
+        // You can now use $validator to validate input
     }
 }
 ```
