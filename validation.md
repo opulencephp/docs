@@ -20,6 +20,7 @@
 <h2 id="introduction">Introduction</h2>
 Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify a password is set and matches the confirmation password?  Easy:
 
+<h5>Create Components</h5>
 ```php
 use Opulence\Validation\Rules\Errors\Compilers\Compiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
@@ -27,7 +28,6 @@ use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Validator;
 
-// Create our components
 $ruleExtensionRegistry = new RuleExtensionRegistry();
 $errorTemplateRegistry = new ErrorTemplateRegistry();
 $errorTemplateCompiler = new Compiler();
@@ -37,19 +37,25 @@ $rulesFactory = new RulesFactory(
     $errorTemplateCompiler
 );
 $validator = new Validator($rulesFactory, $ruleExtensionRegistry);
+```
 
-// Specify some error message templates
+<h5>Specify Some Error Message Templates</h5>
+```php
 $errorTemplateRegistry->registerErrorTemplatesFromConfig([
     "required" => "The :field input is required",
     "equalsField" => "The :field input must match the :other input"
 ]);
+```
 
-// Set up our rules
+<h5>Set Up The Rules</h5>
+```php
 $validator->field("password")
     ->required()
     ->equalsField("confirm-password");
-    
-// Do some validation
+```
+
+<h5>Validate the Input and Display Any Errors</h5>
+```php
 if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
     echo "<ul>";
 
@@ -337,6 +343,9 @@ class MyCommand extends command
 
 The following rules are built into Opulence:
 
+* `callback(callable $callback)`
+  * Checks if the callback returns true
+  * The callback must accept the value and an array of all values as parameters
 * `email()`
   * Checks if the value is an email
 * `equals($expected)`

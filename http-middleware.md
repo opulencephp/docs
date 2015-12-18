@@ -14,6 +14,7 @@ Opulence uses dependency injection for type-hinted objects in a `Middleware` con
 
 ```php
 namespace MyApp;
+
 use Closure;
 use MyApp\Authentication\Authenticator;
 use Opulence\Http\Middleware\IMiddleware;
