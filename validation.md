@@ -11,11 +11,12 @@
 3. [Error messages](#error-messages)
   1. [Error Message Placeholders](#error-message-placeholders)
 4. [Validating Form Input](#validating-form-input)
-5. [Skeleton Project Examples](#skeleton-project-examples)
+5. [Validating Models](#validating-models)
+6. [Skeleton Project Examples](#skeleton-project-examples)
   1. [Error Message Configuration](#error-message-configuration)
   2. [Controller Example](#validation-in-controller)
   3. [Console Command Example](#validation-in-console-command)
-6. [Built-In Rules](#built-in-rules)
+7. [Built-In Rules](#built-in-rules)
   
 <h2 id="introduction">Introduction</h2>
 Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify a password is set and matches the confirmation password?  Easy:
@@ -286,6 +287,61 @@ If you aren't using Opulence's HTTP request wrapper, you can pass any of the PHP
 ```php
 $validator->isValid($_POST);
 ```
+
+<h2 id="validating-models">Validating Models</h2>
+You can validate your models with Opulence's validation library.  One easy way is to extend `Opulence\Validation\Models\ModelState`.  It contains two abstract methods:
+
+* `getModelProperties($model)`
+  * Returns mapping of property names => property values in the model
+* `registerFields(IValidator $validator)`
+  * Registers the fields' rules to the validator
+  
+Let's take a look at an example user model state:
+
+```php
+namespace MyApp\Validation\Models;
+
+use Opulence\Validation\Models\ModelState;
+
+class UserModelState extends ModelState
+{
+    protected function getModelProperties($model)
+    {
+        return [
+            "id" => $model->getId(),
+            "name" => $model->getName(),
+            "email" => $model->getEmail()
+        ];
+    }
+
+    protected function registerFields(IValidator $validator)
+    {
+        $validator->field("id")
+            ->integer();
+        $validator->field("name")
+            ->required();
+        $validator->field("email")
+            ->email();
+    }
+}
+```
+
+Now, let's check if a user model is valid:
+
+```php
+use MyApp\User;
+
+// We will assume that $validatorFactory was already instantiated
+$user = new User(123, "Dave", "foo@bar.com");
+$modelState = new UserModelState($user, $validatorFactory);
+
+if(!$modelState->isValid())
+{
+    print_r($modelState->getErrors()->getAll());
+}
+```
+
+> **Note:** `ModelState::getErrors()` return an instance of `ErrorCollection`.
 
 <h2 id="skeleton-project-examples">Skeleton Project Examples</h2>
 
