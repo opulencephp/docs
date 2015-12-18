@@ -50,6 +50,7 @@ Opulence is broken into various libraries, each of which can be installed indivi
 * opulence/routing
 * opulence/sessions
 * opulence/users
+* opulence/validation
 * opulence/views
 
 <h2 id="server-config">Server Config</h2>
