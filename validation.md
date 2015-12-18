@@ -4,7 +4,7 @@
 1. [Introduction](#introduction)
 2. [Rules](#rules)
   1. [Conditional Rules](#conditional-rules)
-  2. [Extending Rules](#extending-rules)
+  2. [Creating Custom Rules](#creating-custom-rules)
       1. [Using Objects](#using-objects)
       2. [Using Callables](#using-callables)
   3. [Halting Validation](#halting-validation)
@@ -20,7 +20,7 @@
 <h2 id="introduction">Introduction</h2>
 Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify a password is set and matches the confirmation password?  Easy:
 
-<h5>Create Components</h5>
+<h5>Create the Components</h5>
 ```php
 use Opulence\Validation\Rules\Errors\Compilers\Compiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
@@ -74,7 +74,13 @@ if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
 Opulence's validation library is framework-agnostic, making it easy to use with both Opulence and other frameworks.
 
 <h2 id="rules">Rules</h2>
-Whenever you call `Opulence\Validation\Validator::field()`, a `Rules` object will be created.  It contains a bunch of [built-in rules](#built-in-rules) as well as methods to get any errors for the field.
+Whenever you call `Opulence\Validation\Validator::field()`, a `Rules` object will be created.  It contains a bunch of [built-in rules](#built-in-rules) as well as methods to get any errors for the field.  Most methods are chainable, letting you build up the rules like this:
+
+```php
+$validator->field("to")
+    ->required()
+    ->email();
+```
 
 <h4 id="conditional-rules">Conditional Rules</h4>
 Sometimes, you may only want to apply a rule if certain conditions are met.  To specify a condition, call `condition()` on the `Rules` object.  It accepts a `callable` with two parameters:
@@ -84,7 +90,7 @@ Sometimes, you may only want to apply a rule if certain conditions are met.  To 
 
 The `callable` should return `true` if the condition has been met, otherwise `false`.  Any rule added after `condition()` will only be run if the condition is met.  If you'd like to end the list of conditional rules and add a non-conditional rule, call `endCondition()` before adding the non-conditional rule.
 
-<h5 id="conditional-rules-example">Example</h5>
+<h5 id="conditional-rules-example">Conditional Rule Example</h5>
 Let's say there are two inputs:  a dropdown specifying what type of contact information we're providing, and a text box with the actual contact information.  If the contact type is "email", we want to force the contact information to be a valid email:
 
 ```php
@@ -101,11 +107,12 @@ $validator->isValid([
 
 Since "contact-type" was "email", the condition was met, and the "email" rule was run.
 
-<h4 id="extending-rules">Extending Rules</h4>
+<h4 id="creating-custom-rules">Creating Custom Rules</h4>
 Each rule in `Rules` implements `Opulence\Validation\Rules\IRule`, which provides two methods:
 
 * `getSlug()`
   * Gets the short name for the rule, eg `equalsField` (must only contain alphanumeric characters and underscores)
+  * Calling `Rules::{slug}()` will add your rule to the field
   * Used to bind error messages to rules
 * `passes($value, array $allValues)`
   * Returns `true` if the rule passes, otherwise `false`
@@ -170,7 +177,7 @@ $validator->field("name")
 ```
 
 <h4 id="halting-validation">Halting Validation</h4>
-Sometimes, you may want to stop validating a field after the first failure.  Simply pass `true` to the second parameter in `Validator::isValid()`:
+Sometimes, you may want to stop validating a field after its first rule failure.  Simply pass `true` to the second parameter in `Validator::isValid()`:
 
 ```php
 $validator->field("email")
@@ -206,7 +213,7 @@ $errorTemplateRegistry->registerErrorTemplatesFromConfig([
 ]);
 ```
 
-All "required" rules that fail will now have the first error message.  Specifying `email.required` makes all "required" rules for the "email" field have the second error message.  `:field` will automatically be populated with the name of the field that failed.
+All "required" rules that fail will now have the first error message.  Specifying `email.required` will override the global error message for "required" rules, but only for the "email" field.  `:field` will automatically be populated with the name of the field that failed.
 
 <h4 id="error-message-placeholders">Error Message Placeholders</h4>
 You can specify placeholders in your error messages using `:NAME_OF_PLACEHOLDER`.  If your rule needs to specify placeholder values, it should also implement `IRuleWithErrorPlaceholders`.  In the `getErrorPlaceholders()` method, you can return a keyed array with the placeholder-name => placeholder-value mappings.
