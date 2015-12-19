@@ -21,7 +21,6 @@
 <h2 id="introduction">Introduction</h2>
 Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify a password is set and matches the confirmation password?  Easy:
 
-<h5>Create the Components</h5>
 ```php
 use Opulence\Validation\Rules\Errors\Compilers\Compiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
@@ -29,44 +28,28 @@ use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Validator;
 
-$ruleExtensionRegistry = new RuleExtensionRegistry();
-$errorTemplateRegistry = new ErrorTemplateRegistry();
-$errorTemplateCompiler = new Compiler();
+// Create the components
 $rulesFactory = new RulesFactory(
-    $ruleExtensionRegistry,
-    $errorTemplateRegistry,
-    $errorTemplateCompiler
+    new RuleExtensionRegistry(),
+    new ErrorTemplateRegistry(),
+    new ErrorTemplateRegistry()
 );
 $validator = new Validator($rulesFactory);
-```
 
-<h5>Specify Some Error Message Templates</h5>
-```php
+// Set some error message templates
 $errorTemplateRegistry->registerErrorTemplatesFromConfig([
     "required" => "The :field input is required",
     "equalsField" => "The :field input must match the :other input"
 ]);
-```
 
-<h5>Set Up The Rules</h5>
-```php
+// Set some rules for the "password" field
 $validator->field("password")
     ->required()
     ->equalsField("confirm-password");
-```
 
-<h5>Validate the Input and Display Any Errors</h5>
-```php
+// Validate the input
 if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
-    echo "<ul>";
-
-    foreach ($validator->getErrors()->getAll() as $field => $fieldErrors) {
-        foreach ($fieldErrors as $error) {
-            echo "<li>$error</li>";
-        }
-    }
-    
-    echo "</ul>";
+    print_r($validator->getErrors()->getAll());
 }
 ```
 
