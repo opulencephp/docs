@@ -32,7 +32,7 @@ use Opulence\Validation\Validator;
 $rulesFactory = new RulesFactory(
     new RuleExtensionRegistry(),
     new ErrorTemplateRegistry(),
-    new ErrorTemplateRegistry()
+    new Compiler()
 );
 $validator = new Validator($rulesFactory);
 
