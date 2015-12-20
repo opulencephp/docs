@@ -387,10 +387,15 @@ class MyCommand extends command
  
 <h2 id="built-in-rules">Built-In Rules</h2>
 
-> **Note:** We are adding a lot more rules in the coming weeks.
-
 The following rules are built into Opulence:
 
+* `alpha()`
+  * Checks if the value only contains alphabet characters
+* `alphaNumeric()`
+  * Checks if the value only contains alpha-numeric characters
+* `between($min, $max, $isInclusive = true)`
+  * Checks if the value is between two extremes
+  * If the third parameter is true, then the extremes are considered inclusive
 * `callback(callable $callback)`
   * Checks if the callback returns true
   * The callback must accept the value and an array of all values as parameters
@@ -404,6 +409,14 @@ The following rules are built into Opulence:
   * Checks if the value is in the array
 * `integer()`
   * Checks if the value is an integer
+* `ipAddress()`
+  * Checks if the value is an IP address
+* `max($max, $isInclusive = true)`
+  * Checks if the value is less than the input value
+  * If the second parameter is true, then the maximum is considered inclusive
+* `min($min, $isInclusive = true)`
+  * Checks if the value is greater than the input value
+  * If the second parameter is true, then the minimum is considered inclusive
 * `notIn(array $array)`
   * Checks if the value is not in the array
 * `numeric()`
