@@ -16,7 +16,7 @@
 5. [Using Sessions In Controllers](#using-sessions-in-controllers)
 6. [Id Generators](#id-generators)
 7. [Encrypting Session Data](#encrypting-session-data)
-8. [Configuring](#configuring)
+8. [Configuration](#configuration)
 
 <h2 id="introduction">Introduction</h2>
 HTTP is a stateless protocol.  What that means is that each request has no memory of previous requests.  If you've ever used the web, though, you've probably noticed that websites are able to remember information across requests.  For example, a "shopping cart" on an e-commerce website remembers what items you've added to your cart.  How'd they do that?  **Sessions**.
@@ -143,5 +143,5 @@ $handler->setEncrypter($encrypter);
 
 Now, all your session data will be encrypted before being written and decrypted after being read.  [Learn more](cryptography#encryption) about encryption.
 
-<h2 id="configuring">Configuring</h2>
+<h2 id="configuration">Configuration</h2>
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a> and you'd like to configure your session, you can do so in `config/http/sessions.php`.  Your environment config in `config/environment/.env.app.php` contains a variable `SESSION_HANDLER`, which should point to the handler class to use (defaults to `FileSessionHandler`).  For cache-backed sessions, `.env.app.php` also contains the variable `SESSION_CACHE_BRIDGE`.  This should point to the class that implements `Opulence\Cache\ICacheBridge`.
