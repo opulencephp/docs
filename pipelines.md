@@ -38,8 +38,10 @@ $stages = [
         return $next($input);
     }
 ];
-$pipeline = new Pipeline($container, $stages);
-echo $pipeline->send("foo");
+echo (new Pipeline($container))
+    ->send("foo")
+    ->through($stages)
+    ->execute();
 ```
 
 This will output:
@@ -86,8 +88,10 @@ class PipeB implements IMyPipe
 $container = new Container();
 $stages = [new PipeA(), new PipeB()];
 // We must pass in the name of the method to call ("filter")
-$pipeline = new Pipeline($container, $stages, "filter");
-echo $pipeline->send("foo");
+echo (new Pipeline($container))
+    ->send("foo")
+    ->through($stages, "filter")
+    ->execute();
 ```
 
 This will output:
@@ -101,7 +105,10 @@ Pipe class names are also supported.  They will automatically be resolved using 
  
 ```php
 $stages = ["PipeA", "PipeB"];
-$pipeline = new Pipeline($container, $stages, "filter");
+echo (new Pipeline($container))
+    ->send("foo")
+    ->through($stages, "filter")
+    ->execute();
 ```
 
 This will output:
@@ -130,11 +137,13 @@ $stages = [
         return $next($input);
     }
 ];
-$pipeline = new Pipeline($container, $stages);
-$callback = function ($pipelineOutput) {
-    return strtoupper($pipelineOutput);
-};
-echo $pipeline->send("foo", $callback);
+echo (new Pipeline($container))
+    >send("foo")
+    ->through($stages)
+    ->then(function ($output) {
+        return strtoupper($output);
+    })
+    ->execute();
 ```
 
 This will output:

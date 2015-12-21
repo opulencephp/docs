@@ -28,19 +28,20 @@ use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Validator;
 
-// Create the components
-$rulesFactory = new RulesFactory(
-    new RuleExtensionRegistry(),
-    new ErrorTemplateRegistry(),
-    new Compiler()
-);
-$validator = new Validator($rulesFactory);
-
 // Set some error message templates
+$errorTemplateRegistry = new ErrorTemplateRegistry();
 $errorTemplateRegistry->registerErrorTemplatesFromConfig([
     "required" => "The :field input is required",
     "equalsField" => "The :field input must match the :other input"
 ]);
+
+// Create the components
+$rulesFactory = new RulesFactory(
+    new RuleExtensionRegistry(),
+    $errorTemplateRegistry,
+    new Compiler()
+);
+$validator = new Validator($rulesFactory);
 
 // Set some rules for the "password" field
 $validator->field("password")
@@ -324,7 +325,7 @@ if(!$modelState->isValid())
 }
 ```
 
-> **Note:** `ModelState::getErrors()` return an instance of `ErrorCollection`.
+> **Note:** `ModelState::getErrors()` returns an instance of `ErrorCollection`.
 
 <h2 id="skeleton-project-examples">Skeleton Project Examples</h2>
 
