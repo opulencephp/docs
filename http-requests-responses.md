@@ -28,6 +28,7 @@
       1. [Checking the Full URL](#checking-the-full-url)
   20. [Getting the Previous URL](#getting-the-previous-url)
   21. [Authentication Data](#authentication-data)
+  22. [Using Proxies](#using-proxies)
 3. [Responses](#responses)
   1. [Status Codes](#status-codes)
   2. [Headers](#headers)
@@ -255,6 +256,27 @@ $request->getPreviousUrl();
 $phpAuthUser = $request->getUser();
 $phpAuthPassword = $request->getPassword();
 ```
+
+<h4 id="using-proxies">Using Proxies</h4>
+If you're using a load balancer or some sort of proxy server, you'll need to add it to the list of trusted proxies:
+
+```php
+Request::setTrustedProxies(["192.168.128.41"]);
+```
+
+If you want to use your proxy to set trusted headers, then specify their names:
+
+```php
+use Opulence\Http\Requests\RequestHeaders;
+
+Request::setTrustedHeader(RequestHeaders::CLIENT_IP, "X-Proxy-Ip");
+Request::setTrustedHeader(RequestHeaders::CLIENT_HOST, "X-Proxy-Host");
+Request::setTrustedHeader(RequestHeaders::CLIENT_PORT, "X-Proxy-Port");
+Request::setTrustedHeader(RequestHeaders::CLIENT_PROTO, "X-Proxy-Proto");
+```
+
+> **Note:** If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, then a [bootstrapper](bootstrappers) would be a good place to set the proxy settings.
+
 <h2 id="responses">Responses</h2>
 Opulence also wraps an HTTP response into the `Opulence\Http\Responses\Response` class.  You can set the content, HTTP status code, headers, and cookies in a response.  Opulence also supports JSON responses and redirects.
 
