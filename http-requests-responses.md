@@ -269,10 +269,10 @@ If you want to use your proxy to set trusted headers, then specify their names:
 ```php
 use Opulence\Http\Requests\RequestHeaders;
 
-Request::setTrustedHeader(RequestHeaders::CLIENT_IP, "X-Proxy-Ip");
-Request::setTrustedHeader(RequestHeaders::CLIENT_HOST, "X-Proxy-Host");
-Request::setTrustedHeader(RequestHeaders::CLIENT_PORT, "X-Proxy-Port");
-Request::setTrustedHeader(RequestHeaders::CLIENT_PROTO, "X-Proxy-Proto");
+Request::setTrustedHeaderName(RequestHeaders::CLIENT_IP, "X-Proxy-Ip");
+Request::setTrustedHeaderName(RequestHeaders::CLIENT_HOST, "X-Proxy-Host");
+Request::setTrustedHeaderName(RequestHeaders::CLIENT_PORT, "X-Proxy-Port");
+Request::setTrustedHeaderName(RequestHeaders::CLIENT_PROTO, "X-Proxy-Proto");
 ```
 
 > **Note:** If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, then a [bootstrapper](bootstrappers) would be a good place to set the proxy settings.
