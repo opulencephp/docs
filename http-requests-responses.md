@@ -22,7 +22,7 @@
       1. [JSON](#json)
       2. [Raw Body](#raw-body)
   16. [AJAX](#ajax)
-  17. [Getting the IP Address](#getting-the-ip-address)
+  17. [Getting the Client IP Address](#getting-the-client-ip-address)
   18. [Checking if HTTPS](#checking-if-https)
   19. [Getting the Full URL](#getting-the-full-url)
       1. [Checking the Full URL](#checking-the-full-url)
@@ -220,7 +220,7 @@ To determine if a request was made by AJAX, call:
 $request->isAjax();
 ```
 
-<h4 id="getting-the-ip-address">Getting the IP Address</h4>
+<h4 id="getting-the-client-ip-address">Getting the Client IP Address</h4>
 ```php
 $request->getClientIPAddress();
 ```
