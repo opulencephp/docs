@@ -222,7 +222,7 @@ $request->isAjax();
 
 <h4 id="getting-the-ip-address">Getting the IP Address</h4>
 ```php
-$request->getIPAddress();
+$request->getClientIPAddress();
 ```
 
 <h4 id="checking-if-https">Checking if HTTPS</h4>
