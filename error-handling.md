@@ -7,6 +7,7 @@
       1. [Specifying Exceptions to Not Log](#specifying-exceptions-to-not-log)
 3. [Exception Renderers](#exception-renderers)
   1. [HTTP Responses](#http-responses)
+      1. [Response Formats](#response-formats)
 4. [Error Handlers](#error-handlers)
   1. [Specifying Errors to Log](#specifying-errors-to-log)
   2. [Specifying Errors to Throw](#specifying-errors-to-throw)
@@ -60,7 +61,7 @@ To compile an HTTP response from an exception, you have two choices:
 
 The first one is useful if you're using the `Debug` library without using the whole Opulence framework.  It can display one page with information about the exception when in the development environment.  It'll display another when in the production environment.  To override the page templates, simply extend `ExceptionRenderer` and override `getDevelopmentEnvironmentContent()` and/or `getProductionEnvironmentContent()`.
 
-The second renderer is useful if you're using the entire Opulence framework.  It'll look for [Fortune](view-fortune) templates for the errors before resorting to the page templates described above.  For example, if an `HttpException` is thrown with a 404 status code, this renderer will look for a template in your `views` directory named `404.fortune.php`.
+The second renderer is useful if you're using the entire Opulence framework.  It'll look for [Fortune](view-fortune) templates for the errors before resorting to the page templates described above.  For example, if an `HttpException` is thrown with a 404 status code, this renderer will look for a template in your `resources/views/errors/html` directory named `404.fortune.php`.
 
 > **Note:** Non-HTTP exceptions will look for a `500.fortune.php` template file.
 
@@ -70,6 +71,13 @@ Two variables will be injected into your Fortune template:
   * The exception object being rendered
 2. `$__inDevelopmentEnvironment`
   * Whether or not we are in the development environment
+  
+<h5 id="response-formats">Response Formats</h5>
+If a user is requesting JSON, it'd be nice to return a formatted JSON response when errors occur.  Opulence provides [Fortune](view-fortune) templates for JSON errors in the skeleton project under the `resources/views/errors/json` directory.
+
+Even if you're using the standalone `Debug` library, Opulence will format your response to match the requested content type.
+
+> **Note:** If the user is not requesting JSON, then the appropriate template under `resources/views/errors/html` will be used.
 
 <h2 id="error-handlers">Error Handlers</h2>
 The error handler handles any errors PHP might throw, such as `E_PARSE` or `E_ERROR`.  It even handles fatal errors.  Error handlers have two methods:
