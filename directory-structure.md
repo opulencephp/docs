@@ -32,11 +32,11 @@ This is where your views and other non-publicly-accessible files go.  For exampl
   * Raw assets (eg SCSS files) are here
 * `views`
   * View template files are here
-  `errors`
+  * `errors`
       * `html`
-        * HTML error template files are here
+          * HTML error template files are here
       * `json`
-        * JSON error template files are here
+          * JSON error template files are here
 
 <h2 id="src">src</h2>
 This is where your project's core code goes.  If it's a PHP class, it belongs in here.  The subdirectories under `src` are:
