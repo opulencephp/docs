@@ -23,7 +23,20 @@ All configuration files for your application should go here.  Console-specific c
 Like the name implies, this is the directory that is publicly-accessible.  Assets like CSS, JavaScript, and images should go under the `assets` subdirectory.
 
 <h2 id="resources">resources</h2>
-This is where your views and other non-publicly-accessible files go.  For example, SCSS files and un-minified JavaScript files belong here.
+This is where your views and other non-publicly-accessible files go.  For example, SCSS files and un-minified JavaScript files belong here.  The subdirectories under `resources` are:
+
+* `lang`
+  * `en`
+      * English translation files are here
+* `rawassets`
+  * Raw assets (eg SCSS files) are here
+* `views`
+  * View template files are here
+  `errors`
+      * `html`
+        * HTML error template files are here
+      * `json`
+        * JSON error template files are here
 
 <h2 id="src">src</h2>
 This is where your project's core code goes.  If it's a PHP class, it belongs in here.  The subdirectories under `src` are:
