@@ -400,6 +400,9 @@ The following rules are built into Opulence:
 * `callback(callable $callback)`
   * Checks if the callback returns true
   * The callback must accept the value and an array of all values as parameters
+* `date($format)`
+  * Checks if the value is a date/time string in the input format
+  * If `$format` is an array, then this will return true if at least one format is matched
 * `email()`
   * Checks if the value is an email
 * `equals($expected)`
