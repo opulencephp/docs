@@ -64,6 +64,8 @@ $phpDate = new DateTime("1987-07-24 12:34:56");
 echo $typeMapper->toSqlDate($phpDate); // "1987-07-24"
 ```
 
+> **Note:** This method accepts any object implementing `DateTimeInterface`, including `DateTimeImmutable`.
+
 <h4 id="dates-from-sql">From SQL</h4>
 ```php
 $sqlDate = "1987-07-24";
@@ -78,6 +80,8 @@ echo $phpDate->format("Y-m-d"); // "1987-07-24"
 $phpTime = new DateTime("1987-07-24 12:34:56", new DateTimeZone("UTC"));
 echo $typeMapper->toSqlTimeWithTimeZone($phpTime); // "12:34:56+0000"
 ```
+
+> **Note:** This method accepts any object implementing `DateTimeInterface`, including `DateTimeImmutable`.
 
 <h4 id="times-with-time-zones-from-sql">From SQL</h4>
 ```php
@@ -94,6 +98,8 @@ $phpTime = new DateTime("1987-07-24 12:34:56");
 echo $typeMapper->toSqlTimeWithoutTimeZone($phpTime); // "12:34:56"
 ```
 
+> **Note:** This method accepts any object implementing `DateTimeInterface`, including `DateTimeImmutable`.
+
 <h4 id="times-without-time-zones-from-sql">From SQL</h4>
 ```php
 $sqlTime = "12:34:56";
@@ -109,6 +115,8 @@ $phpTimestamp = new DateTime("1987-07-24 12:34:56", new DateTimeZone("UTC"));
 echo $typeMapper->toSqlTimestampWithTimeZone($phpTimestamp); // "1987-07-24 12:34:56+0000"
 ```
 
+> **Note:** This method accepts any object implementing `DateTimeInterface`, including `DateTimeImmutable`.
+
 <h4 id="timestamps-with-time-zones-from-sql">From SQL</h4>
 ```php
 $sqlTimestamp = "1987-07-24 12:34:56+0000";
@@ -123,6 +131,8 @@ echo $phpTimestamp->format("Y-m-d H:i:sO"); // "1987-07-24 12:34:56+0000"
 $phpTimestamp = new DateTime("1987-07-24 12:34:56");
 echo $typeMapper->toSqlTimestampWithoutTimeZone($phpTimestamp); // "1987-07-24 12:34:56"
 ```
+
+> **Note:** This method accepts any object implementing `DateTimeInterface`, including `DateTimeImmutable`.
 
 <h4 id="timestamps-without-time-zones-from-sql">From SQL</h4>
 ```php

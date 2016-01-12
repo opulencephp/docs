@@ -118,6 +118,8 @@ $phpDate = new DateTime("1987-07-24 12:34:56");
 echo $typeMapper->toMemcachedTimestamp($phpDate); // 554128496
 ```
 
+> **Note:** This method accepts any object implementing `DateTimeInterface`, including `DateTimeImmutable`.
+
 ##### From Memcached
 ```php
 $memcachedDate = 554128496;

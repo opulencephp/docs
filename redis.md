@@ -130,6 +130,8 @@ $phpDate = new DateTime("1987-07-24 12:34:56");
 echo $typeMapper->toRedisTimestamp($phpDate); // 554128496
 ```
 
+> **Note:** This method accepts any object implementing `DateTimeInterface`, including `DateTimeImmutable`.
+
 ##### From Redis
 ```php
 $redisDate = 554128496;
