@@ -27,7 +27,7 @@
   1. [Garbage Collection](#garbage-collection)
 
 <h2 id="introduction">Introduction</h2>
-Fortune is the view engine that comes built into Opulence.  It simplifies adding dynamic content to web pages.  You can inject data into your pages, extend other views, prevent XSS attacks, and even extend the compiler.  To get started using Fortune, simply create files with the extensions `fortune` or `fortune.php`, eg `Master.fortune` or `Master.fortune.php`.  Opulence will detect that the file is a Fortune template and will use the Fortune compiler.
+Fortune is Opulence's own view engine.  It simplifies adding dynamic content to web pages.  You can inject data into your pages, extend other views, prevent XSS attacks, and even extend the compiler.  To get started using Fortune, simply create files with the extensions `fortune` or `fortune.php`, eg `Master.fortune` or `Master.fortune.php`.  Opulence will detect that the file is a Fortune template and will use the Fortune compiler.
 
 
 <h4 id="how-it-works">How It Works</h4>

@@ -17,7 +17,7 @@
   10. [views:flush](#viewsflush)
   
 <h2 id="introduction">Introduction</h2>
-Console applications are great for administrative tasks and code generation.  Apex is the robust console kernel that comes bundled with Opulence.  With it, you can easily create your own console commands, display question prompts, and use HTML-like syntax for output styling.
+Console applications are great for administrative tasks and code generation.  Apex is Opulence's own robust console kernel.  With it, you can easily create your own console commands, display question prompts, and use HTML-like syntax for output styling.
 
 <h2 id="running-commands">Running Commands</h2>
 To run commands, type `php apex COMMAND_NAME` from the directory that Opulence is installed in.
