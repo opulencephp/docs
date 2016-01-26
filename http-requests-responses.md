@@ -37,6 +37,7 @@
       2. [Deleting Cookies](#deleting-cookies)
   4. [JSON Responses](#json-responses)
   5. [Redirect Responses](#redirect-responses)
+  6. [Stream Responses](#stream-responses)
 
 <h2 id="introduction">Introduction</h2>
 Opulence makes interacting with HTTP requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the HTTP tools PHP gives you by default.  Use Opulence's tools, and stop worry about stuff like this.
@@ -354,3 +355,18 @@ use Opulence\Http\Responses\ResponseHeaders;
 $response = new RedirectResponse("http://www.example.com/login", ResponseHeaders::HTTP_FOUND);
 $response->send();
 ```
+
+<h4 id="stream-responses">Stream Responses</h4>
+If your response should be sent as a stream, use `Opulence\Http\Responses\StreamResponse`.  Simply pass a callback that outputs the contents:
+
+```php
+use Opulence\Http\Responses\StreamResponse;
+
+$response = new StreamResponse(function () {
+    echo "My awesome stream";
+    // To make sure the output gets sent, flush it
+    flush();
+});
+```
+
+> **Note:** `StreamResponse` does not let you use the method `setContent()`.  Instead, pass in the callback in the constructor or in the `setStreamCallback()` method.
