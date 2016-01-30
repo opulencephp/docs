@@ -49,7 +49,6 @@ Opulence is broken into various libraries, each of which can be installed indivi
 * opulence/redis
 * opulence/routing
 * opulence/sessions
-* opulence/users
 * opulence/validation
 * opulence/views
 
