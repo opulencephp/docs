@@ -32,7 +32,7 @@ class Foo
         $this->database = new Database();
     }
 
-    public function insertIntoDatabase($query)
+    public function insertIntoDatabase(string $query) : bool
     {
         return $this->database->insert($query);
     }
@@ -43,7 +43,7 @@ Databases are complex, and unit testing them is very tricky.  To make unit testi
 ```php
 class DatabaseMock extends Database
 {
-    public function insert($query)
+    public function insert(string $query) : bool
     {
         return true;
     }
@@ -61,7 +61,7 @@ class Foo
         $this->database = $database;
     }
 
-    public function insertIntoDatabase($query)
+    public function insertIntoDatabase($query) : bool
     {
         return $this->database->insert($query);
     }
@@ -109,7 +109,7 @@ class A
         $this->foo = $foo;
     }
 
-    public function getFoo()
+    public function getFoo() : IFoo
     {
         return $this->foo;
     }
@@ -219,13 +219,13 @@ class B
     private $foo;
     private $message;
 
-    public function __construct(IFoo $foo, $message)
+    public function __construct(IFoo $foo, string $message)
     {
         $this->foo = $foo;
         $this->message = $message;
     }
 
-    public function getFoo()
+    public function getFoo() : IFoo
     {
         return $this->foo;
     }
@@ -267,7 +267,7 @@ class C
         $this->foo = $foo;
     }
 
-    public function setFooAndMessage(IFoo $foo, $message)
+    public function setFooAndMessage(IFoo $foo, string $message)
     {
         $this->foo = $foo;
         $this->message = $message;

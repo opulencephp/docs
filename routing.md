@@ -105,7 +105,7 @@ use Opulence\Routing\Controller;
 
 class UserController extends Controller
 {
-    public function showProfile($userId)
+    public function showProfile(int $userId)
     {
         return "Profile for user " . $userId;
     }

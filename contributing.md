@@ -48,7 +48,7 @@ class Book
     /**
      * @param string $title The title of the book
      */
-    public function __construct($title)
+    public function __construct(string $title)
     {
         $this->setTitle($title);
     }
@@ -58,7 +58,7 @@ class Book
      *
      * @return string The title of the book
      */
-    public function getTitle()
+    public function getTitle() : string
     {
         return $this->title;
     }
@@ -69,7 +69,7 @@ class Book
      * @param string $title The title of the book
      * @return $this For object chaining
      */
-    public function setTitle($title)
+    public function setTitle(string $title) : self
     {
         $this->title = $title;
         

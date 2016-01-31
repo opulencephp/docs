@@ -91,7 +91,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
         $statement->execute();
     }
     
-    public function getAll()
+    public function getAll() : array
     {
         $sql = "SELECT id, content, title, author FROM posts";
         
@@ -223,7 +223,7 @@ class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
         }
     }
     
-    public function getAll()
+    public function getAll() : array
     {
         // This will load all the Ids in the "posts" set and generate Post objects
         return $this->read("posts", self::VALUE_TYPE_SET);

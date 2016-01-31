@@ -119,12 +119,12 @@ class NotInArrayRule implements IRuleWithArgs
 {
     private $array = [];
     
-    public function getSlug()
+    public function getSlug() : string
     {
         return "notInArray";
     }
     
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         return !in_array($value, $this->array);
     }
@@ -216,19 +216,19 @@ class DayRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
     private $comparisonDay = null;
 
-    public function getErrorPlaceholders()
+    public function getErrorPlaceholders() : array
     {
         $dayName = DateTime::createFromFormat("!N", $this->comparisonDay)->format("l");
         
         return ["day" => $dayName];
     }
     
-    public function getSlug()
+    public function getSlug() : string
     {
         return "day";
     }
     
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         return (new DateTime($value))->format("N") == $this->comparisonDay;
     }
@@ -289,7 +289,7 @@ use Opulence\Validation\Models\ModelState;
 
 class UserModelState extends ModelState
 {
-    protected function getModelProperties($model)
+    protected function getModelProperties($model) : array
     {
         return [
             "id" => $model->getId(),

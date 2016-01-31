@@ -93,7 +93,7 @@ use Opulence\Ioc\IContainer;
 
 class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
-    public function getBindings()
+    public function getBindings() : array
     {
         return [IPostRepo::class];
     }
@@ -139,7 +139,7 @@ use Opulence\Orm\DataMappers\IDataMapper;
 
 class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
-    public function getBindings()
+    public function getBindings() : array
     {
         return [
             // This is a universal binding

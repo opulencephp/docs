@@ -130,7 +130,7 @@ class MyController
         $this->viewFactory = $viewFactory;
     }
     
-    public function showHomepage()
+    public function showHomepage() : Response
     {
         // The view factory will search for a file named "Home" in the registered paths
         // with any of the registered extensions

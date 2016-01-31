@@ -32,7 +32,7 @@ class Authentication implements IMiddleware
     }
 
     // $next consists of the next middleware in the pipeline
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next) : Response
     {
         if (!$this->authenticator->isLoggedIn()) {
             return new RedirectResponse("/login");
@@ -68,7 +68,7 @@ use Opulence\Http\Requests\Request;
 
 class RequestManipulator implements IMiddleware
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next) : Response
     {
         // Do our work before returning $next($request)
         $request->getHeaders()->add("SOME_HEADER", "foo");
@@ -90,7 +90,7 @@ use Opulence\Http\Responses\Cookie;
 
 class ResponseManipulator implements IMiddleware
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next) : Response
     {
         $response = $next($request);
         

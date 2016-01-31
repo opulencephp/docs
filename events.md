@@ -29,7 +29,7 @@ class UserRegisteredEvent extends Event
         $this->user = $user;
     }
     
-    public function getUser()
+    public function getUser() : User
     {
         return $this->user;
     }
@@ -64,7 +64,7 @@ use Opulence\Events\Dispatchers\IDispatcher;
 
 class RegistrationEmail
 {
-    public function handle(UserRegisteredEvent $event, $eventName, IDispatcher $dispatcher)
+    public function handle(UserRegisteredEvent $event, string $eventName, IDispatcher $dispatcher)
     {
         mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
     }

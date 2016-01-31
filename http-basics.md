@@ -68,7 +68,7 @@ class UserList extends Controller
         $this->users = $users;
     }
     
-    public function showAll()
+    public function showAll() : Response
     {
         // The view factory is automatically injected by the route dispatcher
         $this->view = $this->viewFactory->create("UserList");
