@@ -38,14 +38,14 @@ $dispatcher->registerTask(TaskTypes::PRE_START, function () {
 ```
 
 <h4 id="start-task">Start Task</h4>
-If you'd like to perform a certain task after all the pre-start tasks have been completed, pass in a `Closure` to the `start()` method.  This is commonly used to instantiate a `Kernel` and handle a request.  If the task returns anything, then `start()` returns that value.  Otherwise, it returns null.
+If you'd like to perform a certain task after all the pre-start tasks have been completed, pass in a `callable` to the `start()` method.  This is commonly used to instantiate a `Kernel` and handle a request.  If the task returns anything, then `start()` returns that value.  Otherwise, it returns null.
 ```php
 $application->start(function () {
     error_log("Application actually started at " . date("Y-m-d H:i:s"));
 });
 ```
 
-> **Note:** Passing a `Closure` to `start()` is optional.
+> **Note:** Passing a `callable` to `start()` is optional.
 
 <h4 id="post-start-tasks">Post-Start Tasks</h4>
 Post-start tasks are performed after the application has started.
@@ -68,14 +68,14 @@ $dispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () {
 ```
 
 <h4 id="shutdown-task">Shutdown Task</h4>
-If you'd like to perform a certain task after all the pre-shutdown tasks have been completed, pass in a `Closure` to the `shutDown()` method.  If the task returns anything, then `shutDown()` returns that value.  Otherwise, it returns null.
+If you'd like to perform a certain task after all the pre-shutdown tasks have been completed, pass in a `callable` to the `shutDown()` method.  If the task returns anything, then `shutDown()` returns that value.  Otherwise, it returns null.
 ```php
 $application->shutDown(function () {
     error_log("Application actually shut down at " . date("Y-m-d H:i:s"));
 });
 ```
 
-> **Note:** Passing a `Closure` to `shutDown()` is optional. 
+> **Note:** Passing a `callable` to `shutDown()` is optional. 
 
 <h4 id="post-shutdown-tasks">Post-Shutdown Tasks</h4>
 Post-shutdown tasks are performed after the application has shut down.

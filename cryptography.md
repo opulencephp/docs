@@ -22,9 +22,8 @@ Hashers take input and perform a one-way mapping to a hashed value.  It is impos
 
 ```php
 use Opulence\Cryptography\Hashing\BcryptHasher;
-use Opulence\Cryptography\Utilities\Strings;
 
-$bcryptHasher = new BcryptHasher(new Strings());
+$bcryptHasher = new BcryptHasher();
 
 // Let's create a hash with a pepper of "bar"
 // $hash is automatically salted and suitable for database storage
@@ -44,11 +43,10 @@ Sometimes, your application needs to encrypt data, send it to another component,
 ```php
 use Opulence\Cryptography\Encryption\Encrypter;
 use Opulence\Cryptography\Encryption\EncryptionException;
-use Opulence\Cryptography\Utilities\Strings;
 
 // This should be a unique, random string
 $myApplicationKey = "mySecretApplicationKey";
-$encrypter = new Encrypter($myApplicationKey, new Strings());
+$encrypter = new Encrypter($myApplicationKey);
 ```
 
 You can change the underlying `OpenSSL` cipher using `setCipher()`.
