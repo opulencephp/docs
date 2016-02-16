@@ -105,7 +105,7 @@ You can also use a factory to create type mappers:
 ```php
 use Opulence\Redis\Types\Factories\TypeMapperFactory;
 
-$typeMapper = (new TypeMapperFactory)->create();
+$typeMapper = (new TypeMapperFactory)->createTypeMapper();
 ```
 
 <h4 id="booleans">Booleans</h4>

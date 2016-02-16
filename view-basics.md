@@ -134,7 +134,7 @@ class MyController
     {
         // The view factory will search for a file named "Home" in the registered paths
         // with any of the registered extensions
-        $view = $this->viewFactory->create("Home");
+        $view = $this->viewFactory->createView("Home");
         $view->setVar("now", new DateTime());
         
         return new Response($this->viewCompiler->compile($view));
@@ -152,7 +152,7 @@ $factory->registerBuilder("Homepage", function ($view) {
     return $view;
 });
 
-echo $factory->create("Homepage")->getVar("title"); // "Welcome!"
+echo $factory->createView("Homepage")->getVar("title"); // "Welcome!"
 ```
 
 > **Note:** You can register as many builders as you'd like to a view.  They will be run in the order they're registered.

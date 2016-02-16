@@ -293,7 +293,7 @@ $c->sayMessage(); // "Hello!"
 ```
 
 <h2 id="calling-methods">Calling Methods</h2>
-It's possible to call methods on a class using the container to resolve dependencies using `call()`.  Simply pass a `<a href="http://php.net/manual/en/language.types.callable.php" target="__blank">callable</a>`:
+It's possible to call methods on a class using the container to resolve dependencies using `call()`.  Simply pass a <a href="http://php.net/manual/en/language.types.callable.php" target="__blank">callable</a>:
 
 ```php
 class D

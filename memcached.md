@@ -93,7 +93,7 @@ You can also use a factory to create type mappers:
 ```php
 use Opulence\Memcached\Types\Factories\TypeMapperFactory;
 
-$typeMapper = (new TypeMapperFactory)->create();
+$typeMapper = (new TypeMapperFactory)->createTypeMapper();
 ```
 
 <h4 id="booleans">Booleans</h4>

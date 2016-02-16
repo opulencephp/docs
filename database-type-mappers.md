@@ -45,7 +45,7 @@ use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
 
 $factory = new TypeMapperFactory();
 // Let's assume $connection is an instance of Opulence\Databases\IConnection
-$typeMapper = $factory->create($connection->getDatabaseProvider());
+$typeMapper = $factory->createTypeMapper($connection->getDatabaseProvider());
 ```
 
 All methods accept a provider in the last parameter:
