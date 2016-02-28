@@ -18,7 +18,7 @@ The authentication library was originally meant to be released in a subsequent v
 <h4 id="jwt-introduction">Introduction</h4>
 JSON web tokens are great ways for passing claims (such as a user's identity) between a client and the server.  They consist of three parts:
 1. Header - The algorithm used to sign the token, the content type (JWT), and the token type (JWT)
-2. Payload - The data actually being sent in the token
+2. Payload - The data actually being sent in the token (also called "claims")
   * <a href="https://en.wikipedia.org/wiki/JSON_Web_Token" target="_blank">Read more about standard payload claims</a>
 3. Signature - The hashed result of the header and the payload (prevents tampering with payload data)
 
@@ -27,19 +27,19 @@ Typically, you'll see JWTs as strings in the following format: "{base64-encoded 
 <h4 id="building-jwts">Building JWTs</h4>
 ```php
 use DateTimeImmutable;
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
-use Opulence\Authentication\Tokens\JsonWebTokens\Signature\Jws;
-use Opulence\Authentication\Tokens\JsonWebTokens\Signature\JwsAlgorithms;
+use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
+use Opulence\Authentication\Tokens\Signatures\Algorithms;
+use Opulence\Authentication\Tokens\Signatures\Factories\SignerFactory;
 
-// The algorithm can be any of the constants in JwsAlgorithms
-$algorithm = JwsAlgorithms::SHA256;
+// The algorithm can be any of the constants in Algorithms
+$algorithm = Algorithms::SHA256;
 
 // The signer will be used when we actually encode our JWT
 // Keys can either be strings or resources
-// Private keys are only necessary for JwsAlgorithms::RSA_* algorithms
-$signer = new Jws($algorithm, "my-public-key", "my-private-key");
+// Private keys are only necessary for Algorithms::RSA_* algorithms
+$signer = (new SignerFactory)->createSigner($algorithm, "myPublicKey", "myPrivateKey");
 
 // Create our JWT's components
 $header = new JwtHeader($algorithm);
@@ -49,16 +49,23 @@ $payload->setValidTo(new DateTimeImmutable("+30 days"));
 // Set a custom field in our payload
 $payload->add("username", "dave");
 
-// Create our JWT
-$jwt = new Jwt($header, $payload);
+// Create our unsigned JWT
+$unsignedJwt = new UnsignedJwt($header, $payload);
 ```
 
 <h4 id="signing-jwts">Signing JWTs</h4>
-To encode your JWT, you'll need to sign it using an `ISigner` (`Jws` comes built-in).
+To encode your JWT, you'll need to sign it using an `ISigner`.
 
 ```php
-$signer->sign($jwt);
-$jwt->encode(); // Returns the encoded JWT
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
+
+$signature = $signer->sign($unsignedJwt->getUnsignedValue());
+$signedJwt = new SignedJwt(
+    $unsignedJwt->getHeader(),
+    $unsignedJwt->getPayload(),
+    $signature
+);
+$signedJwt->encode(); // Returns the encoded JWT
 ```
 
 <h4 id="verifying-jwts">Verifying JWTs</h4>
@@ -71,16 +78,16 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContex
 $context = new VerificationContext($signer);
 $context->setIssuer("http://mysite.com");
 $verifier = new JwtVerifier();
-$verifier->verify($jwt, $context); // Throws an exception on failure
+$verifier->verify($signedJwt, $context); // Throws an exception on failure
 ```
 
 > **Note:** The not-before and expiration times are only verified if they're specified.  If your context does not set particular values, eg no issuer is set in the context, then that claim is skipped during verification.
 
 <h4 id="creating-jwts-from-strings">Creating JWTs from Strings</h4>
-You can easily create a `Jwt` from a string in the format "{base64-encoded header}.{base64-encoded payload}.{base64-encoded signature}".
+You can easily create a `SignedJwt` from a string in the format "{base64-encoded header}.{base64-encoded payload}.{base64-encoded signature}".
 
 ```php
-$jwt = Jwt::createFromString($tokenString);
+$signedJwt = SignedJwt::createFromString($tokenString);
 ```
 
-> **Note:** Tokens created in this way are not verified.  You must pass them through `JwtVerifier::verify()` to verify it. 
+> **Note:** Tokens created in this way are not verified.  You must pass them through `JwtVerifier::verify()` to verify them. 
