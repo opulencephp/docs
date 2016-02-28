@@ -80,7 +80,10 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContex
 $context = new VerificationContext($signer);
 $context->setIssuer("http://mysite.com");
 $verifier = new JwtVerifier();
-$verifier->verify($signedJwt, $context); // Throws an exception on failure
+
+if (!$verifier->verify($signedJwt, $context, $errors = [])) {
+    print_r($errors);
+}
 ```
 
 > **Note:** The not-before and expiration times are only verified if they're specified.  If your context does not set particular values, eg no issuer is set in the context, then that claim is skipped during verification.
