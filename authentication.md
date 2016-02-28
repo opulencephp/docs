@@ -38,8 +38,8 @@ $algorithm = Algorithms::SHA256;
 
 // The signer will be used when we actually encode our JWT
 // Keys can either be strings or resources
-// Private keys are only necessary for Algorithms::RSA_* algorithms
-$signer = (new SignerFactory)->createSigner($algorithm, "myPublicKey", "myPrivateKey");
+// Private keys are necessary 3rd parameters for Algorithms::RSA_* algorithms
+$signer = (new SignerFactory)->createSigner($algorithm, "myPublicKey");
 
 // Create our JWT's components
 $header = new JwtHeader($algorithm);
