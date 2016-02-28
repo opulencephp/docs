@@ -16,8 +16,8 @@ The authentication library was originally meant to be released in a subsequent v
 <h2 id="jwt">JSON Web Tokens</h2>
 
 <h4 id="jwt-introduction">Introduction</h4>
-JSON web tokens are great ways for passing claims (such as a user's identity) between a client and the server.  They consist of three parts:
-1. Header - The algorithm used to sign the token, the content type (JWT), and the token type (JWT)
+JSON web tokens (JWTs) are great ways for passing claims (such as a user's identity) between a client and the server.  They consist of three parts:
+1. Header - The algorithm used to sign the token, the content type ("JWT"), and the token type ("JWT")
 2. Payload - The data actually being sent in the token (also called "claims")
   * <a href="https://en.wikipedia.org/wiki/JSON_Web_Token" target="_blank">Read more about standard payload claims</a>
 3. Signature - The hashed result of the header and the payload (prevents tampering with payload data)
@@ -25,6 +25,8 @@ JSON web tokens are great ways for passing claims (such as a user's identity) be
 Typically, you'll see JWTs as strings in the following format: "{base64-encoded header}.{base64-encoded payload}.{base64-encoded signature}".
 
 <h4 id="building-jwts">Building JWTs</h4>
+You can programmatically build an unsigned JWT.  You can then use a signer to [sign your JWT](#signing-jwts) and encode it as a string.
+
 ```php
 use DateTimeImmutable;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
@@ -46,7 +48,7 @@ $header = new JwtHeader($algorithm);
 $payload = new JwtPayload();
 $payload->setIssuer("http://mysite.com");
 $payload->setValidTo(new DateTimeImmutable("+30 days"));
-// Set a custom field in our payload
+// We can set custom fields in our payload
 $payload->add("username", "dave");
 
 // Create our unsigned JWT
@@ -54,7 +56,7 @@ $unsignedJwt = new UnsignedJwt($header, $payload);
 ```
 
 <h4 id="signing-jwts">Signing JWTs</h4>
-To encode your JWT, you'll need to sign it using an `ISigner`.
+To encode your JWT, you'll first need to sign it using an `ISigner`.
 
 ```php
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
