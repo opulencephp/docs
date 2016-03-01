@@ -48,7 +48,7 @@ foo-pipe1-pipe2
 ```
 
 <h2 id="using-objects">Using Objects</h2>
-`Pipeline` can also accept an array of objects and a method to call on those classes.
+`Pipeline` can also accept an array of objects and a method to call on those objects.
 
 > **Note:** The method MUST accept two parameters - the output from the previous stage and the next pipe in the pipeline.
 
