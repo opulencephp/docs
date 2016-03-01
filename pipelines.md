@@ -12,7 +12,6 @@ In computer science, a pipeline refers to a series of stages where each stage's 
  
 * `Closures`
 * Objects and a method to run on them
-* Class names to instantiate and methods to run on them
 
 ... to act as pipeline stages.  You can even mix and match various types of stages.
 
@@ -22,10 +21,8 @@ In computer science, a pipeline refers to a series of stages where each stage's 
 `Closure` stages must accept the input as their first parameter and the next pipe in the pipeline as the second parameter.  Let's take a look at a simple example:
 
 ```php
-use Opulence\Ioc\Container;
 use Opulence\Pipelines\Pipeline;
 
-$container = new Container();
 $stages = [
     function ($input, $next) {
         $input .= "-pipe1";
@@ -38,7 +35,7 @@ $stages = [
         return $next($input);
     }
 ];
-echo (new Pipeline($container))
+echo (new Pipeline)
     ->send("foo")
     ->through($stages)
     ->execute();
@@ -57,7 +54,6 @@ foo-pipe1-pipe2
 
 ```php
 use Closure;
-use Opulence\Ioc\Container;
 use Opulence\Pipelines\Pipeline;
 
 interface IMyPipe
@@ -85,10 +81,9 @@ class PipeB implements IMyPipe
     }
 }
 
-$container = new Container();
 $stages = [new PipeA(), new PipeB()];
 // We must pass in the name of the method to call ("filter")
-echo (new Pipeline($container))
+echo (new Pipeline)
     ->send("foo")
     ->through($stages, "filter")
     ->execute();
@@ -101,11 +96,17 @@ foo-pipeA-pipeB
 ```
 
 <h4 id="using-classes">Using Classes</h4>
-Pipe class names are also supported.  They will automatically be resolved using the IoC container:
+If you use the dependency injection container, you can also use class names as stages:
  
 ```php
-$stages = ["PipeA", "PipeB"];
-echo (new Pipeline($container))
+$classes = ["PipeA", "PipeB"];
+$stages = [];
+
+foreach ($classes as $class) {
+    $stages[] = $container->makeShared($class);
+}
+
+echo (new Pipeline)
     ->send("foo")
     ->through($stages, "filter")
     ->execute();
@@ -121,10 +122,8 @@ foo-pipeA-pipeB
 To run a callback at the very end of the pipeline, pass in a `Closure` that accepts the pipeline's output as a parameter:
 
 ```php
-use Opulence\Ioc\Container;
 use Opulence\Pipelines\Pipeline;
 
-$container = new Container();
 $stages = [
     function ($input, $next) {
         $input .= "-pipe1";
@@ -137,7 +136,7 @@ $stages = [
         return $next($input);
     }
 ];
-echo (new Pipeline($container))
+echo (new Pipeline)
     >send("foo")
     ->through($stages)
     ->then(function ($output) {
