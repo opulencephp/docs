@@ -62,11 +62,7 @@ To encode your JWT, you'll first need to sign it using an `ISigner`.
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 
 $signature = $signer->sign($unsignedJwt->getUnsignedValue());
-$signedJwt = new SignedJwt(
-    $unsignedJwt->getHeader(),
-    $unsignedJwt->getPayload(),
-    $signature
-);
+$signedJwt = SignedJwt::createFromUnsignedJwt($unsignedJwt, $signature);
 $signedJwt->encode(); // Returns the encoded JWT
 ```
 
