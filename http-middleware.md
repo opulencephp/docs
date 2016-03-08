@@ -6,6 +6,7 @@
 3. [Manipulating the Response](#manipulating-the-response)
 4. [Global Middleware](#global-middleware)
 5. [Route Middleware](#route-middleware)
+6. [Middleware Parameters](#middleware-parameters)
   
 <h2 id="introduction">Introduction</h2>
 HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).
@@ -20,6 +21,7 @@ use MyApp\Authentication\Authenticator;
 use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\RedirectResponse;
+use Opulence\Http\Responses\Response;
 
 class Authentication implements IMiddleware
 {
@@ -65,6 +67,7 @@ To manipulate the request before it gets to the controller, make changes to it b
 use Closure;
 use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 
 class RequestManipulator implements IMiddleware
 {
@@ -108,3 +111,41 @@ Global middleware is middleware that is run on every route.  To add middleware t
 
 <h2 id="route-middleware">Route Middleware</h2>
 To learn how to register middleware with routes, read the [routing tutorial](routing#middleware).  You can also learn how to [add middleware to route groups](routing#group-middleware) there.
+
+<h2 id="middleware-parameters">Middleware Parameters</h2>
+Occasionally, you'll find yourself wanting to pass in primitive values to middleware to indicate something such as a required role to see a page.  In these cases, your middleware should extend `Opulence\Http\Middleware\ParameterizedMiddleware`:
+
+```php
+use Closure;
+use Opulence\Http\HttpException;
+use Opulence\Http\Middleware\ParameterizedMiddleware;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
+
+class RoleMiddleware extends ParameterizedMiddleware
+{
+    private $user;
+
+    // Inject any dependencies your middleware needs
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+
+    public function handle(Request $request, Closure $next) : Response
+    {
+        // Parameters are available in $this->parameters
+        if (!$this->user->hasRole($this->parameters["role"])) {
+            throw new HttpException(403);
+        }
+        
+        return $next($request);
+    }
+}
+```
+
+To actually specify `role`, use `{Your middleware}::withParameters()` in your router configuration:
+
+```php
+$router->post("/articles", ["middleware" => RoleMiddleware::withParameters(["role" => "admin"])]);
+```

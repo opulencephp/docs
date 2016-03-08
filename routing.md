@@ -12,6 +12,7 @@
   3. [Default Values](#default-values)
 4. [Host Matching](#host-matching)
 5. [Middleware](#middleware)
+  1. [Middleware Parameters](#middleware-parameters)
 6. [HTTPS](#https)
 7. [Named Routes](#named-routes)
 8. [Route Grouping](#route-grouping)
@@ -183,6 +184,13 @@ $router->get("/books", "MyApp\\MyController@myMethod", $options);
 ```
 
 Whenever a request matches this route, `MyApp\MyMiddleware` will be run.
+
+<h4 id="middleware-parameters">Middleware Parameters</h4>
+Opulence supports [passing primitive parameters to middleware](http-middleware#middleware-parameters).  To actually specify `role`, use `{Your middleware}::withParameters()` in your router configuration:
+
+```php
+$router->post("/articles", ["middleware" => RoleMiddleware::withParameters(["role" => "admin"])]);
+```
 
 <h2 id="https">HTTPS</h2>
 Some routes should only match on an HTTPS connection.  To do this, set the `https` flag to true in the options:
