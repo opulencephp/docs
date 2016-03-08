@@ -148,7 +148,7 @@ To actually specify `role`, use `{Your middleware}::withParameters()` in your ro
 
 ```php
 $options = [
-    "middleware" => RoleMiddleware::withParameters(["role" => "admin"])
+    "middleware" => [RoleMiddleware::withParameters(["role" => "admin"])]
 ];
 $router->get("/users", "MyController\\MyController@myMethod", $options);
 ```
