@@ -189,7 +189,10 @@ Whenever a request matches this route, `MyApp\MyMiddleware` will be run.
 Opulence supports [passing primitive parameters to middleware](http-middleware#middleware-parameters).  To actually specify `role`, use `{Your middleware}::withParameters()` in your router configuration:
 
 ```php
-$router->get("/users", ["middleware" => RoleMiddleware::withParameters(["role" => "admin"])]);
+$options = [
+    "middleware" => RoleMiddleware::withParameters(["role" => "admin"])
+];
+$router->get("/users", "MyController\\MyController@myMethod", $options);
 ```
 
 <h2 id="https">HTTPS</h2>
