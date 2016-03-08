@@ -147,5 +147,5 @@ class RoleMiddleware extends ParameterizedMiddleware
 To actually specify `role`, use `{Your middleware}::withParameters()` in your router configuration:
 
 ```php
-$router->post("/articles", ["middleware" => RoleMiddleware::withParameters(["role" => "admin"])]);
+$router->get("/users", ["middleware" => RoleMiddleware::withParameters(["role" => "admin"])]);
 ```
