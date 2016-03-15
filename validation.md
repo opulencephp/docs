@@ -319,8 +319,7 @@ use MyApp\User;
 $user = new User(123, "Dave", "foo@bar.com");
 $modelState = new UserModelState($user, $validatorFactory);
 
-if(!$modelState->isValid())
-{
+if (!$modelState->isValid()) {
     print_r($modelState->getErrors()->getAll());
 }
 ```
