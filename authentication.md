@@ -95,8 +95,14 @@ $signedJwt = SignedJwt::createFromString($tokenString);
 > **Note:** Tokens created in this way are not verified.  You must pass them through `JwtVerifier::verify()` to verify them. 
 
 <h4 id="jwt-ids">JWT Ids</h4>
-Each time you create a JWT instance, it's assigned a unique JWT Id (also known as a JTI).  This Id is a combination of the JWT's claims and a random string.  You can grab the Id like so:
+Any time you create a new JWT payload, it's automatically assigned a unique JWT Id (also known as a JTI).  This Id is a combination of the JWT's claims and a random string.  You can grab the Id like so:
 
 ```php
 $jwt->getPayload()->getId();
+```
+
+If you'd like to manually set the Id, you may do so:
+
+```php
+$jwt->getPayload()->setId("foo");
 ```
