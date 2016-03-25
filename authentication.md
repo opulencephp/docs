@@ -12,6 +12,7 @@ The authentication library was originally meant to be released in a subsequent v
   3. [Signing JWTs](#signing-jwts)
   4. [Verifying JWTs](#verifying-jwts)
   5. [Creating JWTs from Strings](#creating-jwts-from-strings)
+  6. [JWT Ids](#jwt-ids)
 
 <h2 id="jwt">JSON Web Tokens</h2>
 
@@ -92,3 +93,10 @@ $signedJwt = SignedJwt::createFromString($tokenString);
 ```
 
 > **Note:** Tokens created in this way are not verified.  You must pass them through `JwtVerifier::verify()` to verify them. 
+
+<h4 id="jwt-ids">JWT Ids</h4>
+Each time you create a JWT instance, it's assigned a unique JWT Id (also known as a JTI).  This Id is a combination of the JWT's claims and a random string.  You can grab the Id like so:
+
+```php
+$jwt->getPayload()->getId();
+```
