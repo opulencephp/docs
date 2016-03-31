@@ -135,6 +135,7 @@ class RoleMiddleware extends ParameterizedMiddleware
     public function handle(Request $request, Closure $next) : Response
     {
         // Parameters are available via $this->getParameter()
+        // You may pass in a second parameter as the default value if the parameter was not found
         if (!$this->user->hasRole($this->getParameter("role"))) {
             throw new HttpException(403);
         }
