@@ -25,7 +25,7 @@ Controllers act as the go-between for models and views in an application.  When 
 <h4 id="dependency-injection">Dependency Injection</h4>
 Opulence uses a [dependency injection container](dependency-injection) to create controllers.  Taking advantage of this is simple:  type-hint any objects your controller needs in the controller's constructor.  Opulence will inject the appropriate objects into your controllers via your [bootstrappers](bootstrappers).
 
-> **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
+> **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  The only way around this is to set up a binding for the controller in a bootstrapper with the primitives defined.  In general, it's best to stick to type-hinted objects in controller constructors.
 
 Let's take a look at an example bootstrapper, controller, and view to demonstrate how controllers work:
 
