@@ -3,10 +3,10 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
-  1. [Dependency Resolvers](#dependency-resolvers)
-  2. [Using Closures](#using-closures)
-  3. [Using Controller Classes](#using-controller-classes)
-  4. [Multiple Methods](#multiple-methods)
+  1. [Using Closures](#using-closures)
+  2. [Using Controller Classes](#using-controller-classes)
+  3. [Multiple Methods](#multiple-methods)
+  4. [Dependency Resolvers](#dependency-resolvers)
 3. [Route Variables](#route-variables)
   1. [Regular Expressions](#regular-expressions)
   2. [Optional Parts](#optional-parts)
@@ -46,11 +46,6 @@ Routes require a few pieces of information:
 * `patch()`
 * `post()`
 * `put()`
-
-<h4 id="dependency-resolvers">Dependency Resolvers</h4>
-Before we dive too deep, let's take a moment to talk about dependency resolvers.  They're useful tools that allow our router to automatically instantiate controllers by scanning their constructors for dependencies.  Unlike a [dependency injection container](dependency-injection), a resolver's sole purpose it to resolve dependencies.  Binding implementations (like through [bootstrappers](bootstrappers)) is reserved for containers.  That being said, it is extremely common for a resolver to use a container to help it resolve dependencies.
-
-Opulence provides an interface for dependency resolvers (`Opulence\Routing\Dispatchers\IDependencyResolver`).  It defines one method: `resolve($interface)`.  Opulence provides a resolver (`Opulence\Framework\Routing\Dispatchers\DependencyResolver`) that uses its container library.  However, since the resolver interface is so simple to implement, you are free to use the dependency injection container library of your choice to power your resolver.
 
 <h4 id="using-closures">Using Closures</h4>
 For very simple applications, it's probably easiest to use closures as your routes' controllers:
@@ -99,6 +94,11 @@ To register a route for all methods, use the `any()` method:
 ```php
 $router->any("MyApp\\MyController@myMethod");
 ```
+
+<h4 id="dependency-resolvers">Dependency Resolvers</h4>
+Before we dive too deep, let's take a moment to talk about dependency resolvers.  They're useful tools that allow our router to automatically instantiate controllers by scanning their constructors for dependencies.  Unlike a [dependency injection container](dependency-injection), a resolver's sole purpose it to resolve dependencies.  Binding implementations (like through [bootstrappers](bootstrappers)) is reserved for containers.  That being said, it is extremely common for a resolver to use a container to help it resolve dependencies.
+
+Opulence provides an interface for dependency resolvers (`Opulence\Routing\Dispatchers\IDependencyResolver`).  It defines one method: `resolve($interface)`.  Opulence provides a resolver (`Opulence\Framework\Routing\Dispatchers\DependencyResolver`) that uses its container library.  However, since the resolver interface is so simple to implement, you are free to use the dependency injection container library of your choice to power your resolver.
 
 <h2 id="route-variables">Route Variables</h2>
 Let's say you want to grab a specific user's profile page.  You'll probably want to structure your URL like "/users/:userId/profile", where ":userId" is the Id of the user whose profile we want to view.  Using a `Router`, the data matched in ":userId" will be mapped to a parameter in your controller's method named "$userId".

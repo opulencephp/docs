@@ -186,7 +186,7 @@ echo $container->resolve("IFoo") === $container->resolve("IFoo"); // 1
 By default, bindings are registered so that they can be used by all classes.  If you'd like to bind a concrete class to an interface or abstract class for only a specific class, you can create a targeted binding using `for(TARGET_CLASS_NAME)` before your binding method:
 ```php
 $container->for("A", function ($container) {
-    ->bindSingleton("IFoo", "ConcreteFoo");
+    $container->bindSingleton("IFoo", "ConcreteFoo");
 });
 ```
 
@@ -197,12 +197,19 @@ Now, `ConcreteFoo` is only bound to `IFoo` for the target class `A`.
 Targeting works for the following methods:
 
 * `bindFactory()`
+  * Binds a factory for a target
 * `bindInstance()`
+  * Binds a instance for a target
 * `bindPrototype()`
+  * Binds a prototype for a target
 * `bindSingleton()`
+  * Binds a singleton for a target
 * `hasBinding()`
+  * Checks if a target has a binding for the input interface
 * `resolve()`
+  * Resolves an interface by first checking for targeted bindings, and then universal bindings
 * `unbind()`
+  * Unbinds the interface from the target
 
 <h2 id="calling-methods">Calling Methods</h2>
 It's possible to call methods on a class using the container to resolve dependencies using `callMethod()`:
