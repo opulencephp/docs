@@ -3,9 +3,10 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
-  1. [Using Closures](#using-closures)
-  2. [Using Controller Classes](#using-controller-classes)
-  3. [Multiple Methods](#multiple-methods)
+  1. [Dependency Resolvers](#dependency-resolvers)
+  2. [Using Closures](#using-closures)
+  3. [Using Controller Classes](#using-controller-classes)
+  4. [Multiple Methods](#multiple-methods)
 3. [Route Variables](#route-variables)
   1. [Regular Expressions](#regular-expressions)
   2. [Optional Parts](#optional-parts)
@@ -46,6 +47,11 @@ Routes require a few pieces of information:
 * `post()`
 * `put()`
 
+<h4 id="dependency-resolvers">Dependency Resolvers</h4>
+Before we dive too deep, let's take a moment to talk about dependency resolvers.  They're useful tools that allow our router to automatically instantiate controllers by scanning their constructors for dependencies.  Unlike a [dependency injection container](dependency-injection), a resolver's sole purpose it to resolve dependencies.  Binding implementations (like through [bootstrappers](bootstrappers)) is reserved for containers.  That being said, it is extremely common for a resolver to use a container to help it resolve dependencies.
+
+Opulence provides an interface for dependency resolvers (`Opulence\Routing\Dispatchers\IDependencyResolver`).  It defines one method: `resolve($interface)`.  Opulence provides a resolver (`Opulence\Framework\Routing\Dispatchers\DependencyResolver`) that uses its container library.  However, since the resolver interface is so simple to implement, you are free to use the dependency injection container library of your choice to power your resolver.
+
 <h4 id="using-closures">Using Closures</h4>
 For very simple applications, it's probably easiest to use closures as your routes' controllers:
 
@@ -67,8 +73,6 @@ $router->get("/foo", function () {
     return "Hello, world!";
 });
 ```
-
-> **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the router is already bound to the IoC container.
 
 If you need any object like the `Request` to be passed into the closure, just type-hint it:
 
@@ -222,7 +226,7 @@ This will create a route named "awesome".
 <h2 id="route-grouping">Route Grouping</h2>
 One of the most important sayings in programming is "Don't repeat yourself" or "DRY".  In other words, don't copy-and-paste code because that leads to difficulties in maintaining/changing the code base in the future.  Let's say you have several routes that start with the same path.  Instead of having to write out the full path for each route, you can create a group:
 ```php
-$router->group(["path" => "/users/:userId"], function () use ($router) {
+$router->group(["path" => "/users/:userId"], function (Router $router) {
     $router->get("/profile", "MyApp\\UserController@showProfile");
     $router->delete("", "MyApp\\UserController@deleteUser");
 });
@@ -233,7 +237,7 @@ Now, a GET request to `/users/:userId/profile` will get a user's profile, and a 
 <h4 id="controller-namespaces">Controller Namespaces</h4>
 If all the controllers in a route group belong under a common namespace, you can specify the namespace in the group options:
 ```php
-$router->group(["controllerNamespace" => "MyApp\\Controllers"], function () use ($router) {
+$router->group(["controllerNamespace" => "MyApp\\Controllers"], function (Router $router) {
     $router->get("/users", "UserController@showAllUsers");
     $router->get("/posts", "PostController@showAllPosts");
 });
@@ -244,7 +248,7 @@ Now, a GET request to `/users` will route to `MyApp\Controllers\UserController::
 <h4 id="group-middleware">Group Middleware</h4>
 Route groups allow you to apply middleware to multiple routes:
 ```php
-$router->group(["middleware" => "MyApp\\Authenticate"], function () use ($router) {
+$router->group(["middleware" => "MyApp\\Authenticate"], function (Router $router) {
     $router->get("/users/:userId/profile", "MyApp\\UserController@showProfile");
     $router->get("/posts", "MyApp\\PostController@showPosts");
 });
@@ -256,9 +260,9 @@ The `Authenticate` middleware will be executed on any matched routes inside the 
 You can filter by host in router groups:
 
 ```php
-$router->group(["host" => "google.com"], function () use ($router) {
+$router->group(["host" => "google.com"], function (Router $router) {
     $router->get("/", "MyApp\\HomeController@showHomePage");
-    $router->group(["host" => "mail."], function () use ($router) {
+    $router->group(["host" => "mail."], function (Router $router) {
         $router->get("/", "MyApp\\MailController@showInbox");
     });
 });
@@ -270,7 +274,7 @@ $router->group(["host" => "google.com"], function () use ($router) {
 You can force all routes in a group to be HTTPS:
 
 ```php
-$router->group(["https" => true], function () use ($router) {
+$router->group(["https" => true], function (Router $router) {
     $router->get("/", "MyApp\\HomeController@showHomePage");
     $router->get("/books", "MyApp\\BookController@showBooksPage");
 });
@@ -288,7 +292,7 @@ $options = [
         "userId" => "\d+"
     ]
 ];
-$router->group($options, function () use ($router) {
+$router->group($options, function (Router $router) {
     $router->get("/profile", "MyApp\\ProfileController@showProfilePage");
     $router->get("/posts", "MyApp\\PostController@showPostsPage");
 });

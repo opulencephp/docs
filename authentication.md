@@ -85,6 +85,8 @@ if (!$verifier->verify($signedJwt, $context, $errors = [])) {
 
 > **Note:** The not-before and expiration times are only verified if they're specified.  If your context does not set particular values, eg no issuer is set in the context, then that claim is skipped during verification.
 
+The errors will correspond to the constants in `Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes`.
+
 <h4 id="creating-jwts-from-strings">Creating JWTs from Strings</h4>
 You can easily create a `SignedJwt` from a string in the format "{base64-encoded header}.{base64-encoded payload}.{base64-encoded signature}".
 
