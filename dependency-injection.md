@@ -259,7 +259,6 @@ To check whether or not a binding exists, call `hasBinding()`.
 ```php
 $container->bindSingleton("IFoo", "ConcreteFoo");
 echo $container->hasBinding("IFoo"); // 1
-// Non-existent bindings return null
 echo $container->hasBinding("NonExistentInterface"); // 0
 ```
 
