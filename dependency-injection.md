@@ -144,7 +144,7 @@ echo $concreteInstance === $container->resolve("IFoo"); // 1
 ```
 
 <h2 id="binding-singletons">Binding Singletons</h2>
-You can bind an interface to a class name and have it always resolve to the same object (also known as a singleton).
+You can bind an interface to a class name and have it always resolve to the same instance of the class (also known as a singleton).
 ```php
 $container->bindSingleton("IFoo", "ConcreteFoo");
 echo get_Class($container->resolve("IFoo")); // "ConcreteFoo"
@@ -154,7 +154,7 @@ echo $container->resolve("IFoo") === $container->resolve("IFoo"); // 1
 If your concrete class requires any primitive values, pass them in an array in the same order they appear in the constructor.
 
 <h2 id="binding-prototypes">Binding Prototypes</h2>
-You can bind an interface to a class name and have it always resolve to a different object (also known as a prototype).
+You can bind an interface to a class name and have it always resolve to a new instance of the class (also known as a prototype).
 ```php
 $container->bindPrototype("IFoo", "ConcreteFoo");
 echo get_Class($container->resolve("IFoo")); // "ConcreteFoo"
@@ -199,7 +199,7 @@ Targeting works for the following methods:
 * `bindFactory()`
   * Binds a factory for a target
 * `bindInstance()`
-  * Binds a instance for a target
+  * Binds an instance for a target
 * `bindPrototype()`
   * Binds a prototype for a target
 * `bindSingleton()`
