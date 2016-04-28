@@ -107,7 +107,7 @@ $resolver->registerExtension("fortune", 1);
 Opulence uses an `Opulence\Views\Factories\IO\IViewReader` to actually read raw views in factories.  By default, the `FileViewReader` is used to read views stored in the file system, but you can use any storage system you'd like.  Simply implement `IViewReader` and bind your reader to the IoC container:
 
 ```php
-$container->bind(IViewReader::class, new MyViewReader());
+$container->bindInstance(IViewReader::class, new MyViewReader());
 ```
  
 <h4 id="creating-views">Creating Views</h4>

@@ -42,7 +42,7 @@ class MyBootstrapper extends Bootstrapper
 {
     public function registerBindings(IContainer $container)
     {
-        $container->bind(UserRepo::class, new UserRepo());
+        $container->bindInstance(UserRepo::class, new UserRepo());
     }
 }
 ```
@@ -100,7 +100,7 @@ class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
     
     public function registerBindings(IContainer $container)
     {
-        $container->bind(IPostRepo::class, new PostRepo());
+        $container->bindInstance(IPostRepo::class, new PostRepo());
     }
 }
 ```
@@ -151,8 +151,10 @@ class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
     
     public function registerBindings(IContainer $container)
     {
-        $container->bind(IPostRepo::class, new PostRepo());
-        $container->bind(IDataMapper::class, MyDataMapper::class, PostRepo::class);
+        $container->bindInstance(IPostRepo::class, new PostRepo());
+        $container->for(PostRepo::class, function (IContainer $container) {
+            $container->bindSingleton(IDataMapper::class, MyDataMapper::class);
+        });
     }
 }
 ```

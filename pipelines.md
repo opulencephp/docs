@@ -103,7 +103,7 @@ $classes = ["PipeA", "PipeB"];
 $stages = [];
 
 foreach ($classes as $class) {
-    $stages[] = $container->makeShared($class);
+    $stages[] = $container->resolve($class);
 }
 
 echo (new Pipeline)

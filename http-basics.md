@@ -44,7 +44,9 @@ class UserBootstrapper extends Bootstrapper
     public function registerBindings(IContainer $container)
     {
         // Bind the user repository to the UserList controller
-        $container->bind(IRepository::class, UserRepo::class, UserList::class);
+        $container->for(UserList::class, function (IContainer $container) {
+            $container->bindSingleton(IRepository::class, UserRepo::class);
+        });
     }
 }
 ```
