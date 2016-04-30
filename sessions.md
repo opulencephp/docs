@@ -128,17 +128,17 @@ If your session has just started or if its data has been invalidated, a new sess
 > **Note:** It's recommended you use Opulence's `IdGenerator` unless you know what you're doing.
 
 <h2 id="encrypting-session-data">Encrypting Session Data</h2>
-You might find yourself storing sensitive data in sessions, in which case you'll want to encrypt it.  To do this, use the `useEncryption()` and `setEncrypter()` methods:
+You might find yourself storing sensitive data in sessions, in which case you'll want to encrypt it.  To do this, use the `useEncryption()` and `setEncrypter()` methods.  `setEncrypter()` requires an instance of `Opulence\Sessions\Handlers\ISessionEncrypter`.  For convenience, if you're also using Opulence's [cryptography library](cryptography#encryption), you can use the `Opulence\Sessions\Handlers\SessionEncrypter` class.
 
 ```php
 use Opulence\Cryptography\Encryption\Encrypter;
-use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Sessions\Handlers\FileSessionHandler;
+use Opulence\Sessions\Handlers\SessionEncrypter;
 
-$encrypter = new Encrypter("mySecretApplicationKey", new Strings());
+$sessionEncrypter = new SessionEncrypter(new Encrypter("mySecretApplicationKey"));
 $handler = new FileSessionHandler("path/to/my/session/files");
 $handler->useEncryption(true);
-$handler->setEncrypter($encrypter);
+$handler->setEncrypter($sessionEncrypter);
 ```
 
 Now, all your session data will be encrypted before being written and decrypted after being read.  [Learn more](cryptography#encryption) about encryption.
