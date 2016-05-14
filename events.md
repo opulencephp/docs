@@ -20,7 +20,7 @@ namespace MyApp\Events;
 use MyApp\Users\User;
 use Opulence\Events\Event;
 
-class UserRegisteredEvent extends Event
+class NewUserEvent extends Event
 {
     private $user;
 
@@ -39,16 +39,16 @@ class UserRegisteredEvent extends Event
 We'll use this event in the examples below.
 
 <h2 id="listeners">Listeners</h2>
-A **listener** is what handles an event.  Listeners must be callables.  They are passed the `IEvent` object, the name of the event fired, and the event `Dispatcher`.  Let's take a look at some example listeners for our `UserRegisteredEvent`:
+A **listener** is what handles an event.  Listeners must be callables.  They are passed the `IEvent` object, the name of the event fired, and the event `Dispatcher`.  Let's take a look at some example listeners for our `NewUserEvent`:
 
 <h5 id="listener-closure">Listener Closure</h5>
 You can use a closure for your listener:
 ```php
-use MyApp\Events\UserRegisteredEvent;
+use MyApp\Events\NewUserEvent;
 use MyApp\Users\User;
 use Opulence\Events\Dispatchers\IDispatcher;
 
-$listener = function (UserRegisteredEvent $event, $eventName, IDispatcher $dispatcher) {
+$listener = function (NewUserEvent $event, $eventName, IDispatcher $dispatcher) {
     mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
 };
 ```
@@ -58,13 +58,13 @@ You can also use a class for your listener:
 ```php
 namespace MyApp\Events\Listeners;
 
-use MyApp\Events\UserRegisteredEvent;
+use MyApp\Events\NewUserEvent;
 use MyApp\Users\User;
 use Opulence\Events\Dispatchers\IDispatcher;
 
 class RegistrationEmail
 {
-    public function handle(UserRegisteredEvent $event, string $eventName, IDispatcher $dispatcher)
+    public function handle(NewUserEvent $event, string $eventName, IDispatcher $dispatcher)
     {
         mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
     }
@@ -105,7 +105,7 @@ $user = new User("Dave", "foo@bar.com");
 
 // Register the user...
 
-$dispatcher->dispatch("user.registered", new UserRegisteredEvent($user));
+$dispatcher->dispatch("user.registered", new NewUserEvent($user));
 ```
 
 The dispatcher will loop through and call all listeners registered for the `user.registered` event.  In this case, `RegistrationEmail::handle()` will be called, and the user will receive a welcome email.
