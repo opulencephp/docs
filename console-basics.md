@@ -14,7 +14,8 @@
   7. [encryption:generatekey](#encryptiongeneratekey)
   8. [framework:flushcache](#frameworkflushcache)
   9. [make:*](#make)
-  10. [views:flush](#viewsflush)
+  10. [uuid:generate](#uuidgenerate)
+  11. [views:flush](#viewsflush)
   
 <h2 id="introduction">Introduction</h2>
 Console applications are great for administrative tasks and code generation.  Apex is Opulence's own robust console kernel.  With it, you can easily create your own console commands, display question prompts, and use HTML-like syntax for output styling.
@@ -74,6 +75,9 @@ To make creating new classes as simple as possible, Apex supports several `make:
 5. `make:httpmiddleware`
 
 They all accept a single argument: the name of the class to generate.  If you input a fully-qualified class name, then that namespace and class name will be used.  Otherwise, the default namespace will be used (eg controllers are under `Project\Http\Controllers`).
+
+<h4 id="uuidgenerate">uuid:generate</h4>
+This command creates a new UUID.
 
 <h4 id="viewsflush">views:flush</h4>
 If you also use Opulence's HTTP kernel and view template, you can use this command to clear the view cache.  This is handy for when you've made updates to your views.
