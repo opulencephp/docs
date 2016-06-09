@@ -193,12 +193,18 @@ Opulence's flexibility comes at the price of a little bit of boilerplate code on
 Opulence can automatically generate Ids for entities managed by the unit of work.  A common way of setting Ids is using sequences from your database.  In this case, you can use:
 
 * `Opulence\Orm\Ids\Generators\BigIntSequenceGenerator`
+  * Generates big integer sequence Ids
 * `Opulence\Orm\Ids\Generators\IntSequenceGenerator`
+  * Generates integer sequence Ids
+* `Opulence\Orm\Ids\Generators\UuidV4Generator`
+  * Generates UUIDs, which are suitable for distributed databases
 
 All Id generators in Opulence implement `Opulence\Orm\Ids\Generators\IIdGenerator`, which has two methods:
 
 * `generate()`
   * Generates a new Id for the input entity
+* `getEmptyValue()`
+  * Gets the value of an Id that is considered empty
 * `isPostInsert()`
   * Whether or not this generator should be run before or after the unit of work executes its inserts
   

@@ -10,6 +10,7 @@
 4. [String Utility](#string-utility)
   1. [Generating Random Strings](#generating-random-strings)
   2. [String Comparison](#string-comparison)
+  3. [UUIDs](#uuids)
 
 <h2 id="introduction">Introduction</h2>
 Keeping user data secure is of the utmost importance.  Unfortunately, PHP's built-in cryptographic support is somewhat fragmented and not easy to use.  Lucky for you, Opulence has a `Cryptography` library to simplify all this.
@@ -115,4 +116,11 @@ This comparison will take the same amount of time as:
 
 ```php
 echo $stringUtility->isEqual("bbbba", "bbbbb"); // 0
+```
+
+<h4 id="uuids">UUIDs</h4>
+Universally unique identifiers or UUIDs simplify how distributed databases assign Ids.  So, instead of relying on a database integer sequence for an Id, you can generate a UUID before even storing an entity in the database.  Opulence provides a helper method to generate version 4 of the UUID algorithm:
+
+```php
+echo $stringUtility->generateUuidV4(); // "123e4567-e89b-12d3-a456-426655440000"
 ```
