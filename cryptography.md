@@ -124,3 +124,5 @@ Universally unique identifiers or UUIDs simplify how distributed databases assig
 ```php
 echo $stringUtility->generateUuidV4(); // "123e4567-e89b-12d3-a456-426655440000"
 ```
+
+Learn how to [use UUIDs to generate Ids of entities using Opulence's ORM](orm-units-of-work#id-generators).
