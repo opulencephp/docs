@@ -39,8 +39,10 @@ This is where your views and other non-publicly-accessible files go.  For exampl
           * JSON error template files are here
 
 <h2 id="src">src</h2>
-This is where your project's core code goes.  If it's a PHP class, it belongs in here.  The subdirectories under `src` are:
+This is where your project's core code goes.  If it's a PHP class, it belongs in here.  Opulence subscribes to the domain-driven design philosophy, which encourages you to separate your domain models from your application logic.  The subdirectories under `src` are:
 
+<h4>Application</h4>
+The application layer stores code that is used to interface your domain logic with your presentation layer.  It also contains classes that bootstrap your application.  It contains the following subdirectories:  
 * `Bootstrappers`
   * `Console`
       * Console bootstrappers are here
@@ -60,6 +62,12 @@ This is where your project's core code goes.  If it's a PHP class, it belongs in
       * HTTP middleware are here
   * `Views`
       * View builders are here
+      
+<h4>Domain</h4>
+Your core business logic and models belong here.  This is the heart of your application.  This code is written to an interface.  It's recommended that you add subdirectories for each domain type, eg `Blog` for all business logic and models dealing with blog posts.
+
+<h4>Infrastructure</h4>
+Your concrete implementations of your interfaces go here.  This directory should house any code that interacts with storage, eg databases and cache.
  
 <h2 id="tests">tests</h2>
 Put your unit tests in this directory.
