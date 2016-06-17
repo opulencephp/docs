@@ -96,7 +96,7 @@ $session->regenerateId();
   * Stores session data to some form of [cache](cache), eg Memcached or Redis
 
 <h2 id="middleware">Middleware</h2>
-The best place to read and write session data with the `handler` is in middleware.  Opulence comes with a class middleware baked-in:  `Opulence\Framework\Http\Middleware\Session`.
+The best place to read and write session data with the `handler` is in middleware.  Opulence comes with a class middleware baked-in:  `Opulence\Framework\Sessions\Http\Middleware\Session`.
 
 > **Note:** This middleware is an abstract class.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can simply use the middleware `Project\Http\Middleware\Session` to finish extending it.  Otherwise, you can roll your own session middleware.
 
