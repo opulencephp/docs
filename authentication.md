@@ -139,7 +139,8 @@ use Opulence\Authentication\AuthenticationContext;
 use Opulence\Authentication\AuthenticationStatusTypes;
 
 // Assume $subject was previously set
-$authenticationContext = new AuthenticationContext($subject, AuthenticationStatusTypes::AUTHENTICATED);
+$status = AuthenticationStatusTypes::AUTHENTICATED;
+$authenticationContext = new AuthenticationContext($subject, $status);
 ```
 
 You can then retrieve the subject and status:
