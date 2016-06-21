@@ -105,7 +105,7 @@ server {
 Add the following to your Caddyfile config:
 
 ```
-YOUR_SITE_DOMAIN 80 {
+YOUR_SITE_DOMAIN:80 {
     rewrite {
         r .*
         ext /
