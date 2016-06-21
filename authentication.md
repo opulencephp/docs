@@ -1,18 +1,163 @@
 # Authentication
 
-## Note
-The authentication library was originally meant to be released in a subsequent version of Opulence.  However, we've decided it's important to provide something out of the box, so we are currently working on our authentication library.
-
-<a href="https://github.com/opulencephp/Opulence/tree/develop/src/Opulence/Authentication" target="_blank">Follow the updates</a> on the `develop` branch.
-
 ## Table of Contents
-1. [JSON Web Tokens](#jwt)
+1. [Introduction](#introduction)
+2. [Subjects](#subjects)
+  1. [Principals](#principals)
+  2. [Example](#subject-example)
+3. [Credentials](#credentials)
+  1. [Credential Factories](#credential-factories)
+  2. [Authenticators](#authenticators)
+      1. [Username/Password](#username-password-authenticator)
+      2. [JWT Authenticator](#jwt-authenticator)
+      3. [JWT Refresh Token Authenticator](#jwt-refresh-token-authenticator)
+4. [Authentication Contexts](#authentication-contexts)
+  1. [Middleware](#authentication-context-middleware)
+5. [JSON Web Tokens](#jwt)
   1. [Introduction](#jwt-introduction)
   2. [Building JWTs](#building-jwts)
   3. [Signing JWTs](#signing-jwts)
   4. [Verifying JWTs](#verifying-jwts)
   5. [Creating JWTs from Strings](#creating-jwts-from-strings)
   6. [JWT Ids](#jwt-ids)
+
+<h2 id="introduction">Introduction</h2>
+Opulence's authentication library provides many models out of the box that are common to most authentication schemes.  Unlike other frameworks, Opulence's authentication library is not coupled at all to the rest of the framework, including the authorization library.  So, you may use it in conjunction with 3rd party authentication and authorization libraries.  It is meant to provide you with the tools you need to build your authentication scheme.  It is very possible that, with community support, these tools can be used to create new or bridge existing OpenID Connect implementations.
+
+<h2 id="subjects">Subjects</h2>
+A subject is the entity that is requesting access to a resource.  Although a subject could be a user, it could also be something like a system process.  So, it's important to distinguish the concept from users.  Subjects have [principals](#principals) and the [credentials](#credentials) to prove their authenticity.
+
+<h4 id="principals">Principals</h4>
+A principal is a piece of information that identifies a subject.  For example, your social security number is one of your principals.  Another might be your name.  In the world of programming, a principal might be a user Id or username.  Opulence requires that exactly one "primary" principal (usually an Id) is set for a subject.
+
+<h4 id="subject-example">Example</h4>
+Let's take a look at subjects in Opulence:
+
+```php
+use Opulence\Authentication\Principal;
+use Opulence\Authentication\PrincipalTypes;
+use Opulence\Authentication\Subject;
+
+// This is a list of all roles assigned to this principal
+// You are free to define your role names as you'd like
+$roles = ["administrator"];
+$userIdPrincipal = new Principal(PrincipalTypes::PRIMARY, 123, $roles);
+// For now, let's assume $credentials was set previously
+$subject = new Subject([$userIdPrincipal], $credentials);
+```
+
+To grab the credentials a subject has, call `$subject->getCredentials()`.
+
+To grab the primary principal, call `$subject->getPrimaryPrincipal()`.
+
+To grab all principals, call `$subject->getPrincipals()`.
+
+To grab all roles, call `$subject->getRoles()`.
+
+To check if a subject has a role, call `$subject->hasRole($roleName)`.
+
+<h2 id="credentials">Credentials</h2>
+A credential is simply a value or collection of values used to prove a subject's authenticity.  For example, this could be a username/password combination or an OAuth2 access token.
+
+Credentials have a type and value(s):
+
+```php
+use Opulence\Authentication\Credentials\Credential;
+use Opulence\Authentication\Credentials\CredentialTypes;
+
+// This is a mapping of credential value names to their values
+$values = ["username" => "dave", "password" => "mypassword"];
+$credential = new Credential(CredentialTypes::USERNAME_PASSWORD, $values);
+```
+
+To get the type, call `$credential->getType()`.
+
+To get the credential's values, you can either call `$credential->getValues()` to get all of them, or pass in the name of the value you wish to get, eg `$credential->getValue("username")`.
+
+<h4 id="credential-factories">Credential Factories</h4>
+Opulence makes it simple to generate JWT-based credentials for a subject.  A couple credential factories come with Opulence, and they both implement`Opulence\Authentication\Credentials\Factories\ICredentialFactory`, which defines a single method `ICredentialFactory::createCredentialForSubject($subject)`:
+
+* `Opulence\Authentication\Credentials\Factories\AccessTokenCredentialFactory`
+* `Opulence\Authentication\Credentials\Factories\RefreshTokenCredentialFactory`
+
+<h4 id="authenticators">Authenticators</h4>
+Authenticators do what their name implies - they authenticate credentials.  Not only that, but they also create a `Subject` object on success, or an error message on failure.  They all implement `Opulence\Authentication\Credentials\Authenticators\IAuthenticator`.
+
+<h5 id="username-password-authenticator">Username/Password</h5>
+To authenticate a username/password combination, pass in a user repository and a role repository:
+
+```php
+use Opulence\Authentication\Credentials\Authenticators\UsernamePasswordAuthenticator;
+use Opulence\Authentication\Roles\Orm\IRoleRepository;
+use Opulence\Authentication\Users\Orm\IUserRepository;
+
+// You must write your own user repository since it is specific to your persistence layer
+// Your user repository needs to implement Opulence\Authentication\Users\Orm\IUserRepository
+$userRepository = new MyUserRepository();
+// You must write your own role repository, too
+// Your role repository needs to implement Opulence\Authentication\Roles\Orm\IRoleRepository
+$roleRepository = new MyRoleRepository();
+$authenticator = new UsernamePasswordAuthenticator($userRepository, $roleRepository);
+
+// $subject will be set on success
+$subject = null;
+// $error will be set on failure
+$error = null;
+
+// Assume $credential was previously set
+if (!$authenticator->authenticate($credential, $subject, $error)) {
+    die("There was an error authenticating you: $error");
+}
+
+// $subject is now set
+```
+
+<h5 id="jwt-authenticator">JWT Authenticator</h5>
+Opulence supports authenticating [JSON web tokens](#jwt), which can be useful for authenticating JWT OAuth2 access tokens.  The `JwtAuthenticator` requires a [verifier and a verification context](#verifying-jwt).
+
+```php
+use Opulence\Authentication\Credentials\Authenticators\JwtAuthenticator;
+
+// Assume $jwtVerifier and $verificationContext were previously set
+$authenticator = new JwtAuthenticator($jwtVerifier, $verificationContext);
+
+if (!$authenticator->authenticate($credential, $subject, $error)) {
+    die("There was an error authenticating you: $error");
+}
+
+// $subject is now set
+```
+
+<h5 id="jwt-refresh-token-authenticator">JWT Refresh Token Authenticator</h5>
+Refresh tokens are used to generate new access tokens when using OAuth2.  They are identical to `JwtAuthenticator`, except they also require a refresh token repository parameter.  That repository is left to you to create, and it must implement `Opulence\Authentication\Tokens\JsonWebTokens\Orm\IJwtRepository`.
+
+<h2 id="authentication-contexts">Authentication Contexts</h2>
+The `Opulence\Authentication\AuthenticationContext` is a simple wrapper that contains the current subject as well as its status, eg authenticated or unauthenticated.
+
+```php
+use Opulence\Authentication\AuthenticationContext;
+use Opulence\Authentication\AuthenticationStatusTypes;
+
+// Assume $subject was previously set
+$authenticationContext = new AuthenticationContext($subject, AuthenticationStatusTypes::AUTHENTICATED);
+```
+
+You can then retrieve the subject and status:
+
+```php
+$subject = $authenticationContext->getSubject();
+$status = $authenticationContext->getStatus();
+```
+
+You can also update these values:
+
+```php
+$authenticationContext->setSubject($newSubject);
+$authenticationContext->setStatus(AuthenticationStatusTypes::UNAUTHENTICATED);
+```
+
+<h4 id="authentication-context-middleware">Middleware</h4>
+Opulence provides the `Opulence\Authentication\Framework\Http\Middleware\Authenticate` middleware to get the current subject from the HTTP request and store it along with its status in an `AuthenticationContext`.
 
 <h2 id="jwt">JSON Web Tokens</h2>
 
