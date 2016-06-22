@@ -15,7 +15,7 @@ Keeping user data secure is of the utmost importance.  Unfortunately, PHP's buil
 Hashers take input and perform a one-way mapping to a hashed value.  It is impossible to decrypt a hashed value because of the way this mapping is generated.  This hashes suitable for storing sensitive data, like user passwords.
 
 <h4 id="bcrypt">bcrypt</h4>
-`bcrypt` is a popular hashing function that has built-in protection methods against timing attacks.  It accepts a "cost" parameter, which adjusts the CPU cost to hash a password.  This slows down rainbow table attacks against compromised data.  Increasing the cost parameter by one causes the hashing to take twice as long, which future-proofs it as CPUs get faster.  Let's take a look at how to use it:
+`bcrypt` is a popular password hashing function.  It accepts a "cost" parameter, which adjusts the CPU cost to hash a password.  This slows down attacks against compromised data.  Increasing the cost parameter by one causes the hashing to take twice as long, which future-proofs it as CPUs get faster.  Let's take a look at how to use it:
 
 ```php
 use Opulence\Cryptography\Hashing\BcryptHasher;
