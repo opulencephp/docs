@@ -126,12 +126,13 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     public function update(&$post)
     {
         $statement = $this->writeConnection->prepare(
-            "UPDATE posts SET content = :content, title = :title, author = :author"
+            "UPDATE posts SET content = :content, title = :title, author = :author WHERE id = :id"
         );
         $statement->bindValues([
             "content" => $post->getContent(),
             "title" => $post->getTitle(),
-            "author" => $post->getAuthor()
+            "author" => $post->getAuthor(),
+            "id" => [$post->getId(), \PDO::PARAM_INT] 
         ]);
         $statement->execute();
     }
