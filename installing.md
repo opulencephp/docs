@@ -9,6 +9,7 @@
   2. [Nginx Config](#nginx-config)
   3. [Caddy Config](#caddy-config)
 4. [Renaming Project](#renaming-project)
+5. [Versioning](#versioning)
 
 <h2 id="requirements">Requirements</h2>
 * PHP &ge; 7.0.0 or HHVM &ge; 3.11.0
@@ -127,3 +128,6 @@ php apex app:rename Project NEW_NAME
 ```
 
 This will automatically update all the folders, namespaces, and Composer config to use the new name.
+
+<h2 id="versioning">Versioning</h2>
+Opulence follows semantic versioning 2.0.0.  For more information on semantic versioning, check out its <a href="http://semver.org/" title="Semantic versioning documentation" target="_blank">documentation</a>.

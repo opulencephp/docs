@@ -30,6 +30,8 @@ To fix a bug, create a pull request on the latest stable branch with the fix and
 <h2 id="features">Features</h2>
 We always appreciate when you want to add a new feature to Opulence.  For minor, backwards-compatible features, create a pull request on the latest stable branch.  For major, possibly backwards-incompatible features, create a pull request on the `develop` branch.
 
+Opulence strives to not create any unnecessary library dependencies.  This even includes having dependencies on other Opulence libraries.  If your change will introduce a new dependency to a library, create an issue and ask about it before implementing it.  If your feature is a useful combination of multiple Opulence libraries, it's possible it'll be recommended to go into the `Opulence\Framework` library.
+
 <h2 id="security-vulnerabilities">Security Vulnerabilities</h2>
 Opulence takes security seriously.  If you find a security vulnerability, please email us at <a href="mailto:bugs@opulencephp.com">bugs@opulencephp.com</a>.
 

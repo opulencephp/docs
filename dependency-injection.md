@@ -14,6 +14,7 @@
 9. [Calling Closures](#calling-closures)
 10. [Checking a Binding](#checking-a-binding)
 11. [Removing a Binding](#removing-a-binding)
+12. [Applications in Opulence](#applications-in-opulence)
 
 <h2 id="introduction">Introduction</h2>
 <h4 id="explanation-of-dependency-injection">Explanation of Dependency Injection</h4>
@@ -276,3 +277,6 @@ $container->bindSingleton("IFoo", "ConcreteFoo");
 $container->unbind("IFoo");
 echo $container->hasBinding("IFoo"); // 0
 ```
+
+<h2 id="applications-in-opulence">Applications in Opulence</h2>
+If you use Opulence's [command library](console-basics), the container automatically resolves the `Command` class.  Also, the [routing library](routing) uses `Opulence\Routing\Dispatchers\IDependencyResolver` to automatically resolve a matched controller.  Typically, Opulence's container is used by `IDependencyResolver` to do the resolution.
