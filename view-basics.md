@@ -59,7 +59,7 @@ $registry = new CompilerRegistry();
 $registry->registerCompiler("my-extension", new MyCompiler());
 ```
 
-Now, files with extension `my-extension` will be compiled by `MyCompiler`.
+Now, files with extension `my-extension` will be compiled by `MyCompiler`.  If you are using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, a good place to register compilers would be in [bootstrapper](bootstrappers).
 
 > **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the PHP and Fortune compilers are already registered to the compiler registry.
 

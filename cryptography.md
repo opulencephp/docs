@@ -7,10 +7,6 @@
 3. [Encryption](#encryption)
   1. [Encrypting Data](#encrypting-data)
   2. [Decrypting Data](#decrypting-data)
-4. [String Utility](#string-utility)
-  1. [Generating Random Strings](#generating-random-strings)
-  2. [String Comparison](#string-comparison)
-  3. [UUIDs](#uuids)
 
 <h2 id="introduction">Introduction</h2>
 Keeping user data secure is of the utmost importance.  Unfortunately, PHP's built-in cryptographic support is somewhat fragmented and not easy to use.  Lucky for you, Opulence has a `Cryptography` library to simplify all this.
@@ -19,7 +15,7 @@ Keeping user data secure is of the utmost importance.  Unfortunately, PHP's buil
 Hashers take input and perform a one-way mapping to a hashed value.  It is impossible to decrypt a hashed value because of the way this mapping is generated.  This hashes suitable for storing sensitive data, like user passwords.
 
 <h4 id="bcrypt">bcrypt</h4>
-`bcrypt` is a popular hashing function that has built-in protection methods against timing attacks.  It accepts a "cost" parameter, which tells `bcrypt` how long to take when attempting to verify an unhashed value.  Every time the cost goes up by one, the hasher takes 10 times longer to hash.  This prevents GPUs from being able to efficiently perform rainbow table attacks against compromised data.  You can adjust this value to make it future-proof.  Let's take a look at how to use it:
+`bcrypt` is a popular hashing function that has built-in protection methods against timing attacks.  It accepts a "cost" parameter, which adjusts the CPU cost to hash a password.  This slows down rainbow table attacks against compromised data.  Increasing the cost parameter by one causes the hashing to take twice as long, which future-proofs it as CPUs get faster.  Let's take a look at how to use it:
 
 ```php
 use Opulence\Cryptography\Hashing\BcryptHasher;
@@ -79,50 +75,3 @@ echo $decryptedData === "foobar"; // 1
 ```
 
 If there was any issue decrypting the data, an `Opulence\Cryptography\Encryption\EncryptionException` will be thrown.
-
-<h2 id="string-utility">String Utility</h2>
-Opulence has a utility class `Opulence\Cryptography\Utilities\Strings` to make it easy to do cryptographically-secure string functions.
-
-<h4 id="generating-random-strings">Generating Random Strings</h4>
-It turns out that computers are not very good at generating random numbers.  Calling `rand()` over and over will begin to yield a pattern, which is obviously the opposite of random.  PHP recommends using `openssl_random_pseudo_bytes()`, which Opulence provides a simple wrapper around:
-
-```php
-use Opulence\Cryptography\Utilities\Strings;
-
-$stringUtility = new Strings();
-echo $stringUtility->generateRandomString(16); // A random 16-character string
-```
-
-<h4 id="string-comparison">String Comparison</h4>
-A hacker can sometimes backwards-engineer a secret value by timing how long comparisons take against his input.  For example, the following will return false after only comparing 1 character:
-
-```php
-"aaaaa" == "bbbbb";
-```
-
-This will return false after comparing 5 characters and will take a little longer than the previous comparison:
-
-```php
-"bbbba" == "bbbbb";
-```
-
-Because of this comparison timing vulnerability, it's important to compare the entire length of the user input against the known value, even if you know they're not equal from the first character.
-
-```php
-echo $stringUtility->isEqual("aaaaa", "bbbbb"); // 0
-```
-
-This comparison will take the same amount of time as:
-
-```php
-echo $stringUtility->isEqual("bbbba", "bbbbb"); // 0
-```
-
-<h4 id="uuids">UUIDs</h4>
-Universally unique identifiers or UUIDs simplify how distributed databases assign Ids.  So, instead of relying on a database integer sequence for an Id, you can generate a UUID before even storing an entity in the database.  Opulence provides a helper method to generate version 4 of the UUID algorithm:
-
-```php
-echo $stringUtility->generateUuidV4(); // "123e4567-e89b-12d3-a456-426655440000"
-```
-
-Learn how to [use UUIDs to generate Ids of entities using Opulence's ORM](orm-units-of-work#id-generators).
