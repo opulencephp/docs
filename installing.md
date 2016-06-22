@@ -7,6 +7,7 @@
 3. [Server Config](#server-config)
   1. [Apache Config](#apache-config)
   2. [Nginx Config](#nginx-config)
+  3. [Caddy Config](#caddy-config)
 4. [Renaming Project](#renaming-project)
 
 <h2 id="requirements">Requirements</h2>
@@ -117,6 +118,7 @@ YOUR_SITE_DOMAIN:80 {
     }
 }
 ```
+
 <h2 id="renaming-project">Renaming Project</h2>
 By default, an Opulence project is named "Project".  To change it to something more fitting for your application, open up a console on your server, navigate to the directory Opulence was installed to, and run:
 
