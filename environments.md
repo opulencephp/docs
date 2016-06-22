@@ -17,10 +17,10 @@ Sometimes, you might want to change the way your application behaves depending o
 <h2 id="environment-names">Environment Names</h4>
 Knowing which environment you're in can affect the way you run your application.  For example, you might print more debugging information to the browser if you're in a development environment.  Opulence defines four environment names out of the box, but you are free to use your own names:
 
-* `Opulence\Environments\Environment::PRODUCTION`
-* `Opulence\Environments\Environment::STAGING`
-* `Opulence\Environments\Environment::TESTING`
-* `Opulence\Environments\Environment::DEVELOPMENT`
+1. `Opulence\Environments\Environment::PRODUCTION`
+2. `Opulence\Environments\Environment::STAGING`
+3. `Opulence\Environments\Environment::TESTING`
+4. `Opulence\Environments\Environment::DEVELOPMENT`
 
 To set the name, you can either pass it into the constructor:
 
