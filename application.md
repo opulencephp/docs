@@ -52,7 +52,7 @@ Post-start tasks are performed after the application has started.
 ```php
 use Opulence\Applications\Tasks\TaskTypes;
 
-$dispatcher->registerTask(TaskTypes::PRE_START, function () {
+$dispatcher->registerTask(TaskTypes::POST_START, function () {
     error_log("Application finished starting at " . date("Y-m-d H:i:s"));
 });
 ```

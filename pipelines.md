@@ -137,7 +137,7 @@ $stages = [
     }
 ];
 echo (new Pipeline)
-    >send("foo")
+    ->send("foo")
     ->through($stages)
     ->then(function ($output) {
         return strtoupper($output);
