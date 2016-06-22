@@ -101,6 +101,22 @@ server {
 }
 ```
 
+<h4 id="caddy-config">Caddy Config</h4>
+Add the following to your Caddyfile config:
+
+```
+YOUR_SITE_DOMAIN:80 {
+    rewrite {
+        r .*
+        ext /
+        to /index.php?{query}
+    }
+    fastcgi / 127.0.0.1:9000 php {
+        ext .php
+        index index.php
+    }
+}
+```
 <h2 id="renaming-project">Renaming Project</h2>
 By default, an Opulence project is named "Project".  To change it to something more fitting for your application, open up a console on your server, navigate to the directory Opulence was installed to, and run:
 
