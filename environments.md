@@ -14,13 +14,13 @@
 <h2 id="introduction">Introduction</h2>
 Sometimes, you might want to change the way your application behaves depending on whether or not it's running on a production, staging, testing, or development machine.  A common example is a database connection - each environment might have different server credentials.  It is highly recommended to not check these connection strings into version control for security's sake.  Instead, you can set these values in special config files and keep them on your server outside of version control.
 
-<h2 id="environment-names">Environment Names</h4>
+<h2 id="environment-names">Environment Names</h2>
 Knowing which environment you're in can affect the way you run your application.  For example, you might print more debugging information to the browser if you're in a development environment.  Opulence defines four environment names out of the box, but you are free to use your own names:
 
-1. `Opulence\Environments\Environment::PRODUCTION`
-2. `Opulence\Environments\Environment::STAGING`
-3. `Opulence\Environments\Environment::TESTING`
-4. `Opulence\Environments\Environment::DEVELOPMENT`
+* `Opulence\Environments\Environment::PRODUCTION`
+* `Opulence\Environments\Environment::STAGING`
+* `Opulence\Environments\Environment::TESTING`
+* `Opulence\Environments\Environment::DEVELOPMENT`
 
 To set the name, you can either pass it into the constructor:
 
