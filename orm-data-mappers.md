@@ -66,7 +66,7 @@ use PDO;
 class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
 {
     /** @var Post $post */
-    public function add(&$post)
+    public function add($post)
     {
         $statement = $this->writeConnection->prepare(
             "INSERT INTO posts (content, title, author) VALUES (:content, :title, :author)"
@@ -80,7 +80,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     }
     
     /** @var Post $post */
-    public function delete(&$post)
+    public function delete($post)
     {
         $statement = $this->writeConnection->prepare(
             "DELETE FROM posts WHERE id = :id"
@@ -123,7 +123,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     }
     
     /** @var Post $post */
-    public function update(&$post)
+    public function update($post)
     {
         $statement = $this->writeConnection->prepare(
             "UPDATE posts SET content = :content, title = :title, author = :author WHERE id = :id"
@@ -181,7 +181,7 @@ use Opulence\Orm\OrmException;
 class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
 {
     /** @var Post $post */
-    public function add(&$post)
+    public function add($post)
     {
         // Store a hash of the post's data
         $hash = [
@@ -203,7 +203,7 @@ class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
     }
     
     /** @var Post $post */
-    public function delete(&$post)
+    public function delete($post)
     {
         if (!$this->redis->del("posts:{$post->getId()}")) {
             throw new OrmException("Failed to delete post from Redis");
@@ -238,7 +238,7 @@ class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
     }
     
     /** @var Post $post */
-    public function update(&$post)
+    public function update($post)
     {
         // In this case, an update will do the same thing as an addition
         $this->add($post);
