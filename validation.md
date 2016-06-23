@@ -108,45 +108,73 @@ If you'd like to add a custom rule, you can use `RuleExtensionRegistry::register
 * A `callable` with parameters for the field value and an array of all field values
 
 <h5 id="using-objects">Using Objects</h5>
-If your rule needs to accept extra arguments, such as a value to compare to, implement `IRuleWithArgs`:
+If your rule needs to accept extra arguments, such as a value to compare to, implement `IRuleWithArgs` instead of `IRule`.  Let's look at an example of a rule that forces an email to be from a certain domain:
 
 ```php
-namespace MyApp\Validation\Rules;
-
 use Opulence\Validation\Rules\IRuleWithArgs;
 
-class NotInArrayRule implements IRuleWithArgs
+class EmailDomainRule implements IRuleWithArgs
 {
-    private $array = [];
-    
+    protected $domain = null;
+
+    public function getErrorPlaceholders() : array
+    {
+        return ["domain" => $this->domain];
+    }
+
     public function getSlug() : string
     {
-        return "notInArray";
+        return "emailDomain";
     }
-    
+
     public function passes($value, array $allValues = []) : bool
     {
-        return !in_array($value, $this->array);
+        if ($this->domain === null) {
+            throw new LogicException("Email domain not set");
+        }
+
+        // Check if the value is even a valid email address
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+
+        return preg_match(
+            "/@"{preg_quote($this->domain, "/")}$/", 
+            $value
+        ) === 1;
     }
 
     public function setArgs(array $args)
     {
-        $this->array = (array)$args[0];
+        if (count($args) == 0 || !is_string($args[0])) {
+            throw new InvalidArgumentException("Must pass a valid domain");
+        }
+
+        $this->domain = $args[0];
     }
 }
 ```
 
-You can now register this rule:
+You can now register this rule.:
 
 ```php
-$ruleExtensionRegistry->registerRule(new NotInArrayRule);
+$ruleExtensionRegistry->registerRule(new EmailDomainRule);
+```
+
+If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, do this registration in the `Project\Application\Bootstrappers\Validation\ValidatorBootstrapper::registerRuleExtensions()` method.  You could also add a custom error message to `resources/lang/en/validation.php`.  The rule we created defined an error placeholder "domain", which we can use in our error message:
+
+```php
+return [
+    // ...Other error message templates
+    "domain" => "The :field did not belong to the :domain domain"
+];
 ```
 
 To use the extension, simply call `$validator->field("FIELD_NAME")->{slug}()`:
 
 ```php
-$validator->field("some-array")
-    ->notInArray(["not", "allowed"]);
+$validator->field("some-email-address")
+    ->emailDomain("gmail.com");
 ```
 
 <h5 id="using-callables">Using Callables</h5>
