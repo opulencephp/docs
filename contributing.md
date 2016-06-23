@@ -25,10 +25,10 @@ Before you attempt to write a bug fix, first read the [documentation](/docs) to 
 To report a bug, <a href="https://github.com/opulencephp/Opulence/issues" target="_blank">create a new issue</a> with a descriptive title, steps to reproduce the bug (eg a failing PHPUnit test), and information about your environment.
 
 <h4 id="fixing-bug">Fixing a Bug</h4>
-To fix a bug, create a pull request on the latest stable branch with the fix and relevant PHPUnit tests.
+To fix a bug, create a pull request on the latest stable branch of the main <a href="https://github.com/opulencephp/Opulence" title="Opulence repository" target="_blank">Opulence repository</a> with the fix and relevant PHPUnit tests.
 
 <h2 id="features">Features</h2>
-We always appreciate when you want to add a new feature to Opulence.  For minor, backwards-compatible features, create a pull request on the latest stable branch.  For major, possibly backwards-incompatible features, create a pull request on the `develop` branch.
+We always appreciate when you want to add a new feature to Opulence.  For minor, backwards-compatible features, create a pull request on the latest stable branch of the main <a href="https://github.com/opulencephp/Opulence" title="Opulence repository" target="_blank">Opulence repository</a>.  Do not submit pull requests to individual libraries' repositories.  For major, possibly backwards-incompatible features, create a pull request on the `develop` branch.  All new features should come with PHPUnit tests proving their functionality.
 
 Opulence strives to not create any unnecessary library dependencies.  This even includes having dependencies on other Opulence libraries.  If your change will introduce a new dependency to a library, create an issue and ask about it before implementing it.  If your feature is a useful combination of multiple Opulence libraries, it's possible it'll be recommended to go into the `Opulence\Framework` library.
 
