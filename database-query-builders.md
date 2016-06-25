@@ -13,7 +13,7 @@
 10. [Vendor-Specific Query Builders](#vendor-specific-query-builders)
 
 <h2 id="introduction">Introduction</h2>
-Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `QueryBuilders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values for use in `PDOStatement` or [Opulence's PDO wrapper](database-basics).  They even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
+Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `QueryBuilders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values to queries.  This library is adapter-agnostic, meaning you can use it with any database adapter or with any library, such as PHP's `PDOStatement` or [Opulence's PDO wrapper](database-basics).  Query builders even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
 
 <h2 id="basic-usage">Basic Usage</h2>
 Let's look at a simple `SELECT` query:
