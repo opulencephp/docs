@@ -5,8 +5,9 @@
 2. [Hashing](#hashing)
   1. [bcrypt](#bcrypt)
 3. [Encryption](#encryption)
-  1. [Encrypting Data](#encrypting-data)
-  2. [Decrypting Data](#decrypting-data)
+  1. [Encryption Keys](#encryption-keys)
+  2. [Encrypting Data](#encrypting-data)
+  3. [Decrypting Data](#decrypting-data)
 
 <h2 id="introduction">Introduction</h2>
 Keeping user data secure is of the utmost importance.  Unfortunately, PHP's built-in cryptographic support is somewhat fragmented and not easy to use.  Lucky for you, Opulence has a `Cryptography` library to simplify all this.
@@ -42,13 +43,22 @@ use Opulence\Cryptography\Encryption\Encrypter;
 use Opulence\Cryptography\Encryption\EncryptionException;
 
 // This should be a unique, random string
-$myApplicationKey = "mySecretApplicationKey";
-$encrypter = new Encrypter($myApplicationKey);
+$myApplicationPassword = "mySecretApplicationPassword";
+$encrypter = new Encrypter($myApplicationPassword);
 ```
 
-You can change the underlying `OpenSSL` cipher using `setCipher()`.
+You can change the underlying `OpenSSL` cipher by passing it in via the second parameter:
 
-> **Note:** The default cipher is AES-128-CBC.  Although you can use any OpenSSL cipher you'd like, it is strongly recommended you use an AES CBC cipher such as AES-128-CBC or AES-256-CBC. 
+```php
+$encrypter = new Encrypter($myApplicationPassword, "AES-128-CBC");
+```
+
+> **Note:** The default cipher is AES-256-CTR.  It is strongly recommended you use an AES CTR or CBC cipher such as AES-256-CTR or AES-256-CBC. 
+
+<h4 id="encryption-keys">Encryption Keys</h4>
+`Encrypter` takes in a *password*, not a key.  You are encouraged to use a password generated via a <a href="https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator" target="_blank">CSPRNG</a> such as `random_bytes()`.  Regardless, Opulence uses a key deriviation function (PBKDF2 by default) to turn your password into cryptographically-strong encryption and authentication keys.
+
+> **Note:** The encryption key is used to encrypt/decrypt data.  The authentication key is used to create and verify the HMAC contained in the encrypted value.
 
 <h4 id="encrypting-data">Encrypting Data</h4>
 ```php
@@ -59,7 +69,7 @@ try {
 }
 ```
 
-A **Message Authentication Code** (**MAC**) is created using the encrypted value to detect any tampering with the encrypted data.  If there was any issue encrypting the data, an `Opulence\Cryptography\Encryption\EncryptionException` will be thrown.
+If there was any issue encrypting the data, an `Opulence\Cryptography\Encryption\EncryptionException` will be thrown.
 
 <h4 id="decrypting-data">Decrypting Data</h4>
 ```php

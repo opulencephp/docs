@@ -11,7 +11,7 @@
   4. [app:up](#appup)
   5. [composer:dump-autoload](#composerdumpautoload)
   6. [composer:update](#composerupdate)
-  7. [encryption:generatekey](#encryptiongeneratekey)
+  7. [encryption:generatepassword](#encryptiongeneratepassword)
   8. [framework:flushcache](#frameworkflushcache)
   9. [make:*](#make)
   10. [uuid:generate](#uuidgenerate)
@@ -53,8 +53,8 @@ This provides a wrapper around Composer's `dump-autoload` command, and is useful
 <h4 id="composerupdate">composer:update</h4>
 A common task is updating composer and dumping the autoload.  Instead of having to run these commands manually, just run `php apex composer:update`.
 
-<h4 id="encryptiongeneratekey">encryption:generatekey</h4>
-Good encryption requires a secret key.  Use this command to generate that key.  Calling this will update the key that appears in `config/environment/.env.app.php`.  Passing a `--show` option will instead only show a new key, not update the config. 
+<h4 id="encryptiongeneratepassword">encryption:generatepassword</h4>
+The [cryptography library](cryptography#encryption) uses a password, from which cryptographic keys are derived to encrypt and decrypt data.  This command uses a <a href="https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator" target="_blank">CSPRNG</a> to generate a password that can be used with the encryption library.  Calling this will update the password that appears in `config/environment/.env.app.php`.  Passing a `--show` option will instead only show a new password, not update the config. 
 
 <h4 id="frameworkflushcache">framework:flushcache</h4>
 Opulence has an internal cache for several of its components:
