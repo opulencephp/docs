@@ -194,7 +194,6 @@ The following elements come built-into Apex:
 * &lt;comment&gt;&lt;/comment&gt;
 * &lt;error&gt;&lt;/error&gt;
 * &lt;fatal&gt;&lt;/fatal&gt;
-* &lt;success&gt;&lt;/success&gt;
 * &lt;b&gt;&lt;/b&gt;
 * &lt;u&gt;&lt;/u&gt;
 
