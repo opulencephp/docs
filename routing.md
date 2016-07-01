@@ -51,9 +51,10 @@ Routes require a few pieces of information:
 For very simple applications, it's probably easiest to use closures as your routes' controllers:
 
 ```php
-use Opulence\Routing\Dispatchers\ContainerDependencyResolver;
 use Opulence\Ioc\Container;
-use Opulence\Routing\Dispatchers\Dispatcher;
+use Opulence\Routing\Dispatchers\ContainerDependencyResolver;
+use Opulence\Routing\Dispatchers\MiddlewarePipeline;
+use Opulence\Routing\Dispatchers\RouteDispatcher;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
@@ -61,7 +62,10 @@ use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 
-$dispatcher = new Dispatcher(new ContainerDependencyResolver(new Container()));
+$dispatcher = new RouteDispatcher(
+    new ContainerDependencyResolver(new Container()),
+    new MiddlewarePipeline()
+);
 $compiler = new Compiler([new PathMatcher(), new HostMatcher(), new SchemeMatcher()]);
 $parser = new Parser();
 $router = new Router($dispatcher, $compiler, $parser);

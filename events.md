@@ -46,7 +46,7 @@ You can use a closure for your listener:
 ```php
 use MyApp\Events\NewUserEvent;
 use MyApp\Users\User;
-use Opulence\Events\Dispatchers\IDispatcher;
+use Opulence\Events\Dispatchers\IEventDispatcher;
 
 $listener = function (NewUserEvent $event, $eventName, IDispatcher $dispatcher) {
     mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
@@ -60,7 +60,7 @@ namespace MyApp\Events\Listeners;
 
 use MyApp\Events\NewUserEvent;
 use MyApp\Users\User;
-use Opulence\Events\Dispatchers\IDispatcher;
+use Opulence\Events\Dispatchers\IEventDispatcher;
 
 class RegistrationEmail
 {
@@ -88,9 +88,9 @@ $listener = function (IEvent $event) {
 The **event dispatcher** dispatches events to the registered listeners.  Let's add the [listener example](#listeners) to the [event example](#events):
 
 ```php
-use Opulence\Events\Dispatchers\Dispatcher;
+use Opulence\Events\Dispatchers\EventDispatcher;
 
-$dispatcher = new Dispatcher();
+$dispatcher = new EventDispatcher();
 $dispatcher->registerListener("user.registered", [new RegistrationEmail(), "handle"]);
 ```
 
