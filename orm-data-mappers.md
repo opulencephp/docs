@@ -69,10 +69,10 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     public function add($post)
     {
         $statement = $this->writeConnection->prepare(
-            "INSERT INTO posts (content, title, author) VALUES (:content, :title, :author)"
+            "INSERT INTO posts (text, title, author) VALUES (:text, :title, :author)"
         );
         $statement->bindValues([
-            "content" => $post->getContent(),
+            "text" => $post->getText(),
             "title" => $post->getTitle(),
             "author" => $post->getAuthor()
         ]);
@@ -93,7 +93,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     
     public function getAll() : array
     {
-        $sql = "SELECT id, content, title, author FROM posts";
+        $sql = "SELECT id, text, title, author FROM posts";
         
         // The last parameter says that we want a list of entities
         return $this->read($sql, [], self::VALUE_TYPE_ARRAY);
@@ -101,7 +101,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     
     public function getById($id)
     {
-        $sql = "SELECT id, content, title, author FROM posts WHERE id = :id";
+        $sql = "SELECT id, text, title, author FROM posts WHERE id = :id";
         $parameters = [
             "id" => [$id, \PDO::PARAM_INT]
         ];
@@ -114,7 +114,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     // This is a custom get*() method defined in IPostDataMapper
     public function getByTitle($title)
     {
-        $sql = "SELECT id, content, title, author FROM posts WHERE title = :title";
+        $sql = "SELECT id, text, title, author FROM posts WHERE title = :title";
         $parameters = [
             "title" => $title
         ];
@@ -126,10 +126,10 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     public function update($post)
     {
         $statement = $this->writeConnection->prepare(
-            "UPDATE posts SET content = :content, title = :title, author = :author WHERE id = :id"
+            "UPDATE posts SET text = :text, title = :title, author = :author WHERE id = :id"
         );
         $statement->bindValues([
-            "content" => $post->getContent(),
+            "text" => $post->getText(),
             "title" => $post->getTitle(),
             "author" => $post->getAuthor(),
             "id" => [$post->getId(), \PDO::PARAM_INT] 

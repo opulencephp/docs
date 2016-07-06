@@ -18,10 +18,10 @@ namespace MyApp;
 
 use Closure;
 use MyApp\Authentication\Authenticator;
-use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\RedirectResponse;
 use Opulence\Http\Responses\Response;
+use Opulence\Routing\Middleware\IMiddleware;
 
 class Authentication implements IMiddleware
 {
@@ -65,9 +65,9 @@ To manipulate the request before it gets to the controller, make changes to it b
 
 ```php
 use Closure;
-use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
+use Opulence\Routing\Middleware\IMiddleware;
 
 class RequestManipulator implements IMiddleware
 {
@@ -87,9 +87,9 @@ To manipulate the response after the controller has done its work, do the follow
 ```php
 use Closure;
 use DateTime;
-use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Cookie;
+use Opulence\Routing\Middleware\IMiddleware;
 
 class ResponseManipulator implements IMiddleware
 {
@@ -113,14 +113,14 @@ Global middleware is middleware that is run on every route.  To add middleware t
 To learn how to register middleware with routes, read the [routing tutorial](routing#middleware).  You can also learn how to [add middleware to route groups](routing#group-middleware) there.
 
 <h2 id="middleware-parameters">Middleware Parameters</h2>
-Occasionally, you'll find yourself wanting to pass in primitive values to middleware to indicate something such as a required role to see a page.  In these cases, your middleware should extend `Opulence\Http\Middleware\ParameterizedMiddleware`:
+Occasionally, you'll find yourself wanting to pass in primitive values to middleware to indicate something such as a required role to see a page.  In these cases, your middleware should extend `Opulence\Routing\Middleware\ParameterizedMiddleware`:
 
 ```php
 use Closure;
 use Opulence\Http\HttpException;
-use Opulence\Http\Middleware\ParameterizedMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
+use Opulence\Routing\Middleware\ParameterizedMiddleware;
 
 class RoleMiddleware extends ParameterizedMiddleware
 {
