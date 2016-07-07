@@ -71,7 +71,7 @@ Opulence provides an easy way to add conditions to your queries using `Opulence\
 * `in($column, array $parameters)`
   * Parameter values can either be the value itself or an array whose first item is the value and whose second value is the PDO data type, eg `\PDO::PARAM_INT`
 * `in($column, array $subExpressions)`
-  * Sub expressions can be any valid SQL expressions
+  * Sub-expressions can be any valid SQL expressions such as sub-queries
 
 You can also negate these methods:
 
@@ -83,7 +83,7 @@ Here's an example of how to grab all users whose Id matches at least one of the 
 ```php
 use Opulence\QueryBuilders\Conditions\ConditionFactory;
 
-$condtions = new ConditionFactory();
+$conditions = new ConditionFactory();
 $query = (new QueryBuilder)->select("name")
     ->from("users")
     ->where($conditions->in("id", [[23, \PDO::PARAM_INT], [33, \PDO::PARAM_INT]]));
