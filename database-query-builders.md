@@ -67,10 +67,10 @@ SELECT id, name, email FROM users WHERE datejoined < NOW()
 <h3 id="conditions">Conditions</h3>
 Opulence provides an easy way to add conditions to your queries using `Opulence\QueryBuilders\Conditions\ConditionFactory`.  It provides methods for creating the following conditions in your `where()` and `having()` clauses:
 
-* `between($column, $min, $max, $dataType = \PDO::PARAM_STR)`
-* `in($column, array $parameters)`
+* `between(string $column, $min, $max, int $dataType = \PDO::PARAM_STR)`
+* `in(string $column, array $parameters)`
   * Parameter values can either be the value itself or an array whose first item is the value and whose second value is the PDO data type, eg `\PDO::PARAM_INT`
-* `in($column, array $subExpressions)`
+* `in(string $column, array $subExpressions)`
   * Sub-expressions can be any valid SQL expressions such as sub-queries
 
 You can also negate these methods:
