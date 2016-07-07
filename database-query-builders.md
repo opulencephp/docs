@@ -4,6 +4,7 @@
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
 3. [Clauses](#clauses)
+  1. [Conditions](#conditions)
 4. [Binding Values](#binding-values)
 5. [Select Queries](#select-queries)
 6. [Insert Queries](#insert-queries)
@@ -32,7 +33,7 @@ This will output:
 SELECT id, name, email FROM users WHERE datejoined < NOW()
 ```
 
-<h2 id="Clauses">Clauses</h2>
+<h2 id="clauses">Clauses</h2>
 `QueryBuilders` support a variety of clauses.  You may use the following clauses to build complex, but easy-to-read-and-maintain queries:
 
 * *FROM*
@@ -62,6 +63,35 @@ SELECT id, name, email FROM users WHERE datejoined < NOW()
 * *RETURNING* (PostgreSQL only)
   * `returning($expression)`
   * `addReturning($expression)`
+
+<h3 id="conditions">Conditions</h3>
+Opulence provides an easy way to add conditions to your queries using `Opulence\QueryBuilders\Conditions\ConditionFactory`.  It provides methods for creating the following conditions in your `where()` and `having()` clauses:
+
+* `between($column, $min, $max, $dataType = \PDO::PARAM_STR)`
+* `in($column, array $parameters)`
+  * Parameter values can either be the value itself or an array whose first item is the value and whose second value is the PDO data type, eg `\PDO::PARAM_INT`
+* `in($column, array $subExpressions)`
+  * Sub expressions can be any valid SQL expressions
+
+You can also negate these methods:
+
+* `notBetween(...)`
+* `notIn(...)`
+
+Here's an example of how to grab all users whose Id matches at least one of the input values:
+
+```php
+use Opulence\QueryBuilders\Conditions\ConditionFactory;
+
+$condtions = new ConditionFactory();
+$query = (new QueryBuilder)->select("name")
+    ->from("users")
+    ->where($conditions->in("id", [[23, \PDO::PARAM_INT], [33, \PDO::PARAM_INT]]));
+```
+
+Using `ConditionFactory` will automatically bind any values as [unnamed placeholders](#binding-values).
+
+> **Note:** If you're trying to include complex expressions in your conditions, eg `birthday BETWEEN NOW() AND CAST('2050-01-01' AS Date)`, you're best off just writing them as strings in the `where()` or `having()` clauses.
 
 <h2 id="binding-values">Binding Values</h2>
 `QueryBuilders` provide an intuitive syntax for binding values to queries ([learn more about statement bindings](database-basics#binding-values)).  To add a named placeholder, use `addNamedPlaceholderValue()`:
