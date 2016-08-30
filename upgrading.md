@@ -45,7 +45,7 @@ Unless you've customized any of the following files, you can just copy the updat
   * `$this->environment->getVar({VAR_NAME})` to `getenv({VAR_NAME})`
   * `$this->environment->getName()` to `getenv("ENV_NAME")`
   * `$this->paths[{PATH}]` to `Config::get("paths", {PATH})`
-* In `config/environment/.env.app.php`, add:
+* In config/environment/.env.app.php, add:
   * `$environment->setVar("SESSION_COOKIE_DOMAIN", "");`
   * `$environment->setVar("SESSION_COOKIE_IS_SECURE", false);`
   * `$environment->setVar("SESSION_COOKIE_PATH", "/");`
