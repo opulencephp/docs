@@ -228,7 +228,7 @@ To create your own Fortune directives, simply register them to the Fortune trans
 Let's take a look at Fortune's `if` statement directive transpiler:
 
 ```php
-use Opulence\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Views\Compilers\Fortune\ITranspiler;
 
 class MyDirectives extends Bootstrapper
@@ -369,7 +369,7 @@ It's possible to add custom functions to your view.  For example, you might want
 > **Note:** This is most easily done in a [`Bootstrapper`](bootstrappers).
 
 ```php
-use Opulence\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Views\Compilers\Fortune\ITranspiler;
 
 class MyFunctions extends Bootstrapper

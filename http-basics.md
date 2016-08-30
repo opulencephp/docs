@@ -31,11 +31,11 @@ Let's take a look at an example bootstrapper, controller, and view to demonstrat
 
 <h5 id="bootstrapper">Bootstrapper</h5>
 ```php
-namespace MyApp\Bootstrappers\Orm;
+namespace MyApp\Application\Bootstrappers\Orm;
 
 use MyApp\Http\Controllers\UserList;
 use MyApp\Users\Orm\UserRepo;
-use Opulence\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Orm\Repositories\IRepository;
 

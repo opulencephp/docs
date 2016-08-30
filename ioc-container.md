@@ -1,4 +1,4 @@
-# Dependency Injection
+# IoC Container
 
 ## Table of Contents
 1. [Introduction](#introduction)
@@ -10,11 +10,12 @@
 5. [Binding Prototypes](#binding-prototypes)
 6. [Binding Factories](#binding-factories)
 7. [Targeting](#targeting)
-8. [Calling Methods](#calling-methods)
-9. [Calling Closures](#calling-closures)
-10. [Checking a Binding](#checking-a-binding)
-11. [Removing a Binding](#removing-a-binding)
-12. [Applications in Opulence](#applications-in-opulence)
+8. [Bootstrappers](#bootstrappers)
+9. [Calling Methods](#calling-methods)
+10. [Calling Closures](#calling-closures)
+11. [Checking a Binding](#checking-a-binding)
+12. [Removing a Binding](#removing-a-binding)
+13. [Applications in Opulence](#applications-in-opulence)
 
 <h2 id="introduction">Introduction</h2>
 <h4 id="explanation-of-dependency-injection">Explanation of Dependency Injection</h4>
@@ -211,6 +212,11 @@ Targeting works for the following methods:
   * Resolves an interface by first checking for targeted bindings, and then universal bindings
 * `unbind()`
   * Unbinds the interface from the target
+  
+<h2 id="bootstrappers">Bootstrappers</h2>
+Sometimes, you'll find yourself needing to bind several components of your module to your IoC container.  To keep yourself from writing repetitive code to do these bindings, you can use [bootstrappers](bootstrappers).  They're perfect for plugging-and-playing whole modules into your application.
+
+To learn more about them, read [their docs](bootstrappers).
 
 <h2 id="calling-methods">Calling Methods</h2>
 It's possible to call methods on a class using the container to resolve dependencies using `callMethod()`:

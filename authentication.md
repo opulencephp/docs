@@ -112,6 +112,8 @@ if (!$authenticator->authenticate($credential, $subject, $error)) {
 // $subject is now set
 ```
 
+If your passwords also include a pepper, simply pass it as a 3rd parameter to the `UsernamePasswordAuthenticator` constructor.
+
 <h5 id="jwt-authenticator">JWT Authenticator</h5>
 Opulence supports authenticating [JSON web tokens](#jwt), which can be useful for authenticating JWT OAuth2 access tokens.  The `JwtAuthenticator` requires a [verifier and a verification context](#verifying-jwt).
 

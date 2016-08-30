@@ -201,13 +201,13 @@ The following elements come built-into Apex:
 You can create your own style elements.  Elements are registered to `Opulence\Console\Responses\Compilers\ICompiler`.  To register a custom element, use a bootstrapper:
 
 ```php
-namespace MyApp\Bootstrappers\Console;
+namespace MyApp\Application\Bootstrappers\Console;
 
-use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Console\Responses\Compilers\Elements\Colors;
 use Opulence\Console\Responses\Compilers\Elements\Style;
 use Opulence\Console\Responses\Compilers\Elements\TextStyles;
 use Opulence\Console\Responses\Compilers\ICompiler;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 
 class CustomElements extends Bootstrapper
 {
