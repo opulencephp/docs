@@ -15,7 +15,6 @@
 * PHP &ge; 7.0.0 or HHVM &ge; 3.11.0
 * OpenSSL
 * mbstring
-* A default PHP timezone set in the PHP.ini
 
 <h2 id="installing">Installing</h2>
 Opulence can be easily installed using Composer:
