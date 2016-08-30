@@ -7,11 +7,11 @@
   3. [Files to Manually Update](#1.0.0-beta6-files-to-manually-update)
 
 <h2 id="1.0.0-beta6">1.0.0-beta6</h2>
-**Estimated Upgrade Time:** 40 minutes
+**Estimated Upgrade Time:** 20-40 minutes
 
 This beta primarily focused on the overhauling of bootstrappers.  Bootstrappers now reside in the `Ioc` library, and no longer have dependencies on the `Opulence\Applications\Tasks\Dispatchers\ITaskDispatcher`, `Opulence\Bootstrappers\Paths`, or `Opulence\Environments\Environment` classes.
 
-<h3 id="1.0.0-beta6-filtes-to-delete">Files to Delete</h3>
+<h3 id="1.0.0-beta6-files-to-delete">Files to Delete</h3>
 The following files need to be deleted manually from your server:
 * tmp/framework/console/cachedBootstrapperRegistry.json
 * tmp/framework/http/cachedBootstrapperRegistry.json
