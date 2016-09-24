@@ -21,7 +21,9 @@ Unless you've customized any of the following files, you can just copy the updat
 * <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta7/config/environment.php" target="_blank">config/environment.php</a>
 
 <h3 id="1.0.0-beta7-files-to-manually-update">Files to Manually Update</h3>
-Update any instances of `$environment->getVar(...)` and `$environment->setVar(..., ...)` to `\Opulence\Environments\Environment::getVar(...)` and `\Opulence\Environments\Environment::setVar(..., ...)` in the following file:
+Update any instances of `$environment->getVar(...)` to `\Opulence\Environments\Environment::getVar(...)` and `$environment->setVar(..., ...)` to  `\Opulence\Environments\Environment::setVar(..., ...)` in the following files:
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta7/config/environment/.env.app.php" target="_blank">config/environment/.env.app.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta7/config/environment/.env.example.php" target="_blank">config/environment/.env.example.php</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta7/config/http/sessions.php" target="_blank">config/http/sessions.php</a>
 
 Update `$environment->getName()` to `\Opulence\Environments\Environment::getName()` in the following file:
