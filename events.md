@@ -85,13 +85,15 @@ $listener = function (IEvent $event) {
 ```
 
 <h2 id="dispatchers">Dispatchers</h2>
-The **event dispatcher** dispatches events to the registered listeners.  Let's add the [listener example](#listeners) to the [event example](#events):
+The dispatches events to the registered listeners.  Let's add the [listener example](#listeners) to the [event example](#events):
 
 ```php
-use Opulence\Events\Dispatchers\EventDispatcher;
+use Opulence\Events\Dispatchers\EventRegistry;
+use Opulence\Events\Dispatchers\SynchronousEventDispatcher;
 
-$dispatcher = new EventDispatcher();
-$dispatcher->registerListener("user.registered", [new RegistrationEmail(), "handle"]);
+$registry = new EventRegistry();
+$registry->registerListener("user.registered", [new RegistrationEmail(), "handle"]);
+$dispatcher = new SynchronousEventDispatcher($registry);
 ```
 
 > **Note:** Event names can be whatever you want.  In this case, we made it as descriptive as possible:  `user.registered`.
