@@ -54,7 +54,7 @@ This provides a wrapper around Composer's `dump-autoload` command, and is useful
 A common task is updating composer and dumping the autoload.  Instead of having to run these commands manually, just run `php apex composer:update`.
 
 <h4 id="encryptiongeneratepassword">encryption:generatepassword</h4>
-The [cryptography library](cryptography#encryption) uses a password, from which cryptographic keys are derived to encrypt and decrypt data.  This command uses a <a href="https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator" target="_blank">CSPRNG</a> to generate a password that can be used with the encryption library.  Calling this will update the password that appears in `config/environment/.env.app.php`.  Passing a `--show` option will instead only show a new password, not update the config. 
+The [cryptography library](cryptography#encryption) uses a password, from which cryptographic keys are derived to encrypt and decrypt data.  This command uses a <a href="https://en.wikipedia.org/wiki/Cryptographically_secure_pseudorandom_number_generator" target="_blank">CSPRNG</a> to generate a password that can be used with the encryption library.  Calling this will update the password that appears in *config/environment/.env.app.php*.  Passing a `--show` option will instead only show a new password, not update the config. 
 
 <h4 id="frameworkflushcache">framework:flushcache</h4>
 Opulence has an internal cache for several of its components:

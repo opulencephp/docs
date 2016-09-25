@@ -308,9 +308,9 @@ Going to `/users/foo/profile` or `/users/foo/posts` will not match because the I
 > **Note:** If a route has a variable regular expression specified, it takes precedence over group regular expressions.
 
 <h2 id="caching">Caching</h2>
-Routes must be parsed to generate the regular expressions used to match the host and path.  This parsing takes a noticeable amount of time with a moderate number of routes.  To make the parsing faster, Opulence caches the parsed routes.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can enable or disable cache by editing `config/http/routing.php`.
+Routes must be parsed to generate the regular expressions used to match the host and path.  This parsing takes a noticeable amount of time with a moderate number of routes.  To make the parsing faster, Opulence caches the parsed routes.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can enable or disable cache by editing *config/http/routing.php*.
 
-> **Note:** If you're in your production environment, you must run `php apex framework:flushcache` every time you add/modify/delete a route in `config/http/routes.php`.
+> **Note:** If you're in your production environment, you must run `php apex framework:flushcache` every time you add/modify/delete a route in *config/http/routes.php*.
 
 <h2 id="missing-routes">Missing Routes</h2>
 In the case that the router cannot find a route that matches the request, an `Opulence\Http\HttpException` will be thrown with a 404 status code.

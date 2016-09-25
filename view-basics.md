@@ -50,7 +50,7 @@ $view->setVars(["foo" => "bar", "baz" => "blah"]);
 Compilers are what turn your raw views into valid markup, such as HTML and XML.  They must implement `Opulence\Views\Compilers\ICompiler`, which only has a single method - `compile()`.
 
 <h4 id="registering-compilers">Registering Compilers</h4>
-Opulence's compiler looks at a view's file extension to determine which compiler to use.  For example, if a view file is named `foo.php`, the [PHP compiler](#php-compiler) will be used.  Likewise, if a view file is named `bar.fortune.php`, the [Fortune compiler](#fortune-compiler) will be used.  You can register a compiler for a particular extension using `ICompilerRegistry::registerCompiler()`:
+Opulence's compiler looks at a view's file extension to determine which compiler to use.  For example, if a view file is named *foo.php*, the [PHP compiler](#php-compiler) will be used.  Likewise, if a view file is named `bar.fortune.php`, the [Fortune compiler](#fortune-compiler) will be used.  You can register a compiler for a particular extension using `ICompilerRegistry::registerCompiler()`:
 
 ```php
 use Opulence\Views\Compilers\CompilerRegistry;
@@ -64,7 +64,7 @@ Now, files with extension `my-extension` will be compiled by `MyCompiler`.  If y
 > **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the PHP and Fortune compilers are already registered to the compiler registry.
 
 <h4 id="php-compiler">PHP Compiler</h4>
-If your views only use native PHP, name them with the `php` file extension, eg `MyView.php`.  You can still set and use variables in views when using the PHP compiler:
+If your views only use native PHP, name them with the `php` file extension, eg *MyView.php*.  You can still set and use variables in views when using the PHP compiler:
 
 ##### View.php
 ```php
@@ -79,7 +79,7 @@ $view->setVar("foo", "bar");
 The PHP compiler will compile this to `bar`.
 
 <h4 id="fortune-compiler">Fortune Compiler</h4>
-Fortune is Opulence's powerful built-in view engine.  To use Fortune, name your view file with the `fortune` or `fortune.php` file extensions, eg `MyView.fortune` or `MyView.fortune.php`.  To learn more about Fortune, [read the documentation on it](view-fortune).
+Fortune is Opulence's powerful built-in view engine.  To use Fortune, name your view file with the *fortune* or *fortune.php* file extensions, eg *MyView.fortune* or *MyView.fortune.php*.  To learn more about Fortune, [read the documentation on it](view-fortune).
 
 <h2 id="factories">Factories</h2>
 Factories simplify the way you create `View` objects from view files.
@@ -101,7 +101,7 @@ $resolver->registerExtension("php");
 $resolver->registerExtension("fortune", 1);
 ```
  
-> **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the `php`, `fortune`, and `fortune.php` extensions are already registered to the resolver.
+> **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the *php*, *fortune*, and *fortune.php* extensions are already registered to the resolver.
 
 <h4 id="view-readers">View Readers</h4>
 Opulence uses an `Opulence\Views\Factories\IO\IViewReader` to actually read raw views in factories.  By default, the `FileViewReader` is used to read views stored in the file system, but you can use any storage system you'd like.  Simply implement `IViewReader` and bind your reader to the IoC container:

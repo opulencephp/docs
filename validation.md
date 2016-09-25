@@ -161,7 +161,7 @@ You can now register this rule.:
 $ruleExtensionRegistry->registerRule(new EmailDomainRule);
 ```
 
-If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, do this registration in the `Project\Application\Bootstrappers\Validation\ValidatorBootstrapper::registerRuleExtensions()` method.  You could also add a custom error message to `resources/lang/en/validation.php`.  The rule we created defined an error placeholder "domain", which we can use in our error message:
+If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, do this registration in the `Project\Application\Bootstrappers\Validation\ValidatorBootstrapper::registerRuleExtensions()` method.  You could also add a custom error message to *resources/lang/en/validation.php*.  The rule we created defined an error placeholder "domain", which we can use in our error message:
 
 ```php
 return [
@@ -357,7 +357,7 @@ if (!$modelState->isValid()) {
 <h2 id="skeleton-project-examples">Skeleton Project Examples</h2>
 
 <h4 id="error-message-configuration">Error Message Configuration</h4>
-If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you will find some default error message templates in `config/resources/lang/en/validation.php`.  You are free to edit them as you'd like.
+If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you will find some default error message templates in *config/resources/lang/en/validation.php*.  You are free to edit them as you'd like.
 
 The skeleton project comes with `Project\Bootstrappers\Validation\ValidatorBootstrapper`, which sets your default error message templates and registers your custom rules.  It also binds the validator factory to the IoC container.  If you'd like to use validators in your controllers or console commands, simply inject `IValidatorFactory` via the controller and command constructors, respectively:
 

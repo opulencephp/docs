@@ -61,9 +61,9 @@ To compile an HTTP response from an exception, you have two choices:
 
 The first one is useful if you're using the `Debug` library without using the whole Opulence framework.  It can display one page with information about the exception when in the development environment.  It'll display another when in the production environment.  To override the page templates, simply extend `ExceptionRenderer` and override `getDevelopmentEnvironmentContent()` and/or `getProductionEnvironmentContent()`.
 
-The second renderer is useful if you're using the entire Opulence framework.  It'll look for [Fortune](view-fortune) templates for the errors before resorting to the page templates described above.  For example, if an `HttpException` is thrown with a 404 status code, this renderer will look for a template in your `resources/views/errors/html` directory named `404.fortune.php`.
+The second renderer is useful if you're using the entire Opulence framework.  It'll look for [Fortune](view-fortune) templates for the errors before resorting to the page templates described above.  For example, if an `HttpException` is thrown with a 404 status code, this renderer will look for a template in your *resources/views/errors/html* directory named *404.fortune.php*.
 
-> **Note:** Non-HTTP exceptions will look for a `500.fortune.php` template file.
+> **Note:** Non-HTTP exceptions will look for a *500.fortune.php* template file.
 
 Two variables will be injected into your Fortune template:
 

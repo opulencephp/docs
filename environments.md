@@ -38,9 +38,9 @@ Environment::setVar("DB_PORT", 5432);
 
 When you install Opulence, you'll see two environment config files:
 
-1. `.env.example.php`
+1. *.env.example.php*
   * Values in here will not be used - it only serves as a template
   * This can be checked into version control
-2. `.env.app.php`
+2. *.env.app.php*
   * Where your actual environment variables should be stored
   * This should not be checked into version control

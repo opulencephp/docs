@@ -172,4 +172,4 @@ $statement->bindValues([
 
 <h2 id="configuration">Configuration</h2>
 <h4 id="drivers">SQL Drivers</h4>
-Opulence supports a variety of drivers.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the PostgreSQL driver is enabled by default in `src/Project/Bootstrappers/Databases/SqlBootstrapper.php`.  To use a different driver, simply change `use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver;` to the driver you'd like.
+Opulence supports a variety of drivers.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the PostgreSQL driver is enabled by default in *src/Project/Bootstrappers/Databases/SqlBootstrapper.php*.  To use a different driver, simply change `use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver;` to the driver you'd like.

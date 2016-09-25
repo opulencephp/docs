@@ -122,7 +122,7 @@ All class names:
   * If you are having trouble naming a class, that's probably a sign that it is doing too much and should be refactored
 * Must be Pascal case, eg `ListCompiler`
   * For class name acronyms &le; 2 characters long, capitalize each character, eg `IO`
-  * Class filenames should simply be the class name with `.php` appended, eg `ListCompiler.php`
+  * Class filenames should simply be the class name with *.php* appended, eg *ListCompiler.php*
   
 Class properties should appear before any methods.  The following is the preferred ordering of class properties and methods:
 
