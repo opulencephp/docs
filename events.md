@@ -4,7 +4,6 @@
 1. [Introduction](#introduction)
 2. [Events](#events)
 3. [Listeners](#listeners)
-  1. [Stopping Propagation](#stopping-propagation)
 4. [Dispatchers](#dispatchers)
 5. [Configuration](#configuration)
 
@@ -12,15 +11,14 @@
 There might be times in your application that you need to immediately notify certain components that an event took place.  For example, if you have "hooks" that execute before and after an action, you will need a way for components to subscribe to those hooks.  This is a great use case of events in Opulence.  An event **dispatcher** holds a list of **listeners** for each type of event.  Whenever an event is fired, the dispatcher notifies all the listeners.
 
 <h2 id="events">Events</h2>
-An event object holds data about the event, which can be used by any listeners handling the event.  Events must either implement `Opulence\Events\IEvent` or extend `Opulence\Events\Event`.  Let's take a look at an example event to be fired when a user registers:
+An event object holds data about the event, which can be used by any listeners handling the event.  Can be any plain-old PHP object.  Let's take a look at an example event to be fired when a user registers:
 
 ```php
 namespace MyApp\Events;
 
 use MyApp\Users\User;
-use Opulence\Events\Event;
 
-class NewUserEvent extends Event
+class NewUserEvent
 {
     private $user;
 
@@ -39,7 +37,7 @@ class NewUserEvent extends Event
 We'll use this event in the examples below.
 
 <h2 id="listeners">Listeners</h2>
-A **listener** is what handles an event.  Listeners must be callables.  They are passed the `IEvent` object, the name of the event fired, and the event `Dispatcher`.  Let's take a look at some example listeners for our `NewUserEvent`:
+A **listener** is what handles an event.  Listeners must be callables.  They are passed the event object, the name of the event fired, and the event `Dispatcher`.  Let's take a look at some example listeners for our `NewUserEvent`:
 
 <h5 id="listener-closure">Listener Closure</h5>
 You can use a closure for your listener:
@@ -72,17 +70,6 @@ class RegistrationEmail
 ```
 
 > **Note:** Listener methods can be named whatever you'd like.
-
-<h4 id="stopping-propagation">Stopping Propagation</h4>
-There might be a case where your listener wants to prevent other listeners from being notified of an event.  In this case, your listener can call `IEvent::stopPropagation()`:
-
-```php
-$listener = function (IEvent $event) {
-    // Do stuff...
-    
-    $event->stopPropagation();
-};
-```
 
 <h2 id="dispatchers">Dispatchers</h2>
 The dispatches events to the registered listeners.  Let's add the [listener example](#listeners) to the [event example](#events):
