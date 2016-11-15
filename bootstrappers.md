@@ -129,7 +129,7 @@ class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
     {
         return [
             // This is a universal binding
-            IPostRepo::class            
+            IPostRepo::class,            
             // This is a targeted binding
             [IDataMapper::class => PostRepo::class]
         ];
