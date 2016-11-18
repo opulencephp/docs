@@ -12,7 +12,7 @@
 7. [Config Values](#config-values)
 
 <h2 id="introduction">Introduction</h2>
-Most applications need to do some configuration before starting.  For example, they might need to setup a database connection, configure which view engine to use, or assign the authentication scheme to use.  Because Opulence uses [dependency injection](dependency-injection) heavily, it's important that you set your bindings in the IoC container.  Bootstrappers are the place to do this.
+Most applications need to do some configuration before starting.  For example, they might need to setup a database connection, configure which view engine to use, or assign the authentication scheme to use.  Because Opulence uses [dependency injection](ioc-container) heavily, it's important that you set your bindings in the IoC container.  Bootstrappers are the place to do this.
   
 Bootstrappers are loaded before the request is handled.  Typically, they register bindings to the IoC container, but they can also perform any necessary logic once all of the bindings are registered or before the application is shut down.  Bootstrappers extend `Opulence\Ioc\Bootstrappers\Bootstrapper`.  Their constructors are empty.
 
