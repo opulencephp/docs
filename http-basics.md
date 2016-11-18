@@ -23,7 +23,7 @@ Views comprise the user interface portion of your application.  They should be r
 Controllers act as the go-between for models and views in an application.  When a model is updated, the controller updates the view.  Similarly, when a view is updated, the controller updates the models.  In Opulence, controllers can either be plain-old PHP classes, or they can extend `Opulence\Routing\Controller`, which automatically injects the HTTP request, the view factory, and the view compiler.
 
 <h4 id="dependency-injection">Dependency Injection</h4>
-Opulence uses a [dependency injection container](dependency-injection) to create controllers.  Taking advantage of this is simple:  type-hint any objects your controller needs in the controller's constructor.  Opulence will inject the appropriate objects into your controllers via your [bootstrappers](bootstrappers).
+Opulence uses a [dependency injection container](ioc-container) to create controllers.  Taking advantage of this is simple:  type-hint any objects your controller needs in the controller's constructor.  Opulence will inject the appropriate objects into your controllers via your [bootstrappers](bootstrappers).
 
 > **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  The only way around this is to set up a binding for the controller in a bootstrapper with the primitives defined.  In general, it's best to stick to type-hinted objects in controller constructors.
 
