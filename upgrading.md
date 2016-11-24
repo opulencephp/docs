@@ -1,20 +1,33 @@
 # Upgrading
 
 ## Table of Contents
-1. [1.0.0-rc1](#1.0.0-rc1)
+1. [1.0.0-rc3](#1.0.0-rc3)
+  1. [Files to Manually Update](#1.0.0-rc3-files-to-manually-update)
+2. [1.0.0-rc1](#1.0.0-rc1)
   1. [Classes to Update](#1.0.0-rc1-classes-to-update)
-2. [1.0.0-beta7](#1.0.0-beta7)
+3. [1.0.0-beta7](#1.0.0-beta7)
   1. [Files to Copy](#1.0.0-beta7-files-to-copy)
   2. [Files to Manually Update](#1.0.0-beta7-files-to-manually-update)
-2. [1.0.0-beta6](#1.0.0-beta6)
+4. [1.0.0-beta6](#1.0.0-beta6)
   1. [Files to Delete](#1.0.0-beta6-files-to-delete)
   2. [Files to Copy](#1.0.0-beta6-files-to-copy)
   3. [Files to Manually Update](#1.0.0-beta6-files-to-manually-update)
   
+<h2 id="1.0.0-rc3">1.0.0-rc3</h2>
+**Estimated Upgrade Time:** 2 minutes
+
+This release fixed an issue that would prevent users from clearing Opulence's framework cache when bootstrappers were deleted.
+
+<h3 id="1.0.0-rc3-files-to-manually-update">Files to Manually Update</h3>
+Unless you've customized any of the following files, you can just copy the updated versions from the <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc2" target="_blank">skeleton project</a>.
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc2/bootstrap/console/start.php" target="_blank">bootstrap/console/start.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc2/bootstrap/http/start.php" target="_blank">bootstrap/http/start.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc2/config/application.php" target="_blank">config/application.php</a>
+  
 <h2 id="1.0.0-rc1">1.0.0-rc1</h2>
 **Estimated Upgrade Time:** 2 minutes
 
-This beta removed deprecated classes from previous betas.  If you're upgrading from [v1.0.0-beta7](#1.0.0-beta7), then follow the steps below.  If you're upgrading from older versions, first upgrade to v1.0.0-beta7.
+This release removed deprecated classes from previous betas.  If you're upgrading from [v1.0.0-beta7](#1.0.0-beta7), then follow the steps below.  If you're upgrading from older versions, first upgrade to v1.0.0-beta7.
 
 <h3 id="1.0.0-rc1-classes-to-update">Classes to Update</h3>
 The `Opulence\Events\Event` and `IEvent` classes do not exist anymore.  Instead, your event classes should be plain-old PHP objects (POPO).  So, stop extending/implementing `Event` and `IEvent`.  Any code that may have called `stopPropagation()` should also be removed.  Event listeners that were explicitly accepting an `Event` or `IEvent` instance should also be changed to accept any POPO.
