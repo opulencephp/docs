@@ -46,7 +46,7 @@ use MyApp\Events\NewUserEvent;
 use MyApp\Users\User;
 use Opulence\Events\Dispatchers\IEventDispatcher;
 
-$listener = function (NewUserEvent $event, $eventName, IDispatcher $dispatcher) {
+$listener = function (NewUserEvent $event, $eventName, IEventDispatcher $dispatcher) {
     mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
 };
 ```
@@ -62,7 +62,7 @@ use Opulence\Events\Dispatchers\IEventDispatcher;
 
 class RegistrationEmail
 {
-    public function handle(NewUserEvent $event, string $eventName, IDispatcher $dispatcher)
+    public function handle(NewUserEvent $event, string $eventName, IEventDispatcher $dispatcher)
     {
         mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
     }
