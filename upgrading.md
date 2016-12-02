@@ -16,7 +16,7 @@
   2. [Files to Copy](#1.0.0-beta6-files-to-copy)
   3. [Files to Manually Update](#1.0.0-beta6-files-to-manually-update)
   
-<h2 id="1.0.0-rc3">1.0.0-rc4</h2>
+<h2 id="1.0.0-rc4">1.0.0-rc4</h2>
 **Estimated Upgrade Time:** 5 minutes
 
 This release focused on fixing unit tests on Windows machines and making it easier to run Opulence on localhost.
