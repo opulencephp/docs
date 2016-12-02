@@ -1,18 +1,37 @@
 # Upgrading
 
 ## Table of Contents
-1. [1.0.0-rc3](#1.0.0-rc3)
+1. [1.0.0-rc4](#1.0.0-rc4)
+  1. [Files to Copy](#1.0.0-rc4-files-to-copy)
+  2. [Files to Manually Update](#1.0.0-rc4-files-to-manually-update)
+2. [1.0.0-rc3](#1.0.0-rc3)
   1. [Files to Manually Update](#1.0.0-rc3-files-to-manually-update)
-2. [1.0.0-rc1](#1.0.0-rc1)
+3. [1.0.0-rc1](#1.0.0-rc1)
   1. [Classes to Update](#1.0.0-rc1-classes-to-update)
-3. [1.0.0-beta7](#1.0.0-beta7)
+4. [1.0.0-beta7](#1.0.0-beta7)
   1. [Files to Copy](#1.0.0-beta7-files-to-copy)
   2. [Files to Manually Update](#1.0.0-beta7-files-to-manually-update)
-4. [1.0.0-beta6](#1.0.0-beta6)
+5. [1.0.0-beta6](#1.0.0-beta6)
   1. [Files to Delete](#1.0.0-beta6-files-to-delete)
   2. [Files to Copy](#1.0.0-beta6-files-to-copy)
   3. [Files to Manually Update](#1.0.0-beta6-files-to-manually-update)
   
+<h2 id="1.0.0-rc3">1.0.0-rc4</h2>
+**Estimated Upgrade Time:** 5 minutes
+
+This release focused on fixing unit tests on Windows machines and making it easier to run Opulence on localhost.
+
+<h3 id="1.0.0-rc4-files-to-copy">Files to Copy</h3>
+Unless you've customized any of the following files, you can just copy the updated versions from the <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc2" target="_blank">skeleton project</a>.
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc3/phpunit.xml" target="_blank">phpunit.xml</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc3/src/Project/Application/Bootstrappers/Http/Sessions/SessionBootstrapper.php" target="_blank">src/Project/Application/Bootstrappers/Http/Sessions/SessionBootstrapper.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc3/src/Project/Application/Bootstrappers/Http/Views/ViewBootstrapper.php" target="_blank">src/Project/Application/Bootstrappers/Http/Views/ViewBootstrapper.php</a>
+
+<h3 id="1.0.0-rc4-files-to-manually-update">Files to Manually Update</h3>
+
+* Add `Environment::setVar("VIEW_CACHE", \Opulence\Views\Caching\FileCache::class);` to your `.env.app.php` and `.env.example.php`
+
+
 <h2 id="1.0.0-rc3">1.0.0-rc3</h2>
 **Estimated Upgrade Time:** 2 minutes
 
