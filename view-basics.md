@@ -13,6 +13,8 @@
   2. [View Readers](#view-readers)
   3. [Creating Views](#creating-views)
   4. [Builders](#builders)
+5. [Caching](#caching)
+  1. [Garbage Collection](#garbage-collection)
   
 <h2 id="introduction">Introduction</h2>
 Views are the interfaces displayed to your users.  Opulence allows you to create your views using [native PHP](#php-compiler), the [Fortune compiler](#fortune-compiler) (Opulence's own view engine), or any view engine of your choice.
@@ -168,3 +170,21 @@ $factory->registerBuilder("Profile", function ($view) {
 ```
 
 > **Note** For convenience, Opulence provides the `Opulence\Views\Factories\IViewBuilder` interface for view builder classes.  It contains a single method `build()` where your building can take place.  However, you are not required to use `IViewBuilder`.  You can use any class you'd like.
+
+<h2 id="caching">Caching</h2>
+To improve the speed of view compilers, views are cached using a class that implements `Opulence\Views\Caching\ICache` (`Opulence\Views\Caching\FileCache` comes built-in to Opulence).  You can specify how long a view should live in cache using `setLifetime()`.  If you do not want views to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for views, just implement `ICache` and pass it into your `View` class.
+
+<h4 id="garbage-collection">Garbage Collection</h4>
+Occasionally, you should clear out old cached view files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `FileCache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
+ 
+```php
+use Opulence\Views\Caching\FileCache;
+
+// Make 123 out of every 1,000 view compilations trigger garbage collection
+$cache = new FileCache("/tmp", 123, 1000);
+```
+Or use `setGCChance()`:
+```php
+// Make 1 out of every 500 view compilations trigger garbage collection
+$cache->setGCChance(1, 500);
+```
