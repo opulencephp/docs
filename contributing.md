@@ -162,4 +162,5 @@ All interface names:
 <h4 id="traits">Traits</h4>
 All trait names:
 
-* Must be preceded by a `T`, eg `TListValidator`
+* Must be Pascal case, eg `ListValidator`
+* Must be NOT use `T`, `Trait`, or any other word in the name that implies it is a trait
