@@ -149,7 +149,7 @@ echo $concreteInstance === $container->resolve("IFoo"); // 1
 You can bind an interface to a class name and have it always resolve to the same instance of the class (also known as a singleton).
 ```php
 $container->bindSingleton("IFoo", "ConcreteFoo");
-echo get_Class($container->resolve("IFoo")); // "ConcreteFoo"
+echo get_class($container->resolve("IFoo")); // "ConcreteFoo"
 echo $container->resolve("IFoo") === $container->resolve("IFoo"); // 1
 ```
 
@@ -159,7 +159,7 @@ If your concrete class requires any primitive values, pass them in an array in t
 You can bind an interface to a class name and have it always resolve to a new instance of the class (also known as a prototype).
 ```php
 $container->bindPrototype("IFoo", "ConcreteFoo");
-echo get_Class($container->resolve("IFoo")); // "ConcreteFoo"
+echo get_class($container->resolve("IFoo")); // "ConcreteFoo"
 echo $container->resolve("IFoo") === $container->resolve("IFoo"); // 0
 ```
 
