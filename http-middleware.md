@@ -48,8 +48,7 @@ class Authentication implements IMiddleware
 Add this middleware to a route:
 
 ```php
-$router->post("/users/posts", [
-    "controller" => "MyApp\\UserController@createPost",
+$router->post("/users/posts", "MyApp\\UserController@createPost", [
     "middleware" => "MyApp\\Authentication" // Could also be an array of middleware
 ]);
 ```
