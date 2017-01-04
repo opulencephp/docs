@@ -175,6 +175,8 @@ $container->bindFactory("IFoo", function () {
 echo get_class($container->resolve("IFoo")); // "ConcreteFoo" 
 ```
 
+> **Note:** Factories must be parameterless.
+
 By default, resolving interfaces that were bound with a factory will return a new instance each time you call `resolve()`.  If you'd like the instance created by the factory to be bound as a singleton, specify `true` as the last parameter:
 
 ```php
