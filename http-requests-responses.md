@@ -174,8 +174,8 @@ $request->getMethod();
 HTML forms only permit `GET` and `POST` HTTP methods.  You can spoof other methods by including a hidden input named "_method" whose value is the method you'd like to spoof:
 
 ```php
-<form method                                      = 'POST' >
-    <input type = 'hidden' name = '_method' value = 'DELETE' >
+<form method="POST">
+    <input type="hidden" name="_method" value="DELETE">
     ...
 </form>
 ```
@@ -183,8 +183,8 @@ HTML forms only permit `GET` and `POST` HTTP methods.  You can spoof other metho
 If you are using Fortune for your views, you may use the `httpMethodInput()` [view function](view-fortune#functions):
 
 ```php
-<form method= 'POST' >
-    {{! httpMethodInput('DELETE') !}}
+<form method="POST">
+    {{! httpMethodInput("DELETE") !}}
     ...
 </form>
 ```

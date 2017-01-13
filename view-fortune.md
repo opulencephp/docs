@@ -235,13 +235,13 @@ class MyDirectives extends Bootstrapper
     {
         $transpiler->registerDirectiveTranspiler('if', function ($expression) {
             // The expression will contain the surrounding parentheses
-            return '```php if' . $expression . ': ```';
+            return '<?php if' . $expression . ': ?>';
         });
     }
 }
 ```
 
-If in our template we have `<% if ($user->isAdmin()) %>`, Fortune will transpile it to ````php if($user->isAdmin()): ````.
+If in our template we have `<% if ($user->isAdmin()) %>`, Fortune will transpile it to `<?php if($user->isAdmin()): ?>`.
 
 <h2 id="comments">Comments</h2>
 When writing complex views, you can easily leave comments:

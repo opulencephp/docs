@@ -221,7 +221,7 @@ use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 
 $errorTemplateRegistry = new ErrorTemplateRegistry();
 $errorTemplateRegistry->registerErrorTemplatesFromConfig([
-    'required'       => 'The :field input is required',
+    'required' => 'The :field input is required',
     'email.required' => 'We need your email address'
 ]);
 ```
@@ -320,8 +320,8 @@ class UserModelState extends ModelState
     protected function getModelProperties($model) : array
     {
         return [
-            'id'    => $model->getId(),
-            'name'  => $model->getName(),
+            'id' => $model->getId(),
+            'name' => $model->getName(),
             'email' => $model->getEmail()
         ];
     }
