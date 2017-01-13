@@ -54,7 +54,7 @@ $backupClient = new Client();
 $backupClient->addServer('127.0.0.2', 11211);
 $clients = [
     'default' => $defaultClient,
-    'backup'  => $backupClient
+    'backup' => $backupClient
 ];
 $memcached = new Memcached($clients);
 ```

@@ -31,7 +31,7 @@ use Opulence\Validation\Validator;
 // Set some error message templates
 $errorTemplateRegistry = new ErrorTemplateRegistry();
 $errorTemplateRegistry->registerErrorTemplatesFromConfig([
-    'required'    => 'The :field input is required',
+    'required' => 'The :field input is required',
     'equalsField' => 'The :field input must match the :other input'
 ]);
 

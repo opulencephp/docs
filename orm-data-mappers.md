@@ -72,8 +72,8 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
             'INSERT INTO posts (text, title, author) VALUES (:text, :title, :author)'
         );
         $statement->bindValues([
-            'text'   => $post->getText(),
-            'title'  => $post->getTitle(),
+            'text' => $post->getText(),
+            'title' => $post->getTitle(),
             'author' => $post->getAuthor()
         ]);
         $statement->execute();
@@ -129,10 +129,10 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
             'UPDATE posts SET text = :text, title = :title, author = :author WHERE id = :id'
         );
         $statement->bindValues([
-            'text'   => $post->getText(),
-            'title'  => $post->getTitle(),
+            'text' => $post->getText(),
+            'title' => $post->getTitle(),
             'author' => $post->getAuthor(),
-            'id'     => [$post->getId(), \PDO::PARAM_INT]
+            'id' => [$post->getId(), \PDO::PARAM_INT]
         ]);
         $statement->execute();
     }
@@ -185,8 +185,8 @@ class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
     {
         // Store a hash of the post's data
         $hash = [
-            'id'     => $post->getId(),
-            'title'  => $post->getTitle(),
+            'id' => $post->getId(),
+            'title' => $post->getTitle(),
             'author' => $post->getAuthor()
         ];
 

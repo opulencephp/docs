@@ -114,7 +114,7 @@ $query = (new QueryBuilder)->select('count(*)')
         // Non-array values are assumed to be of type \PDO::PARAM_STR
         'username' => 'dave_y',
         // In array values, the first item is the value, and the second is the parameter type
-        'id'       => [24, \PDO::PARAM_INT]
+        'id' => [24, \PDO::PARAM_INT]
     ]);
 ```
 
@@ -142,9 +142,9 @@ Insert queries accept a table name and a mapping of column names to values:
 
 ```php
 $query = (new QueryBuilder)->insert('users', [
-    'name'  => 'Brian',
+    'name' => 'Brian',
     'email' => 'foo@bar.com',
-    'age'   => [24, \PDO::PARAM_INT]
+    'age' => [24, \PDO::PARAM_INT]
 ]);
 echo $query->getSql();
 ```
@@ -173,7 +173,7 @@ Update queries accept a table name, table alias, and a mapping of column names t
 ```php
 $query = (new QueryBuilder)->update('users', 'u', [
     'name' => 'Dave',
-    'age'  => [24, \PDO::PARAM_INT]
+    'age' => [24, \PDO::PARAM_INT]
     ])
     ->where('id = ?')
     ->addUnnamedPlaceholderValue(1234, \PDO::PARAM_INT);

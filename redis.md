@@ -59,7 +59,7 @@ $backupClient = new Client();
 $backupClient->connect('127.0.0.2', 6379);
 $clients = [
     'default' => $defaultClient,
-    'backup'  => $backupClient
+    'backup' => $backupClient
 ];
 $redis = new Redis($clients);
 ```

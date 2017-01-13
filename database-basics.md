@@ -157,7 +157,7 @@ $statement->bindValues([
     'name' => 'Dave',
     // To bind a non-string type to a value, use an array
     // The first item is the value, and the second is the parameter type
-    'id'   => [23, \PDO::PARAM_INT]
+    'id' => [23, \PDO::PARAM_INT]
 ]);
 ```
 
