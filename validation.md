@@ -17,7 +17,7 @@
   2. [Controller Example](#validation-in-controller)
   3. [Console Command Example](#validation-in-console-command)
 7. [Built-In Rules](#built-in-rules)
-  
+
 <h2 id="introduction">Introduction</h2>
 Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify a password is set and matches the confirmation password?  Easy:
 
@@ -31,8 +31,8 @@ use Opulence\Validation\Validator;
 // Set some error message templates
 $errorTemplateRegistry = new ErrorTemplateRegistry();
 $errorTemplateRegistry->registerErrorTemplatesFromConfig([
-    "required" => "The :field input is required",
-    "equalsField" => "The :field input must match the :other input"
+    'required'    => 'The :field input is required',
+    'equalsField' => 'The :field input must match the :other input'
 ]);
 
 // Create the components
@@ -44,12 +44,12 @@ $rulesFactory = new RulesFactory(
 $validator = new Validator($rulesFactory);
 
 // Set some rules for the "password" field
-$validator->field("password")
+$validator->field('password')
     ->required()
-    ->equalsField("confirm-password");
+    ->equalsField('confirm-password');
 
 // Validate the input
-if (!$validator->isValid(["password" => "1337", "confirm-password" => "asdf"]) {
+if (!$validator->isValid(['password' => '1337', 'confirm-password' => 'asdf'])) {
     print_r($validator->getErrors()->getAll());
 }
 ```
@@ -62,7 +62,7 @@ Opulence's validation library is framework-agnostic, making it easy to use with 
 Whenever you call `Opulence\Validation\Validator::field()`, a `Rules` object will be created.  It contains a bunch of [built-in rules](#built-in-rules) as well as methods to get any errors for the field.  Most methods are chainable, letting you build up the rules like this:
 
 ```php
-$validator->field("to")
+$validator->field('to')
     ->required()
     ->email();
 ```
@@ -71,7 +71,7 @@ $validator->field("to")
 Sometimes, you may only want to apply a rule if certain conditions are met.  To specify a condition, call `condition()` on the `Rules` object.  It accepts a `callable` with two parameters:
 
 1. The value of the field
-2. A list of all fields being validated  
+2. A list of all fields being validated
 
 The `callable` should return `true` if the condition has been met, otherwise `false`.  Any rule added after `condition()` will only be run if the condition is met.  If you'd like to end the list of conditional rules and add a non-conditional rule, call `endCondition()` before adding the non-conditional rule.
 
@@ -79,14 +79,14 @@ The `callable` should return `true` if the condition has been met, otherwise `fa
 Let's say there are two inputs:  a dropdown specifying what type of contact information we're providing, and a text box with the actual contact information.  If the contact type is "email", we want to force the contact information to be a valid email:
 
 ```php
-$validator->field("contact-info")
+$validator->field('contact-info')
     ->condition(function ($value, array $inputs) {
-        return $inputs["contact-type"] == "email";
+        return $inputs['contact-type'] == 'email';
     })
     ->email();
 $validator->isValid([
-    "contact-info" => "foo@bar.com", 
-    "contact-type" => "email"
+    'contact-info' => 'foo@bar.com',
+    'contact-type' => 'email'
 ]);
 ```
 
@@ -103,7 +103,7 @@ Each rule in `Rules` implements `Opulence\Validation\Rules\IRule`, which provide
   * Returns `true` if the rule passes, otherwise `false`
 
 If you'd like to add a custom rule, you can use `RuleExtensionRegistry::registerRule()`.  It accepts either:
- 
+
 * A rule object implementing `IRule`
 * A `callable` with parameters for the field value and an array of all field values
 
@@ -119,18 +119,18 @@ class EmailDomainRule implements IRuleWithArgs
 
     public function getErrorPlaceholders() : array
     {
-        return ["domain" => $this->domain];
+        return ['domain' => $this->domain];
     }
 
     public function getSlug() : string
     {
-        return "emailDomain";
+        return 'emailDomain';
     }
 
     public function passes($value, array $allValues = []) : bool
     {
         if ($this->domain === null) {
-            throw new LogicException("Email domain not set");
+            throw new LogicException('Email domain not set');
         }
 
         // Check if the value is even a valid email address
@@ -139,7 +139,7 @@ class EmailDomainRule implements IRuleWithArgs
         }
 
         return preg_match(
-            "/@"{preg_quote($this->domain, "/")}$/", 
+            '/@'{preg_quote($this->domain, '/')}$/",
             $value
         ) === 1;
     }
@@ -166,15 +166,15 @@ If you're using the <a href="https://github.com/opulencephp/Project" target="_bl
 ```php
 return [
     // ...Other error message templates
-    "domain" => "The :field did not belong to the :domain domain"
+    'domain' => 'The :field did not belong to the :domain domain'
 ];
 ```
 
 To use the extension, simply call `$validator->field("FIELD_NAME")->{slug}()`:
 
 ```php
-$validator->field("some-email-address")
-    ->emailDomain("gmail.com");
+$validator->field('some-email-address')
+    ->emailDomain('gmail.com');
 ```
 
 <h5 id="using-callables">Using Callables</h5>
@@ -182,10 +182,10 @@ When registering a `callable`, you must give it a slug:
 
 ```php
 $rule = function ($value, array $allValues = []) {
-    return $value == "Dave";
+    return $value == 'Dave';
 };
-$ruleExtensionRegistry->registerRule($rule, "coolName");
-$validator->field("name")
+$ruleExtensionRegistry->registerRule($rule, 'coolName');
+$validator->field('name')
     ->coolName();
 ```
 
@@ -193,10 +193,10 @@ $validator->field("name")
 Sometimes, you may want to stop validating a field after its first rule failure.  Simply pass `true` to the second parameter in `Validator::isValid()`:
 
 ```php
-$validator->field("email")
+$validator->field('email')
     ->required()
     ->email();
-$validator->isValid(["email" => null], true);
+$validator->isValid(['email' => null], true);
 ```
 
 In this example, because the "email" field was null, it fails the "required" rule.  This means the "email" rule will never be run.
@@ -211,7 +211,7 @@ $validator->getErrors()->getAll();
 
 To get a specific field's error message, use:
 ```php
-$validator->getErrors()->get("FIELD_NAME");
+$validator->getErrors()->get('FIELD_NAME');
 ```
 
 Error message templates are bound to a slug in the `Opulence\Validation\Rules\Errors\ErrorTemplateRegistry`:
@@ -221,8 +221,8 @@ use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 
 $errorTemplateRegistry = new ErrorTemplateRegistry();
 $errorTemplateRegistry->registerErrorTemplatesFromConfig([
-    "required" => "The :field input is required",
-    "email.required" => "We need your email address"
+    'required'       => 'The :field input is required',
+    'email.required' => 'We need your email address'
 ]);
 ```
 
@@ -230,7 +230,7 @@ All "required" rules that fail will now have the first error message.  Specifyin
 
 <h4 id="error-message-placeholders">Error Message Placeholders</h4>
 You can specify placeholders in your error messages using `:NAME_OF_PLACEHOLDER`.  If your rule needs to specify placeholder values, it should also implement `IRuleWithErrorPlaceholders`.  In the `getErrorPlaceholders()` method, you can return a keyed array with the placeholder-name => placeholder-value mappings.
- 
+
 Let's take a look at an example of a rule that checks if an input date falls on a particular day (numbered 0-6):
 
 ```php
@@ -246,21 +246,21 @@ class DayRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 
     public function getErrorPlaceholders() : array
     {
-        $dayName = DateTime::createFromFormat("!N", $this->comparisonDay)->format("l");
-        
-        return ["day" => $dayName];
+        $dayName = DateTime::createFromFormat('!N', $this->comparisonDay)->format('l');
+
+        return ['day' => $dayName];
     }
-    
+
     public function getSlug() : string
     {
-        return "day";
+        return 'day';
     }
-    
+
     public function passes($value, array $allValues = []) : bool
     {
-        return (new DateTime($value))->format("N") == $this->comparisonDay;
+        return (new DateTime($value))->format('N') == $this->comparisonDay;
     }
-    
+
     public function setArgs(array $args)
     {
         $this->comparisonDay = $args[0];
@@ -271,7 +271,7 @@ class DayRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 We can then bind an error message to the rule:
 
 ```php
-$errorTemplateRegistry->registerGlobalErrorTemplate("day", "Selected day must be a :day");
+$errorTemplateRegistry->registerGlobalErrorTemplate('day', 'Selected day must be a :day');
 ```
 
 Now, whenever our rule fails, the nicely-formatted day name will appear in the error message, eg "Selected day must be a Monday".
@@ -280,9 +280,9 @@ Now, whenever our rule fails, the nicely-formatted day name will appear in the e
 First, set up your rules for your fields:
 
 ```php
-$validator->field("first-name")
+$validator->field('first-name')
     ->required();
-$validator->field("last-name")
+$validator->field('last-name')
     ->required();
 ```
 
@@ -307,7 +307,7 @@ You can validate your models with Opulence's validation library.  One easy way i
   * Returns mapping of property names => property values in the model
 * `registerFields(IValidator $validator)`
   * Registers the fields' rules to the validator
-  
+
 Let's take a look at an example user model state:
 
 ```php
@@ -320,19 +320,19 @@ class UserModelState extends ModelState
     protected function getModelProperties($model) : array
     {
         return [
-            "id" => $model->getId(),
-            "name" => $model->getName(),
-            "email" => $model->getEmail()
+            'id'    => $model->getId(),
+            'name'  => $model->getName(),
+            'email' => $model->getEmail()
         ];
     }
 
     protected function registerFields(IValidator $validator)
     {
-        $validator->field("id")
+        $validator->field('id')
             ->integer();
-        $validator->field("name")
+        $validator->field('name')
             ->required();
-        $validator->field("email")
+        $validator->field('email')
             ->email();
     }
 }
@@ -344,7 +344,7 @@ Now, let's check if a user model is valid:
 use MyApp\User;
 
 // We will assume that $validatorFactory was already instantiated
-$user = new User(123, "Dave", "foo@bar.com");
+$user = new User(123, 'Dave', 'foo@bar.com');
 $modelState = new UserModelState($user, $validatorFactory);
 
 if (!$modelState->isValid()) {
@@ -368,12 +368,12 @@ use Opulence\Validation\Factories\IValidatorFactory;
 class MyController
 {
     private $validatorFactory = null;
-    
+
     public function __construct(IValidatorFactory $validatorFactory)
     {
         $this->validatorFactory = $validatorFactory;
     }
-    
+
     public function login()
     {
         $validator = $this->validatorFactory->createValidator();
@@ -391,20 +391,20 @@ use Opulence\Validation\Factories\IValidatorFactory;
 class MyCommand extends command
 {
     private $validatorFactory = null;
-    
+
     public function __construct(IValidatorFactory $validatorFactory)
     {
         parent::__construct();
-    
+
         $this->validatorFactory = $validatorFactory;
     }
-    
+
     protected function define()
     {
-        $this->setName("my:command")
-            ->setDescription("My command that uses validation");
+        $this->setName('my:command')
+            ->setDescription('My command that uses validation');
     }
-    
+
     protected function doExecute(IResponse $response)
     {
         $validator = $this->validatorFactory->createValidator();
@@ -412,7 +412,7 @@ class MyCommand extends command
     }
 }
 ```
- 
+
 <h2 id="built-in-rules">Built-In Rules</h2>
 
 The following rules are built into Opulence:

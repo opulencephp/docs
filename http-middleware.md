@@ -7,7 +7,7 @@
 4. [Global Middleware](#global-middleware)
 5. [Route Middleware](#route-middleware)
 6. [Middleware Parameters](#middleware-parameters)
-  
+
 <h2 id="introduction">Introduction</h2>
 HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).
 
@@ -26,7 +26,7 @@ use Opulence\Routing\Middleware\IMiddleware;
 class Authentication implements IMiddleware
 {
     private $authenticator = null;
-    
+
     // Inject any dependencies your middleware needs
     public function __construct(Authenticator $authenticator)
     {
@@ -37,9 +37,9 @@ class Authentication implements IMiddleware
     public function handle(Request $request, Closure $next) : Response
     {
         if (!$this->authenticator->isLoggedIn()) {
-            return new RedirectResponse("/login");
+            return new RedirectResponse('/login');
         }
-        
+
         return $next($request);
     }
 }
@@ -48,8 +48,8 @@ class Authentication implements IMiddleware
 Add this middleware to a route:
 
 ```php
-$router->post("/users/posts", "MyApp\\UserController@createPost", [
-    "middleware" => "MyApp\\Authentication" // Could also be an array of middleware
+$router->post('/users/posts', "MyApp\\UserController@createPost", [
+    'middleware' => "MyApp\\Authentication" // Could also be an array of middleware
 ]);
 ```
 
@@ -73,8 +73,8 @@ class RequestManipulator implements IMiddleware
     public function handle(Request $request, Closure $next) : Response
     {
         // Do our work before returning $next($request)
-        $request->getHeaders()->add("SOME_HEADER", "foo");
-        
+        $request->getHeaders()->add('SOME_HEADER', 'foo');
+
         return $next($request);
     }
 }
@@ -95,11 +95,11 @@ class ResponseManipulator implements IMiddleware
     public function handle(Request $request, Closure $next) : Response
     {
         $response = $next($request);
-        
+
         // Make our changes
-        $cookie = new Cookie("my_cookie", "foo", DateTime::createFromFormat("+1 week"));
+        $cookie = new Cookie('my_cookie', 'foo', DateTime::createFromFormat('+1 week'));
         $response->getHeaders()->setCookie($cookie);
-        
+
         return $response;
     }
 }
@@ -134,12 +134,12 @@ class RoleMiddleware extends ParameterizedMiddleware
     public function handle(Request $request, Closure $next) : Response
     {
         // Parameters are available via $this->getParameter()
-        // You may pass in a second parameter as the default value if the parameter 
+        // You may pass in a second parameter as the default value if the parameter
         // was not found
-        if (!$this->user->hasRole($this->getParameter("role"))) {
+        if (!$this->user->hasRole($this->getParameter('role'))) {
             throw new HttpException(403);
         }
-        
+
         return $next($request);
     }
 }
@@ -149,7 +149,7 @@ To actually specify `role`, use `{Your middleware}::withParameters()` in your ro
 
 ```php
 $options = [
-    "middleware" => [RoleMiddleware::withParameters(["role" => "admin"])]
+    'middleware' => [RoleMiddleware::withParameters(['role' => 'admin'])]
 ];
-$router->get("/users", "MyController\\MyController@myMethod", $options);
+$router->get('/users', "MyController\\MyController@myMethod", $options);
 ```

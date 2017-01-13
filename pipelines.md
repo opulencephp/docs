@@ -9,14 +9,14 @@
 
 <h2 id="introduction">Introduction</h2>
 In computer science, a pipeline refers to a series of stages where each stage's input is the previous one's output.  It can be used to implement a decorator, which adds functionality to an object from an outside object.  In Opulence, this is especially useful for [HTTP middleware](http-middleware).  Pipelines can accept a list of:
- 
+
 * `Closures`
 * Objects and a method to run on them
 
 ... to act as pipeline stages.  You can even mix and match various types of stages.
 
 > **Note:** If a stage does not specifically call the `$next` closure, no stages after it in the pipeline will be run.
-  
+
 <h2 id="using-closures">Using Closures</h2>
 `Closure` stages must accept the input as their first parameter and the next pipe in the pipeline as the second parameter.  Let's take a look at a simple example:
 
@@ -25,18 +25,18 @@ use Opulence\Pipelines\Pipeline;
 
 $stages = [
     function ($input, $next) {
-        $input .= "-pipe1";
-        
+        $input .= '-pipe1';
+
         return $next($input);
     },
     function ($input, $next) {
-        $input .= "-pipe2";
-        
+        $input .= '-pipe2';
+
         return $next($input);
     }
 ];
 echo (new Pipeline)
-    ->send("foo")
+    ->send('foo')
     ->through($stages)
     ->execute();
 ```
@@ -65,8 +65,8 @@ class PipeA implements IMyPipe
 {
     public function filter($input, Closure $next)
     {
-        $input .= "-pipeA";
-        
+        $input .= '-pipeA';
+
         return $next($input);
     }
 }
@@ -75,8 +75,8 @@ class PipeB implements IMyPipe
 {
     public function filter($input, Closure $next)
     {
-        $input .= "-pipeB";
-        
+        $input .= '-pipeB';
+
         return $next($input);
     }
 }
@@ -84,8 +84,8 @@ class PipeB implements IMyPipe
 $stages = [new PipeA(), new PipeB()];
 // We must pass in the name of the method to call ("filter")
 echo (new Pipeline)
-    ->send("foo")
-    ->through($stages, "filter")
+    ->send('foo')
+    ->through($stages, 'filter')
     ->execute();
 ```
 
@@ -97,9 +97,9 @@ foo-pipeA-pipeB
 
 <h4 id="using-classes">Using Classes</h4>
 If you use the dependency injection container, you can also use class names as stages:
- 
+
 ```php
-$classes = ["PipeA", "PipeB"];
+$classes = ['PipeA', 'PipeB'];
 $stages = [];
 
 foreach ($classes as $class) {
@@ -107,8 +107,8 @@ foreach ($classes as $class) {
 }
 
 echo (new Pipeline)
-    ->send("foo")
-    ->through($stages, "filter")
+    ->send('foo')
+    ->through($stages, 'filter')
     ->execute();
 ```
 
@@ -126,18 +126,18 @@ use Opulence\Pipelines\Pipeline;
 
 $stages = [
     function ($input, $next) {
-        $input .= "-pipe1";
-        
+        $input .= '-pipe1';
+
         return $next($input);
     },
     function ($input, $next) {
-        $input .= "-pipe2";
-        
+        $input .= '-pipe2';
+
         return $next($input);
     }
 ];
 echo (new Pipeline)
-    ->send("foo")
+    ->send('foo')
     ->through($stages)
     ->then(function ($output) {
         return strtoupper($output);

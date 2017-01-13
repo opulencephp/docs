@@ -32,12 +32,12 @@ use Redis as Client;
 
 // Create our connection
 $client = new Client();
-$client->connect("localhost", 6379);
+$client->connect('localhost', 6379);
 $redis = new Redis($client);
 
 // Try it out
-$redis->set("foo", "bar");
-echo $redis->get("foo"); // "bar"
+$redis->set('foo', 'bar');
+echo $redis->get('foo'); // "bar"
 ```
 
 You can get the client instance:
@@ -54,12 +54,12 @@ use Opulence\Redis\Redis;
 use Redis as Client;
 
 $defaultClient = new Client();
-$defaultClient->connect("127.0.0.1", 6379);
+$defaultClient->connect('127.0.0.1', 6379);
 $backupClient = new Client();
-$backupClient->connect("127.0.0.2", 6379);
+$backupClient->connect('127.0.0.2', 6379);
 $clients = [
-    "default" => $defaultClient,
-    "backup" => $backupClient
+    'default' => $defaultClient,
+    'backup'  => $backupClient
 ];
 $redis = new Redis($clients);
 ```
@@ -67,7 +67,7 @@ $redis = new Redis($clients);
 You can get a particular client instance:
 
 ```php
-$redis->getClient("backup");
+$redis->getClient('backup');
 ```
 
 > **Note:** The `default` client will always be used unless you call `getClient($name)` and make calls to that client directly.
@@ -81,11 +81,11 @@ use Predis\Client;
 
 $client = new Client(
     [
-        "tcp://127.0.0.1",
-        "tcp://127.0.0.2"
+        'tcp://127.0.0.1',
+        'tcp://127.0.0.2'
     ],
     [
-        "cluster" => "redis"
+        'cluster' => 'redis'
     ]
 );
 $redis = new Redis($client);
@@ -126,7 +126,7 @@ echo $typeMapper->fromRedisBoolean($redisBoolean) === true; // 1
 
 ##### To Redis
 ```php
-$phpDate = new DateTime("1987-07-24 12:34:56");
+$phpDate = new DateTime('1987-07-24 12:34:56');
 echo $typeMapper->toRedisTimestamp($phpDate); // 554128496
 ```
 
@@ -136,5 +136,5 @@ echo $typeMapper->toRedisTimestamp($phpDate); // 554128496
 ```php
 $redisDate = 554128496;
 $phpDate = $typeMapper->fromRedisTimestamp($redisDate);
-echo $phpDate->format("Y-m-d"); // "1987-07-24"
+echo $phpDate->format('Y-m-d'); // "1987-07-24"
 ```

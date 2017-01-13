@@ -71,7 +71,7 @@ The difference is subtle, but now we can easily inject `DatabaseMock` when writi
 ```php
 $database = new DatabaseMock();
 $foo = new Foo($database);
-echo $foo->insertIntoDatabase("bar"); // 1
+echo $foo->insertIntoDatabase('bar'); // 1
 ```
 
 By inverting the control of dependencies (meaning classes no longer maintain their own dependencies), we've made our code easier to test.
@@ -95,7 +95,7 @@ class ConcreteFoo implements IFoo
 {
     public function sayHi()
     {
-        echo "Hi";
+        echo 'Hi';
     }
 }
 
@@ -120,12 +120,12 @@ If we always want to pass in an instance of `ConcreteFoo` when there's a depende
 use Opulence\Ioc\Container;
 
 $container = new Container();
-$container->bindSingleton("IFoo", "ConcreteFoo");
+$container->bindSingleton('IFoo', 'ConcreteFoo');
 ```
 
 Now, whenever a dependency on `IFoo` is detected, the container will inject an instance of `ConcreteFoo`.  To create an instance of `A` with its dependencies set, simply:
 ```php
-$a = $container->resolve("A");
+$a = $container->resolve('A');
 $a->getFoo()->sayHi(); // "Hi"
 ```
 
@@ -134,23 +134,23 @@ As you can see, the container automatically injected an instance of `ConcreteFoo
 ```php
 $concreteFoo = new ConcreteFoo();
 // $concreteFoo will be bound to both "IFoo" and "ConcreteFoo"
-$container->bindInstance(["IFoo", "ConcreteFoo"], $concreteFoo);
+$container->bindInstance(['IFoo', 'ConcreteFoo'], $concreteFoo);
 ```
 
 <h2 id="binding-instances">Binding Instances</h2>
 Binding a specific instance to an interface is also possible through the `bindInstance()` method.  Every time you resolve the interface, this instance will be returned.
 ```php
 $concreteInstance = new ConcreteFoo();
-$container->bindInstance("IFoo", $concreteInstance);
-echo $concreteInstance === $container->resolve("IFoo"); // 1
+$container->bindInstance('IFoo', $concreteInstance);
+echo $concreteInstance === $container->resolve('IFoo'); // 1
 ```
 
 <h2 id="binding-singletons">Binding Singletons</h2>
 You can bind an interface to a class name and have it always resolve to the same instance of the class (also known as a singleton).
 ```php
-$container->bindSingleton("IFoo", "ConcreteFoo");
-echo get_class($container->resolve("IFoo")); // "ConcreteFoo"
-echo $container->resolve("IFoo") === $container->resolve("IFoo"); // 1
+$container->bindSingleton('IFoo', 'ConcreteFoo');
+echo get_class($container->resolve('IFoo')); // "ConcreteFoo"
+echo $container->resolve('IFoo') === $container->resolve('IFoo'); // 1
 ```
 
 If your concrete class requires any primitive values, pass them in an array in the same order they appear in the constructor.
@@ -158,9 +158,9 @@ If your concrete class requires any primitive values, pass them in an array in t
 <h2 id="binding-prototypes">Binding Prototypes</h2>
 You can bind an interface to a class name and have it always resolve to a new instance of the class (also known as a prototype).
 ```php
-$container->bindPrototype("IFoo", "ConcreteFoo");
-echo get_class($container->resolve("IFoo")); // "ConcreteFoo"
-echo $container->resolve("IFoo") === $container->resolve("IFoo"); // 0
+$container->bindPrototype('IFoo', 'ConcreteFoo');
+echo get_class($container->resolve('IFoo')); // "ConcreteFoo"
+echo $container->resolve('IFoo') === $container->resolve('IFoo'); // 0
 ```
 
 If your concrete class requires any primitive values, pass them in an array in the same order they appear in the constructor.
@@ -169,10 +169,10 @@ If your concrete class requires any primitive values, pass them in an array in t
 You can bind any `callable` to act as a factory to resolve an interface.  Factories are only evaluated when they're needed.
 
 ```php
-$container->bindFactory("IFoo", function () {
+$container->bindFactory('IFoo', function () {
     return new ConcreteFoo();
 });
-echo get_class($container->resolve("IFoo")); // "ConcreteFoo" 
+echo get_class($container->resolve('IFoo')); // "ConcreteFoo"
 ```
 
 > **Note:** Factories must be parameterless.
@@ -180,17 +180,17 @@ echo get_class($container->resolve("IFoo")); // "ConcreteFoo"
 By default, resolving interfaces that were bound with a factory will return a new instance each time you call `resolve()`.  If you'd like the instance created by the factory to be bound as a singleton, specify `true` as the last parameter:
 
 ```php
-$container->bindFactory("IFoo", function () {
+$container->bindFactory('IFoo', function () {
     return new ConcreteFoo();
 }, true);
-echo $container->resolve("IFoo") === $container->resolve("IFoo"); // 1
+echo $container->resolve('IFoo') === $container->resolve('IFoo'); // 1
 ```
 
 <h2 id="targeting">Targeting</h2>
 By default, bindings are registered so that they can be used by all classes.  If you'd like to bind a concrete class to an interface or abstract class for only a specific class, you can create a targeted binding using `for(TARGET_CLASS_NAME)` before your binding method:
 ```php
-$container->for("A", function ($container) {
-    $container->bindSingleton("IFoo", "ConcreteFoo");
+$container->for('A', function ($container) {
+    $container->bindSingleton('IFoo', 'ConcreteFoo');
 });
 ```
 
@@ -214,7 +214,7 @@ Targeting works for the following methods:
   * Resolves an interface by first checking for targeted bindings, and then universal bindings
 * `unbind()`
   * Unbinds the interface from the target
-  
+
 <h2 id="bootstrappers">Bootstrappers</h2>
 Sometimes, you'll find yourself needing to bind several components of your module to your IoC container.  To keep yourself from writing repetitive code to do these bindings, you can use [bootstrappers](bootstrappers).  They're perfect for plugging-and-playing whole modules into your application.
 
@@ -246,9 +246,9 @@ class D
     }
 }
 
-$container->bindSingleton("IFoo", "ConcreteFoo");
+$container->bindSingleton('IFoo', 'ConcreteFoo');
 $instance = new D();
-$container->callMethod($instance, "setFoo", ["Primitive was set"]);
+$container->callMethod($instance, 'setFoo', ['Primitive was set']);
 echo get_class($c->getFoo()); // "ConcreteFoo"
 echo $instance->getBar(); // "Primitive was set"
 ```
@@ -259,9 +259,9 @@ You can use `callClosure()` to automatically inject parameters into any closure:
 ```php
 echo $container->callClosure(
     function (Foo $foo, $somePrimitive) {
-        return get_class($foo) . ":" . $somePrimitive;
+        return get_class($foo) . ':' . $somePrimitive;
     },
-    ["123"] // Pass in any primitive values
+    ['123'] // Pass in any primitive values
 );
 ```
 
@@ -273,17 +273,17 @@ Foo:123
 <h2 id="checking-a-binding">Checking a Binding</h2>
 To check whether or not a binding exists, call `hasBinding()`.
 ```php
-$container->bindSingleton("IFoo", "ConcreteFoo");
-echo $container->hasBinding("IFoo"); // 1
-echo $container->hasBinding("NonExistentInterface"); // 0
+$container->bindSingleton('IFoo', 'ConcreteFoo');
+echo $container->hasBinding('IFoo'); // 1
+echo $container->hasBinding('NonExistentInterface'); // 0
 ```
 
 <h2 id="removing-a-binding">Removing a Binding</h2>
 To remove a binding, call `unbind()`:
 ```php
-$container->bindSingleton("IFoo", "ConcreteFoo");
-$container->unbind("IFoo");
-echo $container->hasBinding("IFoo"); // 0
+$container->bindSingleton('IFoo', 'ConcreteFoo');
+$container->unbind('IFoo');
+echo $container->hasBinding('IFoo'); // 0
 ```
 
 <h2 id="applications-in-opulence">Applications in Opulence</h2>

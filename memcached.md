@@ -27,12 +27,12 @@ use Opulence\Memcached\Memcached;
 
 // Create our connection
 $client = new Client();
-$client->addServer("localhost", 11211);
+$client->addServer('localhost', 11211);
 $memcached = new Memcached($client);
 
 // Try it out
-$memcached->set("foo", "bar");
-echo $memcached->get("foo"); // "bar"
+$memcached->set('foo', 'bar');
+echo $memcached->get('foo'); // "bar"
 ```
 
 You can get the client instance:
@@ -49,12 +49,12 @@ use Memcached as Client;
 use Opulence\Memcached\Memcached;
 
 $defaultClient = new Client();
-$defaultClient->addServer("127.0.0.1", 11211);
+$defaultClient->addServer('127.0.0.1', 11211);
 $backupClient = new Client();
-$backupClient->addServer("127.0.0.2", 11211);
+$backupClient->addServer('127.0.0.2', 11211);
 $clients = [
-    "default" => $defaultClient,
-    "backup" => $backupClient
+    'default' => $defaultClient,
+    'backup'  => $backupClient
 ];
 $memcached = new Memcached($clients);
 ```
@@ -62,7 +62,7 @@ $memcached = new Memcached($clients);
 You can get a particular client instance:
 
 ```php
-$memcached->getClient("backup");
+$memcached->getClient('backup');
 ```
 
 > **Note:** The `default` client will always be used unless you call `getClient($name)` and make calls to that client directly.
@@ -75,8 +75,8 @@ use Memcached as Client;
 use Opulence\Memcached\Memcached;
 
 $client = new Client();
-$client->addServer("127.0.0.1", 11211);
-$client->addServer("127.0.0.2", 11211);
+$client->addServer('127.0.0.1', 11211);
+$client->addServer('127.0.0.2', 11211);
 $memcached = new Memcached($client);
 ```
 
@@ -114,7 +114,7 @@ echo $typeMapper->fromMemcachedBoolean($memcachedBoolean) === true; // 1
 
 ##### To Memcached
 ```php
-$phpDate = new DateTime("1987-07-24 12:34:56");
+$phpDate = new DateTime('1987-07-24 12:34:56');
 echo $typeMapper->toMemcachedTimestamp($phpDate); // 554128496
 ```
 
@@ -124,5 +124,5 @@ echo $typeMapper->toMemcachedTimestamp($phpDate); // 554128496
 ```php
 $memcachedDate = 554128496;
 $phpDate = $typeMapper->fromMemcachedTimestamp($memcachedDate);
-echo $phpDate->format("Y-m-d"); // "1987-07-24"
+echo $phpDate->format('Y-m-d'); // "1987-07-24"
 ```

@@ -16,11 +16,11 @@
   1. [SQL Drivers](#drivers)
 
 <h2 id="introduction">Introduction</h2>
-Relational databases store information about data and how it's related to other data.  Opulence provides classes and methods for connecting to relational databases and querying them for data.  It does this by extending `PDO` and `PDOStatement` to give users a familiar interface to work with.  <a href="http://php.net/manual/en/book.pdo.php" target="_blank">PDO</a> is a powerful wrapper for database interactions, and comes with built-in tools to prevent SQL injection. 
+Relational databases store information about data and how it's related to other data.  Opulence provides classes and methods for connecting to relational databases and querying them for data.  It does this by extending `PDO` and `PDOStatement` to give users a familiar interface to work with.  <a href="http://php.net/manual/en/book.pdo.php" target="_blank">PDO</a> is a powerful wrapper for database interactions, and comes with built-in tools to prevent SQL injection.
 
 <h4 id="connection-pools">Connection Pools</h4>
 Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a `SingleServerConnectionPool`.  If you have a master/slave(s) setup, you can use a `MasterSlaveConnectionPool`.
-  
+
 <h2 id="single-server-connection-pool">Single-Server Connection Pool</h2>
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
@@ -32,10 +32,10 @@ use Opulence\Databases\Server;
 $connectionPool = new SingleServerConnectionPool(
     new Driver(), // The driver to use
     new Server(
-        "localhost", // The host
-        "username", // The server username
-        "password", // The server password
-        "databasename", // The name of the database to use
+        'localhost', // The host
+        'username', // The server username
+        'password', // The server password
+        'databasename', // The name of the database to use
         3306 // The port
     ),
     [], // Any connection settings, eg "unix_socket" for MySQL Unix sockets
@@ -43,12 +43,12 @@ $connectionPool = new SingleServerConnectionPool(
 );
 $readConnection = $connectionPool->getReadConnection();
 // The next part should be familiar to people that have used PDO
-$statement = $readConnection->prepare("SELECT name FROM users WHERE id = :id");
-$statement->bindValue("id", 1234, \PDO::PARAM_INT);
+$statement = $readConnection->prepare('SELECT name FROM users WHERE id = :id');
+$statement->bindValue('id', 1234, \PDO::PARAM_INT);
 $statement->execute();
 $row = $statement->fetch(\PDO::FETCH_ASSOC);
 // This will contain the user's name whose Id is 1234
-$name = $row["name"];
+$name = $row['name'];
 ```
 
 <h2 id="master-slave-connection-pool">Master-Slave Connection Pool</h2>
@@ -62,19 +62,19 @@ use Opulence\Databases\Server;
 $connectionPool = new MasterSlaveConnectionPool(
     new Driver(), // The driver to use
     new Server(
-        "127.0.0.1", // The master host
-        "username", // The master username
-        "password", // The master password
-        "databasename", // The name of the database to use
+        '127.0.0.1', // The master host
+        'username', // The master username
+        'password', // The master password
+        'databasename', // The name of the database to use
         3306 // The master port
     ),
     [
         // List any slave servers
         new Server(
-            "127.0.0.2", // The slave host
-            "username", // The slave username
-            "password", // The slave password
-            "databasename", // The name of the database to use
+            '127.0.0.2', // The slave host
+            'username', // The slave username
+            'password', // The slave password
+            'databasename', // The name of the database to use
             3306 // The slave port
         )
     ],
@@ -121,7 +121,7 @@ $query = "SELECT email FROM users WHERE id = $id";
 The issue here is what's called **SQL injection**.  What would happen if a malicious user input "1 OR 1=1" into the query above?  We'd get:
 
 ```php
-"SELECT email FROM users WHERE id = 1 OR 1=1"
+'SELECT email FROM users WHERE id = 1 OR 1=1'
 ```
 
 See the issue there?  The malicious user just tricked your application into returning the email address for every user.  This is where **prepared statements** and binding comes in handy.  Instead of just concatenating your value into the query, `PDO` will automatically escape the data before using it in the query.
@@ -133,8 +133,8 @@ It's convenient to name placeholders that you'll bind to in a query so that you 
 
 ```php
 $id = 24;
-$statement = $connection->prepare("SELECT title FROM posts WHERE id = :id");
-$statement->bindValue("id", $id, \PDO::PARAM_INT);
+$statement = $connection->prepare('SELECT title FROM posts WHERE id = :id');
+$statement->bindValue('id', $id, \PDO::PARAM_INT);
 $statement->execute();
 ```
 
@@ -142,7 +142,7 @@ $statement->execute();
 It's also possible to bind to unnamed placeholders in the case that the number of parameters you're binding is dynamic:
 
 ```php
-$statement = $connection->prepare("SELECT title FROM posts WHERE id = ?");
+$statement = $connection->prepare('SELECT title FROM posts WHERE id = ?');
 // Unnamed placeholders are 1-indexed
 $statement->bindValue(1, $id, \PDO::PARAM_INT);
 $statement->execute();
@@ -154,10 +154,10 @@ $statement->execute();
 ```php
 $statement->bindValues([
     // By default, values are interpreted as type \PDO::PARAM_STR
-    "name" => "Dave",
+    'name' => 'Dave',
     // To bind a non-string type to a value, use an array
     // The first item is the value, and the second is the parameter type
-    "id" => [23, \PDO::PARAM_INT]
+    'id'   => [23, \PDO::PARAM_INT]
 ]);
 ```
 
@@ -165,7 +165,7 @@ You can also bind unnamed placeholder values:
 
 ```php
 $statement->bindValues([
-    "Boeing",
+    'Boeing',
     [727, \PDO::PARAM_INT]
 ]);
 ```

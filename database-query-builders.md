@@ -22,9 +22,9 @@ Let's look at a simple `SELECT` query:
 ```php
 use Opulence\QueryBuilders\PostgreSql\QueryBuilder;
 
-$query = (new QueryBuilder)->select("id", "name", "email")
-    ->from("users")
-    ->where("datejoined < NOW()");
+$query = (new QueryBuilder)->select('id', 'name', 'email')
+    ->from('users')
+    ->where('datejoined < NOW()');
 echo $query->getSql();
 ```
 
@@ -84,9 +84,9 @@ Here's an example of how to grab all users whose Id matches at least one of the 
 use Opulence\QueryBuilders\Conditions\ConditionFactory;
 
 $conditions = new ConditionFactory();
-$query = (new QueryBuilder)->select("name")
-    ->from("users")
-    ->where($conditions->in("id", [[23, \PDO::PARAM_INT], [33, \PDO::PARAM_INT]]));
+$query = (new QueryBuilder)->select('name')
+    ->from('users')
+    ->where($conditions->in('id', [[23, \PDO::PARAM_INT], [33, \PDO::PARAM_INT]]));
 ```
 
 Using `ConditionFactory` will automatically bind any values as [unnamed placeholders](#binding-values).
@@ -97,24 +97,24 @@ Using `ConditionFactory` will automatically bind any values as [unnamed placehol
 `QueryBuilders` provide an intuitive syntax for binding values to queries ([learn more about statement bindings](database-basics#binding-values)).  To add a named placeholder, use `addNamedPlaceholderValue()`:
 
 ```php
-$query = (new QueryBuilder)->select("content")
-    ->from("posts")
-    ->where("id < :id")
-    ->addNamedPlaceholderValue("id", 24, \PDO::PARAM_INT);
+$query = (new QueryBuilder)->select('content')
+    ->from('posts')
+    ->where('id < :id')
+    ->addNamedPlaceholderValue('id', 24, \PDO::PARAM_INT);
 ```
 
 To add many named placeholder values, use `addNamedPlaceholderValues()`:
- 
+
 ```php
-$query = (new QueryBuilder)->select("count(*)")
-    ->from("users")
-    ->where("username = :username")
-    ->orWhere("id = :id")
+$query = (new QueryBuilder)->select('count(*)')
+    ->from('users')
+    ->where('username = :username')
+    ->orWhere('id = :id')
     ->addNamedPlaceholderValues([
         // Non-array values are assumed to be of type \PDO::PARAM_STR
-        "username" => "dave_y",
+        'username' => 'dave_y',
         // In array values, the first item is the value, and the second is the parameter type
-        "id" => [24, \PDO::PARAM_INT]
+        'id'       => [24, \PDO::PARAM_INT]
     ]);
 ```
 
@@ -126,8 +126,8 @@ Similarly, `addUnnamedPlaceholderValue()` and `addUnnamedPlaceholderValues()` ca
 Select queries use a variable argument list to specify the columns to select:
 
 ```php
-$query = (new QueryBuilder)->select("title", "author")
-    ->from("books");
+$query = (new QueryBuilder)->select('title', 'author')
+    ->from('books');
 echo $query->getSql();
 ```
 
@@ -141,10 +141,10 @@ SELECT title, author FROM books
 Insert queries accept a table name and a mapping of column names to values:
 
 ```php
-$query = (new QueryBuilder)->insert("users", [
-    "name" => "Brian",
-    "email" => "foo@bar.com",
-    "age" => [24, \PDO::PARAM_INT]
+$query = (new QueryBuilder)->insert('users', [
+    'name'  => 'Brian',
+    'email' => 'foo@bar.com',
+    'age'   => [24, \PDO::PARAM_INT]
 ]);
 echo $query->getSql();
 ```
@@ -159,8 +159,8 @@ The following values are bound to the query:
 
 ```php
 [
-    ["Brian", \PDO::PARAM_STR],
-    ["foo@bar.com", \PDO::PARAM_STR],
+    ['Brian', \PDO::PARAM_STR],
+    ['foo@bar.com', \PDO::PARAM_STR],
     [24, \PDO::PARAM_INT]
 ]
 ```
@@ -171,11 +171,11 @@ The following values are bound to the query:
 Update queries accept a table name, table alias, and a mapping of column names to values:
 
 ```php
-$query = (new QueryBuilder)->update("users", "u", [
-        "name" => "Dave",
-        "age" => [24, \PDO::PARAM_INT]
+$query = (new QueryBuilder)->update('users', 'u', [
+    'name' => 'Dave',
+    'age'  => [24, \PDO::PARAM_INT]
     ])
-    ->where("id = ?")
+    ->where('id = ?')
     ->addUnnamedPlaceholderValue(1234, \PDO::PARAM_INT);
 echo $query->getSql();
 ```
@@ -190,7 +190,7 @@ The following values are bound to the query:
 
 ```php
 [
-    ["Dave", \PDO::PARAM_STR],
+    ['Dave', \PDO::PARAM_STR],
     [24, \PDO::PARAM_INT],
     [1234, \PDO::PARAM_INT]
 ]
@@ -202,8 +202,8 @@ The following values are bound to the query:
 Delete queries accept a table name:
 
 ```php
-$query = (new QueryBuilder)->delete("users")
-    ->where("id = :id");
+$query = (new QueryBuilder)->delete('users')
+    ->where('id = :id');
 echo $query->getSql();
 ```
 
@@ -217,10 +217,10 @@ DELETE FROM users WHERE id = :id
 Let's say you've built the following query:
 
 ```php
-$query = (new QueryBuilder)->select("author")
-    ->from("books")
-    ->where("title = :title")
-    ->addNamedPlaceholderValue("title", "Code Complete");
+$query = (new QueryBuilder)->select('author')
+    ->from('books')
+    ->where('title = :title')
+    ->addNamedPlaceholderValue('title', 'Code Complete');
 ```
 
 Simply call `getSql()` and `getParameters()` to use this in `PDO` or in [Opulence's PDO wrapper](database-basics):
@@ -237,9 +237,9 @@ MySQL and PostgreSQL have their own query builders, which implement features tha
 ```php
 use Opulence\QueryBuilders\MySql\QueryBuilder;
 
-$query = (new QueryBuilder)->delete("users")
+$query = (new QueryBuilder)->delete('users')
     ->where("name = 'Dave'")
-    ->limit(1);    
+    ->limit(1);
 echo $query->getSql();
 ```
 
@@ -254,11 +254,11 @@ Similarly, PostgreSQL's `UPDATE` and `INSERT` query builders support a *RETURNIN
 ```php
 use Opulence\QueryBuilders\PostgreSql\QueryBuilder;
 
-$query = (new QueryBuilder)->update("users", "", [
-        "status" => [0, \PDO::PARAM_INT]
+$query = (new QueryBuilder)->update('users', '', [
+    'status' => [0, \PDO::PARAM_INT]
     ])
-    ->returning("id")
-    ->addReturning("name");
+    ->returning('id')
+    ->addReturning('name');
 echo $query->getSql();
 ```
 
@@ -281,9 +281,9 @@ Here's an example of an `INSERT` statement with a *RETURNING* clause:
 ```php
 use Opulence\QueryBuilders\PostgreSql\QueryBuilder;
 
-$query = (new QueryBuilder)->insert("users", "", ["name" => "David"])
-    ->returning("id")
-    ->addReturning("name");
+$query = (new QueryBuilder)->insert('users', '', ['name' => 'David'])
+    ->returning('id')
+    ->addReturning('name');
 echo $query->getSql();
 ```
 
@@ -297,6 +297,6 @@ The following values are bound to the query:
 
 ```php
 [
-    ["David", \PDO::PARAM_STR]
+    ['David', \PDO::PARAM_STR]
 ]
 ```

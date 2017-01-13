@@ -41,11 +41,11 @@ Opulence provides a fluent interface to test your routes.  For example, here's h
 ```php
 public function testPostingSomeData()
 {
-    $this->post("/foo")
-        ->withParameters(["bar" => "baz"])
+    $this->post('/foo')
+        ->withParameters(['bar' => 'baz'])
         ->go()
         ->assertResponse
-        ->contentEquals("Nice POST request");
+        ->contentEquals('Nice POST request');
 }
 ```
 
@@ -65,11 +65,11 @@ If you're testing a `GET` request and would like to pass some parameters along w
 ```php
 public function testWithParameters()
 {
-    $this->get("/login")
-        ->withParameters(["ref" => "http://google.com"])
+    $this->get('/login')
+        ->withParameters(['ref' => 'http://google.com'])
         ->go()
         ->assertResponse
-        ->redirectsTo("http://google.com");
+        ->redirectsTo('http://google.com');
 }
 ```
 
@@ -79,11 +79,11 @@ To simulate passing JSON data to a route, use `withJson()`.  To assert that a JS
 ```php
 public function testJsonRequest()
 {
-    $this->post("/api/auth")
-        ->withJson(["username" => "foo", "password" => "bar"])
+    $this->post('/api/auth')
+        ->withJson(['username' => 'foo', 'password' => 'bar'])
         ->go()
         ->assertResponse
-        ->jsonEquals(["error" => "Invalid username/password"]);
+        ->jsonEquals(['error' => 'Invalid username/password']);
 }
 ```
 
@@ -115,10 +115,10 @@ If you want fine-grained control over your tests, you can pass in a `Request` ob
 ```php
 public function testPostingSomeData()
 {
-    $request = new Request(["name" => "Dave"], [], [], [], [], []);
+    $request = new Request(['name' => 'Dave'], [], [], [], [], []);
     $this->route($request);
     $this->assertResponse
-        ->contentEquals("Hello, Dave");
+        ->contentEquals('Hello, Dave');
 }
 ```
 
@@ -133,10 +133,10 @@ Asserts that the response's content matches an expected value:
 ```php
 public function testContent()
 {
-    $this->get("/404")
+    $this->get('/404')
         ->go()
         ->assertResponse
-        ->contentEquals("Page not found");
+        ->contentEquals('Page not found');
 }
 ```
 
@@ -146,10 +146,10 @@ Asserts that a response cookie matches an expected value:
 ```php
 public function testCheckingVisitedCookie()
 {
-    $this->get("/home")
+    $this->get('/home')
         ->go()
         ->assertResponse
-        ->cookieValueEquals("visited", "1");
+        ->cookieValueEquals('visited', '1');
 }
 ```
 
@@ -159,10 +159,10 @@ Asserts that a response has a cookie with a particular name:
 ```php
 public function testCheckingVisitedCookie()
 {
-    $this->get("/home")
+    $this->get('/home')
         ->go()
         ->assertResponse
-        ->hasCookie("visited");
+        ->hasCookie('visited');
 }
 ```
 
@@ -172,10 +172,10 @@ Asserts that a response has a header with a particular name:
 ```php
 public function testCheckingCacheControl()
 {
-    $this->get("/profile")
+    $this->get('/profile')
         ->go()
         ->assertResponse
-        ->hasHeader("cache-control");
+        ->hasHeader('cache-control');
 }
 ```
 
@@ -185,10 +185,10 @@ Asserts that a response header matches an expected value:
 ```php
 public function testCheckingCacheControl()
 {
-    $this->get("/profile")
+    $this->get('/profile')
         ->go()
         ->assertResponse
-        ->headerEquals("cache-control", "no-cache, must-revalidate");
+        ->headerEquals('cache-control', 'no-cache, must-revalidate');
 }
 ```
 
@@ -198,7 +198,7 @@ Asserts that a response is an internal server error:
 ```php
 public function testBadRequest()
 {
-    $this->get("/500")
+    $this->get('/500')
         ->go()
         ->assertResponse
         ->isInternalServerError();
@@ -211,7 +211,7 @@ Asserts that a response is not found:
 ```php
 public function test404()
 {
-    $this->get("/404")
+    $this->get('/404')
         ->go()
         ->assertResponse
         ->isNotFound();
@@ -224,7 +224,7 @@ Asserts that a response is OK:
 ```php
 public function testHomepage()
 {
-    $this->get("/")
+    $this->get('/')
         ->go()
         ->assertResponse
         ->isOK();
@@ -237,7 +237,7 @@ Asserts that a response is not authorized:
 ```php
 public function testUserListPageWhenNotLoggedIn()
 {
-    $this->get("/users")
+    $this->get('/users')
         ->go()
         ->assertResponse
         ->isUnauthorized();
@@ -250,10 +250,10 @@ Asserts that a JSON response contains the key/value pairs anywhere in the respon
 ```php
 public function testJsonResponse()
 {
-    $this->get("/user/123")
+    $this->get('/user/123')
         ->go()
         ->assertResponse
-        ->jsonContains(["name" => "Dave"]);
+        ->jsonContains(['name' => 'Dave']);
 }
 ```
 
@@ -263,10 +263,10 @@ Asserts that a JSON response contains the key anywhere in the response.
 ```php
 public function testJsonResponse()
 {
-    $this->get("/user/123")
+    $this->get('/user/123')
         ->go()
         ->assertResponse
-        ->jsonContainsKey("name");
+        ->jsonContainsKey('name');
 }
 ```
 
@@ -276,10 +276,10 @@ Asserts that a JSON response matches an input array when decoded:
 ```php
 public function testJsonResponse()
 {
-    $this->get("/api/auth")
+    $this->get('/api/auth')
         ->go()
         ->assertResponse
-        ->jsonEquals(["foo" => "bar"]);
+        ->jsonEquals(['foo' => 'bar']);
 }
 ```
 
@@ -289,10 +289,10 @@ Asserts that the response is a redirect to a particular URL:
 ```php
 public function testMyRedirect()
 {
-    $this->get("/myaccount")
+    $this->get('/myaccount')
         ->go()
         ->assertResponse
-        ->redirectsTo("/login");
+        ->redirectsTo('/login');
 }
 ```
 
@@ -302,7 +302,7 @@ Asserts that a response's status code equals a particular value:
 ```php
 public function testPaymentRequiredOnSubscriptionPage()
 {
-    $this->get("/subscribers/reports")
+    $this->get('/subscribers/reports')
         ->go()
         ->assertResponse
         ->statusCodeEquals(ResponseHeaders::HTTP_PAYMENT_REQUIRED);
@@ -318,10 +318,10 @@ Asserts that the view generated by the controller has a particular variable:
 ```php
 public function testCssVariableIsSet()
 {
-    $this->get("/home")
+    $this->get('/home')
         ->go()
         ->assertView
-        ->hasVar("css");
+        ->hasVar('css');
 }
 ```
 
@@ -331,10 +331,10 @@ Asserts that the view generated by the controller has a particular variable with
 ```php
 public function testCssVariableIsSet()
 {
-    $this->get("/home")
+    $this->get('/home')
         ->go()
         ->assertView
-        ->varEquals("css", ["assets/css/style.css"]);
+        ->varEquals('css', ['assets/css/style.css']);
 }
 ```
 
@@ -358,7 +358,7 @@ You may disable only specific middleware in your kernel:
 ```php
 public function testWithoutSpecificMiddleware()
 {
-    $this->kernel->onlyDisableMiddleware(["MyMiddlewareClass"]);
+    $this->kernel->onlyDisableMiddleware(['MyMiddlewareClass']);
     // ...Do your tests
 }
 ```
@@ -369,7 +369,7 @@ You may enable only specific middleware in your kernel:
 ```php
 public function testWithSpecificMiddleware()
 {
-    $this->kernel->onlyEnableMiddleware(["MyMiddlewareClass"]);
+    $this->kernel->onlyEnableMiddleware(['MyMiddlewareClass']);
     // ...Do your tests
 }
 ```

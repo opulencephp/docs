@@ -33,22 +33,22 @@ Learn how to [generate random strings](cryptography#generating-random-strings) i
 
 <h2 id="comparing-strings">Comparing Strings</h2>
 <h4 id="comparing-strings-what-is-it">What is It?</h4>
-Comparing sensitive strings, like hashes and tokens, using PHP's `==` operator can give away information about the string you're comparing against.  For example, comparing "aaa" to "bbb" will return `false` faster than "aaa" and "aab" because PHP's comparison operator returns false at the first differing character.  Using 
+Comparing sensitive strings, like hashes and tokens, using PHP's `==` operator can give away information about the string you're comparing against.  For example, comparing "aaa" to "bbb" will return `false` faster than "aaa" and "aab" because PHP's comparison operator returns false at the first differing character.  Using
 a sensitive timer and many iterations, a hacker could figure out any secured hash that's being compared with user input.
 
 <h4 id="comparing-strings-how-to-use-it">How to Use It</h4>
 Learn how to [securely compare strings](cryptography#string-comparison) in Opulence.
-   
+
 <h2 id="hashing">Hashing</h2>
 <h4 id="hashing-what-is-it">What is It?</h4>
-Hashing involves performing a one-way mapping of input to a hashed value, which is suitable for storing sensitive data.  
+Hashing involves performing a one-way mapping of input to a hashed value, which is suitable for storing sensitive data.
 
 <h4 id="hashing-how-to-use-it">How to Use It</h4>
 Learn how to [hash data](cryptography#hashing) in Opulence.
-   
+
 <h2 id="encryption">Encryption</h2>
 <h4 id="encryption-what-is-it">What is It?</h4>
-Encryption is the process of encoding data with a special key so that only authorized parties may read it.  
+Encryption is the process of encoding data with a special key so that only authorized parties may read it.
 
 <h4 id="encryption-how-to-use-it">How to Use It</h4>
 Learn how to [encrypt data](cryptography#encryption) in Opulence.
@@ -82,7 +82,7 @@ To prevent this from happening, a unique token should be embedded in every form 
 Opulence automatically generates and compares the tokens using middleware.  To include the token in your form, use the `{{! csrfInput() !}}` view function in your view.  This will create a hidden input with your token, which will validate against the session token.  You can also use the `{{ csrfToken() }}` template function to print the token in elements like meta tags:
 
 ```php
-<meta name="csrf-token" content="{{ csrfToken() }}">
+<meta name='csrf-token' content='{{ csrfToken() }}' >
 ```
 
 To give you CSRF protection in JavaScript, Opulence sets the `XSRF-TOKEN` cookie, which some frameworks use to automatically set the `X-XSRF-TOKEN` HTTP header in requests.

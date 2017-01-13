@@ -19,7 +19,7 @@ Cache is in-memory storage for frequently-accessed data.  Data in cache is commo
 7. `set($key, $value, $lifetime)`
 
 In this case, you can use a cache **bridge** to provide a simple wrapper around your favorite cache libraries.  Opulence supplies the `Opulence\Cache\ICacheBridge` interface with the above methods as well as some bridges to the most popular cache libraries.
-  
+
 <h2 id="array-bridge">Array Bridge</h2>
 `Opulence\Cache\ArrayBridge` provides a simple cache bridge most useful for running tests.
 
@@ -35,7 +35,7 @@ $arrayBridge = new ArrayBridge();
 ```php
 use Opulence\Cache\FileBridge;
 
-$fileBridge = new FileBridge("/path/to/my/cache/files");
+$fileBridge = new FileBridge('/path/to/my/cache/files');
 ```
 
 <h2 id="memcached-bridge">Memcached Bridge</h2>
@@ -47,7 +47,7 @@ use Opulence\Cache\MemcachedBridge;
 use Opulence\Memcached\Memcached;
 
 $client = new Client();
-$client->addServer("localhost", 11211);
+$client->addServer('localhost', 11211);
 $memcached = new Memcached($client);
 $memcachedBridge = new MemcachedBridge($memcached);
 ```
@@ -55,13 +55,13 @@ $memcachedBridge = new MemcachedBridge($memcached);
 If you would like to use a Memcached client besides the "default" one, specify it:
 
 ```php
-$memcachedBridge = new MemcachedBridge($memcached, "some-other-server");
+$memcachedBridge = new MemcachedBridge($memcached, 'some-other-server');
 ```
 
 You can add a prefix to all your keys to prevent naming collisions with other applications using your Memcached server:
 
 ```php
-$memcachedBridge = new MemcachedBridge($memcached, "default", "myapp:");
+$memcachedBridge = new MemcachedBridge($memcached, 'default', 'myapp:');
 ```
 
 If you need the underlying Memcached instance to do anything beyond what the bridge does, you may call `getMemcached()`.
@@ -77,7 +77,7 @@ use Opulence\Redis\Redis;
 use Redis as Client;
 
 $client = new Client();
-$client->connect("localhost", 6379);
+$client->connect('localhost', 6379);
 $redis = new Redis($client);
 $redisBridge = new RedisBridge($redis);
 ```
@@ -85,13 +85,13 @@ $redisBridge = new RedisBridge($redis);
 If you would like to use a Redis client besides the "default" one, specify it:
 
 ```php
-$redisBridge = new RedisBridge($redis, "some-other-server");
+$redisBridge = new RedisBridge($redis, 'some-other-server');
 ```
 
 You can add a prefix to all your keys to prevent naming collisions with other applications using your Redis server:
 
 ```php
-$redisBridge = new RedisBridge($redis, "default", "myapp:");
+$redisBridge = new RedisBridge($redis, 'default', 'myapp:');
 ```
 
 If you need the underlying Redis instance to do anything beyond what the bridge does, you may call `getRedis()`.

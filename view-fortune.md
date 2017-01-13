@@ -39,7 +39,7 @@ Tags are syntactic sugar for echoing PHP data in your view.  You can put any pri
 {{ $bar }}
 {{ isset($baz) ? "Baz is set" : "Baz is NOT set" }}
 ```
-  
+
 <h4 id="sanitized-tags">Sanitized Tags</h4>
 Sanitized tags prevent malicious users from executing a cross-site scripting (XSS) attack:
 
@@ -233,15 +233,15 @@ class MyDirectives extends Bootstrapper
 {
     public function run(ITranspiler $transpiler)
     {
-        $transpiler->registerDirectiveTranspiler("if", function ($expression) {
-            // The expression will contain the surrounding parentheses 
-            return '<?php if' . $expression . ': ?>';
+        $transpiler->registerDirectiveTranspiler('if', function ($expression) {
+            // The expression will contain the surrounding parentheses
+            return '```php if' . $expression . ': ```';
         });
     }
 }
 ```
 
-If in our template we have `<% if ($user->isAdmin()) %>`, Fortune will transpile it to `<?php if($user->isAdmin()): ?>`.
+If in our template we have `<% if ($user->isAdmin()) %>`, Fortune will transpile it to ````php if($user->isAdmin()): ````.
 
 <h2 id="comments">Comments</h2>
 When writing complex views, you can easily leave comments:
@@ -301,7 +301,7 @@ Fortune supplies some built-in functions in the view library:
   * Accepts the following arguments:
     1. `array|string $paths` - The path or list of paths to the scripts
     2. `string $type` - The script type, eg "text/javascript"
-    
+
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, Fortune also supplies the following functions:
 * `csrfInput()`
   * Returns a hidden input containing the CSRF token
@@ -362,7 +362,7 @@ This will be compiled to:
 ```
 
 <h4 id="custom-functions">Custom Functions</h4>
-It's possible to add custom functions to your view.  For example, you might want to add a salutation to a last name in your view.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the Fortune transpiler.  
+It's possible to add custom functions to your view.  For example, you might want to add a salutation to a last name in your view.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the Fortune transpiler.
 
 > **Note:** This is most easily done in a [`Bootstrapper`](bootstrappers).
 
@@ -376,17 +376,17 @@ class MyFunctions extends Bootstrapper
     {
         // Our function simply needs to have a printable return value
         $transpiler->registerViewFunction(
-            "salutation", 
+            'salutation',
             function ($last, $isMale, $isMarried) {
                 if ($isMale) {
-                    $salutation = "Mr.";
+                    $salutation = 'Mr.';
                 } elseif ($isMarried) {
-                    $salutation = "Mrs.";
+                    $salutation = 'Mrs.';
                 } else {
-                    $salutation = "Ms.";
+                    $salutation = 'Ms.';
                 }
-                
-                return $salutation . " " . $last;
+
+                return $salutation . ' ' . $last;
             }
         );
     }
@@ -399,9 +399,9 @@ Compiling `Hello, {{ salutation("Young", false, true) }}` will give us `Hello, M
 You may call view functions in your PHP code by calling `Opulence\Views\Compilers\Fortune\ITranspiler::callViewFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `NAME_OF_PAGE | My Site`:
 
 ```php
-$transpiler->registerViewFunction("myPageTitle", function ($title) use ($transpiler, $view) {
+$transpiler->registerViewFunction('myPageTitle', function ($title) use ($transpiler, $view) {
     // Take advantage of the built-in view function
-    return $transpiler->callViewFunction("pageTitle", $view, $title . " | My Site");
+    return $transpiler->callViewFunction('pageTitle', $view, $title . ' | My Site');
 });
 ```
 
@@ -431,19 +431,19 @@ This will compile to:
 
 <h4 id="changing-delimiters">Changing Delimiters</h4>
 Sometimes, it might just be easier to change the tag and/or directive delimiters used in a view.  To do so, use the `setDelimiters()` method on your view:
- 
+
 ```php
 use Opulence\Views\View;
 
 $view = new View();
 // Set new open and close delimiters for directives
-$view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ["{%", "%}"]);
+$view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ['{%', '%}']);
 // Set new open and close delimiters for sanitized tags
-$view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ["^^", "$$"]);
+$view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ['^^', "$$"]);
 // Set new open and close delimiters for unsanitized tags
-$view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ["++", "--"]);
+$view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ['++', '--']);
 // Set new open and close delimiters for comments
-$view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ["((", "))"]);
+$view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ['((', '))']);
 ```
 
 Because delimiters are set for each view, you can have one view with one set of delimiters and another view with other delimiters.  This is useful if only one or a couple of views' delimiters conflict with JavaScript framework delimiters.

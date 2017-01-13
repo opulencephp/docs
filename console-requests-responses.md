@@ -26,7 +26,7 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 
 $prompt = new Prompt(new PaddingFormatter());
 // This will return true if the answer began with "y" or "Y"
-$prompt->ask(new Confirmation("Are you sure you want to continue?"));
+$prompt->ask(new Confirmation('Are you sure you want to continue?'));
 ```
 
 <h4 id="multiple-choice">Multiple Choice</h4>
@@ -35,8 +35,8 @@ Multiple choice questions are great for listing choices that might otherwise be 
 ```php
 use Opulence\Console\Prompts\Questions\MultipleChoice;
 
-$choices = ["Boeing 747", "Boeing 757", "Boeing 787"];
-$question = new MultipleChoice("Select your favorite airplane", $choices);
+$choices = ['Boeing 747', 'Boeing 757', 'Boeing 787'];
+$question = new MultipleChoice('Select your favorite airplane', $choices);
 $prompt->ask($question);
 ```
 
@@ -47,7 +47,7 @@ Select your favorite airplane
   1) Boeing 747
   2) Boeing 757
   3) Boeing 787
-  > 
+  >
 ```
 
 If the `$choices` array is associative, then the keys will map to values rather than 1)...N).  You can enable multiple answers, too:
@@ -67,7 +67,7 @@ Responses are classes that allow you to write output to an end user.  The differ
 2. `Opulence\Console\Responses\Silent`
   * Used when we don't want any output to be written
   * Useful for when one command calls another
-  
+
 Each response offers three methods:
 
 1. `write()`
@@ -83,18 +83,18 @@ Formatters are great for nicely-formatting output to the console.
 
 <h4 id="padding">Padding</h4>
 The `Opulence\Console\Responses\Formatters\PaddingFormatter` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
- 
+
 ```php
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 
 $paddingFormatter = new PaddingFormatter();
 $rows = [
-    ["George", "Carlin", "great"],
-    ["Chris", "Rock", "good"],
-    ["Jim", "Gaffigan", "pale"]
+    ['George', 'Carlin', 'great'],
+    ['Chris', 'Rock', 'good'],
+    ['Jim', 'Gaffigan', 'pale']
 ];
 $paddingFormatter->format($rows, function ($row) {
-    return $row[0] . " - " . $row[1] . " - " . $row[2];
+    return $row[0] . ' - ' . $row[1] . ' - ' . $row[2];
 });
 ```
 
@@ -123,8 +123,8 @@ use Opulence\Console\Responses\Formatters\TableFormatter;
 
 $table = new TableFormatter(new PaddingFormatter());
 $rows = [
-    ["Sean", "Connery"],
-    ["Pierce", "Brosnan"]
+    ['Sean', 'Connery'],
+    ['Pierce', 'Brosnan']
 ];
 $table->format($rows);
 ```
@@ -141,7 +141,7 @@ This will return:
 Headers can also be included in tables:
 
 ```php
-$headers = ["First", "Last"];
+$headers = ['First', 'Last'];
 $table->format($rows, $headers);
 ```
 
@@ -214,7 +214,7 @@ class CustomElements extends Bootstrapper
     public function run(ICompiler $compiler)
     {
         $compiler->registerElement(
-            "foo",
+            'foo',
              new Style(Colors::BLACK, Colors::YELLOW, [TextStyles::BOLD])
         );
     }
@@ -226,7 +226,7 @@ To override a built-in element, just re-register it:
 
 ```php
 $compiler->registerElement(
-    "success", 
+    'success',
     new Style(Colors::GREEN, Colors::BLACK)
 );
 ```

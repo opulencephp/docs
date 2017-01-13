@@ -40,7 +40,7 @@ use Opulence\Authentication\Subject;
 
 // This is a list of all roles assigned to this principal
 // You are free to define your role names as you'd like
-$roles = ["administrator"];
+$roles = ['administrator'];
 $userIdPrincipal = new Principal(PrincipalTypes::PRIMARY, 123, $roles);
 // For now, let's assume $credentials was set previously
 $subject = new Subject([$userIdPrincipal], $credentials);
@@ -66,7 +66,7 @@ use Opulence\Authentication\Credentials\Credential;
 use Opulence\Authentication\Credentials\CredentialTypes;
 
 // This is a mapping of credential value names to their values
-$values = ["username" => "dave", "password" => "mypassword"];
+$values = ['username' => 'dave', 'password' => 'mypassword'];
 $credential = new Credential(CredentialTypes::USERNAME_PASSWORD, $values);
 ```
 
@@ -190,15 +190,15 @@ $algorithm = Algorithms::SHA256;
 // The signer will be used when we actually encode our JWT
 // Keys can either be strings or resources
 // Private keys are necessary 3rd parameters for Algorithms::RSA_* algorithms
-$signer = (new SignerFactory)->createSigner($algorithm, "myPublicKey");
+$signer = (new SignerFactory)->createSigner($algorithm, 'myPublicKey');
 
 // Create our JWT's components
 $header = new JwtHeader($algorithm);
 $payload = new JwtPayload();
-$payload->setIssuer("http://mysite.com");
-$payload->setValidTo(new DateTimeImmutable("+30 days"));
+$payload->setIssuer('http://mysite.com');
+$payload->setValidTo(new DateTimeImmutable('+30 days'));
 // We can set custom fields in our payload
-$payload->add("username", "dave");
+$payload->add('username', 'dave');
 
 // Create our unsigned JWT
 $unsignedJwt = new UnsignedJwt($header, $payload);
@@ -223,7 +223,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 
 $context = new VerificationContext($signer);
-$context->setIssuer("http://mysite.com");
+$context->setIssuer('http://mysite.com');
 $verifier = new JwtVerifier();
 
 if (!$verifier->verify($signedJwt, $context, $errors = [])) {
@@ -242,7 +242,7 @@ You can easily create a `SignedJwt` from a string in the format "{base64-encoded
 $signedJwt = SignedJwt::createFromString($tokenString);
 ```
 
-> **Note:** Tokens created in this way are not verified.  You must pass them through `JwtVerifier::verify()` to verify them. 
+> **Note:** Tokens created in this way are not verified.  You must pass them through `JwtVerifier::verify()` to verify them.
 
 <h4 id="jwt-ids">JWT Ids</h4>
 Any time you create a new JWT payload, it's automatically assigned a unique JWT Id (also known as a JTI).  This Id is a combination of the JWT's claims and a random string.  You can grab the Id like so:
@@ -254,5 +254,5 @@ $jwt->getPayload()->getId();
 If you'd like to manually set the Id, you may do so:
 
 ```php
-$jwt->getPayload()->setId("foo");
+$jwt->getPayload()->setId('foo');
 ```

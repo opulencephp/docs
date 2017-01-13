@@ -15,7 +15,7 @@
   4. [Builders](#builders)
 5. [Caching](#caching)
   1. [Garbage Collection](#garbage-collection)
-  
+
 <h2 id="introduction">Introduction</h2>
 Views are the interfaces displayed to your users.  Opulence allows you to create your views using [native PHP](#php-compiler), the [Fortune compiler](#fortune-compiler) (Opulence's own view engine), or any view engine of your choice.
 
@@ -33,19 +33,19 @@ Hello, <?php echo $user->getName(); ?>
 You can set the `$user` variable in your controller using
 
 ```php
-$view->setVar("user", new User("Dave"));
+$view->setVar('user', new User('Dave'));
 ```
 
 When the view gets compiled, you'll see
- 
+
 ```
 Hello, Dave
 ```
 
-You can also set many variables using 
+You can also set many variables using
 
 ```php
-$view->setVars(["foo" => "bar", "baz" => "blah"]);
+$view->setVars(['foo' => 'bar', 'baz' => 'blah']);
 ```
 
 <h2 id="compilers">Compilers</h2>
@@ -58,7 +58,7 @@ Opulence's compiler looks at a view's file extension to determine which compiler
 use Opulence\Views\Compilers\CompilerRegistry;
 
 $registry = new CompilerRegistry();
-$registry->registerCompiler("my-extension", new MyCompiler());
+$registry->registerCompiler('my-extension', new MyCompiler());
 ```
 
 Now, files with extension `my-extension` will be compiled by `MyCompiler`.  If you are using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, a good place to register compilers would be in [bootstrapper](bootstrappers).
@@ -75,7 +75,7 @@ If your views only use native PHP, name them with the `php` file extension, eg *
 
 ##### Application Code
 ```php
-$view->setVar("foo", "bar");
+$view->setVar('foo', 'bar');
 ```
 
 The PHP compiler will compile this to `bar`.
@@ -93,16 +93,16 @@ The view factory allows you to create a view using nothing but the filename (no 
 use Opulence\Views\Factories\IO\FileViewNameResolver;
 
 $resolver = new FileViewNameResolver();
-$resolver->registerPath("/var/www/html/views/some-directory");
+$resolver->registerPath('/var/www/html/views/some-directory');
 // Register another path that has a priority, which means it will be searched first
-$resolver->registerPath("/var/www/html/views/another-directory", 1);
+$resolver->registerPath('/var/www/html/views/another-directory', 1);
 
 // Register an extension
-$resolver->registerExtension("php");
+$resolver->registerExtension('php');
 // Register another extension with a priority, which means it will be searched for first
-$resolver->registerExtension("fortune", 1);
+$resolver->registerExtension('fortune', 1);
 ```
- 
+
 > **Note:** If you use the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the *php*, *fortune*, and *fortune.php* extensions are already registered to the resolver.
 
 <h4 id="view-readers">View Readers</h4>
@@ -111,7 +111,7 @@ Opulence uses an `Opulence\Views\Factories\IO\IViewReader` to actually read raw 
 ```php
 $container->bindInstance(IViewReader::class, new MyViewReader());
 ```
- 
+
 <h4 id="creating-views">Creating Views</h4>
 The easiest way to create views is to pass a `ViewFactory` into the controller:
 
@@ -125,36 +125,36 @@ class MyController
 {
     private $viewCompiler = null;
     private $viewFactory = null;
-    
+
     public function __construct(ICompiler $viewCompiler, IViewFactory $viewFactory)
     {
         $this->viewCompiler = $viewCompiler;
         $this->viewFactory = $viewFactory;
     }
-    
+
     public function showHomepage() : Response
     {
         // The view factory will search for a file named "Home" in the registered paths
         // with any of the registered extensions
-        $view = $this->viewFactory->createView("Home");
-        $view->setVar("now", new DateTime());
-        
+        $view = $this->viewFactory->createView('Home');
+        $view->setVar('now', new DateTime());
+
         return new Response($this->viewCompiler->compile($view));
     }
 }
 ```
- 
+
 <h4 id="builders">Builders</h4>
 Your views will often need variables to be set whenever they're instantiated.  Ideally, this repetitive task should not be done in controllers.  Instead, you can use `IViewFactory::registerBuilder()` to register a view builder to be run every time a particular view is created.  The first parameter is the name of the view you're registering for.  The second parameter is a closure that accepts an `Opulence\Views\IView` object and returns a built `IView` object.
 
 ```php
-$factory->registerBuilder("Homepage", function ($view) {
-    $view->setVar("title", "Welcome!");
-    
+$factory->registerBuilder('Homepage', function ($view) {
+    $view->setVar('title', 'Welcome!');
+
     return $view;
 });
 
-echo $factory->createView("Homepage")->getVar("title"); // "Welcome!"
+echo $factory->createView('Homepage')->getVar('title'); // "Welcome!"
 ```
 
 > **Note:** You can register as many builders as you'd like to a view.  They will be run in the order they're registered.
@@ -164,7 +164,7 @@ You can also wrap the builder into any class that you'd like:
 ```php
 use MyApp\ProfileViewBuilder;
 
-$factory->registerBuilder("Profile", function ($view) {
+$factory->registerBuilder('Profile', function ($view) {
     return (new ProfileViewBuilder())->build($view);
 });
 ```
@@ -176,12 +176,12 @@ To improve the speed of view compilers, views are cached using a class that impl
 
 <h4 id="garbage-collection">Garbage Collection</h4>
 Occasionally, you should clear out old cached view files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `FileCache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
- 
+
 ```php
 use Opulence\Views\Caching\FileCache;
 
 // Make 123 out of every 1,000 view compilations trigger garbage collection
-$cache = new FileCache("/tmp", 123, 1000);
+$cache = new FileCache('/tmp', 123, 1000);
 ```
 Or use `setGCChance()`:
 ```php

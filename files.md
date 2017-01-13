@@ -40,12 +40,12 @@ $fileSystem->read(FILE_PATH);
 <h4 id="writing-to-a-file">Writing to a File</h4>
 ```php
 // The third parameter is identical to PHP's file_put_contents() flags
-$fileSystem->write(FILE_PATH, "foo", \LOCK_EX);
+$fileSystem->write(FILE_PATH, 'foo', \LOCK_EX);
 ```
 
 <h4 id="appending-to-a-file">Appending to a File</h4>
 ```php
-$fileSystem->append(FILE_PATH, "foo");
+$fileSystem->append(FILE_PATH, 'foo');
 ```
 
 <h4 id="deleting-a-file">Deleting a File</h4>

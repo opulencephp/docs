@@ -15,7 +15,7 @@
 
 <h2 id="introduction">Introduction</h2>
 Apex makes it easy to create powerful, custom commands.  From compiling Markdown files to resynchronzing cache with the database, commands simplify administrative components in your application.
-  
+
 <h2 id="arguments">Arguments</h2>
 Console commands can accept arguments from the user.  Arguments can be required, optional, and/or arrays.  You specify the type by bitwise OR-ing the different arguments types.  Array arguments allow a variable number of arguments to be passed in, like "php apex foo arg1 arg2 arg3 ...".  The only catch is that array arguments must be the last argument defined for the command.
 
@@ -28,10 +28,10 @@ use Opulence\Console\Requests\ArgumentTypes;
 // The argument will be required and an array
 $type = ArgumentTypes::REQUIRED | ArgumentTypes::IS_ARRAY;
 // The description argument is used by the help command
-$argument = new Argument("foo", $type, "The foo argument");
+$argument = new Argument('foo', $type, 'The foo argument');
 ```
 
->**Note:** Like array arguments, optional arguments must appear after any required arguments. 
+>**Note:** Like array arguments, optional arguments must appear after any required arguments.
 
 <h2 id="options">Options</h2>
 You might want different behavior in your command depending on whether or not an option is set.  This is possible using `Opulence\Console\Requests\Option`.  Options have two formats:
@@ -55,7 +55,7 @@ use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 
 $type = OptionTypes::IS_ARRAY | OptionTypes::REQUIRED_VALUE;
-$option = new Option("foo", "f", $types, "The foo option");
+$option = new Option('foo', 'f', $types, 'The foo option');
 ```
 
 <h2 id="creating-commands">Creating Commands</h2>
@@ -65,14 +65,14 @@ You can create your own commands and register them to the application.  You do t
   * Used to set the name, description, arguments, and options
 2. `doExecute()`
   * Actually executes the command and writes any output to the input `Response` object
-  
+
 <h4 id="dependencies">Dependencies</h4>
 If your command requires some dependencies in its constructor, the IoC container will resolve them and inject them into the constructor.
 
 > **Note:** If you define your own constructor in your command class, you MUST call `parent::construct()` from within it.
 
 <h4 id="example">Example</h4>
-  
+
 Let's define a simple command that greets a person and optionally shouts the greeting:
 
 ```php
@@ -89,24 +89,24 @@ class Greeting extends Command
 {
     protected function define()
     {
-        $this->setName("greet")
-            ->setDescription("Greets a person")
+        $this->setName('greet')
+            ->setDescription('Greets a person')
             ->addArgument(new Argument(
-                "name", ArgumentTypes::REQUIRED, "The name to greet"
+                'name', ArgumentTypes::REQUIRED, 'The name to greet'
             ))
             ->addOption(new Option(
-                "yell", "y", OptionTypes::OPTIONAL_VALUE, "Yell the greeting?", "yes"
+                'yell', 'y', OptionTypes::OPTIONAL_VALUE, 'Yell the greeting?', 'yes'
             ));
     }
-    
+
     protected function doExecute(IResponse $response)
     {
-        $greeting = "Hello, " . $this->getArgumentValue("name");
-        
-        if ($this->getOptionValue("yell") == "yes") {
+        $greeting = 'Hello, ' . $this->getArgumentValue('name');
+
+        if ($this->getOptionValue('yell') == 'yes') {
             $greeting = strtoupper($greeting);
         }
-        
+
         $response->writeln($greeting);
     }
 }
@@ -145,11 +145,11 @@ class MyCommand extends Command
     {
         // Define the command...
     }
-    
+
     protected function doExecute(IResponse $response)
     {
         // Call another command
-        $this->commands->call("foo", $response, ["argument1Value"], ["--option1Value"]);
+        $this->commands->call('foo', $response, ['argument1Value'], ['--option1Value']);
     }
 }
 ```

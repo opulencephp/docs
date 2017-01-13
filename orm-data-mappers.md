@@ -69,81 +69,81 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
     public function add($post)
     {
         $statement = $this->writeConnection->prepare(
-            "INSERT INTO posts (text, title, author) VALUES (:text, :title, :author)"
+            'INSERT INTO posts (text, title, author) VALUES (:text, :title, :author)'
         );
         $statement->bindValues([
-            "text" => $post->getText(),
-            "title" => $post->getTitle(),
-            "author" => $post->getAuthor()
+            'text'   => $post->getText(),
+            'title'  => $post->getTitle(),
+            'author' => $post->getAuthor()
         ]);
         $statement->execute();
     }
-    
+
     /** @var Post $post */
     public function delete($post)
     {
         $statement = $this->writeConnection->prepare(
-            "DELETE FROM posts WHERE id = :id"
+            'DELETE FROM posts WHERE id = :id'
         );
         $statement->bindValues([
-            "id" => [$post->getId(), \PDO::PARAM_INT]
+            'id' => [$post->getId(), \PDO::PARAM_INT]
         ]);
         $statement->execute();
     }
-    
+
     public function getAll() : array
     {
-        $sql = "SELECT id, text, title, author FROM posts";
-        
+        $sql = 'SELECT id, text, title, author FROM posts';
+
         // The last parameter says that we want a list of entities
         return $this->read($sql, [], self::VALUE_TYPE_ARRAY);
     }
-    
+
     public function getById($id)
     {
-        $sql = "SELECT id, text, title, author FROM posts WHERE id = :id";
+        $sql = 'SELECT id, text, title, author FROM posts WHERE id = :id';
         $parameters = [
-            "id" => [$id, \PDO::PARAM_INT]
+            'id' => [$id, \PDO::PARAM_INT]
         ];
-        
+
         // The second-to-last parameter says that we want a single entity
         // The last parameter says that we expect one and only one entity
         return $this->read($sql, $parameters, self::VALUE_TYPE_ENTITY, true);
     }
-    
+
     // This is a custom get*() method defined in IPostDataMapper
     public function getByTitle($title)
     {
-        $sql = "SELECT id, text, title, author FROM posts WHERE title = :title";
+        $sql = 'SELECT id, text, title, author FROM posts WHERE title = :title';
         $parameters = [
-            "title" => $title
+            'title' => $title
         ];
-        
+
         return $this->read($sql, $parameters, self::VALUE_TYPE_ENTITY);
     }
-    
+
     /** @var Post $post */
     public function update($post)
     {
         $statement = $this->writeConnection->prepare(
-            "UPDATE posts SET text = :text, title = :title, author = :author WHERE id = :id"
+            'UPDATE posts SET text = :text, title = :title, author = :author WHERE id = :id'
         );
         $statement->bindValues([
-            "text" => $post->getText(),
-            "title" => $post->getTitle(),
-            "author" => $post->getAuthor(),
-            "id" => [$post->getId(), \PDO::PARAM_INT] 
+            'text'   => $post->getText(),
+            'title'  => $post->getTitle(),
+            'author' => $post->getAuthor(),
+            'id'     => [$post->getId(), \PDO::PARAM_INT]
         ]);
         $statement->execute();
     }
-    
+
     protected function loadEntity(array $hash)
     {
         // $hash contains the column values from a single row in the results
         return new Post(
-            (int)$hash["id"],
-            $hash["title"],
-            $hash["author"]
+            (int)$hash['id'],
+            $hash['title'],
+            $hash['author']
         );
     }
 }
@@ -167,7 +167,7 @@ Redis data mappers implement the following methods:
   * You must implement this for each Redis data mapper
 * `read()`
   * Reads an entity or list of entities from an Id or list of Ids stored in a set or sorted set
-  
+
 <h4 id="cache-example">Example</h4>
 Let's take a look at a PhpRedis data mapper example:
 
@@ -185,65 +185,65 @@ class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
     {
         // Store a hash of the post's data
         $hash = [
-            "id" => $post->getId(),
-            "title" => $post->getTitle(),
-            "author" => $post->getAuthor()
+            'id'     => $post->getId(),
+            'title'  => $post->getTitle(),
+            'author' => $post->getAuthor()
         ];
-        
+
         if (!$this->redis->hMset("posts:{$post->getId()}", $hash)) {
-            throw new OrmException("Failed to add post to Redis");
+            throw new OrmException('Failed to add post to Redis');
         }
 
         // Create an index of post Ids
         // This is useful for the getAll() method
-        $this->redis->sAdd("posts", $post->getId());
+        $this->redis->sAdd('posts', $post->getId());
         // Create an index of post titles
         // This is useful for the getByTitle() method
         $this->redis->set("posts:titles:{$post->getTitle()}", $post->getId());
     }
-    
+
     /** @var Post $post */
     public function delete($post)
     {
         if (!$this->redis->del("posts:{$post->getId()}")) {
-            throw new OrmException("Failed to delete post from Redis");
+            throw new OrmException('Failed to delete post from Redis');
         }
 
         // Remove this post from the index of posts
-        $this->redis->sRemove("posts", $post->getId());
+        $this->redis->sRemove('posts', $post->getId());
     }
-    
+
     public function flush()
     {
         // Delete the index of posts as well as all posts
         if (
-            $this->redis->del("posts") === false || 
-            !$this->redis->deleteKeyPatterns("posts:*")
+            $this->redis->del('posts') === false ||
+            !$this->redis->deleteKeyPatterns('posts:*')
         ) {
-            throw new OrmException("Failed to flush posts from Redis");
+            throw new OrmException('Failed to flush posts from Redis');
         }
     }
-    
+
     public function getAll() : array
     {
         // This will load all the Ids in the "posts" set and generate Post objects
-        return $this->read("posts", self::VALUE_TYPE_SET);
+        return $this->read('posts', self::VALUE_TYPE_SET);
     }
-    
+
     // This is a custom get*() method defined in IPostDataMapper
     public function getByTitle($title)
     {
         // This will load the Id in the "posts:titles:$title" key and generate a Post object
         return $this->read("posts:titles:$title", self::VALUE_TYPE_STRING);
     }
-    
+
     /** @var Post $post */
     public function update($post)
     {
         // In this case, an update will do the same thing as an addition
         $this->add($post);
     }
-    
+
     protected function getEntityHashById($id)
     {
         $hash = $this->redis->hGetAll("posts:$id");
@@ -255,13 +255,13 @@ class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
 
         return $hash;
     }
-    
+
     protected function loadEntity(array $hash)
     {
         return new Post(
-            (int)$hash["id"],
-            $hash["title"],
-            $hash["author"]
+            (int)$hash['id'],
+            $hash['title'],
+            $hash['author']
         );
     }
 }
@@ -295,8 +295,8 @@ They come with the following methods built-in:
   * Sets the instance of the sub-cache data mapper using the input cache instance
 * `setSqlDataMapper()`
   * Sets the instance of the sub-SQL data mapper using the input connection instances
-  
-  
+
+
 <h4 id="cached-sql-example">Example</h4>
 Let's take a look at a cached SQL data mapper example that uses the cache and SQL data mappers from the previous examples:
 
@@ -310,7 +310,7 @@ class PostCachedSqlDataMapper extends RedisCachedSqlDataMapper implements IPostD
 {
     public function getByTitle($title)
     {
-        return $this->read("getByTitle", [$title]);
+        return $this->read('getByTitle', [$title]);
     }
 
     protected function setCacheDataMapper($cache)
@@ -337,25 +337,25 @@ use MyApp\WordPress\Post;
 class PostDataMapper extends SqlDataMapper
 {
     private $authorRepo;
-    
+
     public function __construct(
-        IConnection $readConnection, 
+        IConnection $readConnection,
         IConnection $writeConnection,
         AuthorRepo $authorRepo
     ) {
         parent::__construct($readConnection, $writeConnection);
-    
+
         $this->authorRepo = $authorRepo;
     }
-    
+
     protected function loadEntity(array $hash)
     {
         // Grab the author
-        $author = $this->authorRepo->getById($hash["author_id"]);
-        
+        $author = $this->authorRepo->getById($hash['author_id']);
+
         return new Post(
-            (int)$hash["id"],
-            $hash["title"],
+            (int)$hash['id'],
+            $hash['title'],
             $author
         );
     }
