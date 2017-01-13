@@ -14,16 +14,16 @@
 
 <h2 id="introduction">Introduction</h2>
 If you've ever written a PHP page and had some sort of error or unhandled exception, you've probably seen a blank white page in your browser.  Obviously, this is not useful for end users, nor is it helpful for developers when trying to track down the problem.  Opulence's `Debug` library makes it possible to handle errors and exceptions and create useful HTTP responses from them.
- 
+
 <h2 id="exception-handlers">Exception Handlers</h2>
 The exception handler is your last line of defense for unhandled exceptions.  Opulence provides `Opulence\Debug\Exceptions\Handlers\ExceptionHandler` as an exception handler. It has two methods:
- 
+
 * `handle()`
   * Handles the `Exception` (or `Throwable` in PHP 7)
   * Useful for logging the exception and rendering a response
 * `register()`
   * Registers the handler with PHP
-  
+
 <h4 id="logging">Logging</h4>
 `ExceptionHandler` accepts a PSR-3 logger to actually log any errors.  We recommend the excellent <a href="https://github.com/Seldaek/monolog" target="_blank" title="Monolog">Monolog</a> logger.
 
@@ -33,7 +33,7 @@ use Monolog\Logger;
 use MyApp\Debug\MyExceptionRenderer;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 
-$logger = new Logger("app");
+$logger = new Logger('app');
 $logger->pushHandler(new ErrorLogHandler());
 $renderer = new MyExceptionRenderer();
 $exceptionHandler = new ExceptionHandler($logger, $renderer);
@@ -71,7 +71,7 @@ Two variables will be injected into your Fortune template:
   * The exception object being rendered
 2. `$__inDevelopmentEnvironment`
   * Whether or not we are in the development environment
-  
+
 <h5 id="response-formats">Response Formats</h5>
 If a user is requesting JSON, it'd be nice to return a formatted JSON response when errors occur.  Opulence provides [Fortune](view-fortune) templates for JSON errors in the skeleton project under the `resources/views/errors/json` directory.
 
@@ -99,7 +99,7 @@ use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
 use Opulence\Debug\Errors\Handlers\ErrorHandler;
 
-$logger = new Logger("app");
+$logger = new Logger('app');
 $logger->pushHandler(new ErrorLogHandler());
 // Assume the exception handler has already been set
 $errorHandler = new ErrorHandler(

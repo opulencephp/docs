@@ -41,7 +41,7 @@
 
 <h2 id="introduction">Introduction</h2>
 Opulence makes interacting with HTTP requests and responses easy.  Tasks like checking if a POST variable is set before using it are repetitive when working directly with PHP's `$_POST` global array.  If you've ever worked with cookies and gotten the "headers already sent" error, you know how annoying it is to work with the HTTP tools PHP gives you by default.  Use Opulence's tools, and stop worry about stuff like this.
-  
+
 <h2 id="requests">Requests</h2>
 Opulence has a wrapper around an HTTP request in the `Opulence\Http\Requests\Request` class.
 
@@ -55,70 +55,70 @@ Superglobal request data, eg `$_GET` and `$_POST` are wrapped into `Opulence\Htt
 
 <h4 id="query-string-data">Query String Data</h4>
 ```php
-$request->getQuery()->get("foo");
+$request->getQuery()->get('foo');
 ```
 
 > **Note:** This is similar to the data in `$_GET`.  `getQuery()` returns a `Collection` object.
 
 <h4 id="post-data">Post Data</h4>
 ```php
-$request->getPost()->get("foo");
+$request->getPost()->get('foo');
 ```
 
 > **Note:** This is similar to the data in `$_POST`.  `getPost()` returns a `Collection` object.
 
 <h4 id="request-data">Request Data</h4>
 ```php
-$request->getInput("foo");
+$request->getInput('foo');
 ```
 
 > **Note:** This is similar to the data in `$_REQUEST`.  This is useful if you do not know if form data is coming from the query string, post data, delete data, put data, or patch data.  If the request body was JSON, `getInput()` returns the JSON property with the input name.
 
 <h4 id="put-data">Put Data</h4>
 ```php
-$request->getPut()->get("foo");
+$request->getPut()->get('foo');
 ```
 
 > **Note:** This is only populated with `x-www-form-urlencoded` content type.  `getPut()` returns a `Collection` object.
 
 <h4 id="patch-data">Patch Data</h4>
 ```php
-$request->getPatch()->get("foo");
+$request->getPatch()->get('foo');
 ```
 
 > **Note:** This is only populated with `x-www-form-urlencoded` content type.  `getPatch()` returns a `Collection` object.
 
 <h4 id="delete-data">Delete Data</h4>
 ```php
-$request->getDelete()->get("foo");
+$request->getDelete()->get('foo');
 ```
 
 > **Note:** This is only populated with `x-www-form-urlencoded` content type.  `getDelete()` returns a `Collection` object.
 
 <h4 id="cookies">Cookies</h4>
 ```php
-$request->getCookies()->get("foo");
+$request->getCookies()->get('foo');
 ```
 
 > **Note:** This is similar to the data in `$_COOKIE`.  `getCookies()` returns a `Collection` object.
 
 <h4 id="server-data">Server Data</h4>
 ```php
-$request->getServer()->get("foo");
+$request->getServer()->get('foo');
 ```
 
 > **Note:** This is similar to the data in `$_SERVER`.  `getServer()` returns a `Collection` object.
 
 <h4 id="header-data">Header Data</h4>
 ```php
-$request->getHeaders()->get("foo");
+$request->getHeaders()->get('foo');
 ```
 
 > **Note:** These are the $\_SERVER values whose names with with "HTTP\_".  `getHeaders()` returns a `Collection` object.  Their names are case-insensitive per RFC 2616.
 
 <h4 id="file-data">File Data</h4>
 ```php
-$request->getFiles()->get("foo");
+$request->getFiles()->get('foo');
 ```
 
 > **Note:** This is similar to the data in `$_FILES`.  `getFiles()` returns a `Files` object.
@@ -144,7 +144,7 @@ $uploadedFile->move($targetDirectory, $name);
 
 <h4 id="env-data">Env Data</h4>
 ```php
-$request->getEnv()->get("foo");
+$request->getEnv()->get('foo');
 ```
 
 > **Note:** This is similar to the data in `$_ENV`.  `getEnv()` returns a `Collection` object.
@@ -153,13 +153,13 @@ $request->getEnv()->get("foo");
 ```php
 $request->getPath();
 ```
-  
+
 <h5 id="checking-the-path">Checking the Path</h5>
 Opulence allows you to check if a certain path is the current path using `$request->isPath(PATH_TO_MATCH)`.  It also allows you to use a regular expression for more complex matching:
 
 ```php
 // The second parameter lets the request know that we're using a regular expression
-$request->isPath("/docs/.*", true);
+$request->isPath('/docs/.*', true);
 ```
 
 > **Note:** Do not include regular expression delimiters in your regular expression.
@@ -190,7 +190,7 @@ If you are using Fortune for your views, you may use the `httpMethodInput()` [vi
 ```
 
 You can also use the `X-HTTP-METHOD-OVERRIDE` header to set the HTTP method.
-  
+
 <h4 id="body">Body</h4>
 The body of a request comes from the `php://input` stream.  It can be used to grab non-form data, such as JSON and XML data.
 
@@ -262,7 +262,7 @@ $phpAuthPassword = $request->getPassword();
 If you're using a load balancer or some sort of proxy server, you'll need to add it to the list of trusted proxies:
 
 ```php
-Request::setTrustedProxies(["192.168.128.41"]);
+Request::setTrustedProxies(['192.168.128.41']);
 ```
 
 If you want to use your proxy to set trusted headers, then specify their names:
@@ -270,10 +270,10 @@ If you want to use your proxy to set trusted headers, then specify their names:
 ```php
 use Opulence\Http\Requests\RequestHeaders;
 
-Request::setTrustedHeaderName(RequestHeaders::CLIENT_IP, "X-Proxy-Ip");
-Request::setTrustedHeaderName(RequestHeaders::CLIENT_HOST, "X-Proxy-Host");
-Request::setTrustedHeaderName(RequestHeaders::CLIENT_PORT, "X-Proxy-Port");
-Request::setTrustedHeaderName(RequestHeaders::CLIENT_PROTO, "X-Proxy-Proto");
+Request::setTrustedHeaderName(RequestHeaders::CLIENT_IP, 'X-Proxy-Ip');
+Request::setTrustedHeaderName(RequestHeaders::CLIENT_HOST, 'X-Proxy-Host');
+Request::setTrustedHeaderName(RequestHeaders::CLIENT_PORT, 'X-Proxy-Port');
+Request::setTrustedHeaderName(RequestHeaders::CLIENT_PROTO, 'X-Proxy-Proto');
 ```
 
 > **Note:** If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, then a [bootstrapper](bootstrappers) would be a good place to set the proxy settings.
@@ -288,7 +288,7 @@ By default, a status code of 200 (HTTP OK) is returned.  A full list of codes is
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 
-$response = new Response("Permission denied", ResponseHeaders::HTTP_UNAUTHORIZED);
+$response = new Response('Permission denied', ResponseHeaders::HTTP_UNAUTHORIZED);
 $response->send();
 ```
 
@@ -299,8 +299,8 @@ You can specify any headers you'd like in your response.  To do something like s
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 
-$response = new Response("Foo");
-$response->getHeaders()->set("Content-Type", ResponseHeaders::CONTENT_TYPE_OCTET_STREAM);
+$response = new Response('Foo');
+$response->getHeaders()->set('Content-Type', ResponseHeaders::CONTENT_TYPE_OCTET_STREAM);
 ```
 
 <h4 id="cookies">Cookies</h4>
@@ -312,19 +312,19 @@ use DateTime;
 use Opulence\Http\Responses\Cookie;
 
 // This should look pretty familiar to PHP's setcookie() function
-$userIdCookie = new Cookie("id", 17, new DateTime("+1 week"), "/", ".foo.com", true, true);
+$userIdCookie = new Cookie('id', 17, new DateTime('+1 week'), '/', '.foo.com', true, true);
 $response->getHeaders()->setCookie($userIdCookie);
 $response->send();
 ```
 
-> **Note:** Unlike PHP's `setcookie()`, Opulence defaults to setting the `httpOnly` flag to true.  This makes sites less prone to cross-site request forgeries. 
+> **Note:** Unlike PHP's `setcookie()`, Opulence defaults to setting the `httpOnly` flag to true.  This makes sites less prone to cross-site request forgeries.
 
 <h5 id="deleting-cookies">Deleting Cookies</h5>
 Deleting a cookie is easy:
 
 ```php
 // Let's delete the cookie we set in the example above
-$response->getHeaders()->deleteCookie("id", "/", ".foo.com", true, true);
+$response->getHeaders()->deleteCookie('id', '/', '.foo.com', true, true);
 $response->send();
 ```
 
@@ -335,7 +335,7 @@ JSON responses are great for API calls.  Opulence supports JSON responses in the
 use Opulence\Http\Responses\JsonResponse;
 use Opulence\Http\Responses\ResponseHeaders;
 
-$response = new JsonResponse(["message" => "Hello, world!"], ResponseHeaders::HTTP_OK);
+$response = new JsonResponse(['message' => 'Hello, world!'], ResponseHeaders::HTTP_OK);
 $response->send();
 ```
 
@@ -352,7 +352,7 @@ You'll often finding yourself wanting to redirect a user after things like loggi
 use Opulence\Http\Responses\RedirectResponse;
 use Opulence\Http\Responses\ResponseHeaders;
 
-$response = new RedirectResponse("http://www.example.com/login", ResponseHeaders::HTTP_FOUND);
+$response = new RedirectResponse('http://www.example.com/login', ResponseHeaders::HTTP_FOUND);
 $response->send();
 ```
 
@@ -363,7 +363,7 @@ If your response should be sent as a stream, use `Opulence\Http\Responses\Stream
 use Opulence\Http\Responses\StreamResponse;
 
 $response = new StreamResponse(function () {
-    echo "My awesome stream";
+    echo 'My awesome stream';
     // To make sure the output gets sent, flush it
     flush();
 });

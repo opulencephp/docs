@@ -33,20 +33,20 @@ Any kind of serializable data can be written to sessions:
 use Opulence\Sessions\Session;
 
 $session = new Session();
-$session->set("someString", "foo");
-$session->set("someArray", ["bar", "baz"]);
+$session->set('someString', 'foo');
+$session->set('someArray', ['bar', 'baz']);
 ```
 
 <h4 id="getting-data">Getting Data</h4>
 ```php
-$session->set("someKey", "myValue");
-echo $session->get("someKey"); // "myValue"
+$session->set('someKey', 'myValue');
+echo $session->get('someKey'); // "myValue"
 ```
 
 <h4 id="getting-all-data">Getting All Data</h4>
 ```php
-$session->set("foo", "bar");
-$session->set("baz", "blah");
+$session->set('foo', 'bar');
+$session->set('baz', 'blah');
 $data = $session->getAll();
 echo $data[0]; // "bar"
 echo $data[1]; // "blah"
@@ -54,14 +54,14 @@ echo $data[1]; // "blah"
 
 <h4 id="checking-if-session-has-key">Checking if a Session Has a Key</h4>
 ```php
-echo $session->has("foo"); // 0
-$session->set("foo", "bar");
-echo $session->has("foo"); // 1
+echo $session->has('foo'); // 0
+$session->set('foo', 'bar');
+echo $session->has('foo'); // 1
 ```
 
 <h4 id="deleting-data">Deleting Data</h4>
 ```php
-$session->delete("someKey");
+$session->delete('someKey');
 ```
 
 <h4 id="flushing-all-data">Flushing All Data</h4>
@@ -73,9 +73,9 @@ $session->flush();
 Let's say you're writing a form that can display any validation errors after submitting, and you'd like to remember these error messages only for the next request.  Use `flash()`:
 
 ```php
-$session->flash("formErrors", ["Username is required", "Invalid email address"]);
+$session->flash('formErrors', ['Username is required', 'Invalid email address']);
 // ...redirect back to the form...
-foreach ($session->get("formErrors") as $error) {
+foreach ($session->get('formErrors') as $error) {
     echo htmlentities($error);
 }
 ```
@@ -113,7 +113,7 @@ use Opulence\Sessions\ISession;
 class MyController
 {
     private $session;
-    
+
     // The session will be automatically injected into the controller by the router
     public function __construct(ISession $session)
     {
@@ -135,8 +135,8 @@ use Opulence\Cryptography\Encryption\Encrypter;
 use Opulence\Sessions\Handlers\FileSessionHandler;
 use Opulence\Sessions\Handlers\SessionEncrypter;
 
-$sessionEncrypter = new SessionEncrypter(new Encrypter("mySecretApplicationKey"));
-$handler = new FileSessionHandler("path/to/my/session/files");
+$sessionEncrypter = new SessionEncrypter(new Encrypter('mySecretApplicationKey'));
+$handler = new FileSessionHandler('path/to/my/session/files');
 $handler->useEncryption(true);
 $handler->setEncrypter($sessionEncrypter);
 ```

@@ -29,40 +29,40 @@ For example, the following two tests will test identical things:
 ```php
 public function testUsingExecute()
 {
-    $this->execute("app:rename", ["Project", "MyApp"], [], true)
+    $this->execute('app:rename', ['Project', 'MyApp'], [], true)
         ->assertResponse
-        ->outputEquals("<success>Updated name successfully</success>");
+        ->outputEquals('<success>Updated name successfully</success>');
 }
 
 public function testUsingCommand()
 {
-    $this->command("app:rename")
-        ->withArguments(["Project", "MyApp"])
+    $this->command('app:rename')
+        ->withArguments(['Project', 'MyApp'])
         ->withAnswers(true)
         ->execute()
         ->assertResponse
-        ->outputEquals("<success>Updated name successfully</success>");
+        ->outputEquals('<success>Updated name successfully</success>');
 }
 ```
 
-<h4 id="prompt-answers">Prompt Answers</h4>  
+<h4 id="prompt-answers">Prompt Answers</h4>
 Let's say that our command has a `Confirmation` question that we want to try testing with `true` and `false` answers.  Simply pass the answers and test the output of each:
 
 ```php
 public function testConfirmation()
 {
-    $this->command("app:rename")
-        ->withArguments(["Project", "MyApp"])
+    $this->command('app:rename')
+        ->withArguments(['Project', 'MyApp'])
         ->withAnswers(true)
         ->execute()
         ->assertResponse
-        ->outputEquals("<success>Updated name successfully</success>");
-    $this->command("app:rename")
-        ->withArguments(["Project", "MyApp"])
+        ->outputEquals('<success>Updated name successfully</success>');
+    $this->command('app:rename')
+        ->withArguments(['Project', 'MyApp'])
         ->withAnswers(false)
         ->execute()
         ->assertResponse
-        ->outputEquals("");
+        ->outputEquals('');
 }
 ```
 
@@ -87,7 +87,7 @@ Asserts that the status code of the last command is an error:
 ```php
 public function testStatusCode()
 {
-    $this->execute("errorcommand")
+    $this->execute('errorcommand')
         ->assertResponse
         ->isError();
 }
@@ -99,7 +99,7 @@ Asserts that the status code of the last command is fatal:
 ```php
 public function testStatusCode()
 {
-    $this->execute("badcommand")
+    $this->execute('badcommand')
         ->assertResponse
         ->isFatal();
 }
@@ -111,7 +111,7 @@ Asserts that the status code of the last command is OK:
 ```php
 public function testStatusCode()
 {
-    $this->execute("goodcommand")
+    $this->execute('goodcommand')
         ->assertResponse
         ->isOK();
 }
@@ -123,7 +123,7 @@ Asserts that the status code of the last command is a warning:
 ```php
 public function testStatusCode()
 {
-    $this->execute("warningcommand")
+    $this->execute('warningcommand')
         ->assertResponse
         ->isWarning();
 }
@@ -135,9 +135,9 @@ Asserts that the output of the last command equals an expected value:
 ```php
 public function testOutputIsCorrect()
 {
-    $this->execute("hello")
+    $this->execute('hello')
         ->assertResponse
-        ->outputEquals("Hello, world");
+        ->outputEquals('Hello, world');
 }
 ```
 
@@ -147,7 +147,7 @@ Asserts that the status code of the last command equals an expected value:
 ```php
 public function testStatusCode()
 {
-    $this->execute("hello")
+    $this->execute('hello')
         ->assertResponse
         ->statusCodeEquals(StatusCodes::WARNING);
 }

@@ -13,12 +13,12 @@
 
 <h2 id="introduction">Introduction</h2>
 **Units of work** act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the data mappers.  The benefits of using units of work include:
-                                                                                                                                             
+
 1. Transactions across multiple repositories can be rolled back, giving you "all or nothing" functionality
 2. Changes made to entities retrieved by repositories are automatically checked for changes and, if any are found, scheduled for updating when the unit of work is committed
 3. Database writes are queued and executed all at once when the unit of work is committed, giving you better performance than executing writes throughout the lifetime of the application
 4. Querying for the same object will always give you the same, single instance of that object
- 
+
 <h2 id="example">Example</h2>
  Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
@@ -50,7 +50,7 @@ $someUser = $users->getById(123);
 echo $someUser->getUsername(); // "foo"
 
 // Let's change his username
-$someUser->setUsername("bar");
+$someUser->setUsername('bar');
 // Once we're done with our unit of work, just let it know you're ready to commit
 // It'll automatically know what has changed and save those changes back to storage
 $unitOfWork->commit();
@@ -100,7 +100,7 @@ $idGeneratorRegistry = new IdGeneratorRegistry();
 $changeTracker = new ChangeTracker();
 $entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
 $unitOfWork = new UnitOfWork(
-    $entityRegistry, 
+    $entityRegistry,
     $idAccessorRegistry,
     $idGeneratorRegistry,
     $changeTracker,
@@ -108,7 +108,7 @@ $unitOfWork = new UnitOfWork(
 );
 $className = $entityRegistry->getClassName($user);
 $entityRegistry->manageEntity($user);
-$user->setUsername("newUsername");
+$user->setUsername('newUsername');
 
 // Register a function that compares the usernames of two user objects
 $changeTracker->registerComparator($className, function ($userA, $userB) {
@@ -135,12 +135,12 @@ use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 class Foo
 {
     private $id;
-    
+
     public function getId()
     {
         return $this->id;
     }
-    
+
     public function setId($id)
     {
         $this->id = $id;
@@ -183,7 +183,7 @@ class User
 
 $idAccessorRegistry = new IdAccessorRegistry();
 // The second parameter is the name of the Id property in the User class
-$idAccessorRegistry->registerReflectionIdAccessors(User::class, "id");
+$idAccessorRegistry->registerReflectionIdAccessors(User::class, 'id');
 ```
 
 <h5 id="reducing-boilerplate-code">Reducing Boilerplate Code</h5>
@@ -207,7 +207,7 @@ All Id generators in Opulence implement `Opulence\Orm\Ids\Generators\IIdGenerato
   * Gets the value of an Id that is considered empty
 * `isPostInsert()`
   * Whether or not this generator should be run before or after the unit of work executes its inserts
-  
+
 To let the unit of work know which Id generator to use with your classes, register them to `Opulence\Orm\Ids\Generators\IdGeneratorRegistry`:
 
 ```php
@@ -218,7 +218,7 @@ use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
 $idGeneratorRegistry = new IdGeneratorRegistry();
 $idGeneratorRegistry->registerIdGenerator(
     User::class,
-    new IntSequenceIdGenerator("user_id_seq")
+    new IntSequenceIdGenerator('user_id_seq')
 );
 ```
 

@@ -26,7 +26,7 @@ class NewUserEvent
     {
         $this->user = $user;
     }
-    
+
     public function getUser() : User
     {
         return $this->user;
@@ -47,7 +47,7 @@ use MyApp\Users\User;
 use Opulence\Events\Dispatchers\IEventDispatcher;
 
 $listener = function (NewUserEvent $event, $eventName, IEventDispatcher $dispatcher) {
-    mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
+    mail($event->getUser()->getEmail(), 'Welcome', 'Welcome to my website!');
 };
 ```
 
@@ -64,7 +64,7 @@ class RegistrationEmail
 {
     public function handle(NewUserEvent $event, string $eventName, IEventDispatcher $dispatcher)
     {
-        mail($event->getUser()->getEmail(), "Welcome", "Welcome to my website!");
+        mail($event->getUser()->getEmail(), 'Welcome', 'Welcome to my website!');
     }
 }
 ```
@@ -79,7 +79,7 @@ use Opulence\Events\Dispatchers\EventRegistry;
 use Opulence\Events\Dispatchers\SynchronousEventDispatcher;
 
 $registry = new EventRegistry();
-$registry->registerListener("user.registered", [new RegistrationEmail(), "handle"]);
+$registry->registerListener('user.registered', [new RegistrationEmail(), 'handle']);
 $dispatcher = new SynchronousEventDispatcher($registry);
 ```
 
@@ -90,11 +90,11 @@ To actually fire an event, call the `dispatch()` method:
 ```php
 use MyApp\Users\User;
 
-$user = new User("Dave", "foo@bar.com");
+$user = new User('Dave', 'foo@bar.com');
 
 // Register the user...
 
-$dispatcher->dispatch("user.registered", new NewUserEvent($user));
+$dispatcher->dispatch('user.registered', new NewUserEvent($user));
 ```
 
 The dispatcher will loop through and call all listeners registered for the `user.registered` event.  In this case, `RegistrationEmail::handle()` will be called, and the user will receive a welcome email.

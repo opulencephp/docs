@@ -41,12 +41,12 @@ $roles = new Roles($roleMembershipRepository, $roleRepository);
 
 <h4 id="creating-roles">Creating Roles</h4>
 ```php
-$roles->createRole("new-role"); // Returns the new Role object
+$roles->createRole('new-role'); // Returns the new Role object
 ```
 
 <h4 id="deleting-roles">Deleting Roles</h4>
 ```php
-$roles->deleteRole("role-to-delete");
+$roles->deleteRole('role-to-delete');
 ```
 
 <h4 id="assigning-roles">Assigning Roles</h4>
@@ -54,7 +54,7 @@ $roles->deleteRole("role-to-delete");
 // The Id of the subject that is getting this role
 $subjectId = 123;
 // You can also pass in an array of role names to assign
-$roles->assignRoles($subjectId, "new-role");
+$roles->assignRoles($subjectId, 'new-role');
 ```
 
 <h4 id="revoking-roles">Revoking Roles</h4>
@@ -63,7 +63,7 @@ You can revoke a single role from a subject:
 // The Id of the subject whose role is being revoked
 $subjectId = 123;
 // You can also pass in an array of role names to revoke
-$roles->removeRolesFromSubject($subjectId, "revoked-role");
+$roles->removeRolesFromSubject($subjectId, 'revoked-role');
 ```
 
 You can also revoke all roles from a subject:
@@ -75,7 +75,7 @@ $roles->removeAllRolesFromSubject($subjectId);
 
 <h4 id="getting-subjects-by-role">Getting Subjects by Role</h4>
 ```php
-$subjectIdsWithRole = $roles->getSubjectIdsWithRole("search-role");
+$subjectIdsWithRole = $roles->getSubjectIdsWithRole('search-role');
 ```
 
 <h2 id="permissions">Permissions</h2>
@@ -89,7 +89,7 @@ $registry = new PermissionRegistry();
 
 <h4 id="registering-permission-with-role">Registering a Permission with a Role</h4>
 ```php
-$registry->registerRoles("create-posts", ["editor", "author"]);
+$registry->registerRoles('create-posts', ['editor', 'author']);
 ```
 
 <h4 id="registering-a-callback">Registering a Callback</h4>
@@ -104,7 +104,7 @@ $callback = function ($subjectId) use ($userRepository) {
 
     return $user->isACoolGuy();
 };
-$registry->registerCallback("create-users", $callback);
+$registry->registerCallback('create-users', $callback);
 ```
 
 <h4 id="registering-overriding-callback">Registering an Overriding Callback</h4>
@@ -131,15 +131,15 @@ $permissionRegistry = new PermissionRegistry();
 // Set up the permission registry...
 
 $authority = new Authority(
-    $subjectId, 
+    $subjectId,
     $roles->getRolesForSubject($subjectId),
     $permissionRegistry
-);  
+);
 ```
 
 <h4 id="checking-permissions">Checking Permissions</h4>
 ```php
-if ($authority->can("create-posts")) {
+if ($authority->can('create-posts')) {
     $postRepository->save();
 }
 ```
@@ -147,15 +147,15 @@ if ($authority->can("create-posts")) {
 You can also check if a subject does not have a permission:
 
 ```php
-if ($authority->cannot("create-posts")) {
-    die("You do not have permission to create posts");
+if ($authority->cannot('create-posts')) {
+    die('You do not have permission to create posts');
 }
 ```
 
 If you'd like to check permissions on another subject, you may do so:
 
 ```php
-if ($authority->forSubject($subjectId, $subjectRoles)->can("delete-posts")) {
+if ($authority->forSubject($subjectId, $subjectRoles)->can('delete-posts')) {
     $postRepository->save();
 }
 ```

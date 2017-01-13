@@ -20,7 +20,7 @@ If your repository will not implement any methods outside of `Opulence\Orm\Repos
 use MyApp\WordPress\Post;
 
 // Assume $dataMapper and $unitOfWork are already instantiated
-$repo = new Repository(Post::class, $dataMapper, $unitOfWork); 
+$repo = new Repository(Post::class, $dataMapper, $unitOfWork);
 ```
 
 However, if your repository implements any custom `get*()` methods, you'll have to extend `Opulence\Orm\Repositories\Repository`.  Let's take a look at a repository that supports a `getByTitle()` method:
@@ -34,7 +34,7 @@ class PostRepo extends Repository
 {
     public function getByTitle($title)
     {
-        return $this->getFromDataMapper("getByTitle", [$title]);
+        return $this->getFromDataMapper('getByTitle', [$title]);
     }
 }
 ```
@@ -43,7 +43,7 @@ Rather than calling `$this->dataMapper->getByTitle()` directly, you should use t
 
 <h4 id="add">Adding Entities</h4>
 ```php
-$postToAdd = new Post(123, "First Post", "This is my first post");
+$postToAdd = new Post(123, 'First Post', 'This is my first post');
 $repo->add($postToAdd);
 ```
 
@@ -51,7 +51,7 @@ The new post will be scheduled for insertion by the unit of work.
 
 <h4 id="delete">Deleting Entities</h4>
 ```php
-$postToDelete = new Post(123, "First Post", "This is my first post");
+$postToDelete = new Post(123, 'First Post', 'This is my first post');
 $repo->delete($postToDelete);
 ```
 
@@ -62,7 +62,7 @@ The post will be scheduled for deletion by the unit of work.
 $posts = $repo->getAll();
 
 foreach ($posts as $post) {
-    echo $post->getTitle() . "<br />";
+    echo $post->getTitle() . '<br />';
 }
 ```
 
@@ -89,7 +89,7 @@ use Opulence\Orm\UnitOfWork;
 
 $dataMapper = new PostSqlDataMapper();
 // Assume $unitOfWork is already instantiated
-$repo = new Repository(Post::class, $dataMapper, $unitOfWork); 
+$repo = new Repository(Post::class, $dataMapper, $unitOfWork);
 $postToDelete = $repo->getById(123);
 $repo->delete($postToDelete);
 $unitOfWork->commit();
@@ -102,7 +102,7 @@ Updates are automatically tracked by the [entity registry](orm-units-of-work#ent
 
 ```php
 $post = $repo->getById(123);
-$post->setTitle("Better Title");
+$post->setTitle('Better Title');
 $unitOfWork->commit();
 ```
 

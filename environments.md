@@ -17,7 +17,7 @@ Knowing which environment you're in can affect the way you run your application.
 * `Opulence\Environments\Environment::TESTING`
 * `Opulence\Environments\Environment::DEVELOPMENT`
 
-If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the environment name is stored in the `ENV_NAME` environment variable.  To access the name, call `Environment::getVar("ENV_NAME")`. 
+If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the environment name is stored in the `ENV_NAME` environment variable.  To access the name, call `Environment::getVar("ENV_NAME")`.
 
 <h2 id="environment-variables">Environment Variables</h2>
 Variables that are specifically tied to the environment the application is running on are called **environment variables**.  Setting an environment variable using Opulence is as easy as `Environment::setVar("foo", "bar")`.  To get the environment variable, you can either call `Environment::getVar("foo")` or use PHP's native `getenv("foo")`.  `getVar()` lets you specify a default value if one did not exist, eg `Environment::getVar("foo", "bar")`.
@@ -26,14 +26,14 @@ Variables that are specifically tied to the environment the application is runni
 
 <h2 id="environment-config-files">Environment Config Files</h2>
 To make configuring your environment variables as easy as possible, Opulence supports environment config files, whose names are of the format ".env.DESCRIPTION_OF_CONFIG.php".  They should exist in your "config/environment" directory.  These files are automatically run before the application is booted up.  Let's take a look at an example:
- 
+
 ##### .env.example.php
 ```php
-Environment::setVar("DB_HOST", "localhost");
-Environment::setVar("DB_USER", "myuser");
-Environment::setVar("DB_PASSWORD", "mypassword");
-Environment::setVar("DB_NAME", "public");
-Environment::setVar("DB_PORT", 5432);
+Environment::setVar('DB_HOST', 'localhost');
+Environment::setVar('DB_USER', 'myuser');
+Environment::setVar('DB_PASSWORD', 'mypassword');
+Environment::setVar('DB_NAME', 'public');
+Environment::setVar('DB_PORT', 5432);
 ```
 
 > **Note:** It is strongly recommended that production servers are setup with hard-coded environment variables in their configs.  For security, it's strongly recommended that you do not version-control your environment variable configs.  Instead, each developer should be given a template of the environment config (eg .env.example.php), and should fill out the config with the appropriate values for their environment.

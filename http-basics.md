@@ -62,22 +62,22 @@ use Opulence\Routing\Controller;
 class UserList extends Controller
 {
     private $users;
-    
+
     // UserBootstrapper bound UserRepo to this controller
     // So, that's what will be injected here
     public function __construct(IRepository $users)
     {
         $this->users = $users;
     }
-    
+
     public function showAll() : Response
     {
         // The view factory is automatically injected by the route dispatcher
-        $this->view = $this->viewFactory->createView("UserList");
-        $this->view->setVar("users", $this->users->getAll());
-        
+        $this->view = $this->viewFactory->createView('UserList');
+        $this->view->setVar('users', $this->users->getAll());
+
         // The view compiler is also automatically injected by the route dispatcher
-        return new Response($this->viewCompiler->compile($this->view)); 
+        return new Response($this->viewCompiler->compile($this->view));
     }
 }
 ```
