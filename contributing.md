@@ -36,7 +36,7 @@ Opulence strives to not create any unnecessary library dependencies.  This even 
 Opulence takes security seriously.  If you find a security vulnerability, please email us at <a href="mailto:bugs@opulencephp.com">bugs@opulencephp.com</a>.
 
 <h2 id="coding-style">Coding Style</h2>
-Opulence follows PSR-1 and PSR-2 coding standards and uses PSR-4 autoloading.
+Opulence follows <a href="http://www.php-fig.org/psr/psr-1/">PSR-1</a> and <a href="http://www.php-fig.org/psr/psr-2/">PSR-2</a> coding standards and uses <a href="http://www.php-fig.org/psr/psr-4/">PSR-4</a> autoloading.
 
 <h4 id="phpdoc">PHPDoc</h4>
 Use PHPDoc to document **all** class properties, methods, and functions.  Constructors only need to document the parameters.  Method/function PHPDoc must include one blank line between the description and the following tag.  Here's an example:
