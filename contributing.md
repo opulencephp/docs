@@ -36,7 +36,7 @@ Opulence strives to not create any unnecessary library dependencies.  This even 
 Opulence takes security seriously.  If you find a security vulnerability, please email us at <a href="mailto:bugs@opulencephp.com">bugs@opulencephp.com</a>.
 
 <h2 id="coding-style">Coding Style</h2>
-Opulence follows <a href="http://www.php-fig.org/psr/psr-1/">PSR-1</a> and <a href="http://www.php-fig.org/psr/psr-2/">PSR-2</a> coding standards and uses <a href="http://www.php-fig.org/psr/psr-4/">PSR-4</a> autoloading.
+Opulence follows <a href="http://www.php-fig.org/psr/psr-1/" title="PSR-1 spec" target="_blank">PSR-1</a> and <a href="http://www.php-fig.org/psr/psr-2/" title="PSR-2 spec" target="_blank">PSR-2</a> coding standards and uses <a href="http://www.php-fig.org/psr/psr-4/" title="PSR-4 spec" target="_blank">PSR-4</a> autoloading.  It uses <a href="https://styleci.io" title="StyleCI" target="_blank">StyleCI</a> to automatically enforce code style, so you don't have to worry about that.  If you'd like to run the formatter locally, a config for the <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer" title="PHP CS Fixer" target="_blank">PHP CS Fixer</a> is bundled with Opulence.
 
 <h4 id="phpdoc">PHPDoc</h4>
 Use PHPDoc to document **all** class properties, methods, and functions.  Constructors only need to document the parameters.  Method/function PHPDoc must include one blank line between the description and the following tag.  Here's an example:
