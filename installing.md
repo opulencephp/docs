@@ -20,6 +20,8 @@
 * OpenSSL
 * mbstring
 
+> **Note:** If you're a FreeBSD user, you'll also need to make sure the ctype, dom, filter, hash, json, phar, session, tokenizer, and xml extensions are installed.
+
 <h2 id="installing">Installing</h2>
 Opulence can be easily installed using Composer:
 
