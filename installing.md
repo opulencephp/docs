@@ -5,7 +5,7 @@
 2. [Installing](#installing)
   1. [Libraries](#libraries)
 3. [Server Config](#server-config)
-  1.  [PHP Config](#php-config)
+  1. [PHP Built-in Web Server Config](#php-built-in-web-server-config)
   2. [Apache Config](#apache-config)
   3. [Nginx Config](#nginx-config)
   4. [Caddy Config](#caddy-config)
@@ -66,12 +66,14 @@ Opulence is broken into various libraries, each of which can be installed indivi
 
 > **Note:** You must set `YOUR_SITE_DOMAIN` and `YOUR_SITE_DIRECTORY` with the appropriate values in the configs below.
 
-<h4 id="php-config">PHP Config</h4>
-At the command prompt, navigate to the root directory of your project and run:
+<h4 id="php-built-in-web-server-config">PHP Built-in Web Server Config</h4>
+In a command prompt, navigate to the root directory of your project and run:
 
-    php -S localhost:8888 -t ./public
+```
+php -S localhost:80 -t ./public ./localhost_router.php
+```
     
-This will run PHP's built-in web server. The site will be accessible at http://localhost:8888    
+This will run PHP's built-in web server. The site will be accessible at http://localhost.
 
 <h4 id="apache-config">Apache Config</h4>
 Create a virtual host in your Apache config with the following settings:
