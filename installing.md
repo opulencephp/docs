@@ -5,9 +5,10 @@
 2. [Installing](#installing)
   1. [Libraries](#libraries)
 3. [Server Config](#server-config)
-  1. [Apache Config](#apache-config)
-  2. [Nginx Config](#nginx-config)
-  3. [Caddy Config](#caddy-config)
+  1.  [PHP Config](#php-config)
+  2. [Apache Config](#apache-config)
+  3. [Nginx Config](#nginx-config)
+  4. [Caddy Config](#caddy-config)
 4. [Routes](#routes)
 5. [Views](#views)
 6. [Renaming Project](#renaming-project)
@@ -64,6 +65,13 @@ Opulence is broken into various libraries, each of which can be installed indivi
 * The document root needs to be set to Opulence's `public` directory (usually */var/www/html/public* or */var/www/html/YOUR_SITE_NAME/public*)
 
 > **Note:** You must set `YOUR_SITE_DOMAIN` and `YOUR_SITE_DIRECTORY` with the appropriate values in the configs below.
+
+<h4 id="php-config">PHP Config</h4>
+At the command prompt, navigate to the root directory of your project and run:
+
+    php -S localhost:8888 -t ./public
+    
+This will run PHP's built-in web server. The site will be accessible at http://localhost:8888    
 
 <h4 id="apache-config">Apache Config</h4>
 Create a virtual host in your Apache config with the following settings:
