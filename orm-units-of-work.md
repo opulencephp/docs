@@ -167,7 +167,7 @@ To use the accessor registry in your unit of work, pass it into the unit of work
 
 > **Note:**  You must always register Id getters, but Id setters are optional.
 
-> **Note:**  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can set your Id accessors in `Project\Bootstrappers\Orm\UnitOfWorkBootstrapper::registerIdAccessors()`.
+> **Note:**  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can set your Id accessors in `Project\Application\Bootstrappers\Orm\OrmBootstrapper::registerIdAccessors()`.
 
 If you don't have getter/setter methods for your Id, you can use reflection to get/set it using `registerReflectionIdAccessors()`:
 
@@ -224,4 +224,4 @@ $idGeneratorRegistry->registerIdGenerator(
 
 Then, pass `$idGeneratorRegistry` into the unit of work constructor, and you're set.
 
-> **Note:**  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can set your Id generators in `Project\Bootstrappers\Orm\UnitOfWorkBootstrapper::registerIdGenerators()`.
+> **Note:**  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can set your Id generators in `Project\Application\Bootstrappers\Orm\OrmBootstrapper::registerIdGenerators()`.
