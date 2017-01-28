@@ -8,14 +8,15 @@
   1. [app:down](#appdown)
   2. [app:env](#appenv)
   3. [app:rename](#apprename)
-  4. [app:up](#appup)
-  5. [composer:dump-autoload](#composerdumpautoload)
-  6. [composer:update](#composerupdate)
-  7. [encryption:generatepassword](#encryptiongeneratepassword)
-  8. [framework:flushcache](#frameworkflushcache)
-  9. [make:*](#make)
-  10. [uuid:generate](#uuidgenerate)
-  11. [views:flush](#viewsflush)
+  4. [app:runlocally](#apprunlocally)
+  5. [app:up](#appup)
+  6. [composer:dump-autoload](#composerdumpautoload)
+  7. [composer:update](#composerupdate)
+  8. [encryption:generatepassword](#encryptiongeneratepassword)
+  9. [framework:flushcache](#frameworkflushcache)
+  10. [make:*](#make)
+  11. [uuid:generate](#uuidgenerate)
+  12. [views:flush](#viewsflush)
   
 <h2 id="introduction">Introduction</h2>
 Console applications are great for administrative tasks and code generation.  Apex is Opulence's own robust console kernel.  With it, you can easily create your own console commands, display question prompts, and use HTML-like syntax for output styling.
@@ -43,6 +44,9 @@ Displays the current application environment name, eg "Production" or "Developme
 
 <h4 id="apprename">app:rename</h4>
 When you install Opulence, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under `src`, and the composer.json PSR-4 settings.
+
+<h4 id="apprunlocally">app:runlocally</h4>
+Runs Opulence locally using the built-in PHP web server.  You can change the domain and port using the `--domain` and `--port` options, respectively.
 
 <h4 id="appup">app:up</h4>
 Deletes the file that forces the application into maintenance mode.

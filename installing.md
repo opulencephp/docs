@@ -67,10 +67,10 @@ Opulence is broken into various libraries, each of which can be installed indivi
 > **Note:** You must set `YOUR_SITE_DOMAIN` and `YOUR_SITE_DIRECTORY` with the appropriate values in the configs below.
 
 <h4 id="php-built-in-web-server-config">PHP Built-in Web Server Config</h4>
-In a command prompt, navigate to the root directory of your project and run:
+To run Opulence locally, use the following command
 
 ```
-php -S localhost:80 -t ./public ./localhost_router.php
+php apex app:runlocally
 ```
     
 This will run PHP's built-in web server. The site will be accessible at http://localhost.
