@@ -113,7 +113,7 @@ server {
     
     # Create pretty URLs
     location / {
-        try_files $uri $uri/ /index.php?$query_string;
+        try_files $uri $uri/ /index.php$is_args$args;
     }
     
     location ~ \.php$ {
