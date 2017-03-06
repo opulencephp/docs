@@ -15,7 +15,54 @@
 7. [Generating Data Mapper Classes](#generating-data-mapper-classes)
 
 <h2 id="introduction">Introduction</h2>
-**Data mappers** act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.
+**Data mappers** act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can abstract your storage mechanism away from your business logic.  Opulence's ORM does not force your domain models to implement some interface or extend some base class.  Instead, you can use plain-old PHP objects (POPOs), keeping the framework out of your business logic.
+
+For reference our examples below, lets assume our `Post` class looks something like this:
+
+```php
+namespace MyApp\Posts;
+
+class Post
+{
+    private $id;
+    private $title;
+    private $text;
+    private $author;
+
+    public function __construct(int $id, string $title, string $author, string $text)
+    {
+        $this->id = id;
+        $this->title = $title;
+        $this->author = $author;
+        $this->text = $text;
+    }
+
+    public function getAuthor() : string
+    {
+        return $this->author;
+    }
+
+    public function getId() : int
+    {
+        return $this->id;
+    }
+
+    public function getText() : string
+    {
+        return $this->text;
+    }
+
+    public function getTitle() : string
+    {
+        return $this->title;
+    }
+
+    public function setId(int $id) : void
+    {
+        $this->id = $id;
+    }
+}
+```
 
 <h2 id="i-data-mapper">IDataMapper</h2>
 All data mappers must implement `Opulence\Orm\DataMappers\IDataMapper`, which includes the following methods:
@@ -42,7 +89,7 @@ interface IPostDataMapper extends IDataMapper
 We'll implement this interface in the examples below.
 
 <h2 id="sql-data-mappers">SQL Data Mappers</h2>
-SQL data mappers use an SQL database for storage and querying.  `Opulence\Orm\DataMappers\SqlDataMapper` comes built-in.
+SQL data mappers use an SQL database for storage and querying.  `Opulence\Orm\DataMappers\SqlDataMapper` comes built-in.  The SQL data mapper does not automatically generate queries for you based on your table schema or your entities.  This is because doing so would enforce a particular schema on you when you may have already-existing tables set up.
 
 `SqlDataMapper` comes with a few extra methods built-in:
 
@@ -143,7 +190,8 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
         return new Post(
             (int)$hash['id'],
             $hash['title'],
-            $hash['author']
+            $hash['author'],
+            $hash['text']
         );
     }
 }
