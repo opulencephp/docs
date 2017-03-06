@@ -31,7 +31,7 @@ class Post
 
     public function __construct(int $id, string $title, string $author, string $text)
     {
-        $this->id = id;
+        $this->id = $id;
         $this->title = $title;
         $this->author = $author;
         $this->text = $text;
