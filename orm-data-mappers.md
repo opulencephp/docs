@@ -206,7 +206,7 @@ To simplify building your SQL queries, try Opulence's [query builders](database-
 ```php
 public function add($post)
 {
-    $query = (new \Opulence\QueryBuilders\PostgreSQL\QueryBuilder)
+    $query = (new \Opulence\QueryBuilders\PostgreSql\QueryBuilder)
         ->insert('posts', [
             'text' => $post->getText(),
             'title' => $post->getTitle(),
