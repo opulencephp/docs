@@ -6,6 +6,7 @@
   1. [Creating Custom get*() Methods](#creating-custom-get-methods)
 3. [SQL Data Mappers](#sql-data-mappers)
   1. [Example](#sql-example)
+  2. [Query Builders](#query-builders)
 4. [Cache Data Mappers](#cache-data-mappers)
   1. [Redis Data Mappers](#redis-data-mappers)
   2. [Example](#cache-example)
@@ -198,6 +199,24 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
 ```
 
 > **Note:** The unit of work automatically handles setting the Id on the entity after the `add()` method is run as well as resetting it in case the transaction is rolled back.
+
+<h4 id="query-builders">Query Builders</h4>
+To simplify building your SQL queries, try Opulence's [query builders](database-query-builders).  For example, we can use a fluent syntax to define the `add()` method from the [above example](#sql-example).
+
+```php
+public function add($post)
+{
+    $query = (new \Opulence\QueryBuilders\PostgreSQL\QueryBuilder)
+        ->insert('posts', [
+            'text' => $post->getText(),
+            'title' => $post->getTitle(),
+            'author' => $post->getAuthor()
+        ]);
+    $statement = $this->writeConnection->prepare($query->getSql());
+    $statement->bindValues($query->getParameters());
+    $statement->execute();
+}
+```
 
 <h2 id="cache-data-mappers">Cache Data Mappers</h2>
 Cache data mappers use some form of cache (eg Redis or Memcached) for storage.  They must implement the `Opulence\Orm\DataMappers\ICacheDataMapper` (`PhpRedisDataMapper` and `PredisDataMapper` come built-in).  A cache data mapper implements all the methods from `IDataMapper` as well as `flush()`, which flushes from cache all instances managed by the data mapper.
