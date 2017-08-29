@@ -25,18 +25,18 @@ use Opulence\Pipelines\Pipeline;
 
 $stages = [
     function ($input, $next) {
-        $input .= '-pipe1';
+        $input++;
 
         return $next($input);
     },
     function ($input, $next) {
-        $input .= '-pipe2';
+        $input += 2;
 
         return $next($input);
     }
 ];
 echo (new Pipeline)
-    ->send('foo')
+    ->send(0)
     ->through($stages)
     ->execute();
 ```
@@ -44,7 +44,7 @@ echo (new Pipeline)
 This will output:
 
 ```
-foo-pipe1-pipe2
+3
 ```
 
 <h2 id="using-objects">Using Objects</h2>
@@ -65,7 +65,7 @@ class PipeA implements IMyPipe
 {
     public function filter($input, Closure $next)
     {
-        $input .= '-pipeA';
+        $input++;
 
         return $next($input);
     }
@@ -75,7 +75,7 @@ class PipeB implements IMyPipe
 {
     public function filter($input, Closure $next)
     {
-        $input .= '-pipeB';
+        $input += 2;
 
         return $next($input);
     }
@@ -84,7 +84,7 @@ class PipeB implements IMyPipe
 $stages = [new PipeA(), new PipeB()];
 // We must pass in the name of the method to call ("filter")
 echo (new Pipeline)
-    ->send('foo')
+    ->send(1)
     ->through($stages, 'filter')
     ->execute();
 ```
@@ -92,7 +92,7 @@ echo (new Pipeline)
 This will output:
 
 ```
-foo-pipeA-pipeB
+3
 ```
 
 <h4 id="using-classes">Using Classes</h4>
@@ -107,7 +107,7 @@ foreach ($classes as $class) {
 }
 
 echo (new Pipeline)
-    ->send('foo')
+    ->send(1)
     ->through($stages, 'filter')
     ->execute();
 ```
@@ -115,7 +115,7 @@ echo (new Pipeline)
 This will output:
 
 ```
-foo-pipeA-pipeB
+3
 ```
 
 <h2 id="specifying-a-callback">Specifying a Callback</h2>
@@ -126,21 +126,21 @@ use Opulence\Pipelines\Pipeline;
 
 $stages = [
     function ($input, $next) {
-        $input .= '-pipe1';
+        $input++;
 
         return $next($input);
     },
     function ($input, $next) {
-        $input .= '-pipe2';
+        $input += 2;
 
         return $next($input);
     }
 ];
 echo (new Pipeline)
-    ->send('foo')
+    ->send(1)
     ->through($stages)
     ->then(function ($output) {
-        return strtoupper($output);
+        return $output + 3;
     })
     ->execute();
 ```
@@ -148,5 +148,5 @@ echo (new Pipeline)
 This will output:
 
 ```
-FOO-PIPE1-PIPE2
+5
 ```
