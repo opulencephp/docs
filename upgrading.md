@@ -22,9 +22,9 @@
   3. [Files to Manually Update](#1.0.0-beta6-files-to-manually-update)
 
 <h2 id="1.1.0">1.1.0</h2>
-**Estimated Upgrade Time:** 10 minutes
+**Estimated Upgrade Time:** 20 minutes
 
-This release focused on deprecating some of the magical/unnecessary parts of Opulence and adding database migration support.
+This release focused on deprecating some of the magical/unnecessary parts of Opulence and adding database migration support.  It also bumped the minimum supported PHP version to PHP 7.1.
 
 <h3 id="1.0.0-files-to-move">Files to Move</h3>
 This step isn't strictly necessary, but it may help ease upgrading to future major releases of Opulence.  Move `src/Project/*` to `src/*` and `tests/src/Project/*` to `/tests/src/*`.
@@ -45,6 +45,7 @@ Unless you've customized any of the following files, you can just copy the updat
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/config/tasks.php" target="_blank">config/tasks.php</a>
 
 <h3 id="1.1.0-files-to-manually-update">Files to Manually Update</h3>
+* Changed the Opulence version in `composer.json` to `"1.1.*"`
 * Add `\Opulence\Framework\Databases\Bootstrappers\MigrationBootstrapper::class` to `config/console/bootstrappers.php` to add database migration support
 
 <h2 id="1.0.0-rc4">1.0.0-rc4</h2>

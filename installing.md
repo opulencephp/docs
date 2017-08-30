@@ -17,7 +17,7 @@
 9. [Versioning](#versioning)
 
 <h2 id="requirements">Requirements</h2>
-* PHP &ge; 7.0.0
+* PHP &ge; 7.1.0
 * OpenSSL
 * mbstring
 
