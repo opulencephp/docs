@@ -1,21 +1,52 @@
 # Upgrading
 
 ## Table of Contents
-1. [1.0.0-rc4](#1.0.0-rc4)
+1. [1.1.0](#1.1.0)
+  1. [Files to Move](#1.1.0-files-to-move)
+  2. [Files to Copy](#1.1.0-files-to-copy)
+  3. [Files to Delete](#1.1.0-files-to-delete)
+  4. [Files to Manually Update](#1.1.0-files-to-manually-update)
+2. [1.0.0-rc4](#1.0.0-rc4)
   1. [Files to Copy](#1.0.0-rc4-files-to-copy)
   2. [Files to Manually Update](#1.0.0-rc4-files-to-manually-update)
-2. [1.0.0-rc3](#1.0.0-rc3)
+3. [1.0.0-rc3](#1.0.0-rc3)
   1. [Files to Manually Update](#1.0.0-rc3-files-to-manually-update)
-3. [1.0.0-rc1](#1.0.0-rc1)
+4. [1.0.0-rc1](#1.0.0-rc1)
   1. [Classes to Update](#1.0.0-rc1-classes-to-update)
-4. [1.0.0-beta7](#1.0.0-beta7)
+5. [1.0.0-beta7](#1.0.0-beta7)
   1. [Files to Copy](#1.0.0-beta7-files-to-copy)
   2. [Files to Manually Update](#1.0.0-beta7-files-to-manually-update)
-5. [1.0.0-beta6](#1.0.0-beta6)
+6. [1.0.0-beta6](#1.0.0-beta6)
   1. [Files to Delete](#1.0.0-beta6-files-to-delete)
   2. [Files to Copy](#1.0.0-beta6-files-to-copy)
   3. [Files to Manually Update](#1.0.0-beta6-files-to-manually-update)
-  
+
+<h2 id="1.1.0">1.1.0</h2>
+**Estimated Upgrade Time:** 10 minutes
+
+This release focused on deprecating some of the magical/unnecessary parts of Opulence and adding database migration support.
+
+<h3 id="1.0.0-files-to-move">Files to Move</h3>
+This step isn't strictly necessary, but it may help ease upgrading to future major releases of Opulence.  Move `src/Project/*` to `src/*` and `tests/src/Project/*` to `/tests/src/*`.
+
+<h3 id="1.1.0-files-to-copy">Files to Copy</h3>
+Unless you've customized any of the following files, you can just copy the updated versions from the <a href="https://github.com/opulencephp/Project/blob/v1.1.0" target="_blank">skeleton project</a>.
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/bootstrap/console/start.php" target="_blank">bootstrap/console/start.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/bootstrap/http/start.php" target="_blank">bootstrap/http/start.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/config/application.php" target="_blank">config/application.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/config/paths.php" target="_blank">config/paths.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Application/Bootstrappers/Console/Commands/CommandsBootstrapper.php" target="_blank">src/Application/Bootstrappers/Console/Commands/CommandsBootstrapper.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php" target="_blank">src/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Infrastructure/Databases/Migrations/CreateExecutedMigrationTable.php" target="_blank">src/Infrastructure/Databases/Migrations/CreateExecutedMigrationTable.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/tests/src/Application/Console/IntegrationTestCase.php" target="_blank">tests/src/Application/Console/IntegrationTestCase.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/tests/src/Application/Http/IntegrationTestCase.php" target="_blank">tests/src/Application/Http/IntegrationTestCase.php</a>
+
+<h3 id="1.1.0-files-to-delete">Files to Delete</h3>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/config/tasks.php" target="_blank">config/tasks.php</a>
+
+<h3 id="1.1.0-files-to-manually-update">Files to Manually Update</h3>
+* Add `\Opulence\Framework\Databases\Bootstrappers\MigrationBootstrapper::class` to `config/console/bootstrappers.php` to add database migration support
+
 <h2 id="1.0.0-rc4">1.0.0-rc4</h2>
 **Estimated Upgrade Time:** 5 minutes
 
@@ -24,8 +55,8 @@ This release focused on fixing unit tests on Windows machines and making it easi
 <h3 id="1.0.0-rc4-files-to-copy">Files to Copy</h3>
 Unless you've customized any of the following files, you can just copy the updated versions from the <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc2" target="_blank">skeleton project</a>.
 * <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc3/phpunit.xml" target="_blank">phpunit.xml</a>
-* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc3/src/Project/Application/Bootstrappers/Http/Sessions/SessionBootstrapper.php" target="_blank">src/Project/Application/Bootstrappers/Http/Sessions/SessionBootstrapper.php</a>
-* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc3/src/Project/Application/Bootstrappers/Http/Views/ViewBootstrapper.php" target="_blank">src/Project/Application/Bootstrappers/Http/Views/ViewBootstrapper.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc3/src/Project/Application/Bootstrappers/Http/Sessions/SessionBootstrapper.php" target="_blank">src/Application/Bootstrappers/Http/Sessions/SessionBootstrapper.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-rc3/src/Project/Application/Bootstrappers/Http/Views/ViewBootstrapper.php" target="_blank">src/Application/Bootstrappers/Http/Views/ViewBootstrapper.php</a>
 
 <h3 id="1.0.0-rc4-files-to-manually-update">Files to Manually Update</h3>
 
@@ -74,8 +105,8 @@ Update `$environment->getName()` to `\Opulence\Environments\Environment::getName
 Remove `$container->bindInstance(Environment::class, $environment);` from <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta7/config/application.php" target="_blank">config/application.php</a>
 
 Remove `$this->environment = require __DIR__ . "/../../../../../config/environment.php";` from the following files:
-* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta7/tests/src/Project/Application/Console/IntegrationTestCase.php" target="_blank">tests/src/{PROJECT_NAME}/Application/Console/IntegrationTestCase.php</a>
-* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta7/tests/src/Project/Application/Http/IntegrationTestCase.php" target="_blank">tests/src/{PROJECT_NAME}/Application/Http/IntegrationTestCase.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta7/tests/src/Project/Application/Console/IntegrationTestCase.php" target="_blank">tests/src/Project/{PROJECT_NAME}/Application/Console/IntegrationTestCase.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta7/tests/src/Project/Application/Http/IntegrationTestCase.php" target="_blank">tests/src/Project/{PROJECT_NAME}/Application/Http/IntegrationTestCase.php</a>
 
 <h2 id="1.0.0-beta6">1.0.0-beta6</h2>
 **Estimated Upgrade Time:** 20-40 minutes
@@ -106,8 +137,8 @@ Unless you've customized any of the following files, you can just copy the updat
 * <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta6/src/Project/Application/Bootstrappers/Validation/ValidatorBootstrapper.php" target="_blank">src/{PROJECT_NAME}/Application/Bootstrappers/Validation/ValidatorBootstrapperBootstrapper.php</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta6/src/Project/Application/Http/Middleware/CheckCsrfToken.php" target="_blank">src/{PROJECT_NAME}/Application/Http/Middleware/CheckCsrfToken.php</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta6/src/Project/Application/Http/Middleware/Session.php" target="_blank">src/{PROJECT_NAME}/Application/Http/Middleware/Session.php</a>
-* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta6/tests/src/Project/Application/Console/IntegrationTestCase.php" target="_blank">tests/src/{PROJECT_NAME}/Application/Console/IntegrationTestCase.php</a>
-* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta6/tests/src/Project/Application/Http/IntegrationTestCase.php" target="_blank">tests/src/{PROJECT_NAME}/Application/Http/IntegrationTestCase.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta6/tests/src/Project/Application/Console/IntegrationTestCase.php" target="_blank">tests/src/Project/{PROJECT_NAME}/Application/Console/IntegrationTestCase.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.0.0-beta6/tests/src/Project/Application/Http/IntegrationTestCase.php" target="_blank">tests/src/Project/{PROJECT_NAME}/Application/Http/IntegrationTestCase.php</a>
 
 <h3 id="1.0.0-beta6-files-to-manually-update">Files to Manually Update</h3>
 * In your application's bootstrappers, change:

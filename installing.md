@@ -144,15 +144,15 @@ YOUR_SITE_DOMAIN:80 {
 ```
 
 <h2 id="routes">Routes</h2>
-Create new routes in *config/http/routes.php*. To handle each route, add methods to *src/Project/Application/Http/Controllers/Tutorial.php*.
+Create new routes in *config/http/routes.php*. To handle each route, add methods to *src/Application/Http/Controllers/Tutorial.php*.
 
 <h2 id="views">Views</h2>
 To change the contents of each page, change the views in the *resources/views* directory. To change the CSS, edit *public/assets/css/style.css*.
 
-If you want to create view builders, add them to *src/Project/Application/Http/Views/Builders*. Then, register each view builder to the appropriate template in *src/Project/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php*.
+If you want to create view builders, add them to *src/Application/Http/Views/Builders*. Then, register each view builder to the appropriate template in *src/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php*.
 
 <h2 id="console-commands">Console Commands</h2>
-You can run console commands running `php apex` from your project's root directory. To create a custom command, create a class that extends `Opulence\Console\Commands\Command`, and put it in the *src/Project/Application/Console/Commands* directory. Then, add the fully-qualified name of your command class to *config/console/commands.php*.
+You can run console commands running `php apex` from your project's root directory. To create a custom command, create a class that extends `Opulence\Console\Commands\Command`, and put it in the *src/Application/Console/Commands* directory. Then, add the fully-qualified name of your command class to *config/console/commands.php*.
 
 <h2 id="environment-variables">Environment Variables</h2>
 Your application is currently in the development environment. To change the environment to production, update *config/environment/.env.app.php* and change the `ENV_NAME` value to `Environment::PRODUCTION`.

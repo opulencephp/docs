@@ -3,13 +3,11 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Registering Bindings](#registering-bindings)
-3. [Running Bootstrappers](#running-bootstrappers)
-4. [Shutting Down Bootstrappers](#bootstrapper-shutdown)
-5. [Lazy Bootstrappers](#lazy-bootstrappers)
+3. [Lazy Bootstrappers](#lazy-bootstrappers)
   1. [Targeted Bindings](#targeted-bindings)
   2. [Caching](#bootstrapper-caching)
-6. [Environment Variables](#environment-variables)
-7. [Config Values](#config-values)
+4. [Environment Variables](#environment-variables)
+5. [Config Values](#config-values)
 
 <h2 id="introduction">Introduction</h2>
 Most applications need to do some configuration before starting.  For example, they might need to setup a database connection, configure which view engine to use, or assign the authentication scheme to use.  Because Opulence uses [dependency injection](ioc-container) heavily, it's important that you set your bindings in the IoC container.  Bootstrappers are the place to do this.
@@ -29,38 +27,6 @@ class MyBootstrapper extends Bootstrapper
     public function registerBindings(IContainer $container)
     {
         $container->bindInstance(UserRepo::class, new UserRepo());
-    }
-}
-```
-
-<h2 id="running-bootstrappers">Running Bootstrappers</h2>
-Bootstrappers also support a `run()` command, which is run AFTER all bindings have been registered.  This is useful for any last configuration that needs to be performed before the application is run.  Use type-hinted parameters in `run()` for any dependencies your bootstrapper depends on to run successfully.
-
-```php
-use MyApp\Database;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-
-class MyBootstrapper extends Bootstrapper
-{
-    public function run(Database $database)
-    {
-        $database->connect();
-    }
-}
-```
-
-<h2 id="bootstrapper-shutdown">Shutting Down Bootstrappers</h2>
-Bootstrappers also support a `shutdown()` command, which is run as a pre-shutdown task on the application.  This is useful for any cleaning up a bootstrapper needs to do, such as writing session data.  Use type-hinted parameters in `shutdown()` for any dependencies your bootstrapper depends on to shutdown successfully.
-
-```php
-use MyApp\Database;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-
-class MyBootstrapper extends Bootstrapper
-{
-    public function shutdown(Database $database)
-    {
-        $database->disconnect();
     }
 }
 ```

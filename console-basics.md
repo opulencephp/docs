@@ -15,8 +15,10 @@
   8. [encryption:generatepassword](#encryptiongeneratepassword)
   9. [framework:flushcache](#frameworkflushcache)
   10. [make:*](#make)
-  11. [uuid:generate](#uuidgenerate)
-  12. [views:flush](#viewsflush)
+  11. [migrations:down](#migrationsdown)
+  12. [migrations:up](#migrationsup)
+  13. [uuid:generate](#uuidgenerate)
+  14. [views:flush](#viewsflush)
   
 <h2 id="introduction">Introduction</h2>
 Console applications are great for administrative tasks and code generation.  Apex is Opulence's own robust console kernel.  With it, you can easily create your own console commands, display question prompts, and use HTML-like syntax for output styling.
@@ -43,7 +45,7 @@ Creates a file that lets the `Opulence\Framework\Http\Middleware\CheckMaintenanc
 Displays the current application environment name, eg "Production" or "Development".
 
 <h4 id="apprename">app:rename</h4>
-When you install Opulence, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, the directory under `src`, and the composer.json PSR-4 settings.
+When you install Opulence, the default namespace is "Project".  Use this command to change this to something more fitting to your particular project.  This will update namespaces, bootstrapper names, and the composer.json PSR-4 settings.
 
 <h4 id="apprunlocally">app:runlocally</h4>
 Runs Opulence locally using the built-in PHP web server.  You can change the domain and port using the `--domain` and `--port` options, respectively.
@@ -77,8 +79,15 @@ To make creating new classes as simple as possible, Apex supports several `make:
 3. `make:datamapper`
 4. `make:entity`
 5. `make:httpmiddleware`
+6. `make:migration`
 
 They all accept a single argument: the name of the class to generate.  If you input a fully-qualified class name, then that namespace and class name will be used.  Otherwise, the default namespace will be used (eg controllers are under `Project\Http\Controllers`).
+
+<h4 id="migrationsdown">migrations:down</h4>
+This command [rolls back all executed migrations](database-migrations#rolling-back-migrations).
+
+<h4 id="migrationsup">migrations:up</h4>
+This command [runs all un-executed migrations](database-migrations#running-migrations).
 
 <h4 id="uuidgenerate">uuid:generate</h4>
 This command creates a new UUID.
