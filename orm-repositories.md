@@ -11,9 +11,11 @@
 4. [Updating Entities](#update)
 
 <h2 id="introduction">Introduction</h2>
+
 **Repositories** are simply collections of entities.  They provide methods for adding, deleting, and retrieving entities, but they leave the actual data retrieval to [**data mappers**](orm-data-mappers).  These data mappers can interact with an SQL database, cache, some other form of storage, or a mixture of storage mechanisms.  By utilizing a [**unit of work**](orm-units-of-work), writes to the data mappers are scheduled and only executed when calling `$unitOfWork->commit()`.  This gives you the ability to wrap multiple repositories' writes into a single, "all-or-nothing" transaction.
 
 <h2 id="basic-usage">Basic Usage</h2>
+
 If your repository will not implement any methods outside of `Opulence\Orm\Repositories\Repository`, you don't even have to create your own repository class.  Just use `Opulence\Orm\Repositories\Repository`:
 
 ```php
@@ -42,6 +44,7 @@ class PostRepo extends Repository
 Rather than calling `$this->dataMapper->getByTitle()` directly, you should use the helper function `$this->getFromDataMapper()`, which automatically handles registering entities to the entity registry.  Next, you'll need to [add the `getByTitle()` method to your data mapper](orm-data-mappers#creating-custom-get-methods).
 
 <h4 id="add">Adding Entities</h4>
+
 ```php
 $postToAdd = new Post(123, 'First Post', 'This is my first post');
 $repo->add($postToAdd);
@@ -50,6 +53,7 @@ $repo->add($postToAdd);
 The new post will be scheduled for insertion by the unit of work.
 
 <h4 id="delete">Deleting Entities</h4>
+
 ```php
 $postToDelete = new Post(123, 'First Post', 'This is my first post');
 $repo->delete($postToDelete);
@@ -58,6 +62,7 @@ $repo->delete($postToDelete);
 The post will be scheduled for deletion by the unit of work.
 
 <h4 id="get-all">Getting All Entities</h4>
+
 ```php
 $posts = $repo->getAll();
 
@@ -69,6 +74,7 @@ foreach ($posts as $post) {
 The list of post titles will be printed to the screen.  Every entity returned by `getAll()` is registered to the unit of work's [entity registry](orm-units-of-work#entity-registry).
 
 <h4 id="get-by-id">Getting By Id</h4>
+
 ```php
 $post = $repo->getById(123);
 echo $post->getTitle();
@@ -79,6 +85,7 @@ All entities returned by the repository are automatically registered to the unit
 > **Note:** If no entity is found, an `Opulence\Orm\OrmException` will be thrown.
 
 <h2 id="commit">Committing Changes</h2>
+
 As you can see, there is no `save()` method in repositories.  To actually save any writes made by the repository, you must call `commit()` on the unit of work passed into the repository's constructor:
 
 ```php
@@ -98,6 +105,7 @@ $unitOfWork->commit();
 Whenever you call `Repository::add()` or `Repository::delete()`, the entity is scheduled to be written by the data mappers back to storage.  Calling `$unitOfWork->commit()` actually writes all the scheduled entities to storage.
 
 <h2 id="update">Updating Entities</h2>
+
 Updates are automatically tracked by the [entity registry](orm-units-of-work#entity-registry).  For example, let's say we change a post's title:
 
 ```php

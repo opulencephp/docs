@@ -18,7 +18,9 @@
 13. [Applications in Opulence](#applications-in-opulence)
 
 <h2 id="introduction">Introduction</h2>
+
 <h4 id="explanation-of-dependency-injection">Explanation of Dependency Injection</h4>
+
 **Dependency Injection** refers to the practice of passing a class its dependencies instead of the class creating them on its own.  This is very useful for creating loosely-coupled, testable code.  Let's take a look at an example that doesn't use dependency injection:
 
 ```php
@@ -77,9 +79,11 @@ echo $foo->insertIntoDatabase('bar'); // 1
 By inverting the control of dependencies (meaning classes no longer maintain their own dependencies), we've made our code easier to test.
 
 <h4 id="dependency-injection-container">Dependency Injection Container</h4>
+
 Hopefully, you can see that injecting dependencies is a simple, yet powerful feature.  Now the question is "Where should I inject the dependencies from?"  The answer is a **dependency injection container** (we'll call it a **container** from here on out).  A container can take a look at a constructor/setter methods and determine what dependencies a class relies on.  It creates a collection of various dependencies and automatically injects them into classes.  One of the coolest features of containers is the ability to bind a concrete class to an interface or abstract class.  In other words, it'll inject the concrete class implementation whenever there's a dependency on its interface or base class.  This frees you to "code to an interface, not an implementation".  At runtime, you can bind classes to interfaces, and execute your code.
 
 <h2 id="basic-usage">Basic Usage</h2>
+
 The **container** looks at type hints in methods to determine the type of dependency a class relies on.  The container even lets you specify values for primitive types, eg strings and numbers.
 
 > **Note:**  Classes that accept only concrete classes in their constructors do not need to be bound to the container; they can be instantiated automatically.  A class should only be bound to the container if it depends on an interface, abstract class, or primitive.
@@ -138,6 +142,7 @@ $container->bindInstance(['IFoo', 'ConcreteFoo'], $concreteFoo);
 ```
 
 <h2 id="binding-instances">Binding Instances</h2>
+
 Binding a specific instance to an interface is also possible through the `bindInstance()` method.  Every time you resolve the interface, this instance will be returned.
 ```php
 $concreteInstance = new ConcreteFoo();
@@ -146,6 +151,7 @@ echo $concreteInstance === $container->resolve('IFoo'); // 1
 ```
 
 <h2 id="binding-singletons">Binding Singletons</h2>
+
 You can bind an interface to a class name and have it always resolve to the same instance of the class (also known as a singleton).
 ```php
 $container->bindSingleton('IFoo', 'ConcreteFoo');
@@ -156,6 +162,7 @@ echo $container->resolve('IFoo') === $container->resolve('IFoo'); // 1
 If your concrete class requires any primitive values, pass them in an array in the same order they appear in the constructor.
 
 <h2 id="binding-prototypes">Binding Prototypes</h2>
+
 You can bind an interface to a class name and have it always resolve to a new instance of the class (also known as a prototype).
 ```php
 $container->bindPrototype('IFoo', 'ConcreteFoo');
@@ -166,6 +173,7 @@ echo $container->resolve('IFoo') === $container->resolve('IFoo'); // 0
 If your concrete class requires any primitive values, pass them in an array in the same order they appear in the constructor.
 
 <h2 id="binding-factories">Binding Factories</h2>
+
 You can bind any `callable` to act as a factory to resolve an interface.  Factories are only evaluated when they're needed.
 
 ```php
@@ -187,6 +195,7 @@ echo $container->resolve('IFoo') === $container->resolve('IFoo'); // 1
 ```
 
 <h2 id="targeting">Targeting</h2>
+
 By default, bindings are registered so that they can be used by all classes.  If you'd like to bind a concrete class to an interface or abstract class for only a specific class, you can create a targeted binding using `for(TARGET_CLASS_NAME)` before your binding method:
 ```php
 $container->for('A', function ($container) {
@@ -216,11 +225,13 @@ Targeting works for the following methods:
   * Unbinds the interface from the target
 
 <h2 id="bootstrappers">Bootstrappers</h2>
+
 Sometimes, you'll find yourself needing to bind several components of your module to your IoC container.  To keep yourself from writing repetitive code to do these bindings, you can use [bootstrappers](bootstrappers).  They're perfect for plugging-and-playing whole modules into your application.
 
 To learn more about them, read [their docs](bootstrappers).
 
 <h2 id="calling-methods">Calling Methods</h2>
+
 It's possible to call methods on a class using the container to resolve dependencies using `callMethod()`:
 
 ```php
@@ -254,6 +265,7 @@ echo $instance->getBar(); // "Primitive was set"
 ```
 
 <h2 id="calling-closures">Calling Closures</h2>
+
 You can use `callClosure()` to automatically inject parameters into any closure:
 
 ```php
@@ -271,6 +283,7 @@ Foo:123
 ```
 
 <h2 id="checking-a-binding">Checking a Binding</h2>
+
 To check whether or not a binding exists, call `hasBinding()`.
 ```php
 $container->bindSingleton('IFoo', 'ConcreteFoo');
@@ -279,6 +292,7 @@ echo $container->hasBinding('NonExistentInterface'); // 0
 ```
 
 <h2 id="removing-a-binding">Removing a Binding</h2>
+
 To remove a binding, call `unbind()`:
 ```php
 $container->bindSingleton('IFoo', 'ConcreteFoo');
@@ -287,4 +301,5 @@ echo $container->hasBinding('IFoo'); // 0
 ```
 
 <h2 id="applications-in-opulence">Applications in Opulence</h2>
+
 If you use Opulence's [command library](console-basics), the container automatically resolves the `Command` class.  Also, the [routing library](routing) uses `Opulence\Routing\Dispatchers\IDependencyResolver` to automatically resolve a matched controller.  Typically, Opulence's container is used by `IDependencyResolver` to do the resolution.

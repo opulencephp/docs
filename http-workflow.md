@@ -5,9 +5,11 @@
 2. [Workflow](#workflow)
 
 <h2 id="introduction">Introduction</h2>
+
 Opulence uses a single point of entry for all pages.  In other words, all HTTP requests get redirected through *index.php*, which instantiates the application and handles the request.  Here's a breakdown of the workflow of a typical Opulence HTTP application:
 
 <h2 id="workflow">Workflow</h2>
+
 1. User requests http://www.example.com/users/23/profile
 2. Your virtual host redirects the request through http://www.example.com/index.php
 3. *bootstrap/http/start.php* is loaded, which instantiates an `Application` object

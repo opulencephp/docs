@@ -19,6 +19,7 @@
 7. [Built-In Rules](#built-in-rules)
 
 <h2 id="introduction">Introduction</h2>
+
 Validating data is a fundamental part of every web application.  Whether it be form data or a single value, Opulence makes it easy to validate your data using a fluent syntax.  For example, want to verify a password is set and matches the confirmation password?  Easy:
 
 ```php
@@ -59,6 +60,7 @@ if (!$validator->isValid(['password' => '1337', 'confirm-password' => 'asdf'])) 
 Opulence's validation library is framework-agnostic, making it easy to use with both Opulence and other frameworks.
 
 <h2 id="rules">Rules</h2>
+
 Whenever you call `Opulence\Validation\Validator::field()`, a `Rules` object will be created.  It contains a bunch of [built-in rules](#built-in-rules) as well as methods to get any errors for the field.  Most methods are chainable, letting you build up the rules like this:
 
 ```php
@@ -68,6 +70,7 @@ $validator->field('to')
 ```
 
 <h4 id="conditional-rules">Conditional Rules</h4>
+
 Sometimes, you may only want to apply a rule if certain conditions are met.  To specify a condition, call `condition()` on the `Rules` object.  It accepts a `callable` with two parameters:
 
 1. The value of the field
@@ -76,6 +79,7 @@ Sometimes, you may only want to apply a rule if certain conditions are met.  To 
 The `callable` should return `true` if the condition has been met, otherwise `false`.  Any rule added after `condition()` will only be run if the condition is met.  If you'd like to end the list of conditional rules and add a non-conditional rule, call `endCondition()` before adding the non-conditional rule.
 
 <h5 id="conditional-rules-example">Conditional Rule Example</h5>
+
 Let's say there are two inputs:  a dropdown specifying what type of contact information we're providing, and a text box with the actual contact information.  If the contact type is "email", we want to force the contact information to be a valid email:
 
 ```php
@@ -93,6 +97,7 @@ $validator->isValid([
 Since "contact-type" was "email", the condition was met, and the "email" rule was run.
 
 <h4 id="creating-custom-rules">Creating Custom Rules</h4>
+
 Each rule in `Rules` implements `Opulence\Validation\Rules\IRule`, which provides two methods:
 
 * `getSlug()`
@@ -108,6 +113,7 @@ If you'd like to add a custom rule, you can use `RuleExtensionRegistry::register
 * A `callable` with parameters for the field value and an array of all field values
 
 <h5 id="using-objects">Using Objects</h5>
+
 If your rule needs to accept extra arguments, such as a value to compare to, implement `IRuleWithArgs` instead of `IRule`.  Let's look at an example of a rule that forces an email to be from a certain domain:
 
 ```php
@@ -178,6 +184,7 @@ $validator->field('some-email-address')
 ```
 
 <h5 id="using-callables">Using Callables</h5>
+
 When registering a `callable`, you must give it a slug:
 
 ```php
@@ -190,6 +197,7 @@ $validator->field('name')
 ```
 
 <h4 id="halting-validation">Halting Validation</h4>
+
 Sometimes, you may want to stop validating a field after its first rule failure.  Simply pass `true` to the second parameter in `Validator::isValid()`:
 
 ```php
@@ -202,6 +210,7 @@ $validator->isValid(['email' => null], true);
 In this example, because the "email" field was null, it fails the "required" rule.  This means the "email" rule will never be run.
 
 <h2 id="error-messages">Error Messages</h2>
+
 Calling `Validator::getErrors()` after `Validator::isValid()` will return an `Opulence\Validation\Rules\Errors\ErrorCollection` with any error messages from validation.
 
 To grab all errors, use:
@@ -229,6 +238,7 @@ $errorTemplateRegistry->registerErrorTemplatesFromConfig([
 All "required" rules that fail will now have the first error message.  Specifying `email.required` will override the global error message for "required" rules, but only for the "email" field.  `:field` will automatically be populated with the name of the field that failed.
 
 <h4 id="error-message-placeholders">Error Message Placeholders</h4>
+
 You can specify placeholders in your error messages using `:NAME_OF_PLACEHOLDER`.  If your rule needs to specify placeholder values, it should also implement `IRuleWithErrorPlaceholders`.  In the `getErrorPlaceholders()` method, you can return a keyed array with the placeholder-name => placeholder-value mappings.
 
 Let's take a look at an example of a rule that checks if an input date falls on a particular day (numbered 0-6):
@@ -277,6 +287,7 @@ $errorTemplateRegistry->registerGlobalErrorTemplate('day', 'Selected day must be
 Now, whenever our rule fails, the nicely-formatted day name will appear in the error message, eg "Selected day must be a Monday".
 
 <h2 id="validating-form-input">Validating Form Input</h2>
+
 First, set up your rules for your fields:
 
 ```php
@@ -301,6 +312,7 @@ $validator->isValid($_POST);
 ```
 
 <h2 id="validating-models">Validating Models</h2>
+
 You can validate your models with Opulence's validation library.  One easy way is to extend `Opulence\Validation\Models\ModelState`.  It contains two abstract methods:
 
 * `getModelProperties($model)`
@@ -357,11 +369,13 @@ if (!$modelState->isValid()) {
 <h2 id="skeleton-project-examples">Skeleton Project Examples</h2>
 
 <h4 id="error-message-configuration">Error Message Configuration</h4>
+
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you will find some default error message templates in *config/resources/lang/en/validation.php*.  You are free to edit them as you'd like.
 
 The skeleton project comes with `Project\Bootstrappers\Validation\ValidatorBootstrapper`, which sets your default error message templates and registers your custom rules.  It also binds the validator factory to the IoC container.  If you'd like to use validators in your controllers or console commands, simply inject `IValidatorFactory` via the controller and command constructors, respectively:
 
 <h4 id="validation-in-controller">Controller Example</h4>
+
 ```php
 use Opulence\Validation\Factories\IValidatorFactory;
 
@@ -383,6 +397,7 @@ class MyController
 ```
 
 <h4 id="validation-in-console-command">Console Command Example</h4>
+
 ```php
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;

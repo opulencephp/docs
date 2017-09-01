@@ -16,6 +16,7 @@
 7. [Generating Data Mapper Classes](#generating-data-mapper-classes)
 
 <h2 id="introduction">Introduction</h2>
+
 **Data mappers** act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can abstract your storage mechanism away from your business logic.  Opulence's ORM does not force your domain models to implement some interface or extend some base class.  Instead, you can use plain-old PHP objects (POPOs), keeping the framework out of your business logic.
 
 For reference our examples below, lets assume our `Post` class looks something like this:
@@ -66,6 +67,7 @@ class Post
 ```
 
 <h2 id="i-data-mapper">IDataMapper</h2>
+
 All data mappers must implement `Opulence\Orm\DataMappers\IDataMapper`, which includes the following methods:
 * `add()`
 * `delete()`
@@ -74,6 +76,7 @@ All data mappers must implement `Opulence\Orm\DataMappers\IDataMapper`, which in
 * `update()`
 
 <h4 id="creating-custom-get-methods">Creating Custom get*() Methods</h4>
+
 You'll frequently find yourself wanting to query entities by some criteria besides Id.  For example, you might want to look up posts by title using a `getByTitle()` method.  Let's create an interface with this method:
 
 ```php
@@ -90,6 +93,7 @@ interface IPostDataMapper extends IDataMapper
 We'll implement this interface in the examples below.
 
 <h2 id="sql-data-mappers">SQL Data Mappers</h2>
+
 SQL data mappers use an SQL database for storage and querying.  `Opulence\Orm\DataMappers\SqlDataMapper` comes built-in.  The SQL data mapper does not automatically generate queries for you based on your table schema or your entities.  This is because doing so would enforce a particular schema on you when you may have already-existing tables set up.
 
 `SqlDataMapper` comes with a few extra methods built-in:
@@ -102,6 +106,7 @@ SQL data mappers use an SQL database for storage and querying.  `Opulence\Orm\Da
   * Useful for get*() methods
 
 <h4 id="sql-example">Example</h4>
+
 Let's take a look at an example of an SQL data mapper for WordPress posts:
 
 ```php
@@ -201,6 +206,7 @@ class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
 > **Note:** The unit of work automatically handles setting the Id on the entity after the `add()` method is run as well as resetting it in case the transaction is rolled back.
 
 <h4 id="query-builders">Query Builders</h4>
+
 To simplify building your SQL queries, try Opulence's [query builders](database-query-builders).  For example, we can use a fluent syntax to define the `add()` method from the [above example](#sql-example).
 
 ```php
@@ -219,9 +225,11 @@ public function add($post)
 ```
 
 <h2 id="cache-data-mappers">Cache Data Mappers</h2>
+
 Cache data mappers use some form of cache (eg Redis or Memcached) for storage.  They must implement the `Opulence\Orm\DataMappers\ICacheDataMapper` (`PhpRedisDataMapper` and `PredisDataMapper` come built-in).  A cache data mapper implements all the methods from `IDataMapper` as well as `flush()`, which flushes from cache all instances managed by the data mapper.
 
 <h4 id="redis-data-mappers">Redis Data Mappers</h4>
+
 Redis data mappers implement the following methods:
 
 * `getEntityHashById()`
@@ -236,6 +244,7 @@ Redis data mappers implement the following methods:
   * Reads an entity or list of entities from an Id or list of Ids stored in a set or sorted set
 
 <h4 id="cache-example">Example</h4>
+
 Let's take a look at a PhpRedis data mapper example:
 
 ```php
@@ -335,6 +344,7 @@ class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
 ```
 
 <h2 id="cached-sql-data-mappers">Cached SQL Data Mappers</h2>
+
 Cached SQL data mappers use an SQL database with a cache layer on top.  This reduces the number of queries going to your database by up to 95%, which drastically increases the speed of your data retrieval and improves scalability.  All writes are coordinated by the [unit of work](orm-units-of-work) so that cache and the SQL database are never out of sync.  Cached SQL data mappers contain a cache data mapper and an SQL data mapper.  It coordinates reads and writes between the two sub-data mappers and gives priority to the cache data mapper.  If data cannot be found in cache, it is queried from the SQL database and written back to cache for future queries.
 
 > **Note:** The cache and SQL data mappers MUST implement the same interface for all `get*()` methods.  This allows the cached SQL data mapper to try and call a method from the cache data mapper, and if it fails, call it from the SQL data mapper.  If one of your data mappers does not return data for a particular method, just return `null` if the method returns a single entity, otherwise an empty array if it returns a list of entities.
@@ -365,6 +375,7 @@ They come with the following methods built-in:
 
 
 <h4 id="cached-sql-example">Example</h4>
+
 Let's take a look at a cached SQL data mapper example that uses the cache and SQL data mappers from the previous examples:
 
 ```php
@@ -395,6 +406,7 @@ class PostCachedSqlDataMapper extends RedisCachedSqlDataMapper implements IPostD
 Our `getByTitle()` method calls `$this->read()`, which automatically handles reading from cache and falling back to the SQL database on a cache miss.  This is all you need to do to take advantage of aggressive caching in your data mappers.
 
 <h2 id="relationships">Relationships</h2>
+
 Instead of just containing the author's name, let's say your `Post` object contains an `Author` object.  Whenever you query a `Post` object from the data mapper, you'll also need to query the `Author` object.  The easiest way to do this is to inject the author repository into the post data mapper:
 
 ```php
@@ -430,4 +442,5 @@ class PostDataMapper extends SqlDataMapper
 ```
 
 <h2 id="generating-data-mapper-classes">Generating Data Mapper Classes</h2>
+
 You can use the console to generate any type of built-in data mapper using `php apex make:datamapper`, and then selecting from the menu.

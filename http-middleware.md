@@ -9,6 +9,7 @@
 6. [Middleware Parameters](#middleware-parameters)
 
 <h2 id="introduction">Introduction</h2>
+
 HTTP middleware are classes that sit in between the `Kernel` and `Controller`.  They manipulate the request and response to do things like authenticate users or enforce CSRF protection for certain routes.  They are executed in series in a [pipeline](pipelines).
 
 Opulence uses dependency injection for type-hinted objects in a `Middleware` constructor.  So, if you need any objects in your `handle()` method, just specify them in the constructor.  Let's take a look at an example:
@@ -60,6 +61,7 @@ Now, the `Authenticate` middleware will be run before the `createPost()` method 
 > **Note:** To get the current `Route` (which is accessible through `Router::getMatchedRoute()`), inject `Opulence\Routing\Router` into the constructor.
 
 <h2 id="manipulating-the-request">Manipulating the Request</h2>
+
 To manipulate the request before it gets to the controller, make changes to it before calling `$next($request)`:
 
 ```php
@@ -81,6 +83,7 @@ class RequestManipulator implements IMiddleware
 ```
 
 <h2 id="manipulating-the-response">Manipulating the Response</h2>
+
 To manipulate the response after the controller has done its work, do the following:
 
 ```php
@@ -106,12 +109,15 @@ class ResponseManipulator implements IMiddleware
 ```
 
 <h2 id="global-middleware">Global Middleware</h2>
+
 Global middleware is middleware that is run on every route.  To add middleware to the list of global middleware, add the fully-qualified middleware class' name to the array in *config/http/middleware.php*.
 
 <h2 id="route-middleware">Route Middleware</h2>
+
 To learn how to register middleware with routes, read the [routing tutorial](routing#middleware).  You can also learn how to [add middleware to route groups](routing#group-middleware) there.
 
 <h2 id="middleware-parameters">Middleware Parameters</h2>
+
 Occasionally, you'll find yourself wanting to pass in primitive values to middleware to indicate something such as a required role to see a page.  In these cases, your middleware should extend `Opulence\Routing\Middleware\ParameterizedMiddleware`:
 
 ```php

@@ -13,9 +13,11 @@
   2. [Specifying Errors to Throw](#specifying-errors-to-throw)
 
 <h2 id="introduction">Introduction</h2>
+
 If you've ever written a PHP page and had some sort of error or unhandled exception, you've probably seen a blank white page in your browser.  Obviously, this is not useful for end users, nor is it helpful for developers when trying to track down the problem.  Opulence's `Debug` library makes it possible to handle errors and exceptions and create useful HTTP responses from them.
 
 <h2 id="exception-handlers">Exception Handlers</h2>
+
 The exception handler is your last line of defense for unhandled exceptions.  Opulence provides `Opulence\Debug\Exceptions\Handlers\ExceptionHandler` as an exception handler. It has two methods:
 
 * `handle()`
@@ -25,6 +27,7 @@ The exception handler is your last line of defense for unhandled exceptions.  Op
   * Registers the handler with PHP
 
 <h4 id="logging">Logging</h4>
+
 `ExceptionHandler` accepts a PSR-3 logger to actually log any errors.  We recommend the excellent <a href="https://github.com/Seldaek/monolog" target="_blank" title="Monolog">Monolog</a> logger.
 
 ```php
@@ -42,6 +45,7 @@ $exceptionHandler->register();
 ```
 
 <h5 id="specifying-exceptions-to-not-log">Specifying Exceptions to Not Log</h5>
+
 `ExceptionHandler` accepts an array of classes to not log when handled:
 
 ```php
@@ -51,9 +55,11 @@ $exceptionHandler = new ExceptionHandler($logger, $renderer, [HttpException::cla
 Now, whenever an unhandled `HttpException` occurs, it will be handled by the `ExceptionHandler`, but not logged.  All other exceptions will be logged by `$logger`.
 
 <h2 id="exception-renderers">Exception Renderers</h2>
+
 When an exception is handled, you probably want to render some sort of output explaining what happened.  Depending on the environment you're in, you may even want to include technical details to help track down the issue.  This is where exception renderers come in handy.  They must implement `Opulence\Debug\Exceptions\Handlers\IExceptionRenderer`, which has a single method `render()`.  This accepts the `Exception` or `Throwable` and renders some sort of response with it.
 
 <h4 id="http-responses">HTTP Responses</h4>
+
 To compile an HTTP response from an exception, you have two choices:
 
 1. `Opulence\Debug\Exceptions\Handlers\Http\ExceptionRenderer`
@@ -73,6 +79,7 @@ Two variables will be injected into your Fortune template:
   * Whether or not we are in the development environment
 
 <h5 id="response-formats">Response Formats</h5>
+
 If a user is requesting JSON, it'd be nice to return a formatted JSON response when errors occur.  Opulence provides [Fortune](view-fortune) templates for JSON errors in the skeleton project under the `resources/views/errors/json` directory.
 
 Even if you're using the standalone `Debug` library, Opulence will format your response to match the requested content type.
@@ -80,6 +87,7 @@ Even if you're using the standalone `Debug` library, Opulence will format your r
 > **Note:** If the user is not requesting JSON, then the appropriate template under `resources/views/errors/html` will be used.
 
 <h2 id="error-handlers">Error Handlers</h2>
+
 The error handler handles any errors PHP might throw, such as `E_PARSE` or `E_ERROR`.  It even handles fatal errors.  Error handlers have two methods:
 
 1. `handle()`
@@ -92,6 +100,7 @@ The error handler handles any errors PHP might throw, such as `E_PARSE` or `E_ER
 `Opulence\Debug\Errors\Handlers\ErrorHandler` is the default error handler.
 
 <h4 id="specifying-errors-to-log">Specifying Errors to Log</h4>
+
 By default, errors are not logged, although they might be if they're thrown as exceptions.  To actually log certain levels of errors, pass in the bitwise value indicating the levels to log:
 
 ```php
@@ -112,6 +121,7 @@ $errorHandler = new ErrorHandler(
 Now, `E_PARSE` and `E_ERROR` error levels will be logged.
 
 <h4 id="specifying-errors-to-throw">Specifying Errors to Throw</h4>
+
 Errors can be re-thrown as an `\ErrorException`.  This allows them to be handled by the `ExceptionHandler`.  To specify which levels of errors to re-throw as exceptions, pass in the bitwise value indicating the levels to throw:
 
 ```php

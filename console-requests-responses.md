@@ -14,9 +14,11 @@
   3. [Overriding Built-In Elements](#overriding-built-in-elements)
 
 <h2 id="prompts">Prompts</h2>
+
 Prompts are great for asking users for input beyond what is accepted by arguments.  For example, you might want to confirm with a user before doing an administrative task, or you might ask her to select from a list of possible choices.  Prompts accept `Opulence\Console\Prompts\Question\IQuestion` objects.
 
 <h4 id="confirmation">Confirmation</h4>
+
 To ask a user to confirm an action with a simple "y" or "yes", use an `Opulence\Console\Prompts\Questions\Confirmation`:
 
 ```php
@@ -30,6 +32,7 @@ $prompt->ask(new Confirmation('Are you sure you want to continue?'));
 ```
 
 <h4 id="multiple-choice">Multiple Choice</h4>
+
 Multiple choice questions are great for listing choices that might otherwise be difficult for a user to remember.  An `Opulence\Console\Prompts\Questions\MultipleChoice` accepts question text and a list of choices:
 
 ```php
@@ -59,6 +62,7 @@ $question->setAllowMultipleChoices(true);
 This allows a user to separate multiple choices with a comma, eg "1,3".
 
 <h2 id="responses">Responses</h2>
+
 Responses are classes that allow you to write output to an end user.  The different responses classes include:
 
 1. `Opulence\Console\Responses\Console`
@@ -79,9 +83,11 @@ Each response offers three methods:
   * Only works in `Console` response
 
 <h2 id="formatters">Formatters</h2>
+
 Formatters are great for nicely-formatting output to the console.
 
 <h4 id="padding">Padding</h4>
+
 The `Opulence\Console\Responses\Formatters\PaddingFormatter` formatter allows you to create column-like output.  It accepts an array of column values.  The second parameter is a callback that will format each row's contents.  Let's look at an example:
 
 ```php
@@ -115,6 +121,7 @@ There are a few useful functions for customizing the padding formatter:
   * Sets the padding string
 
 <h4 id="tables">Tables</h4>
+
 ASCII tables are a great way to show tabular data in a console.  To create a table, use `Opulence\Console\Responses\Formatters\TableFormatter`:
 
 ```php
@@ -172,6 +179,7 @@ There are a few useful functions for customizing the look of tables:
   * Sets the vertical border character
 
 <h2 id="style-elements">Style Elements</h2>
+
 Apex supports HTML-like style elements to perform basic output formatting like background color, foreground color, boldening, and underlining.  It does this by parsing the string into an **Abstract Syntax Tree**, and then converting each node in the tree into the appropriate ANSI codes.  For example, writing:
 
 ```
@@ -187,6 +195,7 @@ Apex supports HTML-like style elements to perform basic output formatting like b
 ..., which will output an underlined string where "Dave" is both bold AND underlined.
 
 <h4 id="built-in-elements">Built-In Elements</h4>
+
 The following elements come built-into Apex:
 * &lt;success&gt;&lt;/success&gt;
 * &lt;info&gt;&lt;/info&gt;
@@ -198,6 +207,7 @@ The following elements come built-into Apex:
 * &lt;u&gt;&lt;/u&gt;
 
 <h4 id="custom-elements">Custom Elements</h4>
+
 You can create your own style elements.  Elements are registered to `Opulence\Console\Responses\Compilers\ICompiler`.  To register a custom element, use a bootstrapper:
 
 ```php
@@ -222,6 +232,7 @@ class CustomElements extends Bootstrapper
 ```
 
 <h4 id="overriding-built-in-elements">Overriding Built-In Elements</h4>
+
 To override a built-in element, just re-register it:
 
 ```php

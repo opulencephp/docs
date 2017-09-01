@@ -12,15 +12,19 @@
   2. [Timestamps](#timestamps)
 
 <h2 id="introduction">Introduction</h2>
+
 Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic key-value store functionality.  Although it doesn't come with all the bells and whistles of Redis, it does offer faster speed, which is suitable for simple key-value data.  For more information, <a href="http://php.net/manual/en/book.memcached.php" target="_blank">read the official PHP documentation</a>.
 
 <h2 id="libraries">Libraries</h2>
+
 Opulence lets you choose whichever Memcached library you'd like.  The built-in library `\Memcached` is the most popular.
 
 <h2 id="creating-memcached-connection">Creating a Memcached Connection</h2>
+
 `Opulence\Memcached\Memcached` acts as a convenient wrapper around Memcached.  It accepts either a single client or a list of clients.  Opulence uses magic methods to pass on method calls to the underlying Memcached client(s).
 
 <h4 id="single-client">Single Client</h4>
+
 ```php
 use Memcached as Client;
 use Opulence\Memcached\Memcached;
@@ -42,6 +46,7 @@ $memcached->getClient();
 ```
 
 <h4 id="multiple-clients">Multiple Clients</h4>
+
 If you pass in multiple clients, one of them MUST be named `default`.
 
 ```php
@@ -68,6 +73,7 @@ $memcached->getClient('backup');
 > **Note:** The `default` client will always be used unless you call `getClient($name)` and make calls to that client directly.
 
 <h4 id="server-pools">Server Pools</h4>
+
 `\Memcached` allows you to add multiple servers to a client:
 
 ```php
@@ -87,6 +93,7 @@ $memcached->getClient();
 ```
 
 <h2 id="type-mappers">Type Mappers</h2>
+
 `Opulence\Memcached\Types\TypeMapper` helps you translate to and from Memcached data types.  For example, you cannot store a `DateTime` object in Memcached, so you need to convert to a Unix timestamp when storing it.  Conversely, when you read from Memcached, you can use a type mapper to convert the Unix timestamp back into a `DateTime` object.
 You can also use a factory to create type mappers:
 

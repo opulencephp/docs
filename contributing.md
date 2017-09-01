@@ -19,26 +19,33 @@
   8. [Traits](#traits)
 
 <h2 id="bugs">Bugs</h2>
+
 Before you attempt to write a bug fix, first read the [documentation](/docs) to see if you're perhaps using Opulence incorrectly.
 
 <h4 id="reporting-bug">Reporting a Bug</h4>
+
 To report a bug, <a href="https://github.com/opulencephp/Opulence/issues" target="_blank">create a new issue</a> with a descriptive title, steps to reproduce the bug (eg a failing PHPUnit test), and information about your environment.
 
 <h4 id="fixing-bug">Fixing a Bug</h4>
+
 To fix a bug, create a pull request on the latest stable branch of the main <a href="https://github.com/opulencephp/Opulence" title="Opulence repository" target="_blank">Opulence repository</a> with the fix and relevant PHPUnit tests.
 
 <h2 id="features">Features</h2>
+
 We always appreciate when you want to add a new feature to Opulence.  For minor, backwards-compatible features, create a pull request on the latest stable branch of the main <a href="https://github.com/opulencephp/Opulence" title="Opulence repository" target="_blank">Opulence repository</a>.  Do not submit pull requests to individual libraries' repositories.  For major, possibly backwards-incompatible features, create a pull request on the `develop` branch.  All new features should come with PHPUnit tests proving their functionality.
 
 Opulence strives to not create any unnecessary library dependencies.  This even includes having dependencies on other Opulence libraries.  If your change will introduce a new dependency to a library, create an issue and ask about it before implementing it.  If your feature is a useful combination of multiple Opulence libraries, it's possible it'll be recommended to go into the `Opulence\Framework` library.
 
 <h2 id="security-vulnerabilities">Security Vulnerabilities</h2>
+
 Opulence takes security seriously.  If you find a security vulnerability, please email us at <a href="mailto:bugs@opulencephp.com">bugs@opulencephp.com</a>.
 
 <h2 id="coding-style">Coding Style</h2>
+
 Opulence follows <a href="http://www.php-fig.org/psr/psr-1/" title="PSR-1 spec" target="_blank">PSR-1</a> and <a href="http://www.php-fig.org/psr/psr-2/" title="PSR-2 spec" target="_blank">PSR-2</a> coding standards and uses <a href="http://www.php-fig.org/psr/psr-4/" title="PSR-4 spec" target="_blank">PSR-4</a> autoloading.  It uses <a href="https://styleci.io" title="StyleCI" target="_blank">StyleCI</a> to automatically enforce code style, so you don't have to worry about that.  If you'd like to run the formatter locally, a config for the <a href="https://github.com/FriendsOfPHP/PHP-CS-Fixer" title="PHP CS Fixer" target="_blank">PHP CS Fixer</a> is bundled with Opulence.
 
 <h4 id="phpdoc">PHPDoc</h4>
+
 Use PHPDoc to document **all** class properties, methods, and functions.  Constructors only need to document the parameters.  Method/function PHPDoc must include one blank line between the description and the following tag.  Here's an example:
 
 ```php
@@ -81,15 +88,18 @@ class Book
 ```
 
 <h2 id="naming-conventions">Naming Conventions</h2>
+
 Inspired by <a href="http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670" target="_blank">Code Complete</a>, Opulence uses a straightforward approach to naming things.
 
 <h4 id="variables">Variables</h4>
+
 All variable names:
 
 * Must be lower camel case, eg `$emailAddress`
 * Must NOT use Hungarian Notation
 
 <h4 id="functions-methods">Functions/Methods</h4>
+
 All function/method names:
 
 * Must be succinct
@@ -104,17 +114,20 @@ All function/method names:
   * Don't name a method that returns a username `username()`.  Name it `getUsername()` so that its purpose is unambiguous.
 
 <h4 id="constants">Constants</h4>
+
 All class constants' names:
 
 * Must be upper snake case, eg `TYPE_SUBSCRIBER`
 
 <h4 id="namespaces">Namespaces</h4>
+
 All namespaces:
 
 * Must be Pascal case, eg `Opulence\QueryBuilders`
   * For namespace acronyms &le; 2 characters long, capitalize each character, eg `IO`
 
 <h4 id="classes">Classes</h4>
+
 All class names:
 
 * Must be succinct
@@ -149,17 +162,20 @@ Class properties should appear before any methods.  The following is the preferr
 > **Note:** Methods of the same visibility should be ordered alphabetically.
 
 <h4 id="abstract-classes">Abstract Classes</h4>
+
 All abstract class names:
 
 * Must be Pascal case, eg `ConnectionPool`
 * Must NOT use `Abstract`, `Base`, or any other word in the name that implies it is an abstract class
   
 <h4 id="interfaces">Interfaces</h4>
+
 All interface names:
 
 * Must be preceded by an `I`, eg `IUser`
 
 <h4 id="traits">Traits</h4>
+
 All trait names:
 
 * Must be Pascal case, eg `ListValidator`

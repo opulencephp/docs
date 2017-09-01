@@ -10,12 +10,15 @@
   3. [Decrypting Data](#decrypting-data)
 
 <h2 id="introduction">Introduction</h2>
+
 Keeping user data secure is of the utmost importance.  Unfortunately, PHP's built-in cryptographic support is somewhat fragmented and not easy to use.  Lucky for you, Opulence has a `Cryptography` library to simplify all this.
 
 <h2 id="hashing">Hashing</h2>
+
 Hashers take input and perform a one-way mapping to a hashed value.  It is impossible to decrypt a hashed value because of the way this mapping is generated.  This hashes suitable for storing sensitive data, like user passwords.
 
 <h4 id="bcrypt">bcrypt</h4>
+
 `bcrypt` is a popular password hashing function.  It accepts a "cost" parameter, which adjusts the CPU cost to hash a password.  This slows down attacks against compromised data.  Increasing the cost parameter by one causes the hashing to take twice as long, which future-proofs it as CPUs get faster.  Let's take a look at how to use it:
 
 ```php
@@ -36,6 +39,7 @@ echo $bcryptHasher->verify($hashedValue, $unhashedValue, 'bar'); // 1
 ```
 
 <h2 id="encryption">Encryption</h2>
+
 Sometimes, your application needs to encrypt data, send it to another component, and then decrypt it.  This is different from hashing in that encrypted values can be decrypted.  To make this process as secure and simple as possible, Opulence has an easy-to-use wrapper around `OpenSSL` in its `Encrypter` class:
 
 ```php
@@ -56,6 +60,7 @@ $encrypter = new Encrypter(new Password('mySecretApplicationPassword'), Ciphers:
 > **Note:** The default cipher is AES-256-CTR.  It is strongly recommended you use an AES CTR or CBC cipher such as AES-256-CTR or AES-256-CBC.
 
 <h4 id="encryption-keys">Encryption Keys</h4>
+
 `Encrypter` takes in a secret.  This secret can either be:
 
 * a key
@@ -76,6 +81,7 @@ $encrypter = new Encrypter(new Key(random_bytes(32)));
 ```
 
 <h4 id="encrypting-data">Encrypting Data</h4>
+
 ```php
 try {
     $encryptedData = $encrypter->encrypt('foobar');
@@ -87,6 +93,7 @@ try {
 If there was any issue encrypting the data, an `Opulence\Cryptography\Encryption\EncryptionException` will be thrown.
 
 <h4 id="decrypting-data">Decrypting Data</h4>
+
 ```php
 try {
     $encryptedData = $encrypter->encrypt('foobar');

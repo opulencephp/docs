@@ -30,9 +30,11 @@
 10. [Notes](#notes)
 
 <h2 id="introduction">Introduction</h2>
+
 So, you've made some page views, and you've written some models.  Now, you need a way to wire everything up so that users can access your pages.  To do this, you need a `Router` and controllers.  The `Router` can capture data from the URL to help you decide which controller to use and what data to send to the view.  It makes building a RESTful application a cinch.
 
 <h2 id="basic-usage">Basic Usage</h2>
+
 Routes require a few pieces of information:
 * The path the route is valid for
 * The HTTP method (eg "GET", "POST", "DELETE", "PUT", "PATCH", "OPTIONS", or "HEAD") the route is valid for
@@ -48,6 +50,7 @@ Routes require a few pieces of information:
 * `put()`
 
 <h4 id="using-closures">Using Closures</h4>
+
 For very simple applications, it's probably easiest to use closures as your routes' controllers:
 
 ```php
@@ -86,9 +89,11 @@ $router->get('/users/:id', function (Request $request, $id) {
 ```
 
 <h4 id="using-controller-classes">Using Controller Classes</h4>
+
 Anything other than super-simple applications should probably use full-blown controller classes.  They provide reusability, better separation of responsibilities, and more features.  [Read here](http-basics#controllers) for more information about controllers.
 
 <h4 id="multiple-methods">Multiple Methods</h4>
+
 You can register a route to multiple methods using the router's `multiple()` method:
 ```php
 $router->multiple(['GET', 'POST'], "MyApp\\MyController@myMethod");
@@ -100,11 +105,13 @@ $router->any("MyApp\\MyController@myMethod");
 ```
 
 <h4 id="dependency-resolvers">Dependency Resolvers</h4>
+
 Before we dive too deep, let's take a moment to talk about dependency resolvers.  They're useful tools that allow our router to automatically instantiate controllers by scanning their constructors for dependencies.  Unlike a [dependency injection container](ioc-container), a resolver's sole purpose is to resolve dependencies.  Binding implementations (like through [bootstrappers](bootstrappers)) is reserved for containers.  That being said, it is extremely common for a resolver to use a container to help it resolve dependencies.
 
 Opulence provides an interface for dependency resolvers (`Opulence\Routing\Dispatchers\IDependencyResolver`).  It defines one method: `resolve($interface)`.  Opulence provides a resolver (`Opulence\Routing\Dispatchers\ContainerDependencyResolver`) that uses its container library.  However, since the resolver interface is so simple to implement, you are free to use the dependency injection container library of your choice to power your resolver.  If you decide to use Opulence's container library and you're not using the entire framework, include the `opulence/ioc` Composer package.
 
 <h2 id="route-variables">Route Variables</h2>
+
 Let's say you want to grab a specific user's profile page.  You'll probably want to structure your URL like "/users/:userId/profile", where ":userId" is the Id of the user whose profile we want to view.  Using a `Router`, the data matched in ":userId" will be mapped to a parameter in your controller's method named "$userId".
 
 > **Note:** This also works for closure controllers.  All non-optional parameters in the controller method must have identically-named route variables.  In other words, if your method looks like `function showBook($authorName, $bookTitle = null)`, your path must have an `:authorName` variable.  The routes `/authors/:authorName/books` and `/authors/:authorName/books/:bookTitle` would be valid, but `/authors` would not.
@@ -127,6 +134,7 @@ $router->get('/users/:userId/profile', "MyApp\\UserController@showProfile");
 Calling the path `/users/23/profile` will return "Profile for user 23".
 
 <h4 id="regular-expressions">Regular Expressions</h4>
+
 If you'd like to enforce certain rules for a route variable, you may do so in the options array.  Simply add a "vars" entry with variable names-to-regular-expression mappings:
 ```php
 $options = [
@@ -138,6 +146,7 @@ $router->get('/users/:userId/profile', "MyApp\\UserController@showProfile", $opt
 ```
 
 <h4 id="optional-parts">Optional Parts</h4>
+
 If parts of your route are optional, simply wrap them in `[]`:
 ```php
 $router->get('/books[/authors]', "MyApp\\BookController@showBooks");
@@ -152,6 +161,7 @@ $router->get('/archives[/:year[/:month[/:day]]]', "MyApp\\ArchiveController@show
 ```
 
 <h4 id="default-values">Default Values</h4>
+
 Sometimes, you might want to have a default value for a route variable.  Doing so is simple:
 ```php
 $router->get('/food/:foodName=all', "MyApp\\FoodController@showFood");
@@ -162,6 +172,7 @@ If no food name was specified, "all" will be the default value.
 > **Note:** To give an optional variable a default value, structure the route variable like `[:varName=value]`.
 
 <h2 id="host-matching">Host Matching</h2>
+
 Routers can match on hosts as well as paths.  Want to match calls to a subdomain?  Easy:
 
 ```php
@@ -183,6 +194,7 @@ $router->get('/foo', "MyApp\\SomeController@doSomething", $options);
 Host variables can also have regular expression constraints, similar to path variables.
 
 <h2 id="middleware">Middleware</h2>
+
 Routes can run [middleware](http-middleware) on requests and responses.  To register middleware, add it to the `middleware` property in the route options:
 
 ```php
@@ -195,6 +207,7 @@ $router->get('/books', "MyApp\\MyController@myMethod", $options);
 Whenever a request matches this route, `MyApp\MyMiddleware` will be run.
 
 <h4 id="middleware-parameters">Middleware Parameters</h4>
+
 Opulence supports [passing primitive parameters to middleware](http-middleware#middleware-parameters).  To actually specify `role`, use `{Your middleware}::withParameters()` in your router configuration:
 
 ```php
@@ -205,6 +218,7 @@ $router->get('/users', "MyController\\MyController@myMethod", $options);
 ```
 
 <h2 id="https">HTTPS</h2>
+
 Some routes should only match on an HTTPS connection.  To do this, set the `https` flag to true in the options:
 
 ```php
@@ -217,6 +231,7 @@ $router->get('/users', "MyApp\\MyController@myMethod", $options);
 HTTPS requests to `/users` will match, but non SSL connections will return a 404 response.
 
 <h2 id="named-routes">Named Routes</h2>
+
 Routes can be given a name, which makes them identifiable.  This is especially useful for things like [generating URLs for a route](#generating-urls-from-code).  To name a route, pass a `"name" => "THE_NAME"` into the route options:
 
 ```php
@@ -229,6 +244,7 @@ $router->get('/users', "MyApp\\MyController@myMethod", $options);
 This will create a route named "awesome".
 
 <h2 id="route-grouping">Route Grouping</h2>
+
 One of the most important sayings in programming is "Don't repeat yourself" or "DRY".  In other words, don't copy-and-paste code because that leads to difficulties in maintaining/changing the code base in the future.  Let's say you have several routes that start with the same path.  Instead of having to write out the full path for each route, you can create a group:
 ```php
 $router->group(['path' => '/users/:userId'], function (Router $router) {
@@ -240,6 +256,7 @@ $router->group(['path' => '/users/:userId'], function (Router $router) {
 Now, a GET request to `/users/:userId/profile` will get a user's profile, and a DELETE request to `/users/:userId` will delete a user.
 
 <h4 id="controller-namespaces">Controller Namespaces</h4>
+
 If all the controllers in a route group belong under a common namespace, you can specify the namespace in the group options:
 ```php
 $router->group(['controllerNamespace' => "MyApp\\Controllers"], function (Router $router) {
@@ -251,6 +268,7 @@ $router->group(['controllerNamespace' => "MyApp\\Controllers"], function (Router
 Now, a GET request to `/users` will route to `MyApp\Controllers\UserController::showAllUsers()`, and a GET request to `/posts` will route to `MyApp\Controllers\PostController::showAllPosts()`.
 
 <h4 id="group-middleware">Group Middleware</h4>
+
 Route groups allow you to apply middleware to multiple routes:
 ```php
 $router->group(['middleware' => "MyApp\\Authenticate"], function (Router $router) {
@@ -262,6 +280,7 @@ $router->group(['middleware' => "MyApp\\Authenticate"], function (Router $router
 The `Authenticate` middleware will be executed on any matched routes inside the closure.
 
 <h4 id="group-hosts">Group Hosts</h4>
+
 You can filter by host in router groups:
 
 ```php
@@ -276,6 +295,7 @@ $router->group(['host' => 'google.com'], function (Router $router) {
 > **Note:** When specifying hosts in nested router groups, the inner groups' hosts are prepended to the outer groups' hosts.  This means the inner-most route in the example above will have a host of "mail.google.com".
 
 <h4 id="group-https">Group HTTPS</h4>
+
 You can force all routes in a group to be HTTPS:
 
 ```php
@@ -288,6 +308,7 @@ $router->group(['https' => true], function (Router $router) {
 > **Note:** If the an outer group marks the routes HTTPS but an inner one doesn't, the inner group gets ignored.  The outer-most group with an HTTPS definition is the only one that counts.
 
 <h4 id="group-variable-regular-expressions">Group Variable Regular Expressions</h4>
+
 Groups support regular expressions for path variables:
 
 ```php
@@ -308,19 +329,23 @@ Going to `/users/foo/profile` or `/users/foo/posts` will not match because the I
 > **Note:** If a route has a variable regular expression specified, it takes precedence over group regular expressions.
 
 <h2 id="caching">Caching</h2>
+
 Routes must be parsed to generate the regular expressions used to match the host and path.  This parsing takes a noticeable amount of time with a moderate number of routes.  To make the parsing faster, Opulence caches the parsed routes.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can enable or disable cache by editing *config/http/routing.php*.
 
 > **Note:** If you're in your production environment, you must run `php apex framework:flushcache` every time you add/modify/delete a route in *config/http/routes.php*.
 
 <h2 id="missing-routes">Missing Routes</h2>
+
 In the case that the router cannot find a route that matches the request, an `Opulence\Http\HttpException` will be thrown with a 404 status code.
 
 <h2 id="url-generators">URL Generators</h2>
+
 A cool feature is the ability to generate URLs from named routes using `Opulence\Routing\Urls\UrlGenerator`.  If your route has variables in the domain or path, you just pass them in `UrlGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated.  Secure routes with hosts specified will generate `https://` absolute URLs.
 
 > **Note:** If you do not define all the non-optional variables in the host or domain, a `UrlException` will be thrown.
 
 <h4 id="generating-urls-from-code">Generating URLs from Code</h4>
+
 ```php
 use Opulence\Routing\Urls\UrlGenerator;
 
@@ -348,6 +373,7 @@ echo $urlGenerator->createFromName('inbox', 'us', 2); // "http://us.mail.foo.com
 ```
 
 <h4 id="generating-urls-from-views">Generating URLs from Views</h4>
+
 URLs can also be generated from views using the `route()` view function.  Here's an example router config:
 
 ```php
@@ -367,6 +393,7 @@ This will compile to:
 ```
 
 <h2 id="notes">Notes</h2>
+
 Routes are matched based on the order they were added to the router.  So, if you did the following:
 ```php
 $options = [

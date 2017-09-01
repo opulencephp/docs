@@ -9,9 +9,11 @@
 5. [Rolling Back Migrations](#rolling-back-migrations)
 
 <h2 id="introduction">Introduction</h2>
+
 As your product changes, chances are you'll need to make changes to the structure of your database tables.  Migrations give you the ability to make these changes atomically, and roll them back in case of an issue.
 
 <h2 id="creating-migrations">Creating Migrations</h2>
+
 Migrations implement `Opulence\Databases\Migrations\IMigration` (`Migration` comes built-in).  It defines two methods:
 
 * `down()`
@@ -76,11 +78,13 @@ public function up() : void
 > **Note:** There is no need to create database transactions in your migrations - one is created automatically by the migrator.
 
 <h2 id="migrator">Migrator</h2>
+
 Migrations are discovered, run, and rolled back by an instance of `Opulence\Databases\Migrations\IMigrator` (`Migrator` comes built-in).  Migration classes are discovered by `FileMigrationFinder`, which recursively finds all classes that implement `IMigration` in a particular path or paths.  Those migrations are ordered by their creation dates.
 
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can configure the path to search for migration classes in `config/paths.php` (defaults to `src/Application/Infrastructure/Databases/Migrations`).
 
 <h2 id="running-migrations">Running Migrations</h2>
+
 To run migrations, call
 
 ```php
@@ -90,11 +94,13 @@ php apex migrations:up
 This will call the `up()` methods on any un-executed migrations.  If you'd like to run them outside of the console, you can call `IMigrator::runMigrations()`.
 
 <h3 id="logging-migrations">Logging Migrations</h3>
+
 Once you run a migration, it is added to some sort of storage - typically a database.  This is done via `IExecutedMigrationRepository` (`SqlExecutedMigrationRepository` comes built-in if you're using the skeleton project).
 
 > **Note:** `SqlExecutedMigrationRepository` is configured to use PostgreSQL by default in `Opulence\Framework\Databases\Bootstrapper\MigrationBootstrapper`.  If you'd like to change the database provider, simply extend `MigrationBootstrapper`, override `getExecutedMigrationRepository()`, and register your bootstrapper.
 
 <h2 id="rolling-back-migrations">Rolling Back Migrations</h2>
+
 Sometimes, migrations don't go quite as planned, and it'd be nice to roll them back.  You can do so using
 
 ```php
