@@ -14,11 +14,13 @@
   6. [statusCodeEquals()](#assert-status-code-equals)
 
 <h2 id="introduction">Introduction</h2>
+
 Opulence comes with the ability to integration test your console commands using `Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase`.  With it, you can test the output of your commands, simulate responses to prompt questions, and check the status code of the kernel.  Simply extend `IntegrationTestCase` in your test classes, and you'll inherit the following methods to help test your console application:
 
 > **Note:** If you need to define a `setUp()` or `tearDown()` method in your test, make sure to call `parent::setUp()` or `parent::tearDown()`.
 
 <h2 id="testing-commands">Testing Commands</h2>
+
 There are two ways to test a command:
 
 1. Call `$this->execute()` and pass in the command name, argument values, option values, prompt answers, and whether or not to style the output
@@ -46,6 +48,7 @@ public function testUsingCommand()
 ```
 
 <h4 id="prompt-answers">Prompt Answers</h4>
+
 Let's say that our command has a `Confirmation` question that we want to try testing with `true` and `false` answers.  Simply pass the answers and test the output of each:
 
 ```php
@@ -67,6 +70,7 @@ public function testConfirmation()
 ```
 
 <h4 id="with-methods">with() Methods</h4>
+
 The following methods can be used to pass data to your command:
 
 * `withArguments($arguments)`
@@ -79,9 +83,11 @@ The following methods can be used to pass data to your command:
   * Sets whether or not the response should be styled
 
 <h2 id="response-assertions">Response Assertions</h2>
+
 You can run various assertions on the response returned by the `Kernel`.  To do so, simply use `$this->assertResponse`.
 
 <h4 id="assert-status-code-is-error">isError()</h4>
+
 Asserts that the status code of the last command is an error:
 
 ```php
@@ -94,6 +100,7 @@ public function testStatusCode()
 ```
 
 <h4 id="assert-status-code-is-fatal">isFatal()</h4>
+
 Asserts that the status code of the last command is fatal:
 
 ```php
@@ -106,6 +113,7 @@ public function testStatusCode()
 ```
 
 <h4 id="assert-status-code-is-ok">isOK()</h4>
+
 Asserts that the status code of the last command is OK:
 
 ```php
@@ -118,6 +126,7 @@ public function testStatusCode()
 ```
 
 <h4 id="assert-status-code-is-warning">isWarning()</h4>
+
 Asserts that the status code of the last command is a warning:
 
 ```php
@@ -130,6 +139,7 @@ public function testStatusCode()
 ```
 
 <h4 id="assert-output-equals">outputEquals()</h4>
+
 Asserts that the output of the last command equals an expected value:
 
 ```php
@@ -142,6 +152,7 @@ public function testOutputIsCorrect()
 ```
 
 <h4 id="assert-status-code-equals">statusCodeEquals()</h4>
+
 Asserts that the status code of the last command equals an expected value:
 
 ```php

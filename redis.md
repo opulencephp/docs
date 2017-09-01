@@ -12,9 +12,11 @@
   2. [Timestamps](#timestamps)
 
 <h2 id="introduction">Introduction</h2>
+
 Redis is an extremely popular, in-memory key-value cache with pub/sub capabilities.  Unlike Memcached, Redis can store more complex structures such as sets, sorted lists, and hashes.  For more information, <a href="http://redis.io/" target="_blank">please visit its homepage</a>.
 
 <h2 id="libraries">Libraries</h2>
+
 Opulence lets you choose whichever Redis library you'd like.  The following are the two most popular:
 
 1. <a href="https://github.com/phpredis/phpredis" target="_blank">PHPRedis</a>
@@ -23,9 +25,11 @@ Opulence lets you choose whichever Redis library you'd like.  The following are 
   * PHP library that does not require you to re-compile PHP
 
 <h2 id="creating-redis-connection">Creating a Redis Connection</h2>
+
 `Opulence\Redis\Redis` acts as a convenient wrapper around Redis.  It accepts either a single client or a list of clients.  Opulence uses magic methods to pass on method calls to the underlying Redis client(s).
 
 <h4 id="single-client">Single Client</h4>
+
 ```php
 use Opulence\Redis\Redis;
 use Redis as Client;
@@ -47,6 +51,7 @@ $redis->getClient();
 ```
 
 <h4 id="multiple-clients">Multiple Clients</h4>
+
 If you pass in multiple clients, one of them MUST be named `default`.
 
 ```php
@@ -73,6 +78,7 @@ $redis->getClient('backup');
 > **Note:** The `default` client will always be used unless you call `getClient($name)` and make calls to that client directly.
 
 <h4 id="clustering">Clustering</h4>
+
 Redis 3.0 added the ability to automatically shard your Redis database across a cluster.  Let's take a look at how we can use Predis to connect to a cluster:
 
 ```php
@@ -98,6 +104,7 @@ $redis->getClient();
 ```
 
 <h2 id="type-mappers">Type Mappers</h2>
+
 `Opulence\Redis\Types\TypeMapper` helps you translate to and from Redis data types.  For example, you cannot store a `DateTime` object in Redis, so you need to convert to a Unix timestamp when storing it.  Conversely, when you read from Redis, you can use a type mapper to convert the Unix timestamp back into a `DateTime` object.
 
 You can also use a factory to create type mappers:

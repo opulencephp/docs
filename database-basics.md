@@ -16,12 +16,15 @@
   1. [SQL Drivers](#drivers)
 
 <h2 id="introduction">Introduction</h2>
+
 Relational databases store information about data and how it's related to other data.  Opulence provides classes and methods for connecting to relational databases and querying them for data.  It does this by extending `PDO` and `PDOStatement` to give users a familiar interface to work with.  <a href="http://php.net/manual/en/book.pdo.php" target="_blank">PDO</a> is a powerful wrapper for database interactions, and comes with built-in tools to prevent SQL injection.
 
 <h4 id="connection-pools">Connection Pools</h4>
+
 Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a `SingleServerConnectionPool`.  If you have a master/slave(s) setup, you can use a `MasterSlaveConnectionPool`.
 
 <h2 id="single-server-connection-pool">Single-Server Connection Pool</h2>
+
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
 ```php
@@ -52,6 +55,7 @@ $name = $row['name'];
 ```
 
 <h2 id="master-slave-connection-pool">Master-Slave Connection Pool</h2>
+
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  Instead of taking a single server in their constructors, they take a master server and an array of slave servers.
 
 ```php
@@ -84,6 +88,7 @@ $connectionPool = new MasterSlaveConnectionPool(
 ```
 
 <h4 id="slave-server-selection-strategies">Slave Server Selection Strategies</h4>
+
 In most master-slave setups, you select a slave to connect by picking a random slave.  However, you can create your own strategy to pick slaves by implementing `IServerSelectionStrategy`.  Then, pass it into the `MasterSlaveConnectionPool` constructor:
 
 ```php
@@ -103,14 +108,17 @@ $connectionPool = new MasterSlaveConnectionPool(
 > **Note:** If no selection strategy is specified, `RandomServerSelectionStrategy` is used.
 
 <h2 id="readwrite-connections">Read/Write Connections</h2>
+
 To read from the database, simply use the connection returned by `$connectionPool->getReadConnection()`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.
 
 <h2 id="how-to-query-and-fetch-results">How to Query and Fetch Results</h2>
+
 Opulence uses the exact same methods as `PDO` to query and fetch results.  To learn how to query using `PDO`, try the <a href="http://php.net/manual/en/book.pdo.php" target="_blank">official PHP documentation</a>.
 
 Opulence's `PDO` wrappers make it easy to connect to the database without having to remember things like how to format the DSN.  Opulence also provides [type mappers](database-type-mappers) for easy conversion between a database vendor's data types and PHP data types.  They even provide support for nested database transactions.
 
 <h2 id="binding-values">Binding Values</h2>
+
 Most database queries use a dynamic variable to filter results.  The unsafe method would be to put it directly in the string:
 
 ```php
@@ -129,6 +137,7 @@ See the issue there?  The malicious user just tricked your application into retu
 > **Note:** For data binding to work properly, it is imperative that you include the type of the parameter being bound, eg `\PDO::PARAM_INT` or `\PDO::PARAM_BOOL`.
 
 <h4 id="binding-named-placeholders">Binding Named Placeholders</h4>
+
 It's convenient to name placeholders that you'll bind to in a query so that you can reference them by name:
 
 ```php
@@ -139,6 +148,7 @@ $statement->execute();
 ```
 
 <h4 id="binding-unnamed-placeholders">Binding Unnamed Placeholders</h4>
+
 It's also possible to bind to unnamed placeholders in the case that the number of parameters you're binding is dynamic:
 
 ```php
@@ -149,6 +159,7 @@ $statement->execute();
 ```
 
 <h4 id="binding-multiple-values">Binding Multiple Values</h4>
+
 `PDOStatement` has a `bindValue()` method, but it does not natively support binding multiple values at once.  Opulence's extension of `PDOStatement` does:
 
 ```php
@@ -171,5 +182,7 @@ $statement->bindValues([
 ```
 
 <h2 id="configuration">Configuration</h2>
+
 <h4 id="drivers">SQL Drivers</h4>
+
 Opulence supports a variety of drivers.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the PostgreSQL driver is enabled by default in *src/Project/Bootstrappers/Databases/SqlBootstrapper.php*.  To use a different driver, simply change `use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver;` to the driver you'd like.

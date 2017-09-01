@@ -17,6 +17,7 @@
 9. [Versioning](#versioning)
 
 <h2 id="requirements">Requirements</h2>
+
 * PHP &ge; 7.0.0
 * OpenSSL
 * mbstring
@@ -24,6 +25,7 @@
 > **Note:** If you're a FreeBSD user, you'll also need to make sure the ctype, dom, filter, hash, json, phar, session, tokenizer, and xml extensions are installed.
 
 <h2 id="installing">Installing</h2>
+
 Opulence can be easily installed using Composer:
 
 ```php
@@ -35,6 +37,7 @@ Be sure to [configure your server](#server-config) to finish the installation.  
 > **Note:** You can <a href="https://getcomposer.org/download/" target="_blank">download Composer from here</a>.
 
 <h4 id="libraries">Libraries</h4>
+
 Opulence is broken into various libraries, each of which can be installed individually:
 
 * opulence/applications
@@ -61,12 +64,14 @@ Opulence is broken into various libraries, each of which can be installed indivi
 * opulence/views
 
 <h2 id="server-config">Server Config</h2>
+
 * Opulence's `tmp` directory needs to be writable from PHP
 * The document root needs to be set to Opulence's `public` directory (usually */var/www/html/public* or */var/www/html/YOUR_SITE_NAME/public*)
 
 > **Note:** You must set `YOUR_SITE_DOMAIN` and `YOUR_SITE_DIRECTORY` with the appropriate values in the configs below.
 
 <h4 id="php-built-in-web-server-config">PHP Built-in Web Server Config</h4>
+
 To run Opulence locally, use the following command:
 
 ```
@@ -76,6 +81,7 @@ php apex app:runlocally
 This will run PHP's built-in web server. The site will be accessible at http://localhost.
 
 <h4 id="apache-config">Apache Config</h4>
+
 Create a virtual host in your Apache config with the following settings:
 
 ```
@@ -99,6 +105,7 @@ Create a virtual host in your Apache config with the following settings:
 ```
 
 <h4 id="nginx-config">Nginx Config</h4>
+
 Add the following to your Nginx config:
 
 ```
@@ -127,6 +134,7 @@ server {
 ```
 
 <h4 id="caddy-config">Caddy Config</h4>
+
 Add the following to your Caddyfile config:
 
 ```
@@ -144,20 +152,25 @@ YOUR_SITE_DOMAIN:80 {
 ```
 
 <h2 id="routes">Routes</h2>
+
 Create new routes in *config/http/routes.php*. To handle each route, add methods to *src/Project/Application/Http/Controllers/Tutorial.php*.
 
 <h2 id="views">Views</h2>
+
 To change the contents of each page, change the views in the *resources/views* directory. To change the CSS, edit *public/assets/css/style.css*.
 
 If you want to create view builders, add them to *src/Project/Application/Http/Views/Builders*. Then, register each view builder to the appropriate template in *src/Project/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php*.
 
 <h2 id="console-commands">Console Commands</h2>
+
 You can run console commands running `php apex` from your project's root directory. To create a custom command, create a class that extends `Opulence\Console\Commands\Command`, and put it in the *src/Project/Application/Console/Commands* directory. Then, add the fully-qualified name of your command class to *config/console/commands.php*.
 
 <h2 id="environment-variables">Environment Variables</h2>
+
 Your application is currently in the development environment. To change the environment to production, update *config/environment/.env.app.php* and change the `ENV_NAME` value to `Environment::PRODUCTION`.
 
 <h2 id="renaming-project">Renaming Project</h2>
+
 By default, an Opulence project is named "Project".  To change it to something more fitting for your application, open up a console on your server, navigate to the directory Opulence was installed to, and run:
 
 ```
@@ -167,4 +180,5 @@ php apex app:rename Project NEW_NAME
 This will automatically update all the folders, namespaces, and Composer config to use the new name.
 
 <h2 id="versioning">Versioning</h2>
+
 Opulence follows semantic versioning 2.0.0.  For more information on semantic versioning, check out its <a href="http://semver.org/" title="Semantic versioning documentation" target="_blank">documentation</a>.

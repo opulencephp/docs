@@ -31,11 +31,13 @@
   3. [Enabling Specific Middleware](#enabling-specific-middleware)
 
 <h2 id="introduction">Introduction</h2>
+
 Opulence gives you a powerful integration testing tool to simulate routes and test the responses and views created by controllers.  The tool is the `Opulence\Framework\Http\Testing\PhpUnit\IntegrationTestCase` class, which extends PHPUnit's `PHPUnit_Framework_TestCase`.  By extending `IntegrationTestCase`, you'll inherit many methods to help test your application.
 
 > **Note:** If you need to define a `setUp()` or `tearDown()` method in your test, make sure to call `parent::setUp()` or `parent::tearDown()`.
 
 <h2 id="testing-routes">Testing Routes</h2>
+
 Opulence provides a fluent interface to test your routes.  For example, here's how you can make a `POST` request to `/foo` with some data:
 
 ```php
@@ -60,6 +62,7 @@ The following methods create an `Opulence\Framework\Http\Testing\PhpUnit\Request
 * `put()`
 
 <h4 id="passing-parameters">Passing Parameters</h4>
+
 If you're testing a `GET` request and would like to pass some parameters along with it, use `withParameters()`:
 
 ```php
@@ -74,6 +77,7 @@ public function testWithParameters()
 ```
 
 <h4 id="json">JSON</h4>
+
 To simulate passing JSON data to a route, use `withJson()`.  To assert that a JSON response matches an array, use `jsonEquals()`:
 
 ```php
@@ -88,6 +92,7 @@ public function testJsonRequest()
 ```
 
 <h4 id="with-methods">with() Methods</h4>
+
 The following methods can be used to pass data to your request:
 
 * `withCookies($cookies)`
@@ -110,6 +115,7 @@ The following methods can be used to pass data to your request:
   * Sets the server vars in the request
 
 <h4 id="mock-requests">Mock Requests</h4>
+
 If you want fine-grained control over your tests, you can pass in a `Request` object to `IntegrationTestCase::route()`:
 
 ```php
@@ -125,9 +131,11 @@ public function testPostingSomeData()
 > **Note:**  If you're not using a `RequestBuilder`, you must call `route()` before any assertions defined in `IntegrationTestCase`.
 
 <h2 id="response-assertions">Response Assertions</h2>
+
 You can run various assertions on the response returned by the `Kernel`.  To do so, simply use `$this->assertResponse`.
 
 <h4 id="assert-response-content-equals">contentEquals()</h4>
+
 Asserts that the response's content matches an expected value:
 
 ```php
@@ -141,6 +149,7 @@ public function testContent()
 ```
 
 <h4 id="assert-response-cookie-value-equals">cookieValueEquals()</h4>
+
 Asserts that a response cookie matches an expected value:
 
 ```php
@@ -154,6 +163,7 @@ public function testCheckingVisitedCookie()
 ```
 
 <h4 id="assert-response-has-cookie">hasCookie()</h4>
+
 Asserts that a response has a cookie with a particular name:
 
 ```php
@@ -167,6 +177,7 @@ public function testCheckingVisitedCookie()
 ```
 
 <h4 id="assert-response-has-header">hasHeader()</h4>
+
 Asserts that a response has a header with a particular name:
 
 ```php
@@ -180,6 +191,7 @@ public function testCheckingCacheControl()
 ```
 
 <h4 id="assert-response-header-equals">headerEquals()</h4>
+
 Asserts that a response header matches an expected value:
 
 ```php
@@ -193,6 +205,7 @@ public function testCheckingCacheControl()
 ```
 
 <h4 id="assert-response-is-internal-server-error">isInternalServerError()</h4>
+
 Asserts that a response is an internal server error:
 
 ```php
@@ -206,6 +219,7 @@ public function testBadRequest()
 ```
 
 <h4 id="assert-response-is-not-found">isNotFound()</h4>
+
 Asserts that a response is not found:
 
 ```php
@@ -219,6 +233,7 @@ public function test404()
 ```
 
 <h4 id="assert-response-is-ok">isOK()</h4>
+
 Asserts that a response is OK:
 
 ```php
@@ -232,6 +247,7 @@ public function testHomepage()
 ```
 
 <h4 id="assert-response-is-unauthorized">isUnauthorized()</h4>
+
 Asserts that a response is not authorized:
 
 ```php
@@ -245,6 +261,7 @@ public function testUserListPageWhenNotLoggedIn()
 ```
 
 <h4 id="assert-response-json-contains">jsonContains()</h4>
+
 Asserts that a JSON response contains the key/value pairs anywhere in the response.  This does not require strict equality like `jsonEquals()`.
 
 ```php
@@ -258,6 +275,7 @@ public function testJsonResponse()
 ```
 
 <h4 id="assert-response-json-contains-key">jsonContainsKey()</h4>
+
 Asserts that a JSON response contains the key anywhere in the response.
 
 ```php
@@ -271,6 +289,7 @@ public function testJsonResponse()
 ```
 
 <h4 id="assert-response-json-equals">jsonEquals()</h4>
+
 Asserts that a JSON response matches an input array when decoded:
 
 ```php
@@ -284,6 +303,7 @@ public function testJsonResponse()
 ```
 
 <h4 id="assert-redirects-to">redirectsTo()</h4>
+
 Asserts that the response is a redirect to a particular URL:
 
 ```php
@@ -297,6 +317,7 @@ public function testMyRedirect()
 ```
 
 <h4 id="assert-response-status-code-equals">statusCodeEquals()</h4>
+
 Asserts that a response's status code equals a particular value:
 
 ```php
@@ -310,9 +331,11 @@ public function testPaymentRequiredOnSubscriptionPage()
 ```
 
 <h2 id="view-assertions">View Assertions</h2>
+
 If your controller extends `Opulence\Routing\Controller`, you can test the [view](view-basics) set in the response using `$this->assertView`.
 
 <h4 id="assert-view-has-var">hasVar()</h4>
+
 Asserts that the view generated by the controller has a particular variable:
 
 ```php
@@ -326,6 +349,7 @@ public function testCssVariableIsSet()
 ```
 
 <h4 id="assert-view-var-equals">varEquals()</h4>
+
 Asserts that the view generated by the controller has a particular variable with an expected value:
 
 ```php
@@ -339,9 +363,11 @@ public function testCssVariableIsSet()
 ```
 
 <h2 id="middleware">Middleware</h2>
+
 You can customize which middleware are run in your tests.
 
 <h4 id="disabling-all-middleware">Disabling All Middleware</h4>
+
 You may disable all middleware in your kernel:
 
 ```php
@@ -353,6 +379,7 @@ public function testWithoutMiddleware()
 ```
 
 <h4 id="disabling-specific-middleware">Disabling Specific Middleware</h4>
+
 You may disable only specific middleware in your kernel:
 
 ```php
@@ -364,6 +391,7 @@ public function testWithoutSpecificMiddleware()
 ```
 
 <h4 id="enabling-specific-middleware">Enabling Specific Middleware</h4>
+
 You may enable only specific middleware in your kernel:
 
 ```php

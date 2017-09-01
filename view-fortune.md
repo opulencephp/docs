@@ -25,13 +25,16 @@
   2. [Changing Delimiters](#changing-delimiters)
 
 <h2 id="introduction">Introduction</h2>
+
 Fortune is Opulence's own view engine.  It simplifies adding dynamic content to web pages.  You can inject data into your pages, extend other views, prevent XSS attacks, and even extend the compiler.  To get started using Fortune, simply create files with the extensions *fortune* or *fortune.php*, eg *Master.fortune* or *Master.fortune.php*.  Opulence will detect that the file is a Fortune template and will use the Fortune compiler.
 
 
 <h4 id="how-it-works">How It Works</h4>
+
 Fortune uses a lexer to tokenize the raw template into a stream of tokens.  The tokens are then parsed into an abstract syntax tree, which is transpiled into regular PHP code.  The transpiler caches the generated PHP code to significantly speed up subsequent requests.
 
 <h2 id="tags">Tags</h2>
+
 Tags are syntactic sugar for echoing PHP data in your view.  You can put any printable value inside of tags, including PHP code:
 
 ```
@@ -41,6 +44,7 @@ Tags are syntactic sugar for echoing PHP data in your view.  You can put any pri
 ```
 
 <h4 id="sanitized-tags">Sanitized Tags</h4>
+
 Sanitized tags prevent malicious users from executing a cross-site scripting (XSS) attack:
 
 ```
@@ -50,6 +54,7 @@ Sanitized tags prevent malicious users from executing a cross-site scripting (XS
 This will compile to `A&amp;W &gt; water`.
 
 <h4 id="unsanitized-tags">Unsanitized Tags</h4>
+
 Unsanitized tags are useful for outputting HTML:
 
 ```
@@ -61,11 +66,13 @@ This will compile to `<title>My Title</title>`.
 > **Note**:  Always sanitize user input before displaying it in your views.
 
 <h2 id="directives">Directives</h2>
+
 Directives perform view logic.  For example, they can be used to [extend another view](#extending-views), perform if/else logic, and loop through data.
 
 > **Note:** You might be asking what the difference between tags and directives is.  Tags are temporary placeholders for data that is inserted through a controller.  Directives, on the other hand, provide a shorthand for executing logic entirely within a view.
 
 <h4 id="if-statements">If Statements</h4>
+
 ```
 <% if ($user->isAdmin()) %>
     <a href="edit">Edit Post</a>
@@ -77,6 +84,7 @@ Directives perform view logic.  For example, they can be used to [extend another
 ```
 
 <h4 id="loops">Loops</h4>
+
 ```
 <% for ($i = 1;$i <= 5;$i++) %>
     {{ $i }}
@@ -100,6 +108,7 @@ Directives perform view logic.  For example, they can be used to [extend another
 ```
 
 <h4 id="including-views">Including Views</h4>
+
 Including another view (like PHP's `include`) is an easy way to not repeat yourself.  Here's an example of how to include a view:
 
 ##### Included.fortune.php
@@ -123,6 +132,7 @@ This will compile to:
 ```
 
 <h5 id="variable-scope">Variable Scope</h5>
+
 Included views' variables have their own scope, meaning they're not available outside of the included view.  If you need to pass variables to the included view, you may do so in the second parameter of the `include` directive:
 
 ```
@@ -132,6 +142,7 @@ Included views' variables have their own scope, meaning they're not available ou
 ```
 
 <h4 id="extending-views">Extending Views</h4>
+
 Most views extend some sort of master view.  To make your life easy, Fortune builds support for this functionality into its views.
 
 ##### Master.fortune.php
@@ -155,6 +166,7 @@ Hello, Dave!
 > **Note:** When extending a view, the child view inherits all of the parent's parts and variable values.  If A extends B, which extends C, parts and variables from part B will overwrite any identically-named parts and variables from part C.
 
 <h5 id="parents">Parents</h5>
+
 Sometimes, you'll want to add to a parent view's part.  To do so, use the `<% parent %>` directive:
 
 ##### Master.fortune.php
@@ -179,6 +191,7 @@ Hello, world!
 ```
 
 <h4 id="parts">Parts</h4>
+
 Another common case is a master view that is leaving a child view to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child view.  Use the `<% show("NAME_OF_PART") %>` directive:
 
 ##### Master.fortune.php
@@ -219,6 +232,7 @@ You can also define a part, end it, and show it by not passing anything into the
 ```
 
 <h4 id="creating-directives">Creating Directives</h4>
+
 To create your own Fortune directives, simply register them to the Fortune transpiler using `registerDirectiveTranspiler()`.  The first argument is the name of the directive, and the second is a callback that returns transpiled PHP code.  The callback optionally accepts an expression, which can be used when transpiling to PHP.
 
 > **Note:**  Registering your directive transpiler is most easily done in a [`Bootstrapper`](bootstrappers).
@@ -244,6 +258,7 @@ class MyDirectives extends Bootstrapper
 If in our template we have `<% if ($user->isAdmin()) %>`, Fortune will transpile it to `<?php if($user->isAdmin()): ?>`.
 
 <h2 id="comments">Comments</h2>
+
 When writing complex views, you can easily leave comments:
 
 ```
@@ -259,9 +274,11 @@ Fortune will transpile this to:
 > **Note:** Fortune comments do not show up client-side; they only exist server-side.
 
 <h2 id="functions">Functions</h2>
+
 Fortune supports using functions in views.  They are a great way to reuse logic or formatting throughout your views.  You can use PHP functions, functions defined by Fortune, or your very own functions.  For example, `{{ strtoupper("Dave") }}` will output `DAVE`.
 
 <h4 id="fortune-functions">Fortune Functions</h4>
+
 Fortune supplies some built-in functions in the view library:
 * `charset()`
   * Returns HTML used to select a character set
@@ -362,6 +379,7 @@ This will be compiled to:
 ```
 
 <h4 id="custom-functions">Custom Functions</h4>
+
 It's possible to add custom functions to your view.  For example, you might want to add a salutation to a last name in your view.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the Fortune transpiler.
 
 > **Note:** This is most easily done in a [`Bootstrapper`](bootstrappers).
@@ -396,6 +414,7 @@ class MyFunctions extends Bootstrapper
 Compiling `Hello, {{ salutation("Young", false, true) }}` will give us `Hello, Mrs. Young`.
 
 <h4 id="using-view-functions-in-php-code">Using View Functions in PHP Code</h4>
+
 You may call view functions in your PHP code by calling `Opulence\Views\Compilers\Fortune\ITranspiler::callViewFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `NAME_OF_PAGE | My Site`:
 
 ```php
@@ -408,9 +427,11 @@ $transpiler->registerViewFunction('myPageTitle', function ($title) use ($transpi
 Compiling `{{! myPageTitle("About") !}}` will give us `<title>About | My Site</title>`.
 
 <h2 id="delimiters">Delimiters</h2>
+
 Delimiters are the characters that surround tags, directives, and comments, eg `{{ }}`, `{{! !}}`, `<% %>`, and `{# #}`.  Fortune allows you to escape delimiters as well as change delimiters.
 
 <h4 id="escaping-delimiters">Escaping Delimiters</h4>
+
 Lots of JavaScript frameworks use similar syntax to Fortune to display data.  To display a raw tag, directive, or comment, escape it using the `\` character:
 
 ```
@@ -430,6 +451,7 @@ This will compile to:
 ```
 
 <h4 id="changing-delimiters">Changing Delimiters</h4>
+
 Sometimes, it might just be easier to change the tag and/or directive delimiters used in a view.  To do so, use the `setDelimiters()` method on your view:
 
 ```php

@@ -14,9 +14,11 @@
 10. [Vendor-Specific Query Builders](#vendor-specific-query-builders)
 
 <h2 id="introduction">Introduction</h2>
+
 Sometimes you need to programmatically generate SQL queries.  Rather than concatenating strings together, you can use `QueryBuilders` to do the heavy lifting.  They provide a fluent syntax for creating queries and binding values to queries.  This library is adapter-agnostic, meaning you can use it with any database adapter or with any library, such as PHP's `PDOStatement` or [Opulence's PDO wrapper](database-basics).  Query builders even support vendor-specific query features, such as MySQL's `LIMIT` clause support for `DELETE` statements.
 
 <h2 id="basic-usage">Basic Usage</h2>
+
 Let's look at a simple `SELECT` query:
 
 ```php
@@ -34,6 +36,7 @@ SELECT id, name, email FROM users WHERE datejoined < NOW()
 ```
 
 <h2 id="clauses">Clauses</h2>
+
 `QueryBuilders` support a variety of clauses.  You may use the following clauses to build complex, but easy-to-read-and-maintain queries:
 
 * *FROM*
@@ -65,6 +68,7 @@ SELECT id, name, email FROM users WHERE datejoined < NOW()
   * `addReturning($expression)`
 
 <h3 id="conditions">Conditions</h3>
+
 Opulence provides an easy way to add conditions to your queries using `Opulence\QueryBuilders\Conditions\ConditionFactory`.  It provides methods for creating the following conditions in your `where()` and `having()` clauses:
 
 * `between(string $column, $min, $max, int $dataType = \PDO::PARAM_STR)`
@@ -94,6 +98,7 @@ Using `ConditionFactory` will automatically bind any values as [unnamed placehol
 > **Note:** If you're trying to include complex expressions in your conditions, eg `birthday BETWEEN NOW() AND CAST('2050-01-01' AS Date)`, you're best off just writing them as strings in the `where()` or `having()` clauses.
 
 <h2 id="binding-values">Binding Values</h2>
+
 `QueryBuilders` provide an intuitive syntax for binding values to queries ([learn more about statement bindings](database-basics#binding-values)).  To add a named placeholder, use `addNamedPlaceholderValue()`:
 
 ```php
@@ -123,6 +128,7 @@ Similarly, `addUnnamedPlaceholderValue()` and `addUnnamedPlaceholderValues()` ca
 > **Note:** You cannot mix named with unnamed placeholders.  Also, if no type is specified for a bound value, it's assumed to be \PDO::PARAM_STR.
 
 <h2 id="select-queries">Select Queries</h2>
+
 Select queries use a variable argument list to specify the columns to select:
 
 ```php
@@ -138,6 +144,7 @@ SELECT title, author FROM books
 ```
 
 <h2 id="insert-queries">Insert Queries</h2>
+
 Insert queries accept a table name and a mapping of column names to values:
 
 ```php
@@ -168,6 +175,7 @@ The following values are bound to the query:
 > **Note:** `INSERT` and `UPDATE` query builders bind unnamed placeholder values.  To specify the type of the value, use an array whose first item is the value and whose second item is the type.
 
 <h2 id="update-queries">Update Queries</h2>
+
 Update queries accept a table name, table alias, and a mapping of column names to values:
 
 ```php
@@ -199,6 +207,7 @@ The following values are bound to the query:
 > **Note:** Like `INSERT` query builders, `UPDATE` query builders bind unnamed placeholder values.
 
 <h2 id="delete-queries">Delete Queries</h2>
+
 Delete queries accept a table name:
 
 ```php
@@ -214,6 +223,7 @@ DELETE FROM users WHERE id = :id
 ```
 
 <h2 id="using-query-builders-with-pdo">Using Query Builders with PDO</h2>
+
 Let's say you've built the following query:
 
 ```php
@@ -232,6 +242,7 @@ $statement->execute();
 ```
 
 <h2 id="vendor-specific-query-builders">Vendor-Specific Query Builders</h2>
+
 MySQL and PostgreSQL have their own query builders, which implement features that are unique to each database.  For example, the MySQL query builder supports a *LIMIT* clause:
 
 ```php

@@ -8,6 +8,7 @@
 5. [Redis Bridge](#redis-bridge)
 
 <h2 id="introduction">Introduction</h2>
+
 Cache is in-memory storage for frequently-accessed data.  Data in cache is commonly short-lived, but it can be persisted for long periods of time.  There are many caching libraries out there, such as Redis and Memcached, which offer tons of great features.  However, sometimes all your application needs is basic caching functions like:
 
 1. `decrement($key, $by = 1)`
@@ -21,6 +22,7 @@ Cache is in-memory storage for frequently-accessed data.  Data in cache is commo
 In this case, you can use a cache **bridge** to provide a simple wrapper around your favorite cache libraries.  Opulence supplies the `Opulence\Cache\ICacheBridge` interface with the above methods as well as some bridges to the most popular cache libraries.
 
 <h2 id="array-bridge">Array Bridge</h2>
+
 `Opulence\Cache\ArrayBridge` provides a simple cache bridge most useful for running tests.
 
 ```php
@@ -30,6 +32,7 @@ $arrayBridge = new ArrayBridge();
 ```
 
 <h2 id="file-bridge">File Bridge</h2>
+
 `Opulence\Cache\FileBridge` allows you to easily cache data to plaintext files on your server.
 
 ```php
@@ -39,6 +42,7 @@ $fileBridge = new FileBridge('/path/to/my/cache/files');
 ```
 
 <h2 id="memcached-bridge">Memcached Bridge</h2>
+
 `Opulence\Cache\MemcachedBridge` acts as a simple wrapper around Memcached.
 
 ```php
@@ -69,6 +73,7 @@ If you need the underlying Memcached instance to do anything beyond what the bri
 > **Note:** [Read more information](memcached) about Opulence's Memcached extension.
 
 <h2 id="redis-bridge">Redis Bridge</h2>
+
 `Opulence\Cache\RedisBridge` is a simple bridge to Redis.
 
 ```php
