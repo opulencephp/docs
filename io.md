@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Basic Usage](#basic-usage)
+2. [File System](#file-system)
   1. [Reading a File](#reading-a-file)
   2. [Writing to a File](#writing-to-a-file)
   3. [Appending to a File](#appending-to-a-file)
@@ -25,12 +25,19 @@
   20. [Deleting a Directory](#deleting-a-directory)
   21. [Getting the List of Directories](#getting-the-list-of-directories)
   22. [Copying a Directory](#copying-a-directory)
+3. [Streams](#streams)
+  1. [Reading From a Stream](#reading-from-stream)
+  2. [Writing to a Stream](#writing-to-stream)
+  3. [Seeking](#seeking)
+  4. [Getting the Length of a Stream](#getting-length-of-stream)
+  5. [Copying to Another Stream](#copying-to-another-stream)
+  6. [Closing a Stream](#closing-stream)
 
 <h2 id="introduction">Introduction</h2>
 
 Most programs interact with a computer's file system in some way.  Opulence comes with the `FileSystem` class to facilitate these interactions.  With it, you can easily read and write files, get attributes of files, copy files and folders, and recursively delete directories, and do other common tasks.
 
-<h2 id="basic-usage">Basic Usage</h2>
+<h2 id="file-system">File System</h2>
 
 For all examples below, assume `$fileSystem = new \Opulence\IO\FileSystem();`.
 
@@ -178,3 +185,85 @@ $fileSystem->getDirectories(DIRECTORY_PATH, true);
 ```php
 $fileSystem->copyDirectory(SOURCE_DIRECTORY, TARGET_PATH);
 ```
+
+<h2 id="streams">Streams</h2>
+
+Streams allow you to read and write data in a memory-efficient way.  They make it easy to work with large files without crippling your server.  PHP has built-in support for streams, but the syntax is clunky, and it requires a bit of boilerplate code to work with.  Opulence wraps PHP's streaming functionality into a simple interface: `Opulence\IO\Streams\IStream` (`Stream` comes built-in).
+
+Here's how you can create a stream:
+
+```php
+$stream = new \Opulence\IO\Streams\Stream(fopen('path/to/file', 'r+'));
+```
+
+<h4 id="reading-from-stream">Reading From a Stream</h4>
+
+You can read chunks of data from a stream via
+
+```php
+// Read 64 bytes from the stream
+$stream->read(64);
+```
+
+You can also read to the end of a stream via
+
+```php
+$stream->readToEnd();
+```
+
+> **Note:** This will read to the end of the stream from the current cursor position.  To read the entire stream from the beginning, use `(string)$stream`.
+
+<h4 id="writing-to-stream">Writing to a Stream</h4>
+
+To write to a stream, call
+
+```php
+$stream->write('foo');
+```
+
+<h4 id="seeking">Seeking</h4>
+
+To seek to a specific point in the stream, call
+
+```php
+// Seek to the 1024th byte
+$stream->seek(1024);
+```
+
+To rewind go the beginning, you can call
+
+```php
+$stream->rewind();
+```
+
+<h4 id="getting-length-of-stream">Getting the Length of a Stream</h4>
+
+To get the length of a stream, call
+
+```php
+$stream->getLength();
+```
+
+If it is not knowable, then `getLength()` will return `null`.
+
+> **Note:** If you happen to know the length of the stream ahead of time, you can pass it into the constructor, eg `new Stream(fopen('path/to/file', 'r+'), 2056)`.
+
+<h4 id="copying-to-another-stream">Copying to Another Stream</h4>
+
+Sometimes, you'll need to copy one stream to another.  One example would be writing a response body's stream to the `php://output` stream.  You can do this via
+
+```php
+$outputStream = new Stream(fopen('php://output', 'r+'));
+$bodyStream = new Stream(fopen('path/to/file', 'r+'));
+$bodyStream->copyToStream($outputStream);
+```
+
+<h4 id="closing-stream">Closing a Stream</h4>
+
+You can close a stream via
+
+```php
+$stream->close();
+```
+
+> **Note:** When PHP performs garbage collection, `close()` is automatically called by the destructor.
