@@ -26,7 +26,7 @@
     21. [Getting the List of Directories](#getting-the-list-of-directories)
     22. [Copying a Directory](#copying-a-directory)
 3. [Streams](#streams)
-    1. [Reading From a Stream](#reading-from-stream)
+    1. [Reading from a Stream](#reading-from-stream)
     2. [Writing to a Stream](#writing-to-stream)
     3. [Seeking](#seeking)
     4. [Getting the Length of a Stream](#getting-length-of-stream)
@@ -196,7 +196,7 @@ Here's how you can create a stream:
 $stream = new \Opulence\IO\Streams\Stream(fopen('path/to/file', 'r+'));
 ```
 
-<h4 id="reading-from-stream">Reading From a Stream</h4>
+<h4 id="reading-from-stream">Reading from a Stream</h4>
 
 You can read chunks of data from a stream via
 
@@ -230,7 +230,7 @@ To seek to a specific point in the stream, call
 $stream->seek(1024);
 ```
 
-To rewind go the beginning, you can call
+To rewind to the beginning, you can call
 
 ```php
 $stream->rewind();
@@ -246,7 +246,7 @@ $stream->getLength();
 
 If it is not knowable, then `getLength()` will return `null`.
 
-> **Note:** If you happen to know the length of the stream ahead of time, you can pass it into the constructor, eg `new Stream(fopen('path/to/file', 'r+'), 2056)`.
+> **Note:** If you happen to know the length of the stream ahead of time, you can pass it into the constructor, eg `new Stream(fopen('path/to/file', 'r+'), 2056)`.  If you write anything to the stream, then the length is recalculated.
 
 <h4 id="copying-to-another-stream">Copying to Another Stream</h4>
 
