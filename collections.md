@@ -21,14 +21,14 @@
     5. [Removing Values](#hash-tables-removing-values)
     6. [Unioning Values](#hash-tables-unioning-values)
     6. [Intersecting Values](#hash-tables-intersecting-values)
-4. [Sets](#sets)
-    1. [Adding Values](#sets-adding-values)
-    2. [Checking for Values](#sets-checking-for-values)
-    3. [Getting the Number of Values](#sets-getting-number-of-values)
-    4. [Removing Values](#sets-removing-values)
-    5. [Unioning Values](#sets-unioning-values)
-    6. [Intersecting Values](#sets-intersecting-values)
-    7. [Sorting Values](#sets-sorting-values)
+4. [Hash Sets](#hash-sets)
+    1. [Adding Values](#hash-sets-adding-values)
+    2. [Checking for Values](#hash-sets-checking-for-values)
+    3. [Getting the Number of Values](#hash-sets-getting-number-of-values)
+    4. [Removing Values](#hash-sets-removing-values)
+    5. [Unioning Values](#hash-sets-unioning-values)
+    6. [Intersecting Values](#hash-sets-intersecting-values)
+    7. [Sorting Values](#hash-sets-sorting-values)
 5. [Stacks](#stacks)
     1. [Pushing Values](#stacks-pushing-values)
     2. [Popping Values](#stacks-popping-values)
@@ -52,9 +52,9 @@
     1. [Getting Values](#immutable-hash-tables-getting-values)
     2. [Checking for Values](#immutable-hash-tables-checking-for-values)
     3. [Getting the Number of Values](#immutable-hash-tables-getting-number-of-values)
-9. [Immutable Set](#immutable-sets)
-    1. [Checking for Values](#immutable-sets-checking-for-values)
-    2. [Getting the Number of Values](#immutable-sets-getting-number-of-values)
+9. [Immutable Hash Sets](#immutable-hash-sets)
+    1. [Checking for Values](#immutable-hash-sets-checking-for-values)
+    2. [Getting the Number of Values](#immutable-hash-sets-getting-number-of-values)
 
 <h2 id="introduction">Introduction</h2>
 
@@ -275,20 +275,20 @@ You can intersect a set's values with an array by calling
 $hashTable->intersect(['foo' => 'bar']);
 ```
 
-<h2 id="sets">Sets</h2>
+<h2 id="hash-sets">Hash Sets</h2>
 
-Sets are lists with unique values.  You can instantiate one with or without an array of key => value pairs:
+Hash sets are lists with unique values.  You can instantiate one with or without an array of key => value pairs:
 
 ```php
-use Opulence\Collections\Set;
+use Opulence\Collections\HashSet;
 
-$set = new Set();
+$set = new HashSet();
 ```
 
 Or...
 
 ```php
-$set = new Set(['foo', 'bar']);
+$set = new HashSet(['foo', 'bar']);
 ```
 
 To get the underlying array, call
@@ -297,9 +297,9 @@ To get the underlying array, call
 $array = $set->toArray();
 ```
 
-> **Note:** `Set` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
+> **Note:** `HashSet` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
-<h4 id="sets-adding-values">Adding Values</h4>
+<h4 id="hash-sets-adding-values">Adding Values</h4>
 
 You can add a value via
 
@@ -313,7 +313,7 @@ Or, you can add multiple values at once:
 $set->addRange(['foo', 'bar']);
 ```
 
-<h4 id="sets-checking-for-values">Checking for Values</h4>
+<h4 id="hash-sets-checking-for-values">Checking for Values</h4>
 
 To check for a value, call
 
@@ -321,15 +321,15 @@ To check for a value, call
 $containsValue = $set->containsValue('foo');
 ```
 
-<h4 id="sets-getting-number-of-values">Getting the Number of Values</h4>
+<h4 id="hash-sets-getting-number-of-values">Getting the Number of Values</h4>
 
-To grab the number of values in the set, call
+To grab the number of values in the hash set, call
 
 ```php
 $count = $set->count();
 ```
 
-<h4 id="sets-removing-values">Removing Values</h4>
+<h4 id="hash-sets-removing-values">Removing Values</h4>
 
 To remove a specific value, call
 
@@ -343,23 +343,23 @@ To remove all values, call
 $set->clear();
 ```
 
-<h4 id="sets-unioning-values">Unioning Values</h4>
+<h4 id="hash-sets-unioning-values">Unioning Values</h4>
 
-You can union a set with an array via
+You can union a hash set with an array via
 
 ```php
 $set->union(['foo', 'bar']);
 ```
 
-<h4 id="sets-intersecting-values">Intersecting Values</h4>
+<h4 id="hash-sets-intersecting-values">Intersecting Values</h4>
 
-You can intersect a set with an array by calling
+You can intersect a hash set with an array by calling
 
 ```php
 $set->intersect(['foo', 'bar']);
 ```
 
-<h4 id="sets-sorting-values">Sorting Values</h4>
+<h4 id="hash-sets-sorting-values">Sorting Values</h4>
 
 You can sort values similar to the way you can sort PHP arrays via `usort()`:
 
@@ -610,12 +610,14 @@ To get the number of values in the hash table, call
 $count = $hashTable->count();
 ```
 
-<h2 id="immutable-sets">Immutable Sets</h2>
+<h2 id="immutable-hash-sets">Immutable Hash Sets</h2>
 
-Immutable sets are read-only [sets](#sets).  You can instantiate one with a list of values:
+Immutable hash sets are read-only [sets](#sets).  You can instantiate one with a list of values:
 
 ```php
-$set = new ImmutableSet(['foo', 'bar']);
+use Opulence\Collections\ImmutableHashSet;
+
+$set = new ImmutableHashSet(['foo', 'bar']);
 ```
 
 To get the underlying array, call
@@ -624,9 +626,9 @@ To get the underlying array, call
 $array = $set->toArray();
 ```
 
-> **Note:** `ImmutableSet` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
+> **Note:** `ImmutableHashSet` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
-<h4 id="immutable-sets-checking-for-values">Checking for Values</h4>
+<h4 id="immutable-hash-sets-checking-for-values">Checking for Values</h4>
 
 To check for a value, call
 
@@ -634,7 +636,7 @@ To check for a value, call
 $containsValue = $set->containsValue('foo');
 ```
 
-<h4 id="immutable-sets-getting-number-of-values">Getting the Number of Values</h4>
+<h4 id="immutable-hash-sets-getting-number-of-values">Getting the Number of Values</h4>
 
 To grab the number of values in the set, call
 
