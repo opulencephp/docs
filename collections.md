@@ -2,7 +2,10 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Array Lists](#array-lists)
+2. [Key-Value Pairs](#key-value-pairs)
+    1. [Getting Keys](#key-value-pairs-getting-keys)
+    2. [Getting Values](#key-value-pairs-getting-values)
+3. [Array Lists](#array-lists)
     1. [Adding Values](#array-lists-adding-values)
     2. [Getting Values](#array-lists-getting-values)
     3. [Checking for Values](#array-lists-checking-for-values)
@@ -13,15 +16,13 @@
     8. [Intersecting Values](#array-lists-intersecting-values)
     9. [Reversing the Values](#array-lists-reversing-values)
     10. [Sorting Values](#array-lists-sorting-values)
-3. [Hash Tables](#hash-tables)
+4. [Hash Tables](#hash-tables)
     1. [Adding Values](#hash-tables-adding-values)
     2. [Getting Values](#hash-tables-getting-values)
     3. [Checking for Values](#hash-tables-checking-for-values)
     4. [Getting the Number of Values](#hash-tables-getting-number-of-values)
     5. [Removing Values](#hash-tables-removing-values)
-    6. [Unioning Values](#hash-tables-unioning-values)
-    6. [Intersecting Values](#hash-tables-intersecting-values)
-4. [Hash Sets](#hash-sets)
+5. [Hash Sets](#hash-sets)
     1. [Adding Values](#hash-sets-adding-values)
     2. [Checking for Values](#hash-sets-checking-for-values)
     3. [Getting the Number of Values](#hash-sets-getting-number-of-values)
@@ -29,36 +30,63 @@
     5. [Unioning Values](#hash-sets-unioning-values)
     6. [Intersecting Values](#hash-sets-intersecting-values)
     7. [Sorting Values](#hash-sets-sorting-values)
-5. [Stacks](#stacks)
+6. [Stacks](#stacks)
     1. [Pushing Values](#stacks-pushing-values)
     2. [Popping Values](#stacks-popping-values)
     3. [Peeking at Values](#stacks-peeking-at-values)
     4. [Checking for Values](#stacks-checking-for-values)
     5. [Getting the Number of Values](#stacks-getting-number-of-values)
     6. [Clearing Values](#stacks-clearing-values)
-6. [Queues](#queues)
+7. [Queues](#queues)
     1. [Enqueueing Values](#queues-enqueueing-values)
     2. [Dequeueing Values](#queues-dequeueing-values)
     3. [Peeking at Values](#queues-peeking-at-values)
     4. [Checking for Values](#queues-checking-for-values)
     5. [Getting the Number of Values](#queues-getting-number-of-values)
     6. [Clearing Values](#queues-clearing-values)
-7. [Immutable Array Lists](#immutable-array-lists)
+8. [Immutable Array Lists](#immutable-array-lists)
     1. [Getting Values](#immutable-array-lists-getting-values)
     2. [Checking for Values](#immutable-array-lists-checking-for-values)
     3. [Getting Indices](#immutable-array-lists-getting-indices)
     4. [Getting the Number of Values](#immutable-array-lists-getting-number-of-values)
-8. [Immutable Hash Tables](#immutable-hash-tables)
+9. [Immutable Hash Tables](#immutable-hash-tables)
     1. [Getting Values](#immutable-hash-tables-getting-values)
     2. [Checking for Values](#immutable-hash-tables-checking-for-values)
     3. [Getting the Number of Values](#immutable-hash-tables-getting-number-of-values)
-9. [Immutable Hash Sets](#immutable-hash-sets)
+10. [Immutable Hash Sets](#immutable-hash-sets)
     1. [Checking for Values](#immutable-hash-sets-checking-for-values)
     2. [Getting the Number of Values](#immutable-hash-sets-getting-number-of-values)
 
 <h2 id="introduction">Introduction</h2>
 
 Unfortunately, PHP's support for collections is relatively incomplete.  The `array` type is reused for multiple types, like hash tables and lists.  PHP also has _some_ support for advanced types in the SPL library, but it is incomplete, and its syntax is somewhat clunky.  To cover for PHP's lack of coverage of collections, Opulence provides simple wrappers for common collections found in most other programming languages.
+
+<h2 id="key-value-pairs">Key-Value Pairs</h2>
+
+Like its name implies, `KeyValuePair` holds a key and a value.  An example usage of in Opulence's [`HashTable`](#hash-tables) and [`ImmutableHashTable`. 
+](#immutable-hash-tables).  To instantiate one, pass in the key and value:
+
+```php
+use Opulence\Collections\KeyValuePair;
+
+$kvp = new KeyValuePair('thekey', 'thevalue');
+```
+
+<h4 id="key-value-pairs-getting-keys">Getting Keys</h4>
+
+To get the key-value pair's key, call
+
+```php
+$kvp->getKey();
+```
+
+<h4 id="key-value-pairs-getting-values">Getting Values</h4>
+
+To get the key-value pair's value, call
+
+```php
+$kvp->getValue();
+```
 
 <h2 id="array-lists">Array Lists</h2>
 
@@ -191,7 +219,7 @@ $arrayList->sort($comparer);
 
 <h2 id="hash-tables">Hash Tables</h2>
 
-Hash tables are most similar to PHP's built-in associative array functionality.  It maps a key to a value.  You can instantiate it with or without an array of key => value pairs:
+Hash tables are most similar to PHP's built-in associative array functionality.  It maps a key to a value.  In hash tables, the keys can be scalars, objects, arrays, or resources; the values can be any type.  You can instantiate it with or without an array of key => value pairs:
 
 ```php
 use Opulence\Collections\HashTable;
@@ -210,6 +238,8 @@ To get the underlying array, call
 ```php
 $array = $hashTable->toArray();
 ```
+
+This will return a list of `KeyValuePair`s - not an associative array.  The reason for this is that keys can be non-strings, which is not supported in PHP.
 
 > **Note:** `HashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
@@ -259,25 +289,9 @@ To remove a value at a certain key, call
 $hashTable->removeKey('foo');
 ```
 
-<h4 id="hash-tables-unioning-values">Unioning Values</h4>
-
-You can union a set's values with an array via
-
-```php
-$hashTable->union(['foo' => 'bar']);
-```
-
-<h4 id="hash-tables-intersecting-values">Intersecting Values</h4>
-
-You can intersect a set's values with an array by calling
-
-```php
-$hashTable->intersect(['foo' => 'bar']);
-```
-
 <h2 id="hash-sets">Hash Sets</h2>
 
-Hash sets are lists with unique values.  You can instantiate one with or without an array of key => value pairs:
+Hash sets are lists with unique values.  They accept objects, scalars, arrays, and resources as values.  You can instantiate one with or without an array of key => value pairs:
 
 ```php
 use Opulence\Collections\HashSet;
@@ -564,7 +578,7 @@ $count = $arrayList->count();
 
 <h2 id="immutable-hash-tables">Immutable Hash Tables</h2>
 
-Sometimes, your business logic might dictate that a hash table is read-only.  Opulence provides support via `ImmutableHashTable`.  It requires that you pass values into its constructor:
+Sometimes, your business logic might dictate that a [hash table](#hash-tables) is read-only.  Opulence provides support via `ImmutableHashTable`.  In immutable hash tables, the keys can be scalars, objects, arrays, or resources; the values can be any type.  It requires that you pass values into its constructor:
 
 ```php
 use Opulence\Collections\ImmutableHashTable;
@@ -577,6 +591,8 @@ To get the underlying array, call
 ```php
 $array = $hashTable->toArray();
 ```
+
+This will return a list of `KeyValuePair`s - not an associative array.  The reason for this is that keys can be non-strings, which is not supported in PHP.
 
 > **Note:** `ImmutableHashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
@@ -612,7 +628,7 @@ $count = $hashTable->count();
 
 <h2 id="immutable-hash-sets">Immutable Hash Sets</h2>
 
-Immutable hash sets are read-only [sets](#sets).  You can instantiate one with a list of values:
+Immutable hash sets are read-only [hash sets](#hash-sets).  They accept objects, scalars, arrays, and resources as values.  You can instantiate one with a list of values:
 
 ```php
 use Opulence\Collections\ImmutableHashSet;
