@@ -192,7 +192,7 @@ $hashTable = new HashTable();
 $hashTable = new HashTable(['foo' => 'bar']);
 ```
 
-> **Note:** `HashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
+> **Note:** `HashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it. The keys will be numeric, and the values will be [key-value pairs](#key-values-pairs).
 
 <h4 id="hash-tables-add">HashTable::add()</h4>
 
@@ -288,7 +288,7 @@ $set = new HashSet();
 $set = new HashSet(['foo', 'bar']);
 ```
 
-> **Note:** `HashSet` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
+> **Note:** `HashSet` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.  When iterating, the keys will be numeric and the values will be the values in the set.
 
 <h4 id="hash-sets-add">HashSet::add()</h4>
 
@@ -581,7 +581,7 @@ use Opulence\Collections\ImmutableHashTable;
 $hashTable = new ImmutableHashTable(['foo' => 'bar', 'baz' => 'blah']);
 ```
 
-> **Note:** `ImmutableHashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
+> **Note:** `ImmutableHashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it. When iterating, the keys will be numeric, and the values will be [key-value pairs](#key-values-pairs).
 
 <h4 id="immutable-hash-tables-contains-key">ImmutableHashTable::containsKey()</h4>
 
