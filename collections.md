@@ -29,6 +29,8 @@ $kvp = new KeyValuePair('thekey', 'thevalue');
 
 <h4 id="key-value-pairs-getting-keys">KeyValuePair::getKey()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To get the key-value pair's key, call
 
 ```php
@@ -36,6 +38,8 @@ $kvp->getKey();
 ```
 
 <h4 id="key-value-pairs-get">KeyValuePair::getValue()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To get the key-value pair's value, call
 
@@ -59,6 +63,8 @@ $arrayList = new ArrayList(['foo', 'bar']);
 
 <h4 id="array-lists-add">ArrayList::add()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 You can add a value via
 
 ```php
@@ -66,6 +72,8 @@ $arrayList->add('foo');
 ```
 
 <h4 id="array-lists-add-range">ArrayList::addRange()</h4>
+
+<h5>Runtime: O(n), n = numbers of values added</h5>
 
 You can add multiple values at once:
 
@@ -75,6 +83,8 @@ $arrayList->addRange(['foo', 'bar']);
 
 <h4 id="array-lists-clear">ArrayList::clear()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 You can remove all values in the array list:
 
 ```php
@@ -82,6 +92,8 @@ $arrayList->clear();
 ```
 
 <h4 id="array-lists-contains-value">ArrayList::containsValue()</h4>
+
+<h5>Runtime: O(n)</h5>
 
 To check for a value, call
 
@@ -91,6 +103,8 @@ $containsValue = $arrayList->containsValue('foo');
 
 <h4 id="array-lists-count">ArrayList::count()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To grab the number of values in the array list, call
 
 ```php
@@ -98,6 +112,8 @@ $count = $arrayList->count();
 ```
 
 <h4 id="array-lists-get">ArrayList::get()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To get the value at a certain index from an array list, call
 
@@ -107,6 +123,8 @@ $value = $arrayList->get(123);
 
 <h4 id="array-lists-index-of">ArrayList::indexOf()</h4>
 
+<h5>Runtime: O(n)</h5>
+
 To grab the index for a value, call
 
 ```php
@@ -115,6 +133,8 @@ $index = $arrayList->indexOf('foo');
 
 <h4 id="array-lists-insert">ArrayList::insert()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To insert a value at a specific index, call
 
 ```php
@@ -122,6 +142,8 @@ $arrayList->insert(23, 'foo');
 ```
 
 <h4 id="array-lists-intersect">ArrayList::intersect()</h4>
+
+<h5>Runtime: O(nm)</h5>
 
 You can intersect an array list's values with an array by calling
 
@@ -132,6 +154,8 @@ $arrayList->intersect(['foo', 'bar']);
 If the array list doesn't contain the value, `null` will be returned.
 
 <h4 id="array-lists-remove-value">ArrayList::removeIndex()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To remove a value by index, call
 
@@ -147,6 +171,8 @@ $arrayList->removeValue('foo');
 
 <h4 id="array-lists-reverse">ArrayList::reverse()</h4>
 
+<h5>Runtime: O(n)</h5>
+
 To reverse the values in the list, call
 
 ```php
@@ -154,6 +180,8 @@ $arrayList->reverse();
 ```
 
 <h4 id="array-lists-sort">ArrayList::sort()</h4>
+
+<h5>Runtime: O(n log n)</h5>
 
 You can sort values similar to the way you can sort PHP arrays via `usort()`:
 
@@ -166,6 +194,8 @@ $arrayList->sort($comparer);
 
 <h4 id="array-lists-to-array">ArrayList::toArray()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 You can get the underlying array by calling
 
 ```php
@@ -173,6 +203,8 @@ $array = $arrayList->toArray();
 ```
 
 <h4 id="array-lists-union">ArrayList::union()</h4>
+
+<h5>Runtime: O(n<sup>2</sup>)</h5>
 
 You can union an array list's values with an array via
 
@@ -196,6 +228,8 @@ $hashTable = new HashTable(['foo' => 'bar']);
 
 <h4 id="hash-tables-add">HashTable::add()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To add a value, call
 
 ```php
@@ -203,6 +237,8 @@ $hashTable->add('foo', 'bar');
 ```
 
 <h4 id="hash-tables-add-range">HashTable::addRange()</h4>
+
+<h5>Runtime: O(n), n = number of values added</h5>
 
 To add multiple values, call `addRange()`:
 
@@ -212,6 +248,8 @@ $hashTable->addRange(['foo' => 'bar', 'baz' => 'blah']);
 
 <h4 id="hash-tables-clear">HashTable::clear()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 You can remove all values:
 
 ```php
@@ -219,6 +257,8 @@ $hashTable->clear();
 ```
 
 <h4 id="hash-tables-contains-key">HashTable::containsKey()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To check for a value, call
 
@@ -228,6 +268,8 @@ $containsValue = $hashTable->containsValue('foo');
 
 <h4 id="hash-tables-contains-value">HashTable::containsValue()</h4>
 
+<h5>Runtime: O(n)</h5>
+
 To check for a key, call
 
 ```php
@@ -235,6 +277,8 @@ $containsKey = $hashTable->containsKey('foo');
 ```
 
 <h4 id="hash-tables-count">HashTable::count()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To get the number of values in the hash table, call
 
@@ -244,6 +288,8 @@ $count = $hashTable->count();
 
 <h4 id="hash-tables-get">HashTable::get()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To get a value at a key, call
 
 ```php
@@ -251,6 +297,8 @@ $value = $hashTable->get('foo');
 ```
 
 <h4 id="hash-tables-remove-key">HashTable::removeKey()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To remove a value at a certain key, call
 
@@ -260,6 +308,8 @@ $hashTable->removeKey('foo');
 
 <h4 id="hash-tables-remove-value">HashTable::removeValue()</h4>
 
+<h5>Runtime: O(n)</h5>
+
 To remove a value, call
 
 ```php
@@ -267,6 +317,8 @@ $hashTable->removeValue('foo');
 ```
 
 <h4 id="hash-tables-to-array">HashTable::toArray()</h4>
+
+<h5>Runtime: O(n)</h5>
 
 To get the underlying array, call
 
@@ -292,6 +344,8 @@ $set = new HashSet(['foo', 'bar']);
 
 <h4 id="hash-sets-add">HashSet::add()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 You can add a value via
 
 ```php
@@ -299,6 +353,8 @@ $set->add('foo');
 ```
 
 <h4 id="hash-sets-add-range">HashSet::addRange()</h4>
+
+<h5>Runtime: O(n), n = number of values added</h5>
 
 You can add multiple values at once:
 
@@ -308,6 +364,8 @@ $set->addRange(['foo', 'bar']);
 
 <h4 id="hash-sets-clear">HashSet::clear()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To remove all values in the set, call `clear()`:
 
 ```php
@@ -315,6 +373,8 @@ $set->clear();
 ```
 
 <h4 id="hash-sets-contains-value">HashSet::containsValue()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To check for a value, call
 
@@ -324,6 +384,8 @@ $containsValue = $set->containsValue('foo');
 
 <h4 id="hash-sets-count">HashSet::count()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To grab the number of values in the hash set, call
 
 ```php
@@ -331,6 +393,8 @@ $count = $set->count();
 ```
 
 <h4 id="hash-sets-intersect">HashSet::intersect()</h4>
+
+<h5>Runtime: O(nm)</h5>
 
 You can intersect a hash set with an array by calling
 
@@ -340,6 +404,8 @@ $set->intersect(['foo', 'bar']);
 
 <h4 id="hash-sets-remove-value">HashSet::removeValue()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To remove a specific value, call
 
 ```php
@@ -347,6 +413,8 @@ $set->removeValue('foo');
 ```
 
 <h4 id="hash-sets-sort">HashSet::sort()</h4>
+
+<h5>Runtime: O(n log n)</h5>
 
 You can sort values similar to the way you can sort PHP arrays via `usort()`:
 
@@ -359,6 +427,8 @@ $set->sort($comparer);
 
 <h4 id="hash-sets-to-array">HashSet::toArray()</h4>
 
+<h5>Runtime: O(n)</h5>
+
 To get the underlying array, call
 
 ```php
@@ -366,6 +436,8 @@ $array = $set->toArray();
 ```
 
 <h4 id="hash-sets-union">HashSet::union()</h4>
+
+<h5>Runtime: O(n<sup>2</sup>)</h5>
 
 You can union a hash set with an array via
 
@@ -387,6 +459,8 @@ $stack = new Stack();
 
 <h4 id="stacks-clear">Stack::clear()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To clear the values in the stack, call
 
 ```php
@@ -394,6 +468,8 @@ $stack->clear();
 ```
 
 <h4 id="stacks-contains-value">Stack::containsValue()</h4>
+
+<h5>Runtime: O(n)</h5>
 
 To check for a value within a stack, call
 
@@ -403,6 +479,8 @@ $containsValue = $stack->containsValue('foo');
 
 <h4 id="stacks-count">Stack::count()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To get the number of values in the stack, call
 
 ```php
@@ -411,6 +489,8 @@ $count = $stack->count();
 
 <h4 id="stacks-peek">Stack::peek()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To peek at the top value in the stack, call
 
 ```php
@@ -418,6 +498,8 @@ $value = $stack->peek();
 ```
 
 <h4 id="stacks-pop">Stack::pop()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To pop a value off the stack, call
 
@@ -429,6 +511,8 @@ If there are no values in the stack, this will return `null`.
 
 <h4 id="stacks-push">Stack::push()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To push a value onto the stack, call
 
 ```php
@@ -438,6 +522,8 @@ $stack->push('foo');
 If there are no values in the stack, this will return `null`.
 
 <h4 id="stacks-to-array">Stack::toArray()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To get the underlying array, call
 
@@ -459,6 +545,8 @@ $queue = new Queue();
 
 <h4 id="queues-clear">Queues::clear()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To clear the queue, call
 
 ```php
@@ -466,6 +554,8 @@ $queue->clear();
 ```
 
 <h4 id="queues-contains-value">Queues::containsValue()</h4>
+
+<h5>Runtime: O(n)</h5>
 
 To check for a value within a queue, call
 
@@ -475,6 +565,8 @@ $containsValue = $queue->containsValue('foo');
 
 <h4 id="queues-count">Queues::count()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To get the number of values in the queue, call
 
 ```php
@@ -482,6 +574,8 @@ $count = $queue->count();
 ```
 
 <h4 id="queues-dequeue">Queues::dequeue()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To dequeue a value from the queue, call
 
@@ -493,6 +587,8 @@ If there are no values in the queue, this will return `null`.
 
 <h4 id="queues-enqueue">Queues::enqueue()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To enqueue a value onto the queue, call
 
 ```php
@@ -500,6 +596,8 @@ $queue->enqueue('foo');
 ```
 
 <h4 id="queues-peek">Queues::peek()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To peek at the value at the beginning of the queue, call
 
@@ -510,6 +608,8 @@ $value = $queue->peek();
 If there are no values in the queue, this will return `null`.
 
 <h4 id="queues-to-array">Queues::toArray()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To get the underlying array, call
 
@@ -531,6 +631,8 @@ $arrayList = new ImmutableArrayList(['foo', 'bar']);
 
 <h4 id="immutable-array-lists-contains-value">ImmutableArrayList::containsValue()</h4>
 
+<h5>Runtime: O(n)</h5>
+
 To check for a value, call
 
 ```php
@@ -538,6 +640,8 @@ $containsValue = $arrayList->containsValue('foo');
 ```
 
 <h4 id="immutable-array-lists-count">ImmutableArrayList::count()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 To grab the number of values in the array list, call
 
@@ -547,6 +651,8 @@ $count = $arrayList->count();
 
 <h4 id="immutable-array-lists-get">ImmutableArrayList::get()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To get the value at a certain index from an array list, call
 
 ```php
@@ -554,6 +660,8 @@ $value = $arrayList->get(123);
 ```
 
 <h4 id="immutable-array-lists-index-of">ImmutableArrayList::indexOf()</h4>
+
+<h5>Runtime: O(n)</h5>
 
 To grab the index for a value, call
 
@@ -564,6 +672,8 @@ $index = $arrayList->indexOf('foo');
 If the array list doesn't contain the value, `null` will be returned.
 
 <h4 id="immutable-array-lists-to-array">ImmutableArrayList::toArray()</h4>
+
+<h5>Runtime: O(1)</h5>
 
 If you want to grab the underlying array, call
 
@@ -585,6 +695,8 @@ $hashTable = new ImmutableHashTable(['foo' => 'bar', 'baz' => 'blah']);
 
 <h4 id="immutable-hash-tables-contains-key">ImmutableHashTable::containsKey()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To check for a key, call
 
 ```php
@@ -592,6 +704,8 @@ $containsKey = $hashTable->containsKey('foo');
 ```
 
 <h4 id="immutable-hash-tables-contains-value">ImmutableHashTable::containsValue()</h4>
+
+<h5>Runtime: O(n)</h5>
 
 To check for a value, call
 
@@ -601,6 +715,8 @@ $containsValue = $hashTable->containsValue('foo');
 
 <h4 id="immutable-hash-tables-count">ImmutableHashTable::count()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To get the number of values in the hash table, call
 
 ```php
@@ -609,6 +725,8 @@ $count = $hashTable->count();
 
 <h4 id="immutable-hash-tables-get">ImmutableHashTable::get()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To get a value at a key, call
 
 ```php
@@ -616,6 +734,8 @@ $value = $hashTable->get('foo');
 ```
 
 <h4 id="immutable-hash-tables-to-array">ImmutableHashTable::toArray()</h4>
+
+<h5>Runtime: O(n)</h5>
 
 To get the underlying array, call
 
@@ -639,6 +759,8 @@ $set = new ImmutableHashSet(['foo', 'bar']);
 
 <h4 id="immutable-hash-sets-contains-value">ImmutableHashSet::containsValue()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To check for a value, call
 
 ```php
@@ -647,6 +769,8 @@ $containsValue = $set->containsValue('foo');
 
 <h4 id="immutable-hash-sets-count">ImmutableHashSet::count()</h4>
 
+<h5>Runtime: O(1)</h5>
+
 To grab the number of values in the set, call
 
 ```php
@@ -654,6 +778,8 @@ $count = $set->count();
 ```
 
 <h4 id="immutable-hash-sets-to-array">ImmutableHashSet::toArray()</h4>
+
+<h5>Runtime: O(n)</h5>
 
 To get the underlying array, call
 
