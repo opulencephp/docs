@@ -3,59 +3,76 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Key-Value Pairs](#key-value-pairs)
-    1. [Getting Keys](#key-value-pairs-getting-keys)
-    2. [Getting Values](#key-value-pairs-getting-values)
+    1. [getKey()](#key-value-pairs-getting-keys)
+    2. [getValue()](#key-value-pairs-get)
 3. [Array Lists](#array-lists)
-    1. [Adding Values](#array-lists-adding-values)
-    2. [Getting Values](#array-lists-getting-values)
-    3. [Checking for Values](#array-lists-checking-for-values)
-    4. [Getting Indices](#array-lists-getting-indices)
-    5. [Getting the Number of Values](#array-lists-getting-number-of-values)
-    6. [Removing Values](#array-lists-removing-values)
-    7. [Unioning Values](#array-lists-unioning-values)
-    8. [Intersecting Values](#array-lists-intersecting-values)
-    9. [Reversing the Values](#array-lists-reversing-values)
-    10. [Sorting Values](#array-lists-sorting-values)
+    1. [add()](#array-lists-add)
+    2. [addRange()](#array-lists-add-range)
+    3. [clear()](#array-lists-clear)
+    4. [containsValue()](#array-lists-contains-value)
+    5. [count()](#array-lists-count)
+    6. [get()](#array-lists-get)
+    7. [indexOf()](#array-lists-index-of)
+    8. [insert()](#array-lists-insert)
+    9. [intersect()](#array-lists-intersect)
+    10. [removeIndex()](#array-lists-remove-value)
+    12. [reverse()](#array-lists-reverse)
+    13. [sort()](#array-lists-sort)
+    14. [toArray()](#array-lists-to-array)
+    15. [union()](#array-lists-union)
 4. [Hash Tables](#hash-tables)
-    1. [Adding Values](#hash-tables-adding-values)
-    2. [Getting Values](#hash-tables-getting-values)
-    3. [Checking for Values](#hash-tables-checking-for-values)
-    4. [Getting the Number of Values](#hash-tables-getting-number-of-values)
-    5. [Removing Values](#hash-tables-removing-values)
+    1. [add()](#hash-tables-add)
+    2. [addRange()](#hash-tables-add-range)
+    3. [clear()](#hash-tables-clear)
+    4. [containsKey()](#hash-tables-contains-key)
+    5. [containsValue()](#hash-tables-contains-value)
+    6. [count()](#hash-tables-count)
+    7. [get()](#hash-tables-get)
+    8. [removeKey()](#hash-tables-remove-key)
+    9. [removeValue()](#hash-tables-remove-value)
+    10. [toArray()](#hash-tables-to-array)
 5. [Hash Sets](#hash-sets)
-    1. [Adding Values](#hash-sets-adding-values)
-    2. [Checking for Values](#hash-sets-checking-for-values)
-    3. [Getting the Number of Values](#hash-sets-getting-number-of-values)
-    4. [Removing Values](#hash-sets-removing-values)
-    5. [Unioning Values](#hash-sets-unioning-values)
-    6. [Intersecting Values](#hash-sets-intersecting-values)
-    7. [Sorting Values](#hash-sets-sorting-values)
+    1. [add()](#hash-sets-add)
+    2. [addRange()](#hash-sets-add-range)
+    3. [clear()](#hash-sets-clear)
+    4. [containsValue()](#hash-sets-contains-value)
+    5. [count()](#hash-sets-count)
+    6. [intersect()](#hash-sets-intersect)
+    7. [sort()](#hash-sets-sort)
+    8. [removeValue()](#hash-sets-remove-value)
+    9. [toArray()](#hash-sets-to-array)
+    10. [union()](#hash-sets-union)
 6. [Stacks](#stacks)
-    1. [Pushing Values](#stacks-pushing-values)
-    2. [Popping Values](#stacks-popping-values)
-    3. [Peeking at Values](#stacks-peeking-at-values)
-    4. [Checking for Values](#stacks-checking-for-values)
-    5. [Getting the Number of Values](#stacks-getting-number-of-values)
-    6. [Clearing Values](#stacks-clearing-values)
+    1. [clear()](#stacks-clear)
+    2. [containsValue()](#stacks-contains-value)
+    3. [count()](#stacks-count)
+    4. [peek()](#stacks-peek)
+    5. [pop()](#stacks-pop)
+    6. [push()](#stacks-push)
+    7. [toArray()](#stacks-to-array)
 7. [Queues](#queues)
-    1. [Enqueueing Values](#queues-enqueueing-values)
-    2. [Dequeueing Values](#queues-dequeueing-values)
-    3. [Peeking at Values](#queues-peeking-at-values)
-    4. [Checking for Values](#queues-checking-for-values)
-    5. [Getting the Number of Values](#queues-getting-number-of-values)
-    6. [Clearing Values](#queues-clearing-values)
+    1. [clear()](#queues-clear)
+    2. [containsValue()](#queues-contains-value)
+    3. [count()](#queues-count)
+    4. [dequeue()](#queues-dequeue)
+    5. [enqueue()](#queues-enqueue)
+    6. [peek()](#queues-peek)
+    7. [toArray()](#queues-to-array)
 8. [Immutable Array Lists](#immutable-array-lists)
-    1. [Getting Values](#immutable-array-lists-getting-values)
-    2. [Checking for Values](#immutable-array-lists-checking-for-values)
-    3. [Getting Indices](#immutable-array-lists-getting-indices)
-    4. [Getting the Number of Values](#immutable-array-lists-getting-number-of-values)
+    1. [containsValue()](#immutable-array-lists-contains-value)
+    2. [count()](#immutable-array-lists-count)
+    3. [get()](#immutable-array-lists-get)
+    4. [indexOf()](#immutable-array-lists-index-of)
+    5. [toArray()](#immutable-array-lists-to-array)
 9. [Immutable Hash Tables](#immutable-hash-tables)
-    1. [Getting Values](#immutable-hash-tables-getting-values)
-    2. [Checking for Values](#immutable-hash-tables-checking-for-values)
-    3. [Getting the Number of Values](#immutable-hash-tables-getting-number-of-values)
+    1. [containsValue()](#immutable-hash-tables-contains-value)
+    2. [count()](#immutable-hash-tables-count)
+    3. [get()](#immutable-hash-tables-get)
+    4. [toArray()](#immutable-hash-tables-to-array)
 10. [Immutable Hash Sets](#immutable-hash-sets)
-    1. [Checking for Values](#immutable-hash-sets-checking-for-values)
-    2. [Getting the Number of Values](#immutable-hash-sets-getting-number-of-values)
+    1. [containsValue()](#immutable-hash-sets-contains-value)
+    2. [count()](#immutable-hash-sets-count)
+    3. [toArray()](#immutable-hash-sets-to-array)
 
 <h2 id="introduction">Introduction</h2>
 
@@ -63,7 +80,7 @@ Unfortunately, PHP's support for collections is relatively incomplete.  The `arr
 
 <h2 id="key-value-pairs">Key-Value Pairs</h2>
 
-Like its name implies, `KeyValuePair` holds a key and a value.  An example usage of in Opulence's [`HashTable`](#hash-tables) and [`ImmutableHashTable`. 
+Like its name implies, `KeyValuePair` holds a key and a value.  An example usage of in Opulence's [`HashTable`](#hash-tables) and [`ImmutableHashTable` 
 ](#immutable-hash-tables).  To instantiate one, pass in the key and value:
 
 ```php
@@ -72,7 +89,7 @@ use Opulence\Collections\KeyValuePair;
 $kvp = new KeyValuePair('thekey', 'thevalue');
 ```
 
-<h4 id="key-value-pairs-getting-keys">Getting Keys</h4>
+<h4 id="key-value-pairs-getting-keys">`getKey()`</h4>
 
 To get the key-value pair's key, call
 
@@ -80,7 +97,7 @@ To get the key-value pair's key, call
 $kvp->getKey();
 ```
 
-<h4 id="key-value-pairs-getting-values">Getting Values</h4>
+<h4 id="key-value-pairs-get">`getValue()`</h4>
 
 To get the key-value pair's value, call
 
@@ -100,15 +117,9 @@ $arrayList = new ArrayList();
 $arrayList = new ArrayList(['foo', 'bar']);
 ```
 
-If you want to grab the underlying array, call
-
-```php
-$array = $arrayList->toArray();
-```
-
 > **Note:** `ArrayList` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
-<h4 id="array-lists-adding-values">Adding Values</h4>
+<h4 id="array-lists-add">`add()`</h4>
 
 You can add a value via
 
@@ -116,45 +127,23 @@ You can add a value via
 $arrayList->add('foo');
 ```
 
-Or, you can add multiple values at once:
+<h4 id="array-lists-add-range">`addRange()`</h4>
+
+You can add multiple values at once:
 
 ```php
 $arrayList->addRange(['foo', 'bar']);
 ```
 
-To insert a value at a specific index, call
+<h4 id="array-lists-clear">`clear()`</h4>
+
+You can remove all values in the array list:
 
 ```php
-$arrayList->insert(23, 'foo');
+$arrayList->clear();
 ```
 
-<h4 id="array-lists-getting-values">Getting Values</h4>
-
-To get the value at a certain index from an array list, call
-
-```php
-$value = $arrayList->get(123);
-```
-
-<h4 id="array-lists-checking-for-values">Checking for Values</h4>
-
-To check for a value, call
-
-```php
-$containsValue = $arrayList->containsValue('foo');
-```
-
-<h4 id="array-lists-getting-indices">Getting Indices</h4>
-
-To grab the index for a value, call
-
-```php
-$index = $arrayList->indexOf('foo');
-```
-
-If the array list doesn't contain the value, `null` will be returned.
-
-<h4 id="array-lists-getting-number-of-values">Getting the Number of Values</h4>
+<h4 id="array-lists-count">`count()`</h4>
 
 To grab the number of values in the array list, call
 
@@ -162,7 +151,49 @@ To grab the number of values in the array list, call
 $count = $arrayList->count();
 ```
 
-<h4 id="array-lists-removing-values">Removing Values</h4>
+<h4 id="array-lists-get">`get()`</h4>
+
+To get the value at a certain index from an array list, call
+
+```php
+$value = $arrayList->get(123);
+```
+
+<h4 id="array-lists-contains-value">`containsValue()`</h4>
+
+To check for a value, call
+
+```php
+$containsValue = $arrayList->containsValue('foo');
+```
+
+<h4 id="array-lists-index-of">`indexOf()`</h4>
+
+To grab the index for a value, call
+
+```php
+$index = $arrayList->indexOf('foo');
+```
+
+<h4 id="array-lists-insert">`insert()`</h4>
+
+To insert a value at a specific index, call
+
+```php
+$arrayList->insert(23, 'foo');
+```
+
+<h4 id="array-lists-intersect">`intersect()`</h4>
+
+You can intersect an array list's values with an array by calling
+
+```php
+$arrayList->intersect(['foo', 'bar']);
+```
+
+If the array list doesn't contain the value, `null` will be returned.
+
+<h4 id="array-lists-remove-value">`removeIndex()`</h4>
 
 To remove a value by index, call
 
@@ -176,29 +207,7 @@ To remove a specific value, call
 $arrayList->removeValue('foo');
 ```
 
-To remove all values, call
-
-```php
-$arrayList->clear();
-```
-
-<h4 id="array-lists-unioning-values">Unioning Values</h4>
-
-You can union an array list's values with an array via
-
-```php
-$arrayList->union(['foo', 'bar']);
-```
-
-<h4 id="array-lists-intersecting-values">Intersecting Values</h4>
-
-You can intersect an array list's values with an array by calling
-
-```php
-$arrayList->intersect(['foo', 'bar']);
-```
-
-<h4 id="array-lists-reversing-values">Reversing Values</h4>
+<h4 id="array-lists-reverse">`reverse()`</h4>
 
 To reverse the values in the list, call
 
@@ -206,7 +215,7 @@ To reverse the values in the list, call
 $arrayList->reverse();
 ```
 
-<h4 id="array-lists-sorting-values">Sorting Values</h4>
+<h4 id="array-lists-sort">`sort()`</h4>
 
 You can sort values similar to the way you can sort PHP arrays via `usort()`:
 
@@ -215,6 +224,22 @@ $comparer = function ($a, $b) {
     return $a > $b ? 1 : -1;
 };
 $arrayList->sort($comparer);
+```
+
+<h4 id="array-lists-to-array">`toArray()`</h4>
+
+You can get the underlying array by calling
+
+```php
+$array = $arrayList->toArray();
+```
+
+<h4 id="array-lists-union">`union()`</h4>
+
+You can union an array list's values with an array via
+
+```php
+$arrayList->union(['foo', 'bar']);
 ```
 
 <h2 id="hash-tables">Hash Tables</h2>
@@ -233,17 +258,9 @@ Or...
 $hashTable = new HashTable(['foo' => 'bar']);
 ```
 
-To get the underlying array, call
-
-```php
-$array = $hashTable->toArray();
-```
-
-This will return a list of `KeyValuePair`s - not an associative array.  The reason for this is that keys can be non-strings, which is not supported in PHP.
-
 > **Note:** `HashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
-<h4 id="hash-tables-adding-values">Adding Values</h4>
+<h4 id="hash-tables-add">`add()`</h4>
 
 To add a value, call
 
@@ -251,21 +268,23 @@ To add a value, call
 $hashTable->add('foo', 'bar');
 ```
 
-<h4 id="hash-tables-getting-values">Getting Values</h4>
+<h4 id="hash-tables-add-range">`addRange()`</h4>
 
-To get a value at a key, call
-
-```php
-$value = $hashTable->get('foo');
-```
-
-<h4 id="hash-tables-checking-for-values">Checking for Values</h4>
-
-To check for a key, call
+To add multiple values, call `addRange()`:
 
 ```php
-$containsKey = $hashTable->containsKey('foo');
+$hashTable->addRange(['foo' => 'bar', 'baz' => 'blah']);
 ```
+
+<h4 id="hash-tables-clear">`clear()`</h4>
+
+You can remove all values:
+
+```php
+$hashTable->clear();
+```
+
+<h4 id="hash-tables-contains-key">`containsKey()`</h4>
 
 To check for a value, call
 
@@ -273,7 +292,15 @@ To check for a value, call
 $containsValue = $hashTable->containsValue('foo');
 ```
 
-<h4 id="hash-tables-getting-number-of-values">Getting the Number of Values</h4>
+<h4 id="hash-tables-contains-value">`containsValue()`</h4>
+
+To check for a key, call
+
+```php
+$containsKey = $hashTable->containsKey('foo');
+```
+
+<h4 id="hash-tables-count">`count()`</h4>
 
 To get the number of values in the hash table, call
 
@@ -281,13 +308,39 @@ To get the number of values in the hash table, call
 $count = $hashTable->count();
 ```
 
-<h4 id="hash-tables-removing-values">Removing Values</h4>
+<h4 id="hash-tables-get">`get()`</h4>
+
+To get a value at a key, call
+
+```php
+$value = $hashTable->get('foo');
+```
+
+<h4 id="hash-tables-remove-key">`removeKey()`</h4>
 
 To remove a value at a certain key, call
 
 ```php
 $hashTable->removeKey('foo');
 ```
+
+<h4 id="hash-tables-remove-value">`removeValue()`</h4>
+
+To remove a value, call
+
+```php
+$hashTable->removeValue('foo');
+```
+
+<h4 id="hash-tables-to-array">`toArray()`</h4>
+
+To get the underlying array, call
+
+```php
+$array = $hashTable->toArray();
+```
+
+This will return a list of `KeyValuePair` - not an associative array.  The reason for this is that keys can be non-strings, which is not supported in PHP.
 
 <h2 id="hash-sets">Hash Sets</h2>
 
@@ -305,15 +358,9 @@ Or...
 $set = new HashSet(['foo', 'bar']);
 ```
 
-To get the underlying array, call
-
-```php
-$array = $set->toArray();
-```
-
 > **Note:** `HashSet` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
-<h4 id="hash-sets-adding-values">Adding Values</h4>
+<h4 id="hash-sets-add">`add()`</h4>
 
 You can add a value via
 
@@ -321,13 +368,23 @@ You can add a value via
 $set->add('foo');
 ```
 
-Or, you can add multiple values at once:
+<h4 id="hash-sets-add-range">`addRange()`</h4>
+
+You can add multiple values at once:
 
 ```php
 $set->addRange(['foo', 'bar']);
 ```
 
-<h4 id="hash-sets-checking-for-values">Checking for Values</h4>
+<h4 id="hash-sets-clear">`clear()`</h4>
+
+To remove all values in the set, call `clear()`:
+
+```php
+$set->clear();
+```
+
+<h4 id="hash-sets-contains-value">`containsValue()`</h4>
 
 To check for a value, call
 
@@ -335,7 +392,7 @@ To check for a value, call
 $containsValue = $set->containsValue('foo');
 ```
 
-<h4 id="hash-sets-getting-number-of-values">Getting the Number of Values</h4>
+<h4 id="hash-sets-count">`count()`</h4>
 
 To grab the number of values in the hash set, call
 
@@ -343,29 +400,7 @@ To grab the number of values in the hash set, call
 $count = $set->count();
 ```
 
-<h4 id="hash-sets-removing-values">Removing Values</h4>
-
-To remove a specific value, call
-
-```php
-$set->removeValue('foo');
-```
-
-To remove all values, call
-
-```php
-$set->clear();
-```
-
-<h4 id="hash-sets-unioning-values">Unioning Values</h4>
-
-You can union a hash set with an array via
-
-```php
-$set->union(['foo', 'bar']);
-```
-
-<h4 id="hash-sets-intersecting-values">Intersecting Values</h4>
+<h4 id="hash-sets-intersect">`intersect()`</h4>
 
 You can intersect a hash set with an array by calling
 
@@ -373,7 +408,15 @@ You can intersect a hash set with an array by calling
 $set->intersect(['foo', 'bar']);
 ```
 
-<h4 id="hash-sets-sorting-values">Sorting Values</h4>
+<h4 id="hash-sets-remove-value">`removeValue()`</h4>
+
+To remove a specific value, call
+
+```php
+$set->removeValue('foo');
+```
+
+<h4 id="hash-sets-sort">`sort()`</h4>
 
 You can sort values similar to the way you can sort PHP arrays via `usort()`:
 
@@ -382,6 +425,22 @@ $comparer = function ($a, $b) {
     return $a > $b ? 1 : -1;
 };
 $set->sort($comparer);
+```
+
+<h4 id="hash-sets-to-array">`toArray()`</h4>
+
+To get the underlying array, call
+
+```php
+$array = $set->toArray();
+```
+
+<h4 id="hash-sets-union">`union()`</h4>
+
+You can union a hash set with an array via
+
+```php
+$set->union(['foo', 'bar']);
 ```
 
 <h2 id="stacks">Stacks</h2>
@@ -394,23 +453,41 @@ use Opulence\Collections\Stack;
 $stack = new Stack();
 ```
 
-To get the underlying array, call
-
-```php
-$array = $stack->toArray();
-```
-
 > **Note:** `Stack` implements `IteratorAggregate`, so you can iterate over it.
 
-<h4 id="stacks-pushing-values">Pushing Values</h4>
+<h4 id="stacks-clear">`clear()`</h4>
 
-To push a value onto the stack, call
+To clear the values in the stack, call
 
 ```php
-$stack->push('foo');
+$stack->clear();
 ```
 
-<h4 id="stacks-popping-values">Popping Values</h4>
+<h4 id="stacks-contains-value">`containsValue()`</h4>
+
+To check for a value within a stack, call
+
+```php
+$containsValue = $stack->containsValue('foo');
+```
+
+<h4 id="stacks-count">`count()`</h4>
+
+To get the number of values in the stack, call
+
+```php
+$count = $stack->count();
+```
+
+<h4 id="stacks-peek">`peek()`</h4>
+
+To peek at the top value in the stack, call
+
+```php
+$value = $stack->peek();
+```
+
+<h4 id="stacks-pop">`pop()`</h4>
 
 To pop a value off the stack, call
 
@@ -420,38 +497,22 @@ $value = $stack->pop();
 
 If there are no values in the stack, this will return `null`.
 
-<h4 id="stacks-peeking-at-values">Peeking at Values</h4>
+<h4 id="stacks-push">`push()`</h4>
 
-To peek at the top value in the stack, call
+To push a value onto the stack, call
 
 ```php
-$value = $stack->peek();
+$stack->push('foo');
 ```
 
 If there are no values in the stack, this will return `null`.
 
-<h4 id="stacks-checking-for-values">Checking for Values</h4>
+<h4 id="stacks-to-array">`toArray()`</h4>
 
-To check for a value within a stack, call
-
-```php
-$containsValue = $stack->containsValue('foo');
-```
-
-<h4 id="stacks-getting-number-of-values">Getting the Number of Values</h4>
-
-To get the number of values in the stack, call
+To get the underlying array, call
 
 ```php
-$count = $stack->count();
-```
-
-<h4 id="stacks-clearing-values">Clearing Values</h4>
-
-To clear the stack, call
-
-```php
-$stack->clear();
+$array = $stack->toArray();
 ```
 
 <h2 id="queues">Queues</h2>
@@ -464,23 +525,33 @@ use Opulence\Collections\Queue;
 $queue = new Queue();
 ```
 
-To get the underlying array, call
-
-```php
-$array = $queue->toArray();
-```
-
 > **Note:** `Queue` implements `IteratorAggregate`, so you can iterate over it.
 
-<h4 id="queues-enqueueing-values">Enqueueing Values</h4>
+<h4 id="queues-clear">`clear()`</h4>
 
-To enqueue a value onto the queue, call
+To clear the queue, call
 
 ```php
-$queue->enqueue('foo');
+$queue->clear();
 ```
 
-<h4 id="queues-dequeueing-values">Dequeueing Values</h4>
+<h4 id="queues-contains-value">`containsValue()`</h4>
+
+To check for a value within a queue, call
+
+```php
+$containsValue = $queue->containsValue('foo');
+```
+
+<h4 id="queues-count">`count()`</h4>
+
+To get the number of values in the queue, call
+
+```php
+$count = $queue->count();
+```
+
+<h4 id="queues-dequeue">`dequeue()`</h4>
 
 To dequeue a value from the queue, call
 
@@ -490,7 +561,15 @@ $value = $queue->dequeue();
 
 If there are no values in the queue, this will return `null`.
 
-<h4 id="queues-peeking-at-values">Peeking at Values</h4>
+<h4 id="queues-enqueue">`enqueue()`</h4>
+
+To enqueue a value onto the queue, call
+
+```php
+$queue->enqueue('foo');
+```
+
+<h4 id="queues-peek">`peek()`</h4>
 
 To peek at the value at the beginning of the queue, call
 
@@ -500,28 +579,12 @@ $value = $queue->peek();
 
 If there are no values in the queue, this will return `null`.
 
-<h4 id="queues-checking-for-values">Checking for Values</h4>
+<h4 id="queues-to-array">`toArray()`</h4>
 
-To check for a value within a queue, call
-
-```php
-$containsValue = $queue->containsValue('foo');
-```
-
-<h4 id="queues-getting-number-of-values">Getting the Number of Values</h4>
-
-To get the number of values in the queue, call
+To get the underlying array, call
 
 ```php
-$count = $queue->count();
-```
-
-<h4 id="queues-clearing-values">Clearing Values</h4>
-
-To clear the queue, call
-
-```php
-$queue->clear();
+$array = $queue->toArray();
 ```
 
 <h2 id="immutable-array-lists">Immutable Array Lists</h2>
@@ -534,23 +597,9 @@ use Opulence\Collections\ImmutableArrayList;
 $arrayList = new ImmutableArrayList(['foo', 'bar']);
 ```
 
-If you want to grab the underlying array, call
-
-```php
-$array = $arrayList->toArray();
-```
-
 > **Note:** `ImmutableArrayList` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
-<h4 id="immutable-array-lists-getting-values">Getting Values</h4>
-
-To get the value at a certain index from an array list, call
-
-```php
-$value = $arrayList->get(123);
-```
-
-<h4 id="immutable-array-lists-checking-for-values">Checking for Values</h4>
+<h4 id="immutable-array-lists-contains-value">`containsValue()`</h4>
 
 To check for a value, call
 
@@ -558,7 +607,23 @@ To check for a value, call
 $containsValue = $arrayList->containsValue('foo');
 ```
 
-<h4 id="immutable-array-lists-getting-indices">Getting Indices</h4>
+<h4 id="immutable-array-lists-count">`count()`</h4>
+
+To grab the number of values in the array list, call
+
+```php
+$count = $arrayList->count();
+```
+
+<h4 id="immutable-array-lists-get">`get()`</h4>
+
+To get the value at a certain index from an array list, call
+
+```php
+$value = $arrayList->get(123);
+```
+
+<h4 id="immutable-array-lists-index-of">`indexOf()`</h4>
 
 To grab the index for a value, call
 
@@ -568,12 +633,12 @@ $index = $arrayList->indexOf('foo');
 
 If the array list doesn't contain the value, `null` will be returned.
 
-<h4 id="immutable-array-lists-getting-number-of-values">Getting the Number of Values</h4>
+<h4 id="immutable-array-lists-to-array">`toArray()`</h4>
 
-To grab the number of values in the array list, call
+If you want to grab the underlying array, call
 
 ```php
-$count = $arrayList->count();
+$array = $arrayList->toArray();
 ```
 
 <h2 id="immutable-hash-tables">Immutable Hash Tables</h2>
@@ -586,25 +651,9 @@ use Opulence\Collections\ImmutableHashTable;
 $hashTable = new ImmutableHashTable(['foo' => 'bar', 'baz' => 'blah']);
 ```
 
-To get the underlying array, call
-
-```php
-$array = $hashTable->toArray();
-```
-
-This will return a list of `KeyValuePair`s - not an associative array.  The reason for this is that keys can be non-strings, which is not supported in PHP.
-
 > **Note:** `ImmutableHashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
-<h4 id="immutable-hash-tables-getting-values">Getting Values</h4>
-
-To get a value at a key, call
-
-```php
-$value = $hashTable->get('foo');
-```
-
-<h4 id="immutable-hash-tables-checking-for-values">Checking for Values</h4>
+<h4 id="immutable-hash-tables-contains-value">`containsValue()`</h4>
 
 To check for a key, call
 
@@ -618,13 +667,31 @@ To check for a value, call
 $containsValue = $hashTable->containsValue('foo');
 ```
 
-<h4 id="immutable-hash-tables-getting-number-of-values">Getting the Number of Values</h4>
+<h4 id="immutable-hash-tables-count">`count()`</h4>
 
 To get the number of values in the hash table, call
 
 ```php
 $count = $hashTable->count();
 ```
+
+<h4 id="immutable-hash-tables-get">`get()`</h4>
+
+To get a value at a key, call
+
+```php
+$value = $hashTable->get('foo');
+```
+
+<h4 id="immutable-hash-tables-to-array">`toArray()`</h4>
+
+To get the underlying array, call
+
+```php
+$array = $hashTable->toArray();
+```
+
+This will return a list of `KeyValuePair` - not an associative array.  The reason for this is that keys can be non-strings (eg objects) in hash tables, but keys in PHP associative arrays must be serializable.
 
 <h2 id="immutable-hash-sets">Immutable Hash Sets</h2>
 
@@ -636,15 +703,9 @@ use Opulence\Collections\ImmutableHashSet;
 $set = new ImmutableHashSet(['foo', 'bar']);
 ```
 
-To get the underlying array, call
-
-```php
-$array = $set->toArray();
-```
-
 > **Note:** `ImmutableHashSet` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
 
-<h4 id="immutable-hash-sets-checking-for-values">Checking for Values</h4>
+<h4 id="immutable-hash-sets-contains-value">`containsValue()`</h4>
 
 To check for a value, call
 
@@ -652,10 +713,18 @@ To check for a value, call
 $containsValue = $set->containsValue('foo');
 ```
 
-<h4 id="immutable-hash-sets-getting-number-of-values">Getting the Number of Values</h4>
+<h4 id="immutable-hash-sets-count">`count()`</h4>
 
 To grab the number of values in the set, call
 
 ```php
 $count = $set->count();
+```
+
+<h4 id="immutable-hash-sets-to-array">`toArray()`</h4>
+
+To get the underlying array, call
+
+```php
+$array = $set->toArray();
 ```
