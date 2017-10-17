@@ -204,7 +204,7 @@ $array = $arrayList->toArray();
 
 <h4 id="array-lists-union">ArrayList::union()</h4>
 
-_Runtime: O(n<sup>2</sup>)_
+_Runtime: O(nm)_
 
 You can union an array list's values with an array via
 
@@ -214,14 +214,14 @@ $arrayList->union(['foo', 'bar']);
 
 <h2 id="hash-tables">Hash Tables</h2>
 
-Hash tables are most similar to PHP's built-in associative array functionality.  It maps a key to a value.  In hash tables, the keys can be scalars, objects, arrays, or resources; the values can be any type.  You can instantiate it with or without an array of key => value pairs:
+Hash tables are most similar to PHP's built-in associative array functionality.  It maps a key to a value.  In hash tables, the keys can be scalars, objects, arrays, or resources; the values can be any type.  You can instantiate it with or without an array of key-value pairs:
 
 ```php
 use Opulence\Collections\HashTable;
 
 $hashTable = new HashTable();
 // Or...
-$hashTable = new HashTable(['foo' => 'bar']);
+$hashTable = new HashTable([new KeyValuePair('foo', 'bar')]);
 ```
 
 > **Note:** `HashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it. The keys will be numeric, and the values will be [key-value pairs](#key-values-pairs).
@@ -240,10 +240,14 @@ $hashTable->add('foo', 'bar');
 
 _Runtime: O(n), n = number of values added_
 
-To add multiple values, call `addRange()`:
+To add multiple values at once, pass in an array of `KeyValuePair` objects:
 
 ```php
-$hashTable->addRange(['foo' => 'bar', 'baz' => 'blah']);
+$kvps = [
+    new KeyValuePair('foo', 'bar'),
+    new KeyValuePair('baz', 'blah')
+];
+$hashTable->addRange($kvps);
 ```
 
 <h4 id="hash-tables-clear">HashTable::clear()</h4>
@@ -294,6 +298,26 @@ To get a value at a key, call
 
 ```php
 $value = $hashTable->get('foo');
+```
+
+<h4 id="hash-tables-get-keys">HashTable::getKeys()</h4>
+
+_Runtime: O(n)_
+
+You can grab all of the keys in the hash table:
+
+```php
+$hashTable->getKeys();
+```
+
+<h4 id="hash-tables-get-values">HashTable::getValues()</h4>
+
+_Runtime: O(n)_
+
+You can grab all of the values in the hash table:
+
+```php
+$hashTable->getValues();
 ```
 
 <h4 id="hash-tables-remove-key">HashTable::removeKey()</h4>
@@ -437,7 +461,7 @@ $array = $set->toArray();
 
 <h4 id="hash-sets-union">HashSet::union()</h4>
 
-_Runtime: O(n<sup>2</sup>)_
+_Runtime: O(nm)_
 
 You can union a hash set with an array via
 
@@ -683,12 +707,12 @@ $array = $arrayList->toArray();
 
 <h2 id="immutable-hash-tables">Immutable Hash Tables</h2>
 
-Sometimes, your business logic might dictate that a [hash table](#hash-tables) is read-only.  Opulence provides support via `ImmutableHashTable`.  In immutable hash tables, the keys can be scalars, objects, arrays, or resources; the values can be any type.  It requires that you pass values into its constructor:
+Sometimes, your business logic might dictate that a [hash table](#hash-tables) is read-only.  Opulence provides support via `ImmutableHashTable`.  In immutable hash tables, the keys can be scalars, objects, arrays, or resources; the values can be any type.  It requires that you pass key-value pairs into its constructor:
 
 ```php
 use Opulence\Collections\ImmutableHashTable;
 
-$hashTable = new ImmutableHashTable(['foo' => 'bar', 'baz' => 'blah']);
+$hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
 ```
 
 > **Note:** `ImmutableHashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it. When iterating, the keys will be numeric, and the values will be [key-value pairs](#key-values-pairs).
@@ -731,6 +755,26 @@ To get a value at a key, call
 
 ```php
 $value = $hashTable->get('foo');
+```
+
+<h4 id="immutable-hash-tables-get-keys">ImmutableHashTable::getKeys()</h4>
+
+_Runtime: O(n)_
+
+You can grab all of the keys in the hash table:
+
+```php
+$hashTable->getKeys();
+```
+
+<h4 id="immutable-hash-tables-get-values">ImmutableHashTable::getValues()</h4>
+
+_Runtime: O(n)_
+
+You can grab all of the values in the hash table:
+
+```php
+$hashTable->getValues();
 ```
 
 <h4 id="immutable-hash-tables-to-array">ImmutableHashTable::toArray()</h4>
