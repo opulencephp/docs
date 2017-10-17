@@ -121,6 +121,8 @@ To get the value at a certain index from an array list, call
 $value = $arrayList->get(123);
 ```
 
+If the index is out of range, an `OutOfRangeException` will be thrown.
+
 <h4 id="array-lists-index-of">ArrayList::indexOf()</h4>
 
 _Runtime: O(n)_
@@ -300,6 +302,8 @@ To get a value at a key, call
 $value = $hashTable->get('foo');
 ```
 
+If the value does not exist, an `OutOfBoundsException` will be thrown.
+
 <h4 id="hash-tables-get-keys">HashTable::getKeys()</h4>
 
 _Runtime: O(n)_
@@ -351,6 +355,17 @@ $array = $hashTable->toArray();
 ```
 
 This will return a list of `KeyValuePair` - not an associative array.  The reason for this is that keys can be non-strings, which is not supported in PHP.
+
+<h4 id="hash-tables-try-get">HashTable::tryGet()</h4>
+
+_Runtime: O(1)_
+
+If you would like to try to safely get a value that may or may not exist, use `tryGet()`.  It'll return `true` if the key exists, otherwise `false`.  It will also set the second parameter to the value if the key exists.
+
+```php
+$value = null;
+$exists = $hashTable->tryGet('foo', $value);
+```
 
 <h2 id="hash-sets">Hash Sets</h2>
 
@@ -683,6 +698,8 @@ To get the value at a certain index from an array list, call
 $value = $arrayList->get(123);
 ```
 
+If the index is out of range, an `OutOfRangeException` will be thrown.
+
 <h4 id="immutable-array-lists-index-of">ImmutableArrayList::indexOf()</h4>
 
 _Runtime: O(n)_
@@ -757,6 +774,8 @@ To get a value at a key, call
 $value = $hashTable->get('foo');
 ```
 
+If the value does not exist, an `OutOfBoundsException` will be thrown.
+
 <h4 id="immutable-hash-tables-get-keys">ImmutableHashTable::getKeys()</h4>
 
 _Runtime: O(n)_
@@ -788,6 +807,17 @@ $array = $hashTable->toArray();
 ```
 
 This will return a list of `KeyValuePair` - not an associative array.  The reason for this is that keys can be non-strings (eg objects) in hash tables, but keys in PHP associative arrays must be serializable.
+
+<h4 id="immutable-hash-tables-try-get">ImmutableHashTable::tryGet()</h4>
+
+_Runtime: O(1)_
+
+If you would like to try to safely get a value that may or may not exist, use `tryGet()`.  It'll return `true` if the key exists, otherwise `false`.  It will also set the second parameter to the value if the key exists.
+
+```php
+$value = null;
+$exists = $hashTable->tryGet('foo', $value);
+```
 
 <h2 id="immutable-hash-sets">Immutable Hash Sets</h2>
 
