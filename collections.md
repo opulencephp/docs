@@ -267,7 +267,7 @@ _Runtime: O(1)_
 To check for a value, call
 
 ```php
-$containsValue = $hashTable->containsValue('foo');
+$containsKey = $hashTable->containsKey('foo');
 ```
 
 <h4 id="hash-tables-contains-value">HashTable::containsValue()</h4>
@@ -277,7 +277,7 @@ _Runtime: O(n)_
 To check for a key, call
 
 ```php
-$containsKey = $hashTable->containsKey('foo');
+$containsValue = $hashTable->containsValue('foo');
 ```
 
 <h4 id="hash-tables-count">HashTable::count()</h4>
@@ -567,7 +567,7 @@ $queue = new Queue();
 
 > **Note:** `Queue` implements `IteratorAggregate`, so you can iterate over it.
 
-<h4 id="queues-clear">Queues::clear()</h4>
+<h4 id="queues-clear">Queue::clear()</h4>
 
 _Runtime: O(1)_
 
@@ -577,7 +577,7 @@ To clear the queue, call
 $queue->clear();
 ```
 
-<h4 id="queues-contains-value">Queues::containsValue()</h4>
+<h4 id="queues-contains-value">Queue::containsValue()</h4>
 
 _Runtime: O(n)_
 
@@ -587,7 +587,7 @@ To check for a value within a queue, call
 $containsValue = $queue->containsValue('foo');
 ```
 
-<h4 id="queues-count">Queues::count()</h4>
+<h4 id="queues-count">Queue::count()</h4>
 
 _Runtime: O(1)_
 
@@ -597,7 +597,7 @@ To get the number of values in the queue, call
 $count = $queue->count();
 ```
 
-<h4 id="queues-dequeue">Queues::dequeue()</h4>
+<h4 id="queues-dequeue">Queue::dequeue()</h4>
 
 _Runtime: O(1)_
 
@@ -609,7 +609,7 @@ $value = $queue->dequeue();
 
 If there are no values in the queue, this will return `null`.
 
-<h4 id="queues-enqueue">Queues::enqueue()</h4>
+<h4 id="queues-enqueue">Queue::enqueue()</h4>
 
 _Runtime: O(1)_
 
@@ -619,7 +619,7 @@ To enqueue a value onto the queue, call
 $queue->enqueue('foo');
 ```
 
-<h4 id="queues-peek">Queues::peek()</h4>
+<h4 id="queues-peek">Queue::peek()</h4>
 
 _Runtime: O(1)_
 
@@ -631,7 +631,7 @@ $value = $queue->peek();
 
 If there are no values in the queue, this will return `null`.
 
-<h4 id="queues-to-array">Queues::toArray()</h4>
+<h4 id="queues-to-array">Queue::toArray()</h4>
 
 _Runtime: O(1)_
 
