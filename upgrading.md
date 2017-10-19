@@ -51,7 +51,7 @@ Unless you've customized any of the following files, you can just copy the updat
 <h3 id="1.1.0-files-to-manually-update">Files to Manually Update</h3>
 
 * Changed the Opulence version in `composer.json` to `"1.1.*"`
-* Add `\Opulence\Framework\Databases\Bootstrappers\MigrationBootstrapper::class` to `config/console/bootstrappers.php` to add database migration support
+* Add `\Opulence\Framework\Databases\Bootstrappers\MigrationBootstrapper::class` to _config/console/bootstrappers.php_ to add database migration support
 
 <h2 id="1.0.0-rc4">1.0.0-rc4</h2>
 
@@ -68,7 +68,7 @@ Unless you've customized any of the following files, you can just copy the updat
 
 <h3 id="1.0.0-rc4-files-to-manually-update">Files to Manually Update</h3>
 
-* Add `Environment::setVar("VIEW_CACHE", \Opulence\Views\Caching\FileCache::class);` to your `.env.app.php` and `.env.example.php`
+* Add `Environment::setVar("VIEW_CACHE", \Opulence\Views\Caching\FileCache::class);` to your _.env.app.php_ and _.env.example.php_
 
 
 <h2 id="1.0.0-rc3">1.0.0-rc3</h2>
