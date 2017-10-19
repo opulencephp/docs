@@ -226,7 +226,7 @@ $hashTable = new HashTable();
 $hashTable = new HashTable([new KeyValuePair('foo', 'bar')]);
 ```
 
-> **Note:** `HashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it. The keys will be numeric, and the values will be [key-value pairs](#key-values-pairs).
+> **Note:** `HashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it. The keys will be numeric, and the values will be [key-value pairs](#key-value-pairs).
 
 <h4 id="hash-tables-add">HashTable::add()</h4>
 
@@ -732,7 +732,7 @@ use Opulence\Collections\ImmutableHashTable;
 $hashTable = new ImmutableHashTable([new KeyValuePair('foo', 'bar')]);
 ```
 
-> **Note:** `ImmutableHashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it. When iterating, the keys will be numeric, and the values will be [key-value pairs](#key-values-pairs).
+> **Note:** `ImmutableHashTable` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it. When iterating, the keys will be numeric, and the values will be [key-value pairs](#key-value-pairs).
 
 <h4 id="immutable-hash-tables-contains-key">ImmutableHashTable::containsKey()</h4>
 

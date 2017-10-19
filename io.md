@@ -193,7 +193,9 @@ Streams allow you to read and write data in a memory-efficient way.  They make i
 Here's how you can create a stream:
 
 ```php
-$stream = new \Opulence\IO\Streams\Stream(fopen('path/to/file', 'r+'));
+use Opulence\IO\Streams\Stream;
+
+$stream = new Stream(fopen('path/to/file', 'r+'));
 ```
 
 <h4 id="reading-from-stream">Reading from a Stream</h4>

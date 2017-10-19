@@ -25,11 +25,11 @@
 
 **Estimated Upgrade Time:** 20 minutes
 
-This release focused on deprecating some of the magical/unnecessary parts of Opulence and adding database migration support.  It also bumped the minimum supported PHP version to PHP 7.1.
+This release focused on deprecating some of the magical/unnecessary parts of Opulence, adding database migration support, and introducing the collection library.  It also bumped the minimum supported PHP version to PHP 7.1.
 
 <h3 id="1.0.0-files-to-move">Files to Move</h3>
 
-This step isn't strictly necessary, but it may help ease upgrading to future major releases of Opulence.  Move `src/Project/*` to `src/*` and `tests/src/Project/*` to `/tests/src/*`.
+This step isn't strictly necessary, but it may help ease upgrading to future major releases of Opulence.  Move `src/Project/*` to `src/*` and `tests/src/Project/*` to `/tests/src/*`.  If you do this, be sure to update the `psr-4` setting in _composer.json_ to point to the new location.
 
 <h3 id="1.1.0-files-to-copy">Files to Copy</h3>
 
