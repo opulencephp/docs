@@ -216,7 +216,7 @@ $arrayList->union(['foo', 'bar']);
 
 <h2 id="hash-tables">Hash Tables</h2>
 
-Hash tables are most similar to PHP's built-in associative array functionality.  It maps a key to a value.  In hash tables, the keys can be scalars, objects, arrays, or resources; the values can be any type.  You can instantiate it with or without an array of key-value pairs:
+Hash tables are most similar to PHP's built-in associative array functionality - they map keys to values.  Unlike PHP associative arrays (which only supports scalars as keys), Opulence's `HashTables` support scalars, objects, arrays, and resources as keys.  You can instantiate one with or without an array of key-value pairs:
 
 ```php
 use Opulence\Collections\HashTable;
@@ -724,7 +724,7 @@ $array = $arrayList->toArray();
 
 <h2 id="immutable-hash-tables">Immutable Hash Tables</h2>
 
-Sometimes, your business logic might dictate that a [hash table](#hash-tables) is read-only.  Opulence provides support via `ImmutableHashTable`.  In immutable hash tables, the keys can be scalars, objects, arrays, or resources; the values can be any type.  It requires that you pass key-value pairs into its constructor:
+Sometimes, your business logic might dictate that a [hash table](#hash-tables) is read-only.  Opulence provides support via `ImmutableHashTable`.  It requires that you pass key-value pairs into its constructor:
 
 ```php
 use Opulence\Collections\ImmutableHashTable;
