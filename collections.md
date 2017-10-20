@@ -379,7 +379,7 @@ $set = new HashSet();
 $set = new HashSet(['foo', 'bar']);
 ```
 
-> **Note:** `HashSet` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.  When iterating, the keys will be numeric and the values will be the values in the set.
+> **Note:** `HashSet` implements `IteratorAggregate`, so you can iterate over it.
 
 <h4 id="hash-sets-add">HashSet::add()</h4>
 
@@ -829,7 +829,7 @@ use Opulence\Collections\ImmutableHashSet;
 $set = new ImmutableHashSet(['foo', 'bar']);
 ```
 
-> **Note:** `ImmutableHashSet` implements `ArrayAccess` and `IteratorAggregate`, so you can use array-like accessors and iterate over it.
+> **Note:** `ImmutableHashSet` implements `IteratorAggregate`, so you can iterate over it.
 
 <h4 id="immutable-hash-sets-contains-value">ImmutableHashSet::containsValue()</h4>
 
