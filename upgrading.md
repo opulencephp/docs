@@ -6,6 +6,7 @@
   2. [Files to Copy](#1.1.0-files-to-copy)
   3. [Files to Delete](#1.1.0-files-to-delete)
   4. [Files to Manually Update](#1.1.0-files-to-manually-update)
+  5. [Code to Refactor](#1.1.0-code-to-refactor)
 2. [1.0.0-rc4](#1.0.0-rc4)
   1. [Files to Copy](#1.0.0-rc4-files-to-copy)
   2. [Files to Manually Update](#1.0.0-rc4-files-to-manually-update)
@@ -29,7 +30,7 @@ This release focused on deprecating some of the magical/unnecessary parts of Opu
 
 <h3 id="1.0.0-files-to-move">Files to Move</h3>
 
-This step isn't strictly necessary, but it may help ease upgrading to future major releases of Opulence.  Move `src/Project/*` to `src/*` and `tests/src/Project/*` to `/tests/src/*`.  If you do this, be sure to update the `psr-4` setting in _composer.json_ to point to the new location.
+This step isn't strictly necessary, but it may help ease upgrading to future major releases of Opulence.  Move _src/Project/*_ to _src/*_ and _tests/src/Project/*_ to _/tests/src/*_.  If you do this, be sure to update the `psr-4` setting in _composer.json_ to point to the new location.
 
 <h3 id="1.1.0-files-to-copy">Files to Copy</h3>
 
@@ -52,8 +53,16 @@ Unless you've customized any of the following files, you can just copy the updat
 
 <h3 id="1.1.0-files-to-manually-update">Files to Manually Update</h3>
 
-* Changed the Opulence version in `composer.json` to `"1.1.*"`
+* Changed the Opulence version in _composer.json_ to `"1.1.*"`
 * Add `\Opulence\Framework\Databases\Bootstrappers\MigrationBootstrapper::class` to _config/console/bootstrappers.php_ to add database migration support
+
+<h3 id="1.1.0-code-to-refactor">Code to Refactor</h3>
+
+This step is not strictly necessary, but it will save time when upgrading to Opulence 2.0.
+
+* Remove any usages of `Opulence\Ioc\Bootstrappers\Bootstrapper::run()`
+    * Change any bindings that occur here to happen inside `Bootstrapper::registerBindings()`
+* Remove any usages of `Opulence\Ioc\Bootstrappers\Bootstrapper::shutDown()`
 
 <h2 id="1.0.0-rc4">1.0.0-rc4</h2>
 
