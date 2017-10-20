@@ -25,7 +25,7 @@
 
 **Estimated Upgrade Time:** 20 minutes
 
-This release focused on deprecating some of the magical/unnecessary parts of Opulence, adding database migration support, and introducing the collection library.  It also bumped the minimum supported PHP version to PHP 7.1.
+This release focused on deprecating some of the magical/unnecessary parts of Opulence, adding database migration support, introducing the collection library.  It also bumped the minimum supported PHP version to PHP 7.1.
 
 <h3 id="1.0.0-files-to-move">Files to Move</h3>
 
@@ -38,6 +38,7 @@ Unless you've customized any of the following files, you can just copy the updat
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/bootstrap/http/start.php" target="_blank">bootstrap/http/start.php</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/config/application.php" target="_blank">config/application.php</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/config/paths.php" target="_blank">config/paths.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/phpunit.xml" target="_blank">phpunit.xml</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Application/Bootstrappers/Console/Commands/CommandsBootstrapper.php" target="_blank">src/Application/Bootstrappers/Console/Commands/CommandsBootstrapper.php</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php" target="_blank">src/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Infrastructure/Databases/Migrations/CreateExecutedMigrationTable.php" target="_blank">src/Infrastructure/Databases/Migrations/CreateExecutedMigrationTable.php</a>
@@ -46,7 +47,8 @@ Unless you've customized any of the following files, you can just copy the updat
 
 <h3 id="1.1.0-files-to-delete">Files to Delete</h3>
 
-* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/config/tasks.php" target="_blank">config/tasks.php</a>
+* _config/phpunit.php_
+* _config/tasks.php_
 
 <h3 id="1.1.0-files-to-manually-update">Files to Manually Update</h3>
 

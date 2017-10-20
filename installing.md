@@ -40,18 +40,18 @@ Be sure to [configure your server](#server-config) to finish the installation.  
 
 Opulence is broken into various libraries, each of which can be installed individually:
 
-* opulence/applications
 * opulence/authentication
 * opulence/authorization
 * opulence/cache
+* opulence/collections
 * opulence/console
 * opulence/cryptography
 * opulence/databases
 * opulence/debug
 * opulence/environments
 * opulence/events
-* opulence/files
 * opulence/http
+* opulence/io
 * opulence/ioc
 * opulence/memcached
 * opulence/orm
@@ -66,7 +66,7 @@ Opulence is broken into various libraries, each of which can be installed indivi
 <h2 id="server-config">Server Config</h2>
 
 * Opulence's `tmp` directory needs to be writable from PHP
-* The document root needs to be set to Opulence's `public` directory (usually */var/www/html/public* or */var/www/html/YOUR_SITE_NAME/public*)
+* The document root needs to be set to Opulence's `public` directory (usually _/var/www/html/public_ or _/var/www/html/YOUR_SITE_NAME/public_)
 
 > **Note:** You must set `YOUR_SITE_DOMAIN` and `YOUR_SITE_DIRECTORY` with the appropriate values in the configs below.
 
@@ -153,21 +153,21 @@ YOUR_SITE_DOMAIN:80 {
 
 <h2 id="routes">Routes</h2>
 
-Create new routes in *config/http/routes.php*. To handle each route, add methods to *src/Application/Http/Controllers/Tutorial.php*.
+Create new routes in _config/http/routes.php_. To handle each route, add methods to _src/Application/Http/Controllers/Tutorial.php_.
 
 <h2 id="views">Views</h2>
 
-To change the contents of each page, change the views in the *resources/views* directory. To change the CSS, edit *public/assets/css/style.css*.
+To change the contents of each page, change the views in the _resources/views_ directory. To change the CSS, edit _public/assets/css/style.css_.
 
-If you want to create view builders, add them to *src/Application/Http/Views/Builders*. Then, register each view builder to the appropriate template in *src/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php*.
+If you want to create view builders, add them to _src/Application/Http/Views/Builders_. Then, register each view builder to the appropriate template in _src/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php_.
 
 <h2 id="console-commands">Console Commands</h2>
 
-You can run console commands running `php apex` from your project's root directory. To create a custom command, create a class that extends `Opulence\Console\Commands\Command`, and put it in the *src/Application/Console/Commands* directory. Then, add the fully-qualified name of your command class to *config/console/commands.php*.
+You can run console commands running `php apex` from your project's root directory. To create a custom command, create a class that extends `Opulence\Console\Commands\Command`, and put it in the _src/Application/Console/Commands_ directory. Then, add the fully-qualified name of your command class to _config/console/commands.php_.
 
 <h2 id="environment-variables">Environment Variables</h2>
 
-Your application is currently in the development environment. To change the environment to production, update *config/environment/.env.app.php* and change the `ENV_NAME` value to `Environment::PRODUCTION`.
+Your application is currently in the development environment. To change the environment to production, update _config/environment/.env.app.php_ and change the `ENV_NAME` value to `Environment::PRODUCTION`.
 
 <h2 id="renaming-project">Renaming Project</h2>
 
