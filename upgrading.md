@@ -42,7 +42,7 @@ Unless you've customized any of the following files, you can just copy the updat
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/phpunit.xml" target="_blank">phpunit.xml</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Application/Bootstrappers/Console/Commands/CommandsBootstrapper.php" target="_blank">src/Application/Bootstrappers/Console/Commands/CommandsBootstrapper.php</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php" target="_blank">src/Application/Bootstrappers/Http/Views/BuildersBootstrapper.php</a>
-* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Infrastructure/Databases/Migrations/CreateExecutedMigrationTable.php" target="_blank">src/Infrastructure/Databases/Migrations/CreateExecutedMigrationTable.php</a>
+* <a href="https://github.com/opulencephp/Project/blob/v1.1.0/src/Infrastructure/Databases/Migrations/.gitkeep" target="_blank">src/Infrastructure/Databases/Migrations/.gitkeep</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/tests/src/Application/Console/IntegrationTestCase.php" target="_blank">tests/src/Application/Console/IntegrationTestCase.php</a>
 * <a href="https://github.com/opulencephp/Project/blob/v1.1.0/tests/src/Application/Http/IntegrationTestCase.php" target="_blank">tests/src/Application/Http/IntegrationTestCase.php</a>
 
