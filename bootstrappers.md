@@ -62,7 +62,7 @@ class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 
 <h4 id="targeted-bindings">Targeted Bindings</h4>
 
-If you take advantage of [targeted bindings](ioc-container#targeted-bindings) in your lazy bootstrapper, you must indicate so in `getBindings()` by denoting targeted bindings in the format `[BoundClass => TargetClass]`.  Let's say your repository class looks like this:
+If you take advantage of [targeted bindings](ioc-container#targeting) in your lazy bootstrapper, you must indicate so in `getBindings()` by denoting targeted bindings in the format `[BoundClass => TargetClass]`.  Let's say your repository class looks like this:
 
 ```php
 namespace MyApp;
