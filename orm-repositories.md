@@ -3,10 +3,10 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
-  1. [Adding Entities](#add)
-  2. [Deleting Entities](#delete)
-  3. [Getting All Entities](#get-all)
-  4. [Getting By Id](#get-by-id)
+    1. [Adding Entities](#add)
+    2. [Deleting Entities](#delete)
+    3. [Getting All Entities](#get-all)
+    4. [Getting By Id](#get-by-id)
 3. [Committing Changes](#commit)
 4. [Updating Entities](#update)
 
@@ -94,9 +94,8 @@ use MyApp\WordPress\Post;
 use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\UnitOfWork;
 
-$dataMapper = new PostSqlDataMapper();
 // Assume $unitOfWork is already instantiated
-$repo = new Repository(Post::class, $dataMapper, $unitOfWork);
+$repo = new Repository(Post::class, new PostSqlDataMapper(), $unitOfWork);
 $postToDelete = $repo->getById(123);
 $repo->delete($postToDelete);
 $unitOfWork->commit();

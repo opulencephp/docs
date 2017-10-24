@@ -355,9 +355,9 @@ They come with the following methods built-in:
 
 * `getUnsyncedEntities()`
   * Returns a list of entities in the following format:
-    * "missing" => The list of entities that were not in cache
-    * "differing" => The list of entities in cache that were not the same as in the SQL database
-    * "additional" => The list of entities that appeared in cache, but not the SQL database
+      * "missing" => The list of entities that were not in cache
+      * "differing" => The list of entities in cache that were not the same as in the SQL database
+      * "additional" => The list of entities that appeared in cache, but not the SQL database
 * `read()`
   * Reads from the sub-data mappers by giving cache the priority
   * Accepts the following parameters:
