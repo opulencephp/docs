@@ -255,10 +255,12 @@ If it is not knowable, then `getLength()` will return `null`.
 Sometimes, you'll need to copy one stream to another.  One example would be writing a response body's stream to the `php://output` stream.  You can do this via
 
 ```php
-$outputStream = new Stream(fopen('php://output', 'r+'));
-$bodyStream = new Stream(fopen('path/to/file', 'r+'));
-$bodyStream->copyToStream($outputStream);
+$destinationStream = new Stream(fopen('php://output', 'r+'));
+$sourceStream = new Stream(fopen('path/to/file', 'r+'));
+$sourceStream->copyToStream($destinationStream);
 ```
+
+> **Note:** Copying to a stream does not rewind the source or destination streams.  If you want to write the entire source stream to the destination, then call `$sourceStream->rewind()` prior to `$sourceStream->copyToStream()`.
 
 <h4 id="closing-stream">Closing a Stream</h4>
 

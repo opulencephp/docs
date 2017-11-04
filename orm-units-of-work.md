@@ -35,6 +35,7 @@ use Opulence\Orm\UnitOfWork;
 $idAccessorRegistry = new IdAccessorRegistry();
 $changeTracker = new ChangeTracker();
 $entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
+
 // Assume $connection was set previously
 $unitOfWork = new UnitOfWork(
     $entityRegistry,
