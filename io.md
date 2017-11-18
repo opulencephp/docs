@@ -32,6 +32,7 @@
     4. [Getting the Length of a Stream](#getting-length-of-stream)
     5. [Copying to Another Stream](#copying-to-another-stream)
     6. [Closing a Stream](#closing-stream)
+    7. [Multi-Streams](#multi-streams)
 
 <h2 id="introduction">Introduction</h2>
 
@@ -271,3 +272,21 @@ $stream->close();
 ```
 
 > **Note:** When PHP performs garbage collection, `close()` is automatically called by the destructor.
+
+<h4 id="multi-streams">Multi-Streams</h4>
+
+In some cases, such as multi-part responses, you may need to append multiple streams together, yet treat them like a single stream.  This is where `MultiStream` comes in handy:
+
+```php
+use Opulence\IO\Streams\MultiStream;
+use Opulence\IO\Streams\Stream;
+
+$multiStream = new MultiStream();
+$stream1 = new Stream('php://temp', 'r+');
+$stream1->write('foo');
+$stream2 = new Stream('php://temp', 'r+');
+$stream2->write('bar');
+$multiStream->addStream($stream1);
+$multiStream->addStream($stream2);
+echo (string)$multiStream; // "foobar"
+```
