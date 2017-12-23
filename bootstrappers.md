@@ -17,14 +17,14 @@ Bootstrappers are loaded before the request is handled.  Typically, they registe
 
 <h2 id="registering-bindings">Registering Bindings</h2>
 
-Before you can start using your application, your IoC container needs some bindings to be registered.  This is where `Bootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the IoC container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
+Before you can start using your application, your IoC container needs some bindings to be registered.  This is where `IBootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the IoC container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
 
 ```php
 use MyApp\UserRepo;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
-class MyBootstrapper extends Bootstrapper
+class MyBootstrapper implements IBootstrapper
 {
     public function registerBindings(IContainer $container)
     {
@@ -35,18 +35,17 @@ class MyBootstrapper extends Bootstrapper
 
 <h2 id="lazy-bootstrappers">Lazy Bootstrappers</h2>
 
-It's not very efficient to create, register bindings, run, and shut down every bootstrapper in your application when they're not all needed.  Sometimes, you may only like a bootstrapper to be registered/run/shut down if its bindings are required.  This is the purpose of **lazy bootstrappers**.  In Opulence, you can designate a bootstrapper to be lazy-loaded by making it implement `Opulence\Ioc\Bootstrappers\ILazyBootstrapper`, which requires a `getBindings()` method to be defined.  This method should return a list of all classes/interfaces bound to the IoC container by that bootstrapper.  Let's take a look at an example:
+It's not very efficient to create, register bindings, run, and shut down every bootstrapper in your application when they're not all needed.  Sometimes, you may only like a bootstrapper to be registered/run/shut down if its bindings are required.  This is the purpose of **lazy bootstrappers**.  In Opulence, you can designate a bootstrapper to be lazy-loaded by making it implement `Opulence\Ioc\Bootstrappers\LazyBootstrapper`, which requires a `getBindings()` method to be defined.  This method should return a list of all classes/interfaces bound to the IoC container by that bootstrapper.  Let's take a look at an example:
 
 ```php
 namespace MyApp\Application\Bootstrappers;
 
 use MyApp\IPostRepo;
 use MyApp\PostRepo;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
-class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
+class MyBootstrapper extends LazyBootstrapper
 {
     public function getBindings() : array
     {
@@ -88,12 +87,11 @@ namespace MyApp\Application\Bootstrappers;
 use MyApp\IPostRepo;
 use MyApp\MyDataMapper;
 use MyApp\PostRepo;
-use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Orm\DataMappers\IDataMapper;
 
-class MyBootstrapper extends Bootstrapper implements ILazyBootstrapper
+class MyBootstrapper extends LazyBootstrapper
 {
     public function getBindings() : array
     {
