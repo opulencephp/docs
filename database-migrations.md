@@ -97,8 +97,6 @@ This will call the `up()` methods on any un-executed migrations.  If you'd like 
 
 Once you run a migration, it is added to some sort of storage - typically a database.  This is done via `IExecutedMigrationRepository` (`SqlExecutedMigrationRepository` comes built-in if you're using the skeleton project).
 
-> **Note:** `SqlExecutedMigrationRepository` is configured to use PostgreSQL by default in `Opulence\Framework\Databases\Bootstrapper\MigrationBootstrapper`.  If you'd like to change the database provider, simply extend `MigrationBootstrapper`, override `getExecutedMigrationRepository()`, and register your bootstrapper.
-
 > **Note:** Migrations are keyed by name in the database.  If you ever want to re-namespace your migrations or change their class names, be sure to run a migration beforehand updating the names of the migrations in the database.
 
 <h2 id="rolling-back-migrations">Rolling Back Migrations</h2>

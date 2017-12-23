@@ -3,21 +3,24 @@
 ## Table of Contents
 1. [Introduction](#introduction)
   1. [Connection Pools](#connection-pools)
-2. [Single-Server Connection Pool](#single-server-connection-pool)
-3. [Master-Slave Connection Pool](#master-slave-connection-pool)
+2. [Configuration](#configuration)
+3. [Single-Server Connection Pool](#single-server-connection-pool)
+4. [Master-Slave Connection Pool](#master-slave-connection-pool)
   1. [Slave Server Selection Strategies](#slave-server-selection-strategies)
-4. [Read/Write Connections](#readwrite-connections)
-5. [How to Query and Fetch Results](#how-to-query-and-fetch-results)
-6. [Binding Values](#binding-values)
+5. [Read/Write Connections](#readwrite-connections)
+6. [How to Query and Fetch Results](#how-to-query-and-fetch-results)
+7. [Binding Values](#binding-values)
   1. [Binding Named Placeholders](#binding-named-placeholders)
   2. [Binding Unnamed Placeholders](#binding-unnamed-placeholders)
   3. [Binding Multiple Values](#binding-multiple-values)
-7. [Configuration](#configuration)
-  1. [SQL Drivers](#drivers)
 
 <h2 id="introduction">Introduction</h2>
 
 Relational databases store information about data and how it's related to other data.  Opulence provides classes and methods for connecting to relational databases and querying them for data.  It does this by extending `PDO` and `PDOStatement` to give users a familiar interface to work with.  <a href="http://php.net/manual/en/book.pdo.php" target="_blank">PDO</a> is a powerful wrapper for database interactions, and comes with built-in tools to prevent SQL injection.
+
+<h2 id="configuration">Configuration</h2>
+
+Opulence supports a variety of drivers.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the PostgreSQL driver is enabled by default.  To change drivers (eg MySQL), update the `DB_DRIVER` value in _config/environment/.env.app.php_.
 
 <h4 id="connection-pools">Connection Pools</h4>
 
@@ -180,9 +183,3 @@ $statement->bindValues([
     [727, \PDO::PARAM_INT]
 ]);
 ```
-
-<h2 id="configuration">Configuration</h2>
-
-<h4 id="drivers">SQL Drivers</h4>
-
-Opulence supports a variety of drivers.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, the PostgreSQL driver is enabled by default in *src/Bootstrappers/Databases/SqlBootstrapper.php*.  To use a different driver, simply change `use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver;` to the driver you'd like.
