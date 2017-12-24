@@ -73,21 +73,22 @@ Entities that are scheduled for insertion/deletion/update are managed by an `Opu
 
 <h4 id="aggregate-roots">Aggregate Roots</h4>
 
-Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an **aggregate root** because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootCallback()`:
+Let's say that when creating an invoice you also create a list of line items.  The invoice is what we call an **aggregate root** because, without it, the line items wouldn't exist.  If your line items need to know their invoice's Id before storing them, you can use `registerAggregateRootCallback()`:
 
 ```php
 // Order here matters: aggregate roots should be added before their children
-$unitOfWork->scheduleForInsertion($user);
-$unitOfWork->scheduleForInsertion($password);
+$unitOfWork->scheduleForInsertion($invoice);
+$callback = function ($invoice, $lineItem) {
+    $lineItem->setInvoiceId($invoice->getId());
+};
 
-// Pass in the aggregate root, the child, and the function that sets the aggregate root Id
-$entityRegistry->registerAggregateRootCallback($user, $password, function ($user, $password) {
-    // This will be executed after the user is inserted but before the password is inserted
-    $password->setUserId($user->getId());
-});
+// Set the invoice Id for each line item
+foreach ($lineItems in $lineItem) {
+    $unitOfWork->scheduleForInsertion($lineItem);
+    $entityRegistry->registerAggregateRootCallback($invoice, $lineItem, $callback);
+}
 
 $unitOfWork->commit();
-echo $password->getUserId() == $user->getId(); // 1
 ```
 
 > **Note:** Aggregate root callbacks are executed for entities scheduled for insertion and update.
