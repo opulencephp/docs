@@ -43,7 +43,7 @@ use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Orm\Repositories\IRepository;
 use Project\Application\Http\Controllers\UserList;
-use Project\Domain\Users\Orm\UserRepo;
+use Project\Domain\Users\UserRepo;
 
 class UserBootstrapper extends Bootstrapper
 {
