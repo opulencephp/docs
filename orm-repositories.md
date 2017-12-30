@@ -19,7 +19,7 @@
 If your repository will not implement any methods outside of `Opulence\Orm\Repositories\Repository`, you don't even have to create your own repository class.  Just use `Opulence\Orm\Repositories\Repository`:
 
 ```php
-use MyApp\WordPress\Post;
+use Project\Domain\WordPress\Post;
 
 // Assume $dataMapper and $unitOfWork are already instantiated
 $repo = new Repository(Post::class, $dataMapper, $unitOfWork);
@@ -28,7 +28,7 @@ $repo = new Repository(Post::class, $dataMapper, $unitOfWork);
 However, if your repository implements any custom `get*()` methods, you'll have to extend `Opulence\Orm\Repositories\Repository`.  Let's take a look at a repository that supports a `getByTitle()` method:
 
 ```php
-namespace MyApp\WordPress\Orm;
+namespace Project\Domain\WordPress;
 
 use Opulence\Orm\Repositories\Repository;
 
@@ -89,10 +89,10 @@ All entities returned by the repository are automatically registered to the unit
 As you can see, there is no `save()` method in repositories.  To actually save any writes made by the repository, you must call `commit()` on the unit of work passed into the repository's constructor:
 
 ```php
-use MyApp\WordPress\Orm\DataMappers\PostSqlDataMapper;
-use MyApp\WordPress\Post;
 use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\UnitOfWork;
+use Project\Domain\WordPress\Post;
+use Project\Infrastructure\WordPress\Orm\DataMappers\PostSqlDataMapper;
 
 // Assume $unitOfWork is already instantiated
 $repo = new Repository(Post::class, new PostSqlDataMapper(), $unitOfWork);

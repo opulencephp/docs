@@ -244,7 +244,7 @@ You can specify placeholders in your error messages using `:NAME_OF_PLACEHOLDER`
 Let's take a look at an example of a rule that checks if an input date falls on a particular day (numbered 0-6):
 
 ```php
-namespace MyApp\Validation\Rules;
+namespace Project\Domain\Validation\Rules;
 
 use DateTime;
 use Opulence\Validation\Rules\IRuleWithArgs;
@@ -323,7 +323,7 @@ You can validate your models with Opulence's validation library.  One easy way i
 Let's take a look at an example user model state:
 
 ```php
-namespace MyApp\Validation\Models;
+namespace Project\Domain\Validation\Models;
 
 use Opulence\Validation\Models\ModelState;
 
@@ -353,7 +353,7 @@ class UserModelState extends ModelState
 Now, let's check if a user model is valid:
 
 ```php
-use MyApp\User;
+use Project\Domain\Users\User;
 
 // We will assume that $validatorFactory was already instantiated
 $user = new User(123, 'Dave', 'foo@bar.com');
@@ -372,7 +372,7 @@ if (!$modelState->isValid()) {
 
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you will find some default error message templates in *config/resources/lang/en/validation.php*.  You are free to edit them as you'd like.
 
-The skeleton project comes with `Project\Bootstrappers\Validation\ValidatorBootstrapper`, which sets your default error message templates and registers your custom rules.  It also binds the validator factory to the IoC container.  If you'd like to use validators in your controllers or console commands, simply inject `IValidatorFactory` via the controller and command constructors, respectively:
+The skeleton project comes with `Project\Application\Bootstrappers\Validation\ValidatorBootstrapper`, which sets your default error message templates and registers your custom rules.  It also binds the validator factory to the IoC container.  If you'd like to use validators in your controllers or console commands, simply inject `IValidatorFactory` via the controller and command constructors, respectively:
 
 <h4 id="validation-in-controller">Controller Example</h4>
 
