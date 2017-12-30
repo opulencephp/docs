@@ -24,7 +24,7 @@ use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Project\Domain\Users\UserRepo;
 
-class MyBootstrapper implements IBootstrapper
+class PostBootstrapper implements IBootstrapper
 {
     public function registerBindings(IContainer $container)
     {
@@ -40,14 +40,12 @@ It's not very efficient to create, register bindings, run, and shut down every b
 ```php
 namespace Project\Application\Bootstrappers;
 
-use MyApp\IPostRepo;
-use MyApp\PostRepo;
 use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 use Project\Domain\Posts\IPostRepo;
 use Project\Domain\Posts\PostRepo;
 
-class MyBootstrapper extends LazyBootstrapper
+class PostBootstrapper extends LazyBootstrapper
 {
     public function getBindings() : array
     {
@@ -86,9 +84,6 @@ Let's suppose you always want your dependency injection container to inject an i
 ```php
 namespace Project\Application\Bootstrappers;
 
-use MyApp\IPostRepo;
-use MyApp\MyDataMapper;
-use MyApp\PostRepo;
 use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Orm\DataMappers\IDataMapper;
@@ -96,7 +91,7 @@ use Project\Domain\IPostRepo;
 use Project\Domain\Posts\PostRepo;
 use Project\Infrastructure\Posts\PostDataMapper;
 
-class MyBootstrapper extends LazyBootstrapper
+class PostBootstrapper extends LazyBootstrapper
 {
     public function getBindings() : array
     {
