@@ -80,7 +80,7 @@ All data mappers must implement `Opulence\Orm\DataMappers\IDataMapper`, which in
 You'll frequently find yourself wanting to query entities by some criteria besides Id.  For example, you might want to look up posts by title using a `getByTitle()` method.  Let's create an interface with this method:
 
 ```php
-namespace Project\Domain\Posts\Orm\DataMappers;
+namespace Project\Infrastructure\Posts\DataMappers;
 
 use Opulence\Orm\DataMappers\IDataMapper;
 
@@ -410,7 +410,7 @@ Our `getByTitle()` method calls `$this->read()`, which automatically handles rea
 Instead of just containing the author's name, let's say your `Post` object contains an `Author` object.  Whenever you query a `Post` object from the data mapper, you'll also need to query the `Author` object.  The easiest way to do this is to inject the author repository into the post data mapper:
 
 ```php
-use Project\Domain\WordPress\Orm\AuthorRepo;
+use Project\Domain\WordPress\AuthorRepo;
 use Project\Domain\WordPress\Post;
 
 class PostDataMapper extends SqlDataMapper

@@ -92,7 +92,7 @@ As you can see, there is no `save()` method in repositories.  To actually save a
 use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\UnitOfWork;
 use Project\Domain\WordPress\Post;
-use Project\Infrastructure\WordPress\Orm\DataMappers\PostSqlDataMapper;
+use Project\Infrastructure\WordPress\DataMappers\PostSqlDataMapper;
 
 // Assume $unitOfWork is already instantiated
 $repo = new Repository(Post::class, new PostSqlDataMapper(), $unitOfWork);
