@@ -37,13 +37,13 @@ Let's take a look at an example bootstrapper, controller, and view to demonstrat
 <h5 id="bootstrapper">Bootstrapper</h5>
 
 ```php
-namespace MyApp\Application\Bootstrappers\Orm;
+namespace Project\Application\Bootstrappers\Orm;
 
-use MyApp\Http\Controllers\UserList;
-use MyApp\Users\Orm\UserRepo;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Orm\Repositories\IRepository;
+use Project\Application\Http\Controllers\UserList;
+use Project\Domain\Users\Orm\UserRepo;
 
 class UserBootstrapper extends Bootstrapper
 {
@@ -59,7 +59,7 @@ class UserBootstrapper extends Bootstrapper
 
 ##### Controller
 ```php
-namespace MyApp\Http\Controllers;
+namespace Project\Application\Http\Controllers;
 
 use Opulence\Http\Responses\Response;
 use Opulence\Orm\Repositories\IRepository;

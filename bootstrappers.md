@@ -20,9 +20,9 @@ Bootstrappers are loaded before the request is handled.  Typically, they registe
 Before you can start using your application, your IoC container needs some bindings to be registered.  This is where `IBootstrapper::registerBindings()` comes in handy.  Anything that needs to be bound to the IoC container should be done here.  Once the application is started, all bootstrappers' bindings are registered.
 
 ```php
-use MyApp\UserRepo;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
+use Project\Domain\Users\UserRepo;
 
 class MyBootstrapper implements IBootstrapper
 {
@@ -38,12 +38,14 @@ class MyBootstrapper implements IBootstrapper
 It's not very efficient to create, register bindings, run, and shut down every bootstrapper in your application when they're not all needed.  Sometimes, you may only like a bootstrapper to be registered/run/shut down if its bindings are required.  This is the purpose of **lazy bootstrappers**.  In Opulence, you can designate a bootstrapper to be lazy-loaded by making it implement `Opulence\Ioc\Bootstrappers\LazyBootstrapper`, which requires a `getBindings()` method to be defined.  This method should return a list of all classes/interfaces bound to the IoC container by that bootstrapper.  Let's take a look at an example:
 
 ```php
-namespace MyApp\Application\Bootstrappers;
+namespace Project\Application\Bootstrappers;
 
 use MyApp\IPostRepo;
 use MyApp\PostRepo;
 use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
+use Project\Domain\Posts\IPostRepo;
+use Project\Domain\Posts\PostRepo;
 
 class MyBootstrapper extends LazyBootstrapper
 {
@@ -64,7 +66,7 @@ class MyBootstrapper extends LazyBootstrapper
 If you take advantage of [targeted bindings](ioc-container#targeting) in your lazy bootstrapper, you must indicate so in `getBindings()` by denoting targeted bindings in the format `[BoundClass => TargetClass]`.  Let's say your repository class looks like this:
 
 ```php
-namespace MyApp;
+namespace Project\Domain\Posts;
 
 use Opulence\Orm\DataMappers\IDataMapper;
 
@@ -79,10 +81,10 @@ class PostRepo implements IPostRepo
 }
 ```
 
-Let's suppose you always want your dependency injection container to inject an instance of `MyApp\MyDataMapper` into `PostRepo`.  Here's a bootstrapper that accomplishes this:
+Let's suppose you always want your dependency injection container to inject an instance of `Project\Infrastructure\Posts\PostDataMapper` into `PostRepo`.  Here's a bootstrapper that accomplishes this:
 
 ```php
-namespace MyApp\Application\Bootstrappers;
+namespace Project\Application\Bootstrappers;
 
 use MyApp\IPostRepo;
 use MyApp\MyDataMapper;
@@ -90,6 +92,9 @@ use MyApp\PostRepo;
 use Opulence\Ioc\Bootstrappers\LazyBootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Orm\DataMappers\IDataMapper;
+use Project\Domain\IPostRepo;
+use Project\Domain\Posts\PostRepo;
+use Project\Infrastructure\Posts\PostDataMapper;
 
 class MyBootstrapper extends LazyBootstrapper
 {
@@ -107,13 +112,13 @@ class MyBootstrapper extends LazyBootstrapper
     {
         $container->bindInstance(IPostRepo::class, new PostRepo());
         $container->for(PostRepo::class, function (IContainer $container) {
-            $container->bindSingleton(IDataMapper::class, MyDataMapper::class);
+            $container->bindSingleton(IDataMapper::class, PostDataMapper::class);
         });
     }
 }
 ```
 
-`[IDataMapper::class => PostRepo::class]` in `getBindings()` lets the bootstrapper know that `IDataMapper` is bound for `PostRepo`.  When the bootstrapper's bindings are registered, `IDataMapper` will be bound to `MyDataMapper` whenever `PostRepo` is instantiated by the dependency injection container.
+`[IDataMapper::class => PostRepo::class]` in `getBindings()` lets the bootstrapper know that `IDataMapper` is bound for `PostRepo`.  When the bootstrapper's bindings are registered, `IDataMapper` will be bound to `PostDataMapper` whenever `PostRepo` is instantiated by the dependency injection container.
 
 <h4 id="bootstrapper-caching">Caching</h4>
 

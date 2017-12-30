@@ -174,7 +174,7 @@ echo $factory->createView('Homepage')->getVar('title'); // "Welcome!"
 You can also wrap the builder into any class that you'd like:
 
 ```php
-use MyApp\ProfileViewBuilder;
+use Project\Application\Http\Views\Builders\ProfileViewBuilder;
 
 $factory->registerBuilder('Profile', function ($view) {
     return (new ProfileViewBuilder())->build($view);

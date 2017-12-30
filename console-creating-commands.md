@@ -84,7 +84,7 @@ If your command requires some dependencies in its constructor, the IoC container
 Let's define a simple command that greets a person and optionally shouts the greeting:
 
 ```php
-namespace MyApp\Console\Commands;
+namespace Project\Application\Console\Commands;
 
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Argument;
@@ -143,7 +143,7 @@ To register this command with our application, simply add its fully-qualified na
 It's possible to call a command from another command:
 
 ```php
-namespace MyApp\Console\Commands;
+namespace Project\Application\Console\Commands;
 
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;

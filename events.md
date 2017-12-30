@@ -16,9 +16,9 @@ There might be times in your application that you need to immediately notify cer
 An event object holds data about the event, which can be used by any listeners handling the event.  Can be any plain-old PHP object.  Let's take a look at an example event to be fired when a user registers:
 
 ```php
-namespace MyApp\Events;
+namespace Project\Application\Events;
 
-use MyApp\Users\User;
+use Project\Domain\Users\User;
 
 class NewUserEvent
 {
@@ -46,9 +46,9 @@ A **listener** is what handles an event.  Listeners must be callables.  They are
 
 You can use a closure for your listener:
 ```php
-use MyApp\Events\NewUserEvent;
-use MyApp\Users\User;
 use Opulence\Events\Dispatchers\IEventDispatcher;
+use Project\Application\Events\NewUserEvent;
+use Project\Domain\Users\User;
 
 $listener = function (NewUserEvent $event, $eventName, IEventDispatcher $dispatcher) {
     mail($event->getUser()->getEmail(), 'Welcome', 'Welcome to my website!');
@@ -59,11 +59,11 @@ $listener = function (NewUserEvent $event, $eventName, IEventDispatcher $dispatc
 
 You can also use a class for your listener:
 ```php
-namespace MyApp\Events\Listeners;
+namespace Project\Application\Events\Listeners;
 
-use MyApp\Events\NewUserEvent;
-use MyApp\Users\User;
 use Opulence\Events\Dispatchers\IEventDispatcher;
+use Project\Application\Events\NewUserEvent;
+use Project\Domain\Users\User;
 
 class RegistrationEmail
 {
@@ -94,7 +94,7 @@ $dispatcher = new SynchronousEventDispatcher($registry);
 To actually fire an event, call the `dispatch()` method:
 
 ```php
-use MyApp\Users\User;
+use Project\Domain\Users\User;
 
 $user = new User('Dave', 'foo@bar.com');
 

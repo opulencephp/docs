@@ -24,13 +24,13 @@
 
 First, let's create a unit of work:
 ```php
-use MyApp\Orm\DataMappers\MyDataMapper;
 use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\EntityRegistry;
 use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\Ids\Generators\IdGeneratorRegistry;
 use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\UnitOfWork;
+use Project\Infrastructure\Users\UserDataMapper;
 
 $idAccessorRegistry = new IdAccessorRegistry();
 $changeTracker = new ChangeTracker();
@@ -50,8 +50,8 @@ Next, let's take a look at how units of work can manage entities retrieved throu
 
 ```php
 // Create our repository
-$dataMapper = new MyDataMapper();
-$users = new Repository("Opulence\\Users\\User", $dataMapper, $unitOfWork);
+$dataMapper = new UserDataMapper();
+$users = new Repository("Project\\Domain\\Users\\User", $dataMapper, $unitOfWork);
 
 // Assume user with ID 123 has username "foo"
 $someUser = $users->getById(123);
@@ -159,7 +159,7 @@ To use the accessor registry in your unit of work, pass it into the unit of work
 If you don't have getter/setter methods for your Id, you can use reflection to get/set it using `registerReflectionIdAccessors()`:
 
 ```php
-namespace MyApp\Orm;
+namespace Project\Domain\Users;
 
 use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 
@@ -200,9 +200,9 @@ All Id generators in Opulence implement `Opulence\Orm\Ids\Generators\IIdGenerato
 To let the unit of work know which Id generator to use with your classes, register them to `Opulence\Orm\Ids\Generators\IdGeneratorRegistry`:
 
 ```php
-use MyApp\User;
 use Opulence\Orm\Ids\Generators\IdGeneratorRegistry;
 use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
+use Project\Domain\Users\User;
 
 $idGeneratorRegistry = new IdGeneratorRegistry();
 $idGeneratorRegistry->registerIdGenerator(

@@ -33,12 +33,12 @@ The exception handler is your last line of defense for unhandled exceptions.  Op
 ```php
 use Monolog\Handler\ErrorLogHandler;
 use Monolog\Logger;
-use MyApp\Debug\MyExceptionRenderer;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
+use Project\Application\Debug\CustomExceptionRenderer;
 
 $logger = new Logger('app');
 $logger->pushHandler(new ErrorLogHandler());
-$renderer = new MyExceptionRenderer();
+$renderer = new CustomExceptionRenderer();
 $exceptionHandler = new ExceptionHandler($logger, $renderer);
 // Make sure to actually register this handler with PHP
 $exceptionHandler->register();

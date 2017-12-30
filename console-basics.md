@@ -95,7 +95,7 @@ To make creating new classes as simple as possible, Apex supports several `make:
 5. `make:httpmiddleware`
 6. `make:migration`
 
-They all accept a single argument: the name of the class to generate.  If you input a fully-qualified class name, then that namespace and class name will be used.  Otherwise, the default namespace will be used (eg controllers are under `Project\Http\Controllers`).
+They all accept a single argument: the name of the class to generate.  If you input a fully-qualified class name, then that namespace and class name will be used.  Otherwise, the default namespace will be used (eg controllers are under `Project\Application\Http\Controllers`).
 
 <h4 id="migrationsdown">migrations:down</h4>
 

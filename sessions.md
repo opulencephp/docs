@@ -110,7 +110,7 @@ $session->regenerateId();
 
 The best place to read and write session data with the `handler` is in middleware.  Opulence comes with a class middleware baked-in:  `Opulence\Framework\Sessions\Http\Middleware\Session`.
 
-> **Note:** This middleware is an abstract class.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can simply use the middleware `Project\Http\Middleware\Session` to finish extending it.  Otherwise, you can roll your own session middleware.
+> **Note:** This middleware is an abstract class.  If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can simply use the middleware `Project\Application\Http\Middleware\Session` to finish extending it.  Otherwise, you can roll your own session middleware.
 
 Typically in middleware, your `handler` will read from session storage using data passed in through the request.  After the request has been handled and a response generated, the session data is written back to storage via the `handler`.
 
@@ -119,7 +119,7 @@ Typically in middleware, your `handler` will read from session storage using dat
 To use sessions in your controllers, simply inject it into the controller's constructor along with a type hint:
 
 ```php
-namespace MyApp\Http\Controllers;
+namespace Project\Application\Http\Controllers;
 
 use Opulence\Sessions\ISession;
 
