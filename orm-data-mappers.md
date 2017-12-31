@@ -107,7 +107,7 @@ SQL data mappers use an SQL database for storage and querying.  `Opulence\Orm\Da
 
 <h4 id="sql-example">Example</h4>
 
-Let's take a look at an example of an SQL data mapper for WordPress posts:
+Let's take a look at an example of an SQL data mapper for Blog posts:
 
 ```php
 namespace Blog\Infrastructure\Persistence\Posts;
