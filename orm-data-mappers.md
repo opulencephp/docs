@@ -22,7 +22,7 @@
 For reference our examples below, lets assume our `Post` class looks something like this:
 
 ```php
-namespace Project\Domain\Posts;
+namespace Blog\Domain\Posts;
 
 class Post
 {
@@ -80,7 +80,7 @@ All data mappers must implement `Opulence\Orm\DataMappers\IDataMapper`, which in
 You'll frequently find yourself wanting to query entities by some criteria besides Id.  For example, you might want to look up posts by title using a `getByTitle()` method.  Let's create an interface with this method:
 
 ```php
-namespace Project\Infrastructure\Posts\DataMappers;
+namespace Blog\Infrastructure\Persistence\Posts;
 
 use Opulence\Orm\DataMappers\IDataMapper;
 
@@ -110,11 +110,11 @@ SQL data mappers use an SQL database for storage and querying.  `Opulence\Orm\Da
 Let's take a look at an example of an SQL data mapper for WordPress posts:
 
 ```php
-namespace Project\Infrastructure\WordPress\DataMappers;
+namespace Blog\Infrastructure\Persistence\Posts;
 
+use Blog\Domain\Posts\Post;
 use Opulence\Orm\DataMappers\SqlDataMapper;
 use PDO;
-use Project\Domain\WordPress\Post;
 
 class PostSqlDataMapper extends SqlDataMapper implements IPostDataMapper
 {
@@ -248,11 +248,11 @@ Redis data mappers implement the following methods:
 Let's take a look at a PhpRedis data mapper example:
 
 ```php
-namespace Project\Infrastructure\WordPress\DataMappers;
+namespace Blog\Infrastructure\Persistence\Posts;
 
+use Blog\Domain\Posts\Post;
 use Opulence\Orm\DataMappers\PhpRedisDataMapper;
 use Opulence\Orm\OrmException;
-use Project\Domain\WordPress\Post;
 
 class PostRedisDataMapper extends PhpRedisDataMapper implements IPostDataMapper
 {
@@ -379,7 +379,7 @@ They come with the following methods built-in:
 Let's take a look at a cached SQL data mapper example that uses the cache and SQL data mappers from the previous examples:
 
 ```php
-namespace Project\Infrastructure\WordPress\DataMappers;
+namespace Blog\Infrastructure\Persistence\Posts;
 
 use Opulence\Databases\IConnection;
 use Opulence\Orm\DataMappers\RedisCachedSqlDataMapper;
@@ -410,27 +410,29 @@ Our `getByTitle()` method calls `$this->read()`, which automatically handles rea
 Instead of just containing the author's name, let's say your `Post` object contains an `Author` object.  Whenever you query a `Post` object from the data mapper, you'll also need to query the `Author` object.  The easiest way to do this is to inject the author repository into the post data mapper:
 
 ```php
-use Project\Domain\WordPress\AuthorRepo;
-use Project\Domain\WordPress\Post;
+namespace Blog\Infrastructure\Persistence\Posts;
+
+use Blog\Domain\Authors\IAuthorRepository;
+use Blog\Domain\Posts\Post;
 
 class PostDataMapper extends SqlDataMapper
 {
-    private $authorRepo;
+    private $authorRepository;
 
     public function __construct(
         IConnection $readConnection,
         IConnection $writeConnection,
-        AuthorRepo $authorRepo
+        IAuthorRepository $authorRepository
     ) {
         parent::__construct($readConnection, $writeConnection);
 
-        $this->authorRepo = $authorRepo;
+        $this->authorRepository = $authorRepository;
     }
 
     protected function loadEntity(array $hash)
     {
         // Grab the author
-        $author = $this->authorRepo->getById($hash['author_id']);
+        $author = $this->authorRepository->getById($hash['author_id']);
 
         return new Post(
             (int)$hash['id'],
