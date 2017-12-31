@@ -19,20 +19,34 @@
 If your repository will not implement any methods outside of `Opulence\Orm\Repositories\Repository`, you don't even have to create your own repository class.  Just use `Opulence\Orm\Repositories\Repository`:
 
 ```php
-use Project\Domain\WordPress\Post;
+use Blog\Domain\Posts\Post;
 
 // Assume $dataMapper and $unitOfWork are already instantiated
 $repo = new Repository(Post::class, $dataMapper, $unitOfWork);
 ```
 
-However, if your repository implements any custom `get*()` methods, you'll have to extend `Opulence\Orm\Repositories\Repository`.  Let's take a look at a repository that supports a `getByTitle()` method:
+However, if your repository implements any custom `get*()` methods, you'll have to extend `Opulence\Orm\Repositories\Repository`. Let's create an interface with this method:
 
 ```php
-namespace Project\Domain\WordPress;
+namespace Blog\Domain\Posts;
 
+use Opulence\Orm\Repositories\IRepository;
+
+interface IPostRepository extends IRepository
+{
+    public function getByTitle($title);
+}
+```
+
+Let's implement this interface in the example below:
+
+```php
+namespace Blog\Infrastructure\Persistence\Posts;
+
+use Blog\Domain\Posts\IPostRepository;
 use Opulence\Orm\Repositories\Repository;
 
-class PostRepo extends Repository
+class PostRepository extends Repository implements IPostRepository
 {
     public function getByTitle($title)
     {
@@ -47,7 +61,7 @@ Rather than calling `$this->dataMapper->getByTitle()` directly, you should use t
 
 ```php
 $postToAdd = new Post(123, 'First Post', 'This is my first post');
-$repo->add($postToAdd);
+$repository->add($postToAdd);
 ```
 
 The new post will be scheduled for insertion by the unit of work.
@@ -56,7 +70,7 @@ The new post will be scheduled for insertion by the unit of work.
 
 ```php
 $postToDelete = new Post(123, 'First Post', 'This is my first post');
-$repo->delete($postToDelete);
+$repository->delete($postToDelete);
 ```
 
 The post will be scheduled for deletion by the unit of work.
@@ -64,7 +78,7 @@ The post will be scheduled for deletion by the unit of work.
 <h4 id="get-all">Getting All Entities</h4>
 
 ```php
-$posts = $repo->getAll();
+$posts = $repository->getAll();
 
 foreach ($posts as $post) {
     echo $post->getTitle() . '<br />';
@@ -76,7 +90,7 @@ The list of post titles will be printed to the screen.  Every entity returned by
 <h4 id="get-by-id">Getting By Id</h4>
 
 ```php
-$post = $repo->getById(123);
+$post = $repository->getById(123);
 echo $post->getTitle();
 ```
 
@@ -89,15 +103,15 @@ All entities returned by the repository are automatically registered to the unit
 As you can see, there is no `save()` method in repositories.  To actually save any writes made by the repository, you must call `commit()` on the unit of work passed into the repository's constructor:
 
 ```php
+use Blog\Domain\Posts\Post;
+use Blog\Infrastructure\Persistence\Posts\PostSqlDataMapper;
 use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\UnitOfWork;
-use Project\Domain\WordPress\Post;
-use Project\Infrastructure\WordPress\DataMappers\PostSqlDataMapper;
 
 // Assume $unitOfWork is already instantiated
-$repo = new Repository(Post::class, new PostSqlDataMapper(), $unitOfWork);
-$postToDelete = $repo->getById(123);
-$repo->delete($postToDelete);
+$repository = new Repository(Post::class, new PostSqlDataMapper(), $unitOfWork);
+$postToDelete = $repository->getById(123);
+$repository->delete($postToDelete);
 $unitOfWork->commit();
 ```
 
@@ -108,7 +122,7 @@ Whenever you call `Repository::add()` or `Repository::delete()`, the entity is s
 Updates are automatically tracked by the [entity registry](orm-units-of-work#entity-registry).  For example, let's say we change a post's title:
 
 ```php
-$post = $repo->getById(123);
+$post = $repository->getById(123);
 $post->setTitle('Better Title');
 $unitOfWork->commit();
 ```
