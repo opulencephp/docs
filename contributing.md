@@ -28,11 +28,11 @@ To report a bug, <a href="https://github.com/opulencephp/Opulence/issues" target
 
 <h4 id="fixing-bug">Fixing a Bug</h4>
 
-To fix a bug, create a pull request on the latest stable branch of the main <a href="https://github.com/opulencephp/Opulence" title="Opulence repository" target="_blank">Opulence repository</a> with the fix and relevant PHPUnit tests.
+To fix a bug, create a pull request on the latest stable branch (`1.1`) of the main <a href="https://github.com/opulencephp/Opulence" title="Opulence repository" target="_blank">Opulence repository</a> with the fix and relevant PHPUnit tests.
 
 <h2 id="features">Features</h2>
 
-We always appreciate when you want to add a new feature to Opulence.  For minor, backwards-compatible features, create a pull request on the latest stable branch of the main <a href="https://github.com/opulencephp/Opulence" title="Opulence repository" target="_blank">Opulence repository</a>.  Do not submit pull requests to individual libraries' repositories.  For major, possibly backwards-incompatible features, create a pull request on the `develop` branch.  All new features should come with PHPUnit tests proving their functionality.
+We always appreciate when you want to add a new feature to Opulence.  For minor, backwards-compatible features, create a pull request on the latest stable branch (`1.1`) of the main <a href="https://github.com/opulencephp/Opulence" title="Opulence repository" target="_blank">Opulence repository</a>.  Do not submit pull requests to individual libraries' repositories.  For major, possibly backwards-incompatible features, create a pull request on the `develop` branch.  All new features should come with PHPUnit tests proving their functionality.  Pull requests should never be sent to the `master` branch.
 
 Opulence strives to not create any unnecessary library dependencies.  This even includes having dependencies on other Opulence libraries.  If your change will introduce a new dependency to a library, create an issue and ask about it before implementing it.  If your feature is a useful combination of multiple Opulence libraries, it's possible it'll be recommended to go into the `Opulence\Framework` library.
 
