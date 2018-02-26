@@ -107,7 +107,7 @@ Each rule in `Rules` implements `Opulence\Validation\Rules\IRule`, which provide
 * `passes($value, array $allValues)`
   * Returns `true` if the rule passes, otherwise `false`
 
-If you'd like to add a custom rule, you can use `RuleExtensionRegistry::registerRule()`.  It accepts either:
+If you'd like to add a custom rule, you can use `RuleExtensionRegistry::registerRuleExtension()`.  It accepts either:
 
 * A rule object implementing `IRule`
 * A `callable` with parameters for the field value and an array of all field values
@@ -164,7 +164,7 @@ class EmailDomainRule implements IRuleWithArgs
 You can now register this rule.:
 
 ```php
-$ruleExtensionRegistry->registerRule(new EmailDomainRule);
+$ruleExtensionRegistry->registerRuleExtension(new EmailDomainRule);
 ```
 
 If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, do this registration in the `Project\Application\Bootstrappers\Validation\ValidatorBootstrapper::registerRuleExtensions()` method.  You could also add a custom error message to *resources/lang/en/validation.php*.  The rule we created defined an error placeholder "domain", which we can use in our error message:
@@ -191,7 +191,7 @@ When registering a `callable`, you must give it a slug:
 $rule = function ($value, array $allValues = []) {
     return $value == 'Dave';
 };
-$ruleExtensionRegistry->registerRule($rule, 'coolName');
+$ruleExtensionRegistry->registerRuleExtension($rule, 'coolName');
 $validator->field('name')
     ->coolName();
 ```
