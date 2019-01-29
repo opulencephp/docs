@@ -158,7 +158,7 @@ class MyCommand extends Command
     protected function doExecute(IResponse $response)
     {
         // Call another command
-        $this->commands->call('foo', $response, ['argument1Value'], ['--option1Value']);
+        $this->commandCollection->call('foo', $response, ['argument1Value'], ['--option1Value']);
     }
 }
 ```
