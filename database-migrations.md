@@ -81,7 +81,7 @@ public function up() : void
 
 Migrations are discovered, run, and rolled back by an instance of `Opulence\Databases\Migrations\IMigrator` (`Migrator` comes built-in).  Migration classes are discovered by `FileMigrationFinder`, which recursively finds all classes that implement `IMigration` in a particular path or paths.  Those migrations are ordered by their creation dates.
 
-If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can configure the path to search for migration classes in _config/paths.php_ (defaults to _src/Application/Infrastructure/Databases/Migrations_).
+If you're using the <a href="https://github.com/opulencephp/Project" target="_blank">skeleton project</a>, you can configure the path to search for migration classes in _config/paths.php_ (defaults to _src/Infrastructure/Databases/Migrations_).
 
 <h2 id="running-migrations">Running Migrations</h2>
 
@@ -108,3 +108,12 @@ php apex migrations:down --number NUMBER_TO_ROLL_BACK
 ```
 
 This will call all the `down()` methods in your executed migrations.  If you'd like to roll back all your migrations, simply don't pass the `--number` option.  If you'd like to roll back migrations outside of the console, you can call `IMigrator::rollBackMigrations()`.
+
+<h2 id="using-mysql">Using MySQL</h2>
+
+The migrator will use the PostgreSQL database adapter by default. If you need MySQL configured, you need to define an environment variable called `DB_DRIVER` to point to your database adapter.
+
+```bash
+DB_DRIVER=Opulence\Databases\Adapters\Pdo\MySql\Driver
+```
+
