@@ -111,9 +111,9 @@ This will call all the `down()` methods in your executed migrations.  If you'd l
 
 <h2 id="using-mysql">Using MySQL</h2>
 
-The migrator will use the PostgreSQL database adapter by default. If you need MySQL configured, you need to define an environment variable called `DB_DRIVER` to point to your database adapter.
+The migrator will use the PostgreSQL database adapter by default. If you need MySQL configured, you need ensure that the `DB_DRIVER` environment variable is set correctly. If you're using `opulence/project`, then the relevant part setting is in `config/environment/.env.app.php`:
 
-```bash
-DB_DRIVER=Opulence\Databases\Adapters\Pdo\MySql\Driver
+```php
+Environment::setVar('DB_DRIVER', \Opulence\Databases\Adapters\Pdo\MySql\Driver::class);
 ```
 
