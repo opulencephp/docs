@@ -33,7 +33,7 @@ class Foo
         $this->database = new Database();
     }
 
-    public function insertIntoDatabase(string $query) : bool
+    public function insertIntoDatabase(string $query): bool
     {
         return $this->database->insert($query);
     }
@@ -44,7 +44,7 @@ Databases are complex, and unit testing them is very tricky.  To make unit testi
 ```php
 class DatabaseMock extends Database
 {
-    public function insert(string $query) : bool
+    public function insert(string $query): bool
     {
         return true;
     }
@@ -62,7 +62,7 @@ class Foo
         $this->database = $database;
     }
 
-    public function insertIntoDatabase($query) : bool
+    public function insertIntoDatabase($query): bool
     {
         return $this->database->insert($query);
     }
@@ -112,7 +112,7 @@ class A
         $this->foo = $foo;
     }
 
-    public function getFoo() : IFoo
+    public function getFoo(): IFoo
     {
         return $this->foo;
     }
@@ -221,6 +221,9 @@ Targeting works for the following methods:
   * Checks if a target has a binding for the input interface
 * `resolve()`
   * Resolves an interface by first checking for targeted bindings, and then universal bindings
+* `tryResolve()`
+  * Tries to resolve an interface, and returns true if successful, otherwise false
+  * The resolved interface is set to the second parameter
 * `unbind()`
   * Unbinds the interface from the target
 
@@ -245,12 +248,12 @@ class D
         return $this->bar;
     }
 
-    public function getFoo()
+    public function getFoo(): IFoo
     {
         return $this->foo;
     }
 
-    public function setFoo(IFoo $foo, $bar)
+    public function setFoo(IFoo $foo, $bar): void
     {
         $this->foo = $foo;
         $this->bar = $bar;
