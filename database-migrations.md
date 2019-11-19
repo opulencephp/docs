@@ -7,6 +7,7 @@
 4. [Running Migrations](#running-migrations)
   1. [Logging Migrations](#logging-migrations)
 5. [Rolling Back Migrations](#rolling-back-migrations)
+6. [Fixing Migrations in 1.1](#fixing-migrations-in-1_1)
 
 <h2 id="introduction">Introduction</h2>
 
@@ -117,3 +118,12 @@ The migrator will use the PostgreSQL database adapter by default. If you need My
 Environment::setVar('DB_DRIVER', \Opulence\Databases\Adapters\Pdo\MySql\Driver::class);
 ```
 
+<h2 id="fixing-migrations-in-1_1">Fixing Migrations in 1.1</h2>
+
+A bug in Opulence 1.1 (resolved in 1.1.9) caused migrations to be sorted by the date they were run.  However, running multiple migrations at one time could cause identical timestamps for the migrations, leading to ambiguity in the migration order.  To fix the issue, you can run the following command once:
+
+```php
+php apex migrations:fix
+```
+
+> **Note:** This is only necessary if you used database migrations between versions 1.1.0 and 1.1.8.
