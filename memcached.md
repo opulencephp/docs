@@ -98,7 +98,7 @@ $memcached->getClient();
 You can also use a factory to create type mappers:
 
 ```php
-use Opulence\Memcached\Types\Factories\TypeMapperFactory;
+use Opulence\Memcached\Types\TypeMapperFactory;
 
 $typeMapper = (new TypeMapperFactory)->createTypeMapper();
 ```

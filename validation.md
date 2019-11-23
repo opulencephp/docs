@@ -25,8 +25,8 @@ Validating data is a fundamental part of every web application.  Whether it be f
 ```php
 use Opulence\Validation\Rules\Errors\Compilers\Compiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
-use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
+use Opulence\Validation\Rules\RulesFactory;
 use Opulence\Validation\Validator;
 
 // Set some error message templates
@@ -55,7 +55,7 @@ if (!$validator->isValid(['password' => '1337', 'confirm-password' => 'asdf'])) 
 }
 ```
 
-> **Note:** To make it easier to create validators, if you're using the [skeleton project](#skeleton-project-examples), an `Opulence\Validation\Factories\IValidatorFactory` is created and bound to the IoC container for you.
+> **Note:** To make it easier to create validators, if you're using the [skeleton project](#skeleton-project-examples), an `Opulence\Validation\IValidatorFactory` is created and bound to the IoC container for you.
 
 Opulence's validation library is framework-agnostic, making it easy to use with both Opulence and other frameworks.
 
@@ -145,7 +145,7 @@ class EmailDomainRule implements IRuleWithArgs
         }
 
         return preg_match(
-            '/@'{preg_quote($this->domain, '/')}$/",
+            '/@' . preg_quote($this->domain, '/') . '$/',
             $value
         ) === 1;
     }
@@ -189,7 +189,7 @@ When registering a `callable`, you must give it a slug:
 
 ```php
 $rule = function ($value, array $allValues = []) {
-    return $value == 'Dave';
+    return $value === 'Dave';
 };
 $ruleExtensionRegistry->registerRuleExtension($rule, 'coolName');
 $validator->field('name')
@@ -377,7 +377,7 @@ The skeleton project comes with `Project\Application\Bootstrappers\Validation\Va
 <h4 id="validation-in-controller">Controller Example</h4>
 
 ```php
-use Opulence\Validation\Factories\IValidatorFactory;
+use Opulence\Validation\IValidatorFactory;
 
 class MyController
 {
@@ -401,7 +401,7 @@ class MyController
 ```php
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
-use Opulence\Validation\Factories\IValidatorFactory;
+use Opulence\Validation\IValidatorFactory;
 
 class MyCommand extends command
 {

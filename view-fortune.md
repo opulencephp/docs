@@ -156,7 +156,7 @@ Hello, world!
 Hello, Dave!
 ```
 
-When the child view gets compiled, the *Master.fortune.php* view is automatically created by an `Opulence\Views\Factories\IViewFactory` and inserted into the view to produce the following output:
+When the child view gets compiled, the *Master.fortune.php* view is automatically created by an `Opulence\Views\IViewFactory` and inserted into the view to produce the following output:
 
 ```
 Hello, world!

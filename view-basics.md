@@ -99,7 +99,7 @@ Factories simplify the way you create `View` objects from view files.
 The view factory allows you to create a view using nothing but the filename (no path or extension).  It does this using a file name resolver.  You register the path where all view files reside as well as the possible file extensions views may have.  Then, the resolver finds the raw view file, creates a `View` object from its contents, and returns it.
 
 ```php
-use Opulence\Views\Factories\IO\FileViewNameResolver;
+use Opulence\Views\IO\FileViewNameResolver;
 
 $resolver = new FileViewNameResolver();
 $resolver->registerPath('/var/www/html/views/some-directory');
@@ -116,7 +116,7 @@ $resolver->registerExtension('fortune', 1);
 
 <h4 id="view-readers">View Readers</h4>
 
-Opulence uses an `Opulence\Views\Factories\IO\IViewReader` to actually read raw views in factories.  By default, the `FileViewReader` is used to read views stored in the file system, but you can use any storage system you'd like.  Simply implement `IViewReader` and bind your reader to the IoC container:
+Opulence uses an `Opulence\Views\IO\IViewReader` to actually read raw views in factories.  By default, the `FileViewReader` is used to read views stored in the file system, but you can use any storage system you'd like.  Simply implement `IViewReader` and bind your reader to the IoC container:
 
 ```php
 $container->bindInstance(IViewReader::class, new MyViewReader());
@@ -130,7 +130,7 @@ The easiest way to create views is to pass a `ViewFactory` into the controller:
 use DateTime;
 use Opulence\Http\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
-use Opulence\Views\Factories\IViewFactory;
+use Opulence\Views\IViewFactory;
 
 class MyController
 {
@@ -181,7 +181,7 @@ $factory->registerBuilder('Profile', function ($view) {
 });
 ```
 
-> **Note** For convenience, Opulence provides the `Opulence\Views\Factories\IViewBuilder` interface for view builder classes.  It contains a single method `build()` where your building can take place.  However, you are not required to use `IViewBuilder`.  You can use any class you'd like.
+> **Note** For convenience, Opulence provides the `Opulence\Views\IViewBuilder` interface for view builder classes.  It contains a single method `build()` where your building can take place.  However, you are not required to use `IViewBuilder`.  You can use any class you'd like.
 
 <h2 id="caching">Caching</h2>
 

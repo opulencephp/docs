@@ -24,26 +24,14 @@
 
 First, let's create a unit of work:
 ```php
-use Opulence\Orm\ChangeTracking\ChangeTracker;
-use Opulence\Orm\EntityRegistry;
-use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\Ids\Generators\IdGeneratorRegistry;
 use Opulence\Orm\Repositories\Repository;
 use Opulence\Orm\UnitOfWork;
 use Project\Infrastructure\Users\UserDataMapper;
 
-$idAccessorRegistry = new IdAccessorRegistry();
-$changeTracker = new ChangeTracker();
-$entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
 
 // Assume $connection was set previously
-$unitOfWork = new UnitOfWork(
-    $entityRegistry,
-    $idAccessorRegistry,
-    new IdGeneratorRegistry(),
-    $changeTracker,
-    $connection
-);
+$unitOfWork = new UnitOfWork($connection, new IdGeneratorRegistry());
 ```
 
 Next, let's take a look at how units of work can manage entities retrieved through repositories:

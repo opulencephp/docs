@@ -110,7 +110,7 @@ $redis->getClient();
 You can also use a factory to create type mappers:
 
 ```php
-use Opulence\Redis\Types\Factories\TypeMapperFactory;
+use Opulence\Redis\Types\TypeMapperFactory;
 
 $typeMapper = (new TypeMapperFactory)->createTypeMapper();
 ```

@@ -81,10 +81,10 @@ To get the credential's values, you can either call `$credential->getValues()` t
 
 <h4 id="credential-factories">Credential Factories</h4>
 
-Opulence makes it simple to generate JWT-based credentials for a subject.  A couple credential factories come with Opulence, and they both implement`Opulence\Authentication\Credentials\Factories\ICredentialFactory`, which defines a single method `ICredentialFactory::createCredentialForSubject($subject)`:
+Opulence makes it simple to generate JWT-based credentials for a subject.  A couple credential factories come with Opulence, and they both implement`Opulence\Authentication\Credentials\ICredentialFactory`, which defines a single method `ICredentialFactory::createCredentialForSubject($subject)`:
 
-* `Opulence\Authentication\Credentials\Factories\AccessTokenCredentialFactory`
-* `Opulence\Authentication\Credentials\Factories\RefreshTokenCredentialFactory`
+* `Opulence\Authentication\Credentials\AccessTokenCredentialFactory`
+* `Opulence\Authentication\Credentials\RefreshTokenCredentialFactory`
 
 <h4 id="authenticators">Authenticators</h4>
 
@@ -196,7 +196,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
-use Opulence\Authentication\Tokens\Signatures\Factories\SignerFactory;
+use Opulence\Authentication\Tokens\Signatures\SignerFactory;
 
 // The algorithm can be any of the constants in Algorithms
 $algorithm = Algorithms::SHA256;

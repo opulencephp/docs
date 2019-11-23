@@ -43,7 +43,7 @@ $typeMapper = new TypeMapper(new MySqlProvider());
 Opulence provides a factory to create type mappers from providers:
 
 ```php
-use Opulence\Databases\Providers\Types\Factories\TypeMapperFactory;
+use Opulence\Databases\Providers\Types\TypeMapperFactory;
 
 $factory = new TypeMapperFactory();
 // Let's assume $connection is an instance of Opulence\Databases\IConnection
