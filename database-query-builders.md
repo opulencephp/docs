@@ -1,6 +1,7 @@
 # Query Builders
 
 ## Table of Contents
+
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
 3. [Clauses](#clauses)
@@ -8,7 +9,9 @@
 4. [Binding Values](#binding-values)
 5. [Select Queries](#select-queries)
 6. [Insert Queries](#insert-queries)
+  1. [Using Expressions in Insert Queries](#using-expressions-in-insert-queries)
 7. [Update Queries](#update-queries)
+  1. [Using Expressions in Update Queries](#using-expressions-in-update-queries)
 8. [Delete Queries](#delete-queries)
 9. [Using Query Builders with PDO](#using-query-builders-with-pdo)
 10. [Vendor-Specific Query Builders](#vendor-specific-query-builders)
