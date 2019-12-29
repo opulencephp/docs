@@ -179,8 +179,8 @@ The following values are bound to the query:
 If you need to set some values as expressions, you can use `Expression` objects in the column names to values array:
 
 ```php
-use Opulence\QueryBuilders\QueryBuilder;
 use Opulence\QueryBuilders\Expression;
+use Opulence\QueryBuilders\QueryBuilder;
 
 $query = (new QueryBuilder)->insert('users', [
     'name' => 'Brian',
