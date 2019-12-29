@@ -176,7 +176,7 @@ The following values are bound to the query:
 
 <h3 id="using-expressions-in-insert-queries">Using Expressions In Insert Queries</h3>
 
-If you need to set some values as expressions, the column names to values array can contain `Expression` objects to help with that:
+If you need to set some values as expressions, you can use `Expression` objects in the column names to values array:
 
 ```php
 use Opulence\QueryBuilders\QueryBuilder;
@@ -240,7 +240,7 @@ The following values are bound to the query:
 
 <h3 id="using-expressions-in-update-queries">Using Expressions in Update Queries</h3>
 
-Using expressions to set value in `UPDATE` queries work exactly the same as for [INSERT Queries](#using-expressions-in-insert-queries).
+You can use SQL expressions in `UPDATE` queries just like you can with [`INSERT` queries](#using-expressions-in-insert-queries).
 
 <h2 id="delete-queries">Delete Queries</h2>
 
