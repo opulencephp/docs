@@ -174,6 +174,38 @@ The following values are bound to the query:
 
 > **Note:** `INSERT` and `UPDATE` query builders bind unnamed placeholder values.  To specify the type of the value, use an array whose first item is the value and whose second item is the type.
 
+<h3 id="using-expressions-in-insert-queries">Using Expressions In Insert Queries</h3>
+
+If you need to set some values as expressions, the column names to values array can contain `Expression` objects to help with that:
+
+```php
+use Opulence\QueryBuilders\QueryBuilder;
+use Opulence\QueryBuilders\Expression;
+
+$query = (new QueryBuilder)->insert('users', [
+    'name' => 'Brian',
+    'email' => 'foo@bar.com',
+    'uniq' => new Expression('SHA1(CONCAT(name, email, ?))', ['unique_salt', \PDO::PARAM_STR]),
+]);
+echo $query->getSql();
+```
+
+This will output:
+
+```
+INSERT INTO users (name, email, uniq) VALUES (?, ?, SHA1(CONCAT(name, email, ?)))
+```
+
+The following values are bound to the query:
+
+```php
+[
+    ['Brian', \PDO::PARAM_STR],
+    ['foo@bar.com', \PDO::PARAM_STR],
+    ['unique_salt', \PDO::PARAM_STR]
+]
+```
+
 <h2 id="update-queries">Update Queries</h2>
 
 Update queries accept a table name, table alias, and a mapping of column names to values:
@@ -205,6 +237,10 @@ The following values are bound to the query:
 ```
 
 > **Note:** Like `INSERT` query builders, `UPDATE` query builders bind unnamed placeholder values.
+
+<h3 id="using-expressions-in-update-queries">Using Expressions in Update Queries</h3>
+
+Using expressions to set value in `UPDATE` queries work exactly the same as for [INSERT Queries](#using-expressions-in-insert-queries).
 
 <h2 id="delete-queries">Delete Queries</h2>
 
