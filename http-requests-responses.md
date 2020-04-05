@@ -346,7 +346,7 @@ use DateTime;
 use Opulence\Http\Responses\Cookie;
 
 // This should look pretty familiar to PHP's setcookie() function
-$userIdCookie = new Cookie('id', 17, new DateTime('+1 week'), '/', '.foo.com', true, true);
+$userIdCookie = new Cookie('id', 17, new DateTime('+1 week'), '/', '.foo.com', true, true, 'lax');
 $response->getHeaders()->setCookie($userIdCookie);
 $response->send();
 ```
