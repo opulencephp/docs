@@ -1,26 +1,33 @@
 # Upgrading
 
 ## Table of Contents
-1. [1.1.0](#1.1.0)
+1. [1.2.0](#1.2.0)
+2. [1.1.0](#1.1.0)
   1. [Files to Move](#1.1.0-files-to-move)
   2. [Files to Copy](#1.1.0-files-to-copy)
   3. [Files to Delete](#1.1.0-files-to-delete)
   4. [Files to Manually Update](#1.1.0-files-to-manually-update)
   5. [Code to Refactor](#1.1.0-code-to-refactor)
-2. [1.0.0-rc4](#1.0.0-rc4)
+3. [1.0.0-rc4](#1.0.0-rc4)
   1. [Files to Copy](#1.0.0-rc4-files-to-copy)
   2. [Files to Manually Update](#1.0.0-rc4-files-to-manually-update)
-3. [1.0.0-rc3](#1.0.0-rc3)
+4. [1.0.0-rc3](#1.0.0-rc3)
   1. [Files to Manually Update](#1.0.0-rc3-files-to-manually-update)
-4. [1.0.0-rc1](#1.0.0-rc1)
+5. [1.0.0-rc1](#1.0.0-rc1)
   1. [Classes to Update](#1.0.0-rc1-classes-to-update)
-5. [1.0.0-beta7](#1.0.0-beta7)
+6. [1.0.0-beta7](#1.0.0-beta7)
   1. [Files to Copy](#1.0.0-beta7-files-to-copy)
   2. [Files to Manually Update](#1.0.0-beta7-files-to-manually-update)
-6. [1.0.0-beta6](#1.0.0-beta6)
+7. [1.0.0-beta6](#1.0.0-beta6)
   1. [Files to Delete](#1.0.0-beta6-files-to-delete)
   2. [Files to Copy](#1.0.0-beta6-files-to-copy)
   3. [Files to Manually Update](#1.0.0-beta6-files-to-manually-update)
+
+<h2 id="1.2.0">1.2.0</h2>
+
+**Estimated Upgrade Time:** 5 minutes
+
+This release brings with it support for PHP 8.0 along with a minimum supported PHP version of 7.3.  Upgrading to it should just require updating your local PHP version and updating to Opulence 1.2.
 
 <h2 id="1.1.0">1.1.0</h2>
 
